@@ -9,8 +9,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedView:Int = 0
+    
     var body: some View {
-        Text("Hello, World!")
+        TabView(selection: self.$selectedView) {
+            OCRView().tabItem {
+                Text("OCRScanner")
+            }.tag(1)
+            TemplatesView().tabItem {
+                Text("Templates")
+            }.tag(0)
+        }
     }
 }
 

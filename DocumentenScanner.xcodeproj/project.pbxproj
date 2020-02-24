@@ -13,6 +13,12 @@
 		EFE31F522403E3F4008015F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F512403E3F4008015F3 /* Assets.xcassets */; };
 		EFE31F552403E3F4008015F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F542403E3F4008015F3 /* Preview Assets.xcassets */; };
 		EFE31F582403E3F4008015F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */; };
+		EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F622403E4BD008015F3 /* TemplatesView.swift */; };
+		EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */; };
+		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
+		EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */; };
+		EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6C2403F340008015F3 /* OCRView.swift */; };
+		EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* CreateTemplateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,12 @@
 		EFE31F542403E3F4008015F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EFE31F572403E3F4008015F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFE31F592403E3F4008015F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFE31F622403E4BD008015F3 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
+		EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateScannerView.swift; sourceTree = "<group>"; };
+		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
+		EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
+		EFE31F6C2403F340008015F3 /* OCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRView.swift; sourceTree = "<group>"; };
+		EFE31F6E24041049008015F3 /* CreateTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTemplateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +71,9 @@
 				EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */,
 				EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */,
 				EFE31F4F2403E3EE008015F3 /* ContentView.swift */,
+				EFE31F662403E9AB008015F3 /* Classes */,
+				EFE31F692403F2C1008015F3 /* Scanner */,
+				EFE31F5F2403E430008015F3 /* Templates */,
 				EFE31F512403E3F4008015F3 /* Assets.xcassets */,
 				EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */,
 				EFE31F592403E3F4008015F3 /* Info.plist */,
@@ -73,6 +88,33 @@
 				EFE31F542403E3F4008015F3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EFE31F5F2403E430008015F3 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				EFE31F622403E4BD008015F3 /* TemplatesView.swift */,
+				EFE31F6E24041049008015F3 /* CreateTemplateView.swift */,
+				EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		EFE31F662403E9AB008015F3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		EFE31F692403F2C1008015F3 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				EFE31F6C2403F340008015F3 /* OCRView.swift */,
+				EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */,
+			);
+			path = Scanner;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,9 +188,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
+				EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */,
+				EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
+				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
+				EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
+				EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
