@@ -13,12 +13,15 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: self.$selectedView) {
-            OCRView().tabItem {
-                Text("OCRScanner")
-            }.tag(1)
+            CreateTemplateView().tabItem {
+                Text("bla")
+            }.tag(0)
             TemplatesView().tabItem {
                 Text("Templates")
-            }.tag(0)
+            }.tag(1)
+            OCRView().tabItem {
+                Text("OCRScanner")
+            }.tag(2)
         }
     }
 }

@@ -38,7 +38,7 @@ struct TemplatesView: View {
                 self.sheetView = ModalDetail(body: "2")
             }))
         }else if(detail == "2"){
-            return AnyView(CreateTemplateView(image: self.$image))
+            return AnyView(CreateTemplateView())//(image: self.$image))
         }
         return AnyView(EmptyView())
     }
