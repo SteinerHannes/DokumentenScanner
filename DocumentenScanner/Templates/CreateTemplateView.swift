@@ -10,12 +10,7 @@ import SwiftUI
 import Foundation
 
 struct CreateTemplateView: View {
-    //@Binding var image:UIImage?
-    @State private var startPoint:CGPoint = .zero
-    @State private var endPoint:CGPoint = .zero
-    @State private var isDragging:Bool = false
-    @State private var isDraggingRect:Bool = false
-    @State private var oldDragTranslation: CGSize = .zero
+    @Binding var image:UIImage?
     
     private var width:CGFloat {
         return self.startPoint.x.distance(to: self.endPoint.x)
@@ -25,53 +20,100 @@ struct CreateTemplateView: View {
         return self.startPoint.y.distance(to: self.endPoint.y)
     }
     
+    enum DragState {
+        case inactive
+        case dragging(translation: CGSize)
+        
+        var translastion: CGSize {
+            switch self {
+            case .dragging(let translation):
+                return translation
+            default:
+                return .zero
+            }
+        }
+    }
+    
+    enum MagnificationState {
+        case inactive
+        case zooming(scale: CGFloat)
+        
+        var scale: CGFloat {
+            switch self {
+            case .zooming(let scale):
+                return scale
+            default:
+                return CGFloat(1.0)
+            }
+        }
+    }
+    
+    @GestureState var magnificationState = MagnificationState.inactive
+    @State var viewMagnificationState = CGFloat(1.0)
+    
+    @GestureState var rectDragState:DragState = DragState.inactive
+    @State var viewDragState:CGSize = .zero
+    @State private var startPoint:CGPoint = .zero
+    @State private var endPoint:CGPoint = .zero
+    
+    var translastionOffset:CGSize {
+        return CGSize(width: viewDragState.width + rectDragState.translastion.width, height: viewDragState.height + rectDragState.translastion.height)
+    }
+    
+    var magnificationScale: CGFloat {
+        return viewMagnificationState * magnificationState.scale
+    }
+    
     var body: some View {
-        NavigationView {
+        let rectDragGesture = DragGesture()
+            .updating($rectDragState) { value, state, transaction in
+                state = .dragging(translation: value.translation)
+                print("translation\(value.translation) ")
+        }
+        .onEnded { value in
+            self.viewDragState.height += value.translation.height
+            self.viewDragState.width += value.translation.width
+            print("")
+        }
+        
+        let drawDragGesture = DragGesture()
+            .onEnded{ (dragValue) in
+                self.endPoint = dragValue.location
+                //print("end", self.endPoint)
+        }
+        .onChanged{ (dragValue) in
+            self.startPoint = dragValue.startLocation
+            self.viewDragState.height = dragValue.startLocation.y
+            self.viewDragState.width = dragValue.startLocation.x
+            self.endPoint = dragValue.location
+            //print("drag", self.endPoint)
+        }
+        
+        let magnificationGesture = MagnificationGesture()
+        .updating($magnificationState) { value, state, transaction in
+            state = .zooming(scale: value)
+        }.onEnded { value in
+            self.viewMagnificationState *= value
+        }
+        
+        return NavigationView {
             ZStack(alignment: .topLeading) {
-                Color.blue
-                Text("asd")
-                //                    Image(uiImage: self.image ?? UIImage())
-                //                    .resizable()
-                //                    .scaledToFit()
+                Image(uiImage: self.image ?? UIImage(imageLiteralResourceName: "post"))
+                    .resizable()
+                    .scaledToFit()
                 Rectangle()
-                    .background(Color.blue)
+                    .stroke()
+                    .background(Color.red.opacity(0.1))
                     .frame(width: self.width, height: self.height, alignment: .topLeading)
-                    .offset(x: self.startPoint.x, y: self.startPoint.y)
-                    .gesture(DragGesture()
-                        .onChanged({ (dragValue) in
-                            self.isDraggingRect = true
-                            // MARK: TODO
-                        })
-                        .onEnded({ (dragValue) in
-                            self.isDraggingRect = false
-                        })
-                    )
-                    .onLongPressGesture{
-                        self.startPoint = .zero
-                        self.endPoint = .zero
-                    }
-
+                    .offset(translastionOffset)
+                    .gesture(rectDragGesture)
+                
+                
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-            .gesture(DragGesture()
-                .onEnded({ (dragValue) in
-                    if !self.isDraggingRect {
-                        self.endPoint = dragValue.location
-                        self.isDragging = false
-                        print("end", self.endPoint)
-                    }
-                })
-                .onChanged({ (dragValue) in
-                    if !self.isDraggingRect {
-                        self.startPoint = dragValue.startLocation
-                        self.endPoint = dragValue.location
-                        print("drag", self.endPoint)
-                    }
-                })
-            )
-            //            GeometryReader { proxy in
-            //
-            //            }
+            .gesture(drawDragGesture)
+            .scaleEffect(magnificationScale)
+            .gesture(magnificationGesture)
         }
     }
 }

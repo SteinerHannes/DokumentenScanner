@@ -10,10 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedView:Int = 0
+    @State private var image:UIImage? = nil
     
     var body: some View {
         TabView(selection: self.$selectedView) {
-            CreateTemplateView().tabItem {
+            CreateTemplateView(image: self.$image).tabItem {
                 Text("bla")
             }.tag(0)
             TemplatesView().tabItem {
