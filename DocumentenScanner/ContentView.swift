@@ -9,26 +9,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var appState:AppState
     @State private var selectedView:Int = 0
-    @State private var image:UIImage? = nil
     
     var body: some View {
-        TabView(selection: self.$selectedView) {
-            CreateTemplateView(image: self.$image).tabItem {
-                Text("bla")
-            }.tag(0)
-            TemplatesView().tabItem {
-                Text("Templates")
-            }.tag(1)
-            OCRView().tabItem {
-                Text("OCRScanner")
-            }.tag(2)
+        ZStack {
+            TabView(selection: self.$selectedView) {
+                TemplatesView().tabItem {
+                    Text("Templates")
+                }.tag(0)
+                OCRView().tabItem {
+                    Text("OCRScanner")
+                }.tag(1)
+            }
+            
+            if self.appState.isCreateTemplateViewPresented {
+                CreateTemplateView()
+            }
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(AppState())
     }
 }
