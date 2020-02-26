@@ -10,8 +10,10 @@ import SwiftUI
 import Foundation
 
 struct CreateTemplateView: View {
+    /// Captured image
     @Binding var image:UIImage?
     
+    /// State for the Longpress-Drag-Gesture
     enum DrawState {
         case inactive
         case pressing
@@ -27,6 +29,7 @@ struct CreateTemplateView: View {
         }
     }
     
+    /// State for moving  the rectangle
     enum DragState {
         case inactive
         case dragging(translation: CGSize)
@@ -41,6 +44,7 @@ struct CreateTemplateView: View {
         }
     }
     
+    /// State for the Zoom-Gesture
     enum MagnificationState {
         case inactive
         case zooming(scale: CGFloat)
@@ -55,35 +59,43 @@ struct CreateTemplateView: View {
         }
     }
     
+    /// Zoom gesture state
     @GestureState var magnificationState = MagnificationState.inactive
+    /// Zoom variable
     @State var viewMagnificationState = CGFloat(1.0)
     
+    /// Drag gesture state for the rectangle
     @GestureState var rectDragState:DragState = DragState.inactive
+    /// Position of the rectangle
     @State var rectState:CGSize = .zero
     
-    @GestureState var imageDragState:DragState = DragState.inactive
+    /// Position of the container
     @State var imageState:CGSize = .zero
     
+    /// Longpress-Drag gesture state for drawing the rectangle
     @GestureState var drawState = DrawState.inactive
+    /// Starting point of the rectangle. Important for the calculation of the width and height of the rect
     @State private var startPoint:CGPoint = .zero
+    /// Ending point of the rectangle. Important for the calculation of the width and height of the rect
     @State private var endPoint:CGPoint = .zero
     
+    /// Width of the rectangle
     private var width:CGFloat {
         return self.startPoint.x.distance(to: self.endPoint.x)
     }
-    
+    /// Height of the rectangle
     private var height:CGFloat {
         return self.startPoint.y.distance(to: self.endPoint.y)
     }
-    
+    /// Offset of the image to the coordinate origin (current position + the translation of the last drag gesture)
     private var imageTranslastionOffset:CGSize {
-        return CGSize(width: imageState.width + imageDragState.translation.width, height: imageState.height + imageDragState.translation.height)
+        return CGSize(width: imageState.width, height: imageState.height)
     }
-    
+    /// Offset of the rectangle to the coordinate origin
     private var rectTranslastionOffset:CGSize {
         return CGSize(width: rectState.width + rectDragState.translation.width, height: rectState.height + rectDragState.translation.height)
     }
-    
+    /// New zoom level according to gesture
     private var magnificationScale: CGFloat {
         return viewMagnificationState * magnificationState.scale
     }
@@ -91,77 +103,70 @@ struct CreateTemplateView: View {
     var body: some View {
         let rectDragGesture = DragGesture()
             .updating($rectDragState) { value, state, transaction in
-                print("rect update")
                 state = .dragging(translation: value.translation)
-                //print("translation\(value.translation) ")
             }
+            // Adding the translastion of the gesture to the position
             .onEnded { value in
-                print("rect end")
                 self.rectState.height += value.translation.height
                 self.rectState.width += value.translation.width
             }
         
         let imageDragGesture = DragGesture()
-            .onChanged{ value in
-                self.imageState.height = self.imageState.height + value.translation.height
-                self.imageState.width = self.imageState.width + value.translation.width
+            // Adding the translastion of the gesture to the position
+            .onChanged { value in
+                self.imageState.height += value.translation.height
+                self.imageState.width += value.translation.width
             }
             .onEnded { value in
-                print("image end")
                 self.imageState.height += value.translation.height
                 self.imageState.width += value.translation.width
             }
         
         let minimumLongPressDuration = 0.3
         let longPressDraw = LongPressGesture(minimumDuration: minimumLongPressDuration)
+            // It takes a third of a second for the gesture to trigger the drag gesture
             .sequenced(before: DragGesture())
             .updating($drawState) { value, state, transaction in
-                print("draw update")
                 switch value {
-                // Long press begins.
+                // Long press begins
                 case .first(true):
-                    print("pressing")
                     state = .pressing
-                // Long press confirmed, dragging may begin.
+                // Long press confirmed, dragging may begin
                 case .second(true, let drag):
-                    print("dragging")
                     state = .dragging(translation: drag?.translation ?? .zero)
-                // Dragging ended or the long press cancelled.
+                // Dragging ended or the long press cancelled
                 default:
-                    print("inactive")
                     state = .inactive
                 }
             }
             .onEnded { value in
-                print("draw end")
                 guard case .second(true, let drag?) = value else { return }
+                // Set endpoint for calculating w+h
                 self.endPoint = drag.location
                 
             }
             .onChanged { value in
-                print("draw change")
                 switch value {
                 case .second(true, let drag):
-                    print("second")
                     guard drag != nil else { return }
+                    // set startpoint for the calculating w+h
                     self.startPoint = drag!.startLocation
+                    // set the position of the rect
                     self.rectState.height = drag!.startLocation.y
                     self.rectState.width = drag!.startLocation.x
+                    // set endpoint to the current location for the calculating w+h
                     self.endPoint = drag!.location
-                
-                case .first(let bla):
-                    print("first", bla)
-                case .second(false, _):
-                    print("second false")
+                default:
+                    return
                 }
             }
         
         let magnificationGesture = MagnificationGesture()
             .updating($magnificationState) { value, state, transaction in
-                print("zoom update")
+                // set zoom level change
                 state = .zooming(scale: value)
             }.onEnded { value in
-                print("zoom end")
+                // set the zoom level
                 self.viewMagnificationState *= value
             }
         
@@ -184,7 +189,6 @@ struct CreateTemplateView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             .scaleEffect(magnificationScale)
-            
         }
         .gesture(magnificationGesture)
     }
