@@ -31,7 +31,7 @@ struct CreateTemplateView: View {
         case inactive
         case dragging(translation: CGSize)
         
-        var translastion: CGSize {
+        var translation: CGSize {
             switch self {
             case .dragging(let translation):
                 return translation
@@ -77,11 +77,11 @@ struct CreateTemplateView: View {
     }
     
     private var imageTranslastionOffset:CGSize {
-        return CGSize(width: imageState.width + imageDragState.translastion.width, height: imageState.height + imageDragState.translastion.height)
+        return CGSize(width: imageState.width + imageDragState.translation.width, height: imageState.height + imageDragState.translation.height)
     }
     
     private var rectTranslastionOffset:CGSize {
-        return CGSize(width: rectState.width + rectDragState.translastion.width, height: rectState.height + rectDragState.translastion.height)
+        return CGSize(width: rectState.width + rectDragState.translation.width, height: rectState.height + rectDragState.translation.height)
     }
     
     private var magnificationScale: CGFloat {
@@ -102,10 +102,9 @@ struct CreateTemplateView: View {
             }
         
         let imageDragGesture = DragGesture()
-            .updating($imageDragState) { value, state, transaction in
-                print("image update")
-                state = .dragging(translation: value.translation)
-                //print("translation\(value.translation) ")
+            .onChanged{ value in
+                self.imageState.height = self.imageState.height + value.translation.height
+                self.imageState.width = self.imageState.width + value.translation.width
             }
             .onEnded { value in
                 print("image end")
