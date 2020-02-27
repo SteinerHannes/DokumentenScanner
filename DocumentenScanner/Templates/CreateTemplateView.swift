@@ -73,7 +73,15 @@ struct CreateTemplateView: View {
     
     func saveButton() -> some View {
         return Button(action: {
-            //
+            let list = self.appState.attributList
+            let image = self.appState.image
+            if(!list.isEmpty && image != nil){
+                let template = ImageTemplate(attributeList: list, image: image!)
+                self.appState.templates.append(template)
+                self.appState.reset()
+            }else{
+                //Mark: show Alert
+            }
         }) {
             Text("Speichern")
         }
