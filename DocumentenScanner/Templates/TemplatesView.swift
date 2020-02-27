@@ -21,15 +21,22 @@ struct TemplatesView: View {
                     .scaledToFit()
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(trailing: self.trailingItem())
+            .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .sheet(isPresented: self.$isShowingScannerSheet) {
                 TemplateScannerView(completion: { oriImage in
                     guard oriImage != nil else { return }
                     self.appState.image = oriImage!
-                    self.appState.isCreateTemplateViewPresented = true
                     self.isShowingScannerSheet = false
+                    self.appState.isCreateTemplateViewPresented = true
                 }).edgesIgnoringSafeArea(.bottom)
             }
+        }
+    }
+    private func leadingItem() -> some View {
+        return Button(action: {
+            self.appState.isCreateTemplateViewPresented = true
+        }) {
+            Text("test")
         }
     }
     
@@ -37,7 +44,8 @@ struct TemplatesView: View {
         return Button(action: {
             self.openCamera()
         }) {
-            Image(systemName: "plus")
+            //Image(systemName: "plus")
+            Text("Vorlage")
         }
     }
     

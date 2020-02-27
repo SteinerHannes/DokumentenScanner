@@ -9,42 +9,54 @@
 import SwiftUI
 import Foundation
 
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: Content {
+        build()
+    }
+}
+
 struct CreateTemplateView: View {
     @EnvironmentObject var appState:AppState
     
     @State var isBottomSheetOpen:Bool = true
-    @State var isNewAttributViewOpen:Bool = false
-    @State var maxHeight:CGFloat = 140
-    @State var attributList:[ImageAttribute] = []
     
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName:"post"))
-                           .resizable()
-                           .scaledToFit()
+                    ZStack(alignment: .topLeading) {
+                        Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName:"post"))
+                               .resizable()
+                               .scaledToFit()
+                        ForEach(self.appState.attributList) { attribut in
+                            Rectangle()
+                                .frame(width: attribut.width, height: attribut.height)
+                                .offset(attribut.rectState)
+                        }
+                    }
                     Spacer()
-                    NavigationLink(destination: NewAttributView(), isActive: $isNewAttributViewOpen) {EmptyView()}
                 }
-                BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$maxHeight) {
+                BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$appState.maxHeight) {
                     List {
                         Section {
-                            Button(action: {
-                                self.isNewAttributViewOpen = true
-                            }) {
-                                Text("Neues Attribut hinzufügen")
-                            }
+                            NavigationLink(destination: LazyView(NewAttributView()), isActive: self.$appState.showRoot) {
+                                Text("Neues Attribut hinzufügen").foregroundColor(.blue)
+                            }.isDetailLink(false)
                         }
                         Section {
-                            ForEach(self.attributList, id: \.id) { attribut in
+                            ForEach(self.appState.attributList, id: \.id) { attribut in
                                 Text(attribut.name)
                             }
                         }
                     }
                     .listStyle(GroupedListStyle())
                     .environment(\.horizontalSizeClass, .regular)
-                }.edgesIgnoringSafeArea(.bottom)
+                }
+                .edgesIgnoringSafeArea(.bottom)
                 .navigationBarItems(leading: cancelButton(), trailing: saveButton())
             }.navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
         }
@@ -52,7 +64,8 @@ struct CreateTemplateView: View {
     
     func cancelButton() -> some View {
         return Button(action: {
-            self.appState.isCreateTemplateViewPresented = false
+            // MARK: Show Alert
+            self.appState.reset()
         }) {
             Text("Abbrechen")
         }
@@ -60,7 +73,7 @@ struct CreateTemplateView: View {
     
     func saveButton() -> some View {
         return Button(action: {
-            self.appState.isCreateTemplateViewPresented = false
+            //
         }) {
             Text("Speichern")
         }

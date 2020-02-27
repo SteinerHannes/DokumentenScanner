@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SelectRegionView: View {
     @EnvironmentObject var appState:AppState
+    @Environment(\.presentationMode) var presentation:Binding<PresentationMode>
     
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
@@ -192,27 +193,33 @@ struct SelectRegionView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .scaleEffect(magnificationScale)
-                Button(action: {
-                    self.isShowingPopOver = true
-                }) {
-                    ZStack(alignment: .center) {
-                        Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 50, weight: .regular, design: .default))
-                            .foregroundColor(Color.red)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 20))
-                        .opacity(0.8)
-                        
-                    }
-                }
-                if( self.isShowingPopOver ){
-                    popOverView
-                }
+                popOverButton
             }
         }
         .edgesIgnoringSafeArea(.bottom)
         .gesture(magnificationGesture)
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
-        .navigationBarItems(trailing: saveButton())
+        //.navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton(),trailing: saveButton())
+    }
+    
+    private var popOverButton: some View {
+        Group{
+            Button(action: {
+                self.isShowingPopOver = true
+            }) {
+                ZStack(alignment: .center) {
+                    Image(systemName: "questionmark.circle.fill")
+                        .font(.system(size: 50, weight: .regular, design: .default))
+                        .foregroundColor(Color.red)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 20))
+                    .opacity(0.8)
+                }
+            }
+            if( self.isShowingPopOver ){
+                self.popOverView
+            }
+        }
     }
     
     private var popOverView: some View {
@@ -245,10 +252,28 @@ struct SelectRegionView: View {
         }
     }
     
-    func saveButton() -> some View {
+    private func backButton() -> some View {
+        Button(action: {
+            self.presentation.wrappedValue.dismiss()
+        }){
+            Text("Zurück")
+        }
+    }
+    
+    private func saveButton() -> some View {
         Button(action: {
             if(self.rectState.equalTo(.zero)){
                 self.isNoRectSet = true
+            }else{
+                if self.appState.maxHeight < 140+3*45 {
+                    self.appState.maxHeight += 45
+                }
+                self.appState.currentAttribut!.height = self.height
+                self.appState.currentAttribut!.width = self.width
+                self.appState.currentAttribut!.rectState = self.rectState
+                self.appState.attributList.append(self.appState.currentAttribut!)
+                self.appState.currentAttribut = nil
+                self.appState.showRoot = false
             }
         }){
             Text("Speichern")

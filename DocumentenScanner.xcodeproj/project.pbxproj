@@ -13,6 +13,7 @@
 		EF4223C4240685CE00FF510E /* ImageAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C3240685CE00FF510E /* ImageAttribute.swift */; };
 		EF4223C7240692E000FF510E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C6240692E000FF510E /* AppState.swift */; };
 		EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C82406A7F500FF510E /* NewAttributView.swift */; };
+		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
 		EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */; };
 		EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4F2403E3EE008015F3 /* ContentView.swift */; };
@@ -34,6 +35,7 @@
 		EF4223C3240685CE00FF510E /* ImageAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttribute.swift; sourceTree = "<group>"; };
 		EF4223C6240692E000FF510E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		EF4223C82406A7F500FF510E /* NewAttributView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAttributView.swift; sourceTree = "<group>"; };
+		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				EF4223C12406797600FF510E /* Colors.swift */,
+				EF4C5B762407E4210047D94B /* DismissKeyboard.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EF4223C7240692E000FF510E /* AppState.swift in Sources */,
+				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
 				EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */,
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
