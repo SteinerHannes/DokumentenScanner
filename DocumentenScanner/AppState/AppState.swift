@@ -26,4 +26,7 @@ final class AppState : ObservableObject {
         self.isCreateTemplateViewPresented = false
         self.showRoot = false
     }
+    
+    @Published var templates:[ImageTemplate] = []
+    
 }

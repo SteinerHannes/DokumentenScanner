@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* ImageTemplate.swift */; };
 		EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BB2406750600FF510E /* SelectRegionView.swift */; };
 		EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BE2406792700FF510E /* BottomSheetView.swift */; };
 		EF4223C22406797600FF510E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C12406797600FF510E /* Colors.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF1945EA240804A700D76CE7 /* ImageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTemplate.swift; sourceTree = "<group>"; };
 		EF4223BB2406750600FF510E /* SelectRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegionView.swift; sourceTree = "<group>"; };
 		EF4223BE2406792700FF510E /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		EF4223C12406797600FF510E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF4223C3240685CE00FF510E /* ImageAttribute.swift */,
+				EF1945EA240804A700D76CE7 /* ImageTemplate.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
+				EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EF4223C7240692E000FF510E /* AppState.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
