@@ -11,46 +11,51 @@ import SwiftUI
 struct TemplatesView: View {
     @EnvironmentObject var appState:AppState
     
-    @State private var isShowingScannerSheet = false
-    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
-                Image(uiImage: self.appState.image ?? UIImage())
-                    .resizable()
-                    .scaledToFit()
+                List{
+                    Section{
+                        ForEach(self.appState.templates, id: \.id) { template in
+                            VStack{
+                                HStack(alignment: .top, spacing: 10) {
+                                    Image(uiImage: template.image!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(template.name).font(.headline)
+                                        Text(template.info).font(.system(size: 13))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
-            .sheet(isPresented: self.$isShowingScannerSheet) {
-                TemplateScannerView(completion: { oriImage in
-                    guard oriImage != nil else { return }
-                    self.appState.image = oriImage!
-                    self.isShowingScannerSheet = false
-                    self.appState.isCreateTemplateViewPresented = true
-                }).edgesIgnoringSafeArea(.bottom)
+            .navigationBarItems(trailing: self.trailingItem())
+            .onAppear{
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"post")))
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"klausur1")))
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"klausur2")))
             }
         }
     }
-    private func leadingItem() -> some View {
-        return Button(action: {
-            self.appState.isCreateTemplateViewPresented = true
-        }) {
-            Text("test")
-        }
-    }
+//    private func leadingItem() -> some View {
+//        return Button(action: {
+//            self.appState.isCreateTemplateViewPresented = true
+//        }) {
+//            Text("test")
+//        }
+//    }
     
     private func trailingItem() -> some View {
         return Button(action: {
-            self.openCamera()
+            self.appState.isNewTemplateViewPresented = true
         }) {
-            //Image(systemName: "plus")
-            Text("Vorlage")
+            Text("Neue Vorlage")
         }
-    }
-    
-    private func openCamera() {
-        self.isShowingScannerSheet = true
     }
     
     struct ModalDetail: Identifiable {
@@ -64,7 +69,7 @@ struct TemplatesView: View {
 
 struct TemplatesView_Previews: PreviewProvider {
     static var previews: some View {
-        TemplatesView()
+        TemplatesView().environmentObject(AppState())
     }
 }
 

@@ -25,8 +25,15 @@ final class AppState : ObservableObject {
         self.maxHeight = 140
         self.isCreateTemplateViewPresented = false
         self.showRoot = false
+        cleanCurrentImageTemplate()
     }
     
+    func cleanCurrentImageTemplate(){
+        self.currentImageTemplate = nil
+    }
+    
+    @Published var isNewTemplateViewPresented:Bool = false
     @Published var templates:[ImageTemplate] = []
+    @Published var currentImageTemplate:ImageTemplate? = nil
     
 }

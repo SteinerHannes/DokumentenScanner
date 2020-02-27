@@ -25,41 +25,39 @@ struct CreateTemplateView: View {
     @State var isBottomSheetOpen:Bool = true
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .bottom) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack(alignment: .topLeading) {
-                        Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName:"post"))
-                               .resizable()
-                               .scaledToFit()
-                        ForEach(self.appState.attributList) { attribut in
-                            Rectangle()
-                                .frame(width: attribut.width, height: attribut.height)
-                                .offset(attribut.rectState)
+        ZStack(alignment: .bottom) {
+            VStack(alignment: .leading, spacing: 0) {
+                ZStack(alignment: .topLeading) {
+                    Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName:"post"))
+                        .resizable()
+                        .scaledToFit()
+                    ForEach(self.appState.attributList) { attribut in
+                        Rectangle()
+                            .frame(width: attribut.width, height: attribut.height)
+                            .offset(attribut.rectState)
+                    }
+                }
+                Spacer()
+            }
+            BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$appState.maxHeight) {
+                List {
+                    Section {
+                        NavigationLink(destination: LazyView(NewAttributView()), isActive: self.$appState.showRoot) {
+                            Text("Neues Attribut hinzufügen").foregroundColor(.blue)
+                        }.isDetailLink(false)
+                    }
+                    Section {
+                        ForEach(self.appState.attributList, id: \.id) { attribut in
+                            Text(attribut.name)
                         }
                     }
-                    Spacer()
                 }
-                BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$appState.maxHeight) {
-                    List {
-                        Section {
-                            NavigationLink(destination: LazyView(NewAttributView()), isActive: self.$appState.showRoot) {
-                                Text("Neues Attribut hinzufügen").foregroundColor(.blue)
-                            }.isDetailLink(false)
-                        }
-                        Section {
-                            ForEach(self.appState.attributList, id: \.id) { attribut in
-                                Text(attribut.name)
-                            }
-                        }
-                    }
-                    .listStyle(GroupedListStyle())
-                    .environment(\.horizontalSizeClass, .regular)
-                }
-                .edgesIgnoringSafeArea(.bottom)
-                .navigationBarItems(leading: cancelButton(), trailing: saveButton())
-            }.navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
-        }
+                .listStyle(GroupedListStyle())
+                .environment(\.horizontalSizeClass, .regular)
+            }
+            .edgesIgnoringSafeArea(.bottom)
+            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
+        }.navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
     }
     
     func cancelButton() -> some View {
@@ -76,7 +74,9 @@ struct CreateTemplateView: View {
             let list = self.appState.attributList
             let image = self.appState.image
             if(!list.isEmpty && image != nil){
-                let template = ImageTemplate(attributeList: list, image: image!)
+                var template = self.appState.currentImageTemplate!
+                template.attributeList = list
+                template.image = image
                 self.appState.templates.append(template)
                 self.appState.reset()
             }else{

@@ -24,7 +24,13 @@ struct ContentView: View {
             }
             
             if self.appState.isCreateTemplateViewPresented {
-                CreateTemplateView()
+                NavigationView {
+                    LazyView(CreateTemplateView())
+                }
+            }else if self.appState.isNewTemplateViewPresented {
+                NavigationView {
+                    LazyView(NewTemplateView())
+                }
             }
         }
     }

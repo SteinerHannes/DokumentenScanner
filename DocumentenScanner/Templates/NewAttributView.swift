@@ -79,7 +79,7 @@ struct NewAttributView: View {
                 self.presentation.wrappedValue.dismiss()
             }
         }){
-            Text("Zurück")
+            BackButtonView()
         }.alert(isPresented: self.$isShowingBackAlert) {
             Alert(title: Text("Änderungen verwerfen?"),
                   message: nil,

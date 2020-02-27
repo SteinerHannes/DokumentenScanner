@@ -256,7 +256,7 @@ struct SelectRegionView: View {
         Button(action: {
             self.presentation.wrappedValue.dismiss()
         }){
-            Text("Zurück")
+            BackButtonView()
         }
     }
     

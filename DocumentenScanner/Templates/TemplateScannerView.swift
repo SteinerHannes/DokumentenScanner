@@ -12,21 +12,20 @@ import Vision
 import VisionKit
 
 struct TemplateScannerView: UIViewControllerRepresentable {
-    @Environment(\.presentationMode) var presentation:Binding<PresentationMode>
-//    @EnvironmentObject var appState:AppState
+    @Binding var isActive:Bool
     
     typealias UIViewControllerType = VNDocumentCameraViewController
     
     private let completionHandler: (UIImage?) -> Void
     
-    init(completion: @escaping (UIImage?) -> Void) {
+    init(isActive: Binding<Bool> ,completion: @escaping (UIImage?) -> Void) {
         self.completionHandler = completion
+        self._isActive = isActive
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<TemplateScannerView>) -> VNDocumentCameraViewController {
         let viewController = VNDocumentCameraViewController()
         viewController.delegate = context.coordinator
-        //viewController.modalPresentationStyle = .formSheet
         return viewController
     }
     
@@ -39,12 +38,12 @@ struct TemplateScannerView: UIViewControllerRepresentable {
 //    }
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(presentationMode: self.presentation, completion: completionHandler)
+        return Coordinator(isActive: self.$isActive, completion: completionHandler)
     }
     
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let completionHandler: (UIImage?) -> Void
-        private var presentation: Binding<PresentationMode>
+        @Binding var isActive:Bool
 //        private var appState: EnvironmentObject<AppState>.Wrapper
         
 //        init(presentationMode: Binding<PresentationMode>, appState: EnvironmentObject<AppState>.Wrapper, completion: @escaping (UIImage?) -> Void) {
@@ -53,9 +52,9 @@ struct TemplateScannerView: UIViewControllerRepresentable {
 //            self.appState = appState
 //        }
         
-        init(presentationMode: Binding<PresentationMode>, completion: @escaping (UIImage?) -> Void) {
+        init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
             self.completionHandler = completion
-            self.presentation = presentationMode
+            self._isActive = isActive
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
@@ -63,19 +62,19 @@ struct TemplateScannerView: UIViewControllerRepresentable {
             let image = scan.imageOfPage(at: 0)
             //self.appState.images.wrappedValue.append(image)
             completionHandler(image)
-            self.presentation.wrappedValue.dismiss()
+            self.isActive = false
         }
         
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
             print("Document camera view controller did cancel")
             completionHandler(nil)
-            presentation.wrappedValue.dismiss()
+            self.isActive = false
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
             print("Document camera view controller did finish with error ", error)
             completionHandler(nil)
-            self.presentation.wrappedValue.dismiss()
+            self.isActive = false
         }
     }
     
