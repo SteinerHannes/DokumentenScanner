@@ -1,8 +1,8 @@
 //
-//  TemplateScannerView.swift
+//  ScannerView.swift
 //  DocumentenScanner
 //
-//  Created by Hannes Steiner on 24.02.20.
+//  Created by Hannes Steiner on 28.02.20.
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
@@ -11,7 +11,8 @@ import UIKit
 import Vision
 import VisionKit
 
-struct TemplateScannerView: UIViewControllerRepresentable {
+struct ScannerView: UIViewControllerRepresentable {
+    
     @Binding var isActive: Bool
     
     typealias UIViewControllerType = VNDocumentCameraViewController
@@ -23,19 +24,15 @@ struct TemplateScannerView: UIViewControllerRepresentable {
         self._isActive = isActive
     }
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<TemplateScannerView>) -> VNDocumentCameraViewController {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ScannerView>) -> VNDocumentCameraViewController {
         let viewController = VNDocumentCameraViewController()
         viewController.delegate = context.coordinator
         return viewController
     }
     
-    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: UIViewControllerRepresentableContext<TemplateScannerView>) {
+    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: UIViewControllerRepresentableContext<ScannerView>) {
         print("updateVC")
     }
-    
-//    func makeCoordinator() -> Coordinator {
-//        return Coordinator(presentationMode: self.presentation, appState: self.$appState, completion: completionHandler)
-//    }
     
     func makeCoordinator() -> Coordinator {
         return Coordinator(isActive: self.$isActive, completion: completionHandler)
@@ -44,13 +41,6 @@ struct TemplateScannerView: UIViewControllerRepresentable {
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let completionHandler: (UIImage?) -> Void
         @Binding var isActive: Bool
-//        private var appState: EnvironmentObject<AppState>.Wrapper
-        
-//        init(presentationMode: Binding<PresentationMode>, appState: EnvironmentObject<AppState>.Wrapper, completion: @escaping (UIImage?) -> Void) {
-//            self.completionHandler = completion
-//            self.presentation = presentationMode
-//            self.appState = appState
-//        }
         
         init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
             self.completionHandler = completion
@@ -77,5 +67,5 @@ struct TemplateScannerView: UIViewControllerRepresentable {
             self.isActive = false
         }
     }
-    
 }
+

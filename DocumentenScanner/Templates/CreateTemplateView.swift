@@ -31,6 +31,7 @@ struct CreateTemplateView: View {
                     Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
                         .resizable()
                         .scaledToFit()
+                    // MARK: an die größe anpassen
                     ForEach(self.appState.attributList) { attribut in
                         Rectangle()
                             .frame(width: attribut.width, height: attribut.height)

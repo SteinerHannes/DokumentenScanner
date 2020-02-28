@@ -177,8 +177,9 @@ struct SelectRegionView: View {
                 ZStack(alignment: .topLeading) {
                     Group {
                         Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
-                            .resizable()
-                            .scaledToFit()
+                            // MARK: Problem-Ursache Scale wird nicht beachtet!
+                            //.resizable()
+                            //.scaledToFit()
                             .gesture(longPressDraw)
                             .gesture(imageDragGesture)
                             .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)

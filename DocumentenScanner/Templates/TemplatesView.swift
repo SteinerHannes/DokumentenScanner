@@ -17,18 +17,20 @@ struct TemplatesView: View {
                 List {
                     Section {
                         ForEach(self.appState.templates, id: \.id) { template in
-                            VStack {
-                                HStack(alignment: .top, spacing: 10) {
-                                    Image(uiImage: template.image!)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text(template.name).font(.headline)
-                                        Text(template.info).font(.system(size: 13))
+                            NavigationLink(destination: LazyView(TemplateDetailView(id: template.id))) {
+                                VStack {
+                                    HStack(alignment: .top, spacing: 10) {
+                                        Image(uiImage: template.image!)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                        VStack(alignment: .leading, spacing: 5) {
+                                            Text(template.name).font(.headline)
+                                            Text(template.info).font(.system(size: 13))
+                                        }
                                     }
                                 }
-                            }
+                            }.isDetailLink(false)
                         }
                     }
                 }

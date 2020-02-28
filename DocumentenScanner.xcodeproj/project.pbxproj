@@ -18,6 +18,8 @@
 		EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C82406A7F500FF510E /* NewAttributView.swift */; };
 		EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EF44754624090C64005A0ADB /* .swiftlint.yml */; };
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
+		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
+		EF78DA2F240938AB00FBB1EA /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2E240938AB00FBB1EA /* ScannerView.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
 		EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */; };
 		EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4F2403E3EE008015F3 /* ContentView.swift */; };
@@ -45,6 +47,8 @@
 		EF44754524090C22005A0ADB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		EF44754624090C64005A0ADB /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
+		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
+		EF78DA2E240938AB00FBB1EA /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +102,15 @@
 			path = AppState;
 			sourceTree = "<group>";
 		};
+		EF78DA2B240932B400FBB1EA /* TemplateDetail */ = {
+			isa = PBXGroup;
+			children = (
+				EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */,
+				EF78DA2E240938AB00FBB1EA /* ScannerView.swift */,
+			);
+			path = TemplateDetail;
+			sourceTree = "<group>";
+		};
 		EFE31F3F2403E3ED008015F3 = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +140,7 @@
 				EFE31F662403E9AB008015F3 /* Classes */,
 				EFE31F692403F2C1008015F3 /* Scanner */,
 				EFE31F5F2403E430008015F3 /* Templates */,
+				EF78DA2B240932B400FBB1EA /* TemplateDetail */,
 				EFE31F512403E3F4008015F3 /* Assets.xcassets */,
 				EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */,
 				EFE31F592403E3F4008015F3 /* Info.plist */,
@@ -279,8 +293,10 @@
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
+				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
 				EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */,
+				EF78DA2F240938AB00FBB1EA /* ScannerView.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EF4223C7240692E000FF510E /* AppState.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
