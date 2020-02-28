@@ -10,15 +10,15 @@ import Foundation
 import SwiftUI
 import VisionKit
 
-final class AppState : ObservableObject {
-    @Published var isCreateTemplateViewPresented:Bool = false
-    @Published var showRoot:Bool = false
-    @Published var image:UIImage? = nil
-    @Published var currentAttribut:ImageAttribute? = nil
-    @Published var attributList:[ImageAttribute] = []
-    @Published var maxHeight:CGFloat = 140
+final class AppState: ObservableObject {
+    @Published var isCreateTemplateViewPresented: Bool = false
+    @Published var showRoot: Bool = false
+    @Published var image: UIImage?
+    @Published var currentAttribut: ImageAttribute?
+    @Published var attributList: [ImageAttribute] = []
+    @Published var maxHeight: CGFloat = 140
     
-    func reset(){
+    func reset() {
         self.attributList = []
         self.image = nil
         self.currentAttribut = nil
@@ -28,12 +28,12 @@ final class AppState : ObservableObject {
         cleanCurrentImageTemplate()
     }
     
-    func cleanCurrentImageTemplate(){
+    func cleanCurrentImageTemplate() {
         self.currentImageTemplate = nil
     }
     
-    @Published var isNewTemplateViewPresented:Bool = false
-    @Published var templates:[ImageTemplate] = []
-    @Published var currentImageTemplate:ImageTemplate? = nil
+    @Published var isNewTemplateViewPresented: Bool = false
+    @Published var templates: [ImageTemplate] = []
+    @Published var currentImageTemplate: ImageTemplate?
     
 }

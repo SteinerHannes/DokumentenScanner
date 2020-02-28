@@ -20,15 +20,15 @@ struct LazyView<Content: View>: View {
 }
 
 struct CreateTemplateView: View {
-    @EnvironmentObject var appState:AppState
+    @EnvironmentObject var appState: AppState
     
-    @State var isBottomSheetOpen:Bool = true
+    @State var isBottomSheetOpen: Bool = true
     
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName:"post"))
+                    Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
                         .resizable()
                         .scaledToFit()
                     ForEach(self.appState.attributList) { attribut in
@@ -73,14 +73,14 @@ struct CreateTemplateView: View {
         return Button(action: {
             let list = self.appState.attributList
             let image = self.appState.image
-            if(!list.isEmpty && image != nil){
+            if !list.isEmpty && image != nil {
                 var template = self.appState.currentImageTemplate!
                 template.attributeList = list
                 template.image = image
                 self.appState.templates.append(template)
                 self.appState.reset()
-            }else{
-                //Mark: show Alert
+            } else {
+                // MARK: show Alert
             }
         }) {
             Text("Speichern")

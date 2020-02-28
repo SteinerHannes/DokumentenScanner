@@ -9,14 +9,14 @@
 import Foundation
 import SwiftUI
 
-struct ImageAttribute : Identifiable {
+struct ImageAttribute: Identifiable {
     
-    var id:String = UUID().uuidString
-    var name:String = ""
-    var rectState:CGSize = .zero
-    var width:CGFloat = .zero
-    var height:CGFloat = .zero
-    var datatype:Int = 0
+    var id: String = UUID().uuidString
+    var name: String = ""
+    var rectState: CGSize = .zero
+    var width: CGFloat = .zero
+    var height: CGFloat = .zero
+    var datatype: Int = 0
     
 //    init(name:String, rectState:CGSize, width:CGFloat, height:CGFloat) {
 //        self.name = name

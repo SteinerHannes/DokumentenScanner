@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var appState:AppState
-    @State private var selectedView:Int = 0
+    @EnvironmentObject var appState: AppState
+    @State private var selectedView: Int = 0
     
     var body: some View {
         ZStack {
@@ -27,7 +27,7 @@ struct ContentView: View {
                 NavigationView {
                     LazyView(CreateTemplateView())
                 }
-            }else if self.appState.isNewTemplateViewPresented {
+            } else if self.appState.isNewTemplateViewPresented {
                 NavigationView {
                     LazyView(NewTemplateView())
                 }

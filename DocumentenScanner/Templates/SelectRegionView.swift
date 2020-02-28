@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct SelectRegionView: View {
-    @EnvironmentObject var appState:AppState
-    @Environment(\.presentationMode) var presentation:Binding<PresentationMode>
+    @EnvironmentObject var appState: AppState
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
@@ -64,34 +64,34 @@ struct SelectRegionView: View {
     @State var viewMagnificationState = CGFloat(1.0)
     
     /// Drag gesture state for the rectangle
-    @GestureState var rectDragState:DragState = DragState.inactive
+    @GestureState var rectDragState: DragState = DragState.inactive
     /// Position of the rectangle
-    @State var rectState:CGSize = .zero
+    @State var rectState: CGSize = .zero
     
     /// Position of the container
-    @State var imageState:CGSize = .zero
+    @State var imageState: CGSize = .zero
     
     /// Longpress-Drag gesture state for drawing the rectangle
     @GestureState var drawState = DrawState.inactive
     /// Starting point of the rectangle. Important for the calculation of the width and height of the rect
-    @State private var startPoint:CGPoint = .zero
+    @State private var startPoint: CGPoint = .zero
     /// Ending point of the rectangle. Important for the calculation of the width and height of the rect
-    @State private var endPoint:CGPoint = .zero
+    @State private var endPoint: CGPoint = .zero
     
     /// Width of the rectangle
-    private var width:CGFloat {
+    private var width: CGFloat {
         return self.startPoint.x.distance(to: self.endPoint.x)
     }
     /// Height of the rectangle
-    private var height:CGFloat {
+    private var height: CGFloat {
         return self.startPoint.y.distance(to: self.endPoint.y)
     }
     /// Offset of the image to the coordinate origin (current position + the translation of the last drag gesture)
-    private var imageTranslastionOffset:CGSize {
+    private var imageTranslastionOffset: CGSize {
         return CGSize(width: imageState.width, height: imageState.height)
     }
     /// Offset of the rectangle to the coordinate origin
-    private var rectTranslastionOffset:CGSize {
+    private var rectTranslastionOffset: CGSize {
         return CGSize(width: rectState.width + rectDragState.translation.width, height: rectState.height + rectDragState.translation.height)
     }
     /// New zoom level according to gesture
@@ -99,8 +99,8 @@ struct SelectRegionView: View {
         return viewMagnificationState * magnificationState.scale
     }
     
-    @State var isShowingPopOver:Bool = false
-    @State var isNoRectSet:Bool = false
+    @State var isShowingPopOver: Bool = false
+    @State var isNoRectSet: Bool = false
     
     var body: some View {
         let rectDragGesture = DragGesture()
@@ -175,7 +175,7 @@ struct SelectRegionView: View {
         return HStack {
             ZStack(alignment: .bottomTrailing) {
                 ZStack(alignment: .topLeading) {
-                    Group{
+                    Group {
                         Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
                             .resizable()
                             .scaledToFit()
@@ -200,11 +200,11 @@ struct SelectRegionView: View {
         .gesture(magnificationGesture)
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
         //.navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton(),trailing: saveButton())
+        .navigationBarItems(leading: backButton(), trailing: saveButton())
     }
     
     private var popOverButton: some View {
-        Group{
+        Group {
             Button(action: {
                 self.isShowingPopOver = true
             }) {
@@ -216,20 +216,20 @@ struct SelectRegionView: View {
                     .opacity(0.8)
                 }
             }
-            if( self.isShowingPopOver ){
+            if self.isShowingPopOver {
                 self.popOverView
             }
         }
     }
     
     private var popOverView: some View {
-        ZStack(alignment: .center){
+        ZStack(alignment: .center) {
             Color.gray.opacity(0.5)
             VStack(alignment: .leading, spacing: 0) {
-                VStack(alignment: .leading, spacing: 2){
+                VStack(alignment: .leading, spacing: 2) {
                     Text("Wie der Spaß hier funktioniert...")
                     .font(Font.system(size: 16, weight: .semibold, design: .default))
-                    Group{
+                    Group {
                         Text("Bild verschieben")
                         Text("Region einzeichnen")
                         Text("Region verschieben")
@@ -238,12 +238,12 @@ struct SelectRegionView: View {
                 }
                 .padding()
                 Divider()
-                Button(action: { self.isShowingPopOver = false }){
+                Button(action: { self.isShowingPopOver = false }) {
                     Text("Verstanden!")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         .padding()
                         .background(Color.tertiarySystemBackground)
-                        .font(Font.system(size: 16, weight: .semibold , design: .default))
+                        .font(Font.system(size: 16, weight: .semibold, design: .default))
                 }
             }
             .frame(width: UIScreen.main.bounds.width-64, alignment: .leading)
@@ -255,16 +255,16 @@ struct SelectRegionView: View {
     private func backButton() -> some View {
         Button(action: {
             self.presentation.wrappedValue.dismiss()
-        }){
+        }) {
             BackButtonView()
         }
     }
     
     private func saveButton() -> some View {
         Button(action: {
-            if(self.rectState.equalTo(.zero)){
+            if self.rectState.equalTo(.zero) {
                 self.isNoRectSet = true
-            }else{
+            } else {
                 if self.appState.maxHeight < 140+3*45 {
                     self.appState.maxHeight += 45
                 }
@@ -275,7 +275,7 @@ struct SelectRegionView: View {
                 self.appState.currentAttribut = nil
                 self.appState.showRoot = false
             }
-        }){
+        }) {
             Text("Speichern")
         }
         .alert(isPresented: self.$isNoRectSet) {

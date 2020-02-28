@@ -8,20 +8,19 @@
 
 import SwiftUI
 
-fileprivate enum Constants {
-    static let radius:CGFloat = 16
-    static let snapRatio:CGFloat = 0.30
-    static let minHeightRatio:CGFloat = 0.3
+private enum Constants {
+    static let radius: CGFloat = 16
+    static let snapRatio: CGFloat = 0.30
+    static let minHeightRatio: CGFloat = 0.3
 }
 
 struct BottomSheetView<Content: View>: View {
-    @State private var initFirst:Bool = true
-    @Binding var isOpen:Bool
-    @Binding var maxHeight:CGFloat
-    private let minHeight:CGFloat
-    private let content:Content
-    private var tempMinHeight:CGFloat = 0.0
-    
+    @State private var initFirst: Bool = true
+    @Binding var isOpen: Bool
+    @Binding var maxHeight: CGFloat
+    private let minHeight: CGFloat
+    private let content: Content
+    private var tempMinHeight: CGFloat = 0.0
     
     @GestureState private var translation: CGFloat = 0
     
@@ -76,18 +75,18 @@ struct BottomSheetView<Content: View>: View {
                     guard abs(value.translation.height) > snapDistance else {
                         return
                     }
-                    if(!self.isOpen){
+                    if !self.isOpen {
                         print(value.translation.height)
                         self.isOpen = value.translation.height < 0
                         print(value.translation.height < 0)
-                    }else{
+                    } else {
                         print(value.translation.height)
                         self.isOpen = !(value.translation.height > 0)
                         print(value.translation.height > 0)
                     }
                 }
             )
-        }.onAppear{
+        }.onAppear {
             if self.initFirst {
                 self._maxHeight.wrappedValue += self.tempMinHeight
                 self.initFirst = false
@@ -103,4 +102,3 @@ struct BottomSheetView_Previews: PreviewProvider {
         }.edgesIgnoringSafeArea(.all)
     }
 }
-

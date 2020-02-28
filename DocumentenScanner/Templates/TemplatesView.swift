@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct TemplatesView: View {
-    @EnvironmentObject var appState:AppState
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
-                List{
-                    Section{
+                List {
+                    Section {
                         ForEach(self.appState.templates, id: \.id) { template in
-                            VStack{
+                            VStack {
                                 HStack(alignment: .top, spacing: 10) {
                                     Image(uiImage: template.image!)
                                         .resizable()
@@ -35,10 +35,10 @@ struct TemplatesView: View {
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
-            .onAppear{
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"post")))
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"klausur1")))
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName:"klausur2")))
+            .onAppear {
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "post")))
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur1")))
+                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur2")))
             }
         }
     }
@@ -59,11 +59,11 @@ struct TemplatesView: View {
     }
     
     struct ModalDetail: Identifiable {
-        var id:String {
+        var id: String {
             return body
         }
         
-        let body:String
+        let body: String
     }
 }
 

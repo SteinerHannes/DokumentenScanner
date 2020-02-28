@@ -9,26 +9,26 @@
 import SwiftUI
 
 struct NewTemplateView: View {
-    @EnvironmentObject var appState:AppState
-    @Environment(\.presentationMode) var presentation:Binding<PresentationMode>
+    @EnvironmentObject var appState: AppState
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
-    @State var name:String = ""
-    @State var info:String = ""
-    @State var showCamera:Bool = false
-    @State var showAlert:Bool = false
+    @State var name: String = ""
+    @State var info: String = ""
+    @State var showCamera: Bool = false
+    @State var showAlert: Bool = false
     
     var body: some View {
-        ZStack{
+        ZStack {
             Form {
-                Section{
+                Section {
                     TextField("Name", text: self.$name)
                     TextField("Info", text: self.$info)
                 }
-                Section{
+                Section {
                     Button(action: {
                         if self.name.isEmpty {
-                            //MARK: Alert -> showAlert
-                        }else{
+                            // MARK: Alert -> showAlert
+                        } else {
                             var template = ImageTemplate()
                             template.name = self.name
                             template.info = self.info
@@ -36,8 +36,8 @@ struct NewTemplateView: View {
                             UIApplication.shared.endEditing(true)
                             self.showCamera = true
                         }
-                    }){
-                        HStack{
+                    }) {
+                        HStack {
                             Text("Foto aufnehmen")
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -50,7 +50,7 @@ struct NewTemplateView: View {
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Template hinzufügen", displayMode: .inline)
-            if(self.showCamera){
+            if self.showCamera {
                 TemplateScannerView(isActive: self.$showCamera, completion: { oriImage in
                     guard oriImage != nil else { return }
                     self.appState.image = oriImage!
@@ -65,11 +65,11 @@ struct NewTemplateView: View {
         .navigationBarHidden(self.showCamera)
     }
     
-    private func backButton() -> some View{
+    private func backButton() -> some View {
         return Button(action: {
-            if(!self.name.isEmpty){
+            if !self.name.isEmpty {
                 self.showAlert = true
-            }else{
+            } else {
                 self.appState.cleanCurrentImageTemplate()
                 self.appState.isNewTemplateViewPresented = false
             }
@@ -81,7 +81,7 @@ struct NewTemplateView: View {
 
 struct NewTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{
+        NavigationView {
             NewTemplateView()
         }
     }

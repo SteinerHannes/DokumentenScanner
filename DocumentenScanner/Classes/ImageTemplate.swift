@@ -10,11 +10,11 @@ import Foundation
 import VisionKit
 
 struct ImageTemplate: Identifiable {
-    public var id:String = UUID().uuidString
-    public var attributeList:[ImageAttribute] = []
-    public var image:UIImage?
-    public var name:String = "Klausur"
-    public var info:String = "Bla bla zusätzliche Infos, die sicher ganz intressant sein könnten, oder uach nicht, wer weiß das schon"
+    public var id: String = UUID().uuidString
+    public var attributeList: [ImageAttribute] = []
+    public var image: UIImage?
+    public var name: String = "Klausur"
+    public var info: String = "Bla bla zusätzliche Infos, die sicher ganz intressant sein könnten, oder uach nicht, wer weiß das schon"
     
 //    init(attributeList:[ImageAttribute],image:UIImage) {
 //        self.attributeList = attributeList

@@ -12,7 +12,6 @@ struct OCRView: View {
     @State private var isShowingScannerSheet = false
     @State private var text: String = ""
     
-    
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {

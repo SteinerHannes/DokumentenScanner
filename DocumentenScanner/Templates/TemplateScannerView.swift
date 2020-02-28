@@ -12,13 +12,13 @@ import Vision
 import VisionKit
 
 struct TemplateScannerView: UIViewControllerRepresentable {
-    @Binding var isActive:Bool
+    @Binding var isActive: Bool
     
     typealias UIViewControllerType = VNDocumentCameraViewController
     
     private let completionHandler: (UIImage?) -> Void
     
-    init(isActive: Binding<Bool> ,completion: @escaping (UIImage?) -> Void) {
+    init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
         self.completionHandler = completion
         self._isActive = isActive
     }
@@ -43,7 +43,7 @@ struct TemplateScannerView: UIViewControllerRepresentable {
     
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let completionHandler: (UIImage?) -> Void
-        @Binding var isActive:Bool
+        @Binding var isActive: Bool
 //        private var appState: EnvironmentObject<AppState>.Wrapper
         
 //        init(presentationMode: Binding<PresentationMode>, appState: EnvironmentObject<AppState>.Wrapper, completion: @escaping (UIImage?) -> Void) {

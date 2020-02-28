@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct NewAttributView: View {
-    @EnvironmentObject var appState:AppState
-    @Environment(\.presentationMode) var presentation:Binding<PresentationMode>
+    @EnvironmentObject var appState: AppState
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
-    @State var name:String = ""
-    @State var datatype:Int = 0
-    @State var isShowingNextAlert:Bool = false
-    @State var isShowingBackAlert:Bool = false
+    @State var name: String = ""
+    @State var datatype: Int = 0
+    @State var isShowingNextAlert: Bool = false
+    @State var isShowingBackAlert: Bool = false
     
     var body: some View {
-        VStack{
+        VStack {
             Form {
                 Section {
                     TextField("Name", text: self.$name)
@@ -34,7 +34,7 @@ struct NewAttributView: View {
                     }
                 }
                 Section {
-                    VStack{
+                    VStack {
                         NavigationLink(destination: LazyView(SelectRegionView())) {
                             Text("Bereich auswählen").foregroundColor(.blue)
                         }
@@ -73,12 +73,12 @@ struct NewAttributView: View {
     
     private func backButton() -> some View {
         Button(action: {
-            if( !self.name.isEmpty){
+            if  !self.name.isEmpty {
                 self.isShowingBackAlert = true
-            }else{
+            } else {
                 self.presentation.wrappedValue.dismiss()
             }
-        }){
+        }) {
             BackButtonView()
         }.alert(isPresented: self.$isShowingBackAlert) {
             Alert(title: Text("Änderungen verwerfen?"),
