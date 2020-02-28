@@ -35,11 +35,11 @@ struct TemplatesView: View {
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
-            .onAppear {
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "post")))
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur1")))
-                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur2")))
-            }
+//            .onAppear {
+//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "post")))
+//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur1")))
+//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur2")))
+//            }
         }
     }
 //    private func leadingItem() -> some View {

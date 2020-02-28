@@ -22,6 +22,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Scanning</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bla</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bla2</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

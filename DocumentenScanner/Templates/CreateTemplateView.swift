@@ -74,11 +74,17 @@ struct CreateTemplateView: View {
             let list = self.appState.attributList
             let image = self.appState.image
             if !list.isEmpty && image != nil {
+//                self.appState.templates = []
                 var template = self.appState.currentImageTemplate!
                 template.attributeList = list
                 template.image = image
                 self.appState.templates.append(template)
                 self.appState.reset()
+//
+//                print(self.appState.templates[0].attributeList[0])
+//                print(self.appState.templates[0].image!.size)
+//                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil);
+//
             } else {
                 // MARK: show Alert
             }
