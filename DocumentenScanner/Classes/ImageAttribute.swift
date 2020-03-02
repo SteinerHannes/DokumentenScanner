@@ -17,11 +17,4 @@ struct ImageAttribute: Identifiable {
     var width: CGFloat = .zero
     var height: CGFloat = .zero
     var datatype: Int = 0
-    
-//    init(name:String, rectState:CGSize, width:CGFloat, height:CGFloat) {
-//        self.name = name
-//        self.rectState = rectState
-//        self.width = width
-//        self.height = height
-//    }
 }

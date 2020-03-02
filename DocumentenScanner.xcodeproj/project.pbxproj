@@ -18,6 +18,7 @@
 		EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C82406A7F500FF510E /* NewAttributView.swift */; };
 		EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EF44754624090C64005A0ADB /* .swiftlint.yml */; };
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
+		EF61DB75240D70BB0083E0B7 /* ImageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* ImageResult.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
 		EF78DA2F240938AB00FBB1EA /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2E240938AB00FBB1EA /* ScannerView.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 		EF44754524090C22005A0ADB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		EF44754624090C64005A0ADB /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
+		EF61DB74240D70BB0083E0B7 /* ImageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResult.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
 		EF78DA2E240938AB00FBB1EA /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +178,7 @@
 			children = (
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF4223C3240685CE00FF510E /* ImageAttribute.swift */,
+				EF61DB74240D70BB0083E0B7 /* ImageResult.swift */,
 				EF1945EA240804A700D76CE7 /* ImageTemplate.swift */,
 			);
 			path = Classes;
@@ -290,6 +293,7 @@
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
 				EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */,
+				EF61DB75240D70BB0083E0B7 /* ImageResult.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,

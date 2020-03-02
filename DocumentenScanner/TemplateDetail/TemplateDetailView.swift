@@ -16,42 +16,48 @@ struct TemplateDetailView: View {
         self.id = id
     }
     
-    @State private var text : String = ""
+    @State private var result : [String] = []
     @State private var showCamera : Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if self.showCamera {
                 TemplateScannerView(isActive: self.$showCamera, completion: { image in
-                    self.text = self.onCompletion(image: image)
+                    self.onCompletion(image: image)
                 })
                     .edgesIgnoringSafeArea(.all)
             }else{
-                ScrollView(.vertical, showsIndicators: true) {
-                    Text(id)
-                    VStack {
-                        HStack(alignment: .top, spacing: 10) {
-                            Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(self.appState.currentImageTemplate?.name ?? "").font(.headline)
-                                Text(self.appState.currentImageTemplate?.info ?? "").font(.system(size: 13))
+                Form {
+                    Section {
+                        Text(id)
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack(alignment: .top, spacing: 10) {
+                                Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(self.appState.currentImageTemplate?.name ?? "").font(.headline)
+                                    Text(self.appState.currentImageTemplate?.info ?? "").font(.system(size: 13))
+                                }
                             }
                         }
-                        Text(text)
-                        Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
-                            .resizable()
-                            .scaledToFit()
+                    }
+                    if(!result.isEmpty){
+                        ForEach(0..<result.count) { index in
+                            Section(header: Text(self.appState.currentImageTemplate!.attributeList[index].name)) {
+                                TextField(self.appState.currentImageTemplate!.attributeList[index].name, text: self.$result[index])
+                            }
+                        }
                     }
                 }
             }
         }.onAppear{
             self.appState.setCurrentImageTemplate(for: self.id)
         }
-        .navigationBarTitle("\(self.appState.currentImageTemplate?.info ?? "FAIL")", displayMode: .large)
+        .navigationBarTitle("\(self.appState.currentImageTemplate?.name ?? "FAIL")", displayMode: .large)
         .navigationBarItems(trailing: self.newPictureButton())
+        .edgesIgnoringSafeArea(.top)
     }
     
     fileprivate func newPictureButton() -> some View {
@@ -62,39 +68,41 @@ struct TemplateDetailView: View {
         }
     }
     
-    fileprivate func onCompletion(image: UIImage?) -> String {
-        guard image != nil else { return "" }
-        self.appState.image = image!
+    fileprivate func onCompletion(image: UIImage?){
         self.showCamera = false
-        let templateSize = self.appState.currentImageTemplate!.attributeList[0].rectState
-        let width = self.appState.currentImageTemplate!.attributeList[0].width
-        let height = self.appState.currentImageTemplate!.attributeList[0].height
-        let templateRect = CGRect(x: templateSize.width, y: templateSize.height, width:  width, height: height)
-        let templateImage = self.appState.currentImageTemplate?.image!
-        
-        let proportionalRect = newProportionalRect(templateImage: templateImage!, newImage: image!, templateRect: templateRect)
-        
-        guard let newImage:CGImage = image!.cgImage?.cropping(to: proportionalRect)
-        else {
-            return("FAIL")
+        guard image != nil else { return }
+        let imageResults: [ImageResult] = getImageRegions(image: image!)
+        TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
+            self.result = resultArray
         }
+    }
+    
+    fileprivate func getImageRegions(image: UIImage) -> [ImageResult] {
+        var results: [ImageResult] = []
         
-        self.appState.image = UIImage(cgImage: newImage)
-        
-        return """
-        Größe: \(image!.size)
-        Größe: \(templateImage!.size)
-        oriR:
-        X: \(templateSize.width)
-        Y: \(templateSize.height)
-        Width: \(width)
-        Height: \(height)
-        Rect:
-        X: \(proportionalRect.origin.x)
-        Y: \(proportionalRect.origin.y)
-        Width: \(proportionalRect.width)
-        Height: \(proportionalRect.height)
-        """
+        for attribute in self.appState.currentImageTemplate!.attributeList {
+            
+            let templateSize = attribute.rectState
+            let width = attribute.width
+            let height = attribute.height
+            let templateRect = CGRect(x: templateSize.width, y: templateSize.height, width:  width, height: height)
+            let templateImage = self.appState.currentImageTemplate!.image!
+
+            let proportionalRect = newProportionalRect(templateImage: templateImage, newImage: image, templateRect: templateRect)
+
+            guard let newImage:CGImage = image.cgImage?.cropping(to: proportionalRect)
+                else {
+//                    let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: CGImage())
+//                    results.append(imageResult)
+                    continue
+            }
+
+            let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: newImage)
+            results.append(imageResult)
+        }
+        print(3)
+        print(results)
+        return results
     }
     
     func newProportionalRect(templateImage: UIImage, newImage: UIImage, templateRect: CGRect) -> CGRect {
