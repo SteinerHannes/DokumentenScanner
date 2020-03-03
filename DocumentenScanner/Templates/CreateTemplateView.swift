@@ -24,6 +24,11 @@ struct CreateTemplateView: View {
     
     @State var isBottomSheetOpen: Bool = true
     
+//    init() {
+//        UITableView.appearance().backgroundColor = .clear // tableview background
+//        //UITableViewCell.appearance().backgroundColor = .clear // cell background
+//    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
@@ -55,6 +60,7 @@ struct CreateTemplateView: View {
                 }
                 .listStyle(GroupedListStyle())
                 .environment(\.horizontalSizeClass, .regular)
+//                .background(Color.secondarySystemBackground)
             }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarItems(leading: cancelButton(), trailing: saveButton())
@@ -98,5 +104,6 @@ struct CreateTemplateView: View {
 struct CreateTemplateView_Previews: PreviewProvider {
     static var previews: some View {
         CreateTemplateView().environmentObject(AppState())//(image: .constant(UIImage()))
+            //.colorScheme(.dark)
     }
 }

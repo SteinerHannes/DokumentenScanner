@@ -62,7 +62,7 @@ struct BottomSheetView<Content: View>: View {
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
             .background(Color.secondarySystemBackground)
             .cornerRadius(Constants.radius)
-            .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: -14)
+            .shadow(color: Color.black, radius: 20, x: 0, y: -14)
             .frame(height: geometry.size.height, alignment: .bottom)
             .offset(y: max(self.offset + self.translation, 0))
             .animation(.default)
@@ -99,6 +99,8 @@ struct BottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
         BottomSheetView(isOpen: .constant(true), maxHeight: .constant(600)) {
             Rectangle().fill(Color.systemFill)
-        }.edgesIgnoringSafeArea(.all)
+        }
+        .edgesIgnoringSafeArea(.all)
+        .colorScheme(.dark)
     }
 }

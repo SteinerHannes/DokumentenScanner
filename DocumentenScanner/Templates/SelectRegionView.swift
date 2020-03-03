@@ -102,6 +102,8 @@ struct SelectRegionView: View {
     @State var isShowingPopOver: Bool = false
     @State var isNoRectSet: Bool = false
     
+    @State var zoomPoint: UnitPoint = .center
+    
     var body: some View {
         let rectDragGesture = DragGesture()
             .updating($rectDragState) { value, state, transaction in
@@ -171,6 +173,10 @@ struct SelectRegionView: View {
                 // set the zoom level
                 self.viewMagnificationState *= value
             }
+//        .simultaneously(with: DragGesture(minimumDistance: 0, coordinateSpace: .local).onChanged({ value in
+//            self.zoomPoint = UnitPoint(x: value.startLocation.x, y: value.startLocation.y)
+//            print("point",self.zoomPoint.x)
+//        }))
         
         return HStack {
             ZStack(alignment: .bottomTrailing) {
@@ -193,7 +199,7 @@ struct SelectRegionView: View {
                     .offset(imageTranslastionOffset)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-                .scaleEffect(magnificationScale)
+                .scaleEffect(magnificationScale, anchor: self.zoomPoint )
                 popOverButton
             }
         }
