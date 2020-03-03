@@ -21,7 +21,7 @@ struct ContentView: View {
                 OCRView().tabItem {
                     Text("OCRScanner")
                 }.tag(1)
-            }
+            }.edgesIgnoringSafeArea(.top)
             
             if self.appState.isCreateTemplateViewPresented {
                 NavigationView {
@@ -30,6 +30,10 @@ struct ContentView: View {
             } else if self.appState.isNewTemplateViewPresented {
                 NavigationView {
                     LazyView(NewTemplateView())
+                }
+            } else if self.appState.isTemplateDetailViewPresented {
+                NavigationView {
+                    LazyView(TemplateDetailView())
                 }
             }
         }

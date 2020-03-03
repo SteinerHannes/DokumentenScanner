@@ -2,7 +2,7 @@
 //  ScannerView.swift
 //  DocumentenScanner
 //
-//  Created by Hannes Steiner on 28.02.20.
+//  Created by Hannes Steiner on 24.02.20.
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
@@ -12,7 +12,6 @@ import Vision
 import VisionKit
 
 struct ScannerView: UIViewControllerRepresentable {
-    
     @Binding var isActive: Bool
     
     typealias UIViewControllerType = VNDocumentCameraViewController
@@ -41,7 +40,7 @@ struct ScannerView: UIViewControllerRepresentable {
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let completionHandler: (UIImage?) -> Void
         @Binding var isActive: Bool
-        
+
         init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
             self.completionHandler = completion
             self._isActive = isActive
@@ -50,7 +49,6 @@ struct ScannerView: UIViewControllerRepresentable {
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
             print("Document camera view controller did finish with ", scan)
             let image = scan.imageOfPage(at: 0)
-            //self.appState.images.wrappedValue.append(image)
             completionHandler(image)
             self.isActive = false
         }
@@ -67,5 +65,5 @@ struct ScannerView: UIViewControllerRepresentable {
             self.isActive = false
         }
     }
+    
 }
-

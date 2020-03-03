@@ -16,24 +16,48 @@ struct TemplatesView: View {
             VStack(alignment: .leading, spacing: 0) {
                 List {
                     Section {
-                        ForEach(self.appState.templates, id: \.id) { template in
-                            NavigationLink(destination: LazyView(TemplateDetailView(id: template.id))) {
-                                VStack {
-                                    HStack(alignment: .top, spacing: 10) {
-                                        Image(uiImage: template.image!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
-                                        VStack(alignment: .leading, spacing: 5) {
-                                            Text(template.name).font(.headline)
-                                            Text(template.info).font(.system(size: 13))
-                                        }
-                                    }
+                        if self.appState.templates.isEmpty {
+                            HStack(alignment: .center, spacing: 0) {
+                                Spacer()
+                                Text("Keine Vorlagen vorhanden.")
+                                Spacer()
+                            }
+                        }else{
+                            ForEach(self.appState.templates, id: \.id) { template in
+                                Button(action: {
+                                    self.appState.setCurrentImageTemplate(for: template.id)
+                                    self.appState.isTemplateDetailViewPresented = true
+                                }) {
+                                    VStack(alignment: .center, spacing: 0) {
+                                        HStack(alignment: .top, spacing: 10) {
+                                            Image(uiImage: template.image!)
+                                                .renderingMode(.original)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 88, height: 88)
+                                                .layoutPriority(1)
+                                            VStack(alignment: .leading, spacing: 5) {
+                                                Text(template.name).font(.headline)
+                                                    .lineLimit(1)
+                                                Text(template.info).font(.system(size: 13))
+                                                    .lineLimit(4)
+                                            }
+                                                .layoutPriority(1)
+                                            Spacer().frame(minWidth: 0, maxWidth: .infinity)
+                                            Image(systemName: "chevron.right")
+                                                .frame(width: nil, height: 88, alignment: .trailing)
+                                                .font(.system(size: 13, weight: .semibold, design: .default))
+                                                .foregroundColor(.systemFill)
+                                                .layoutPriority(1)
+                                        }.frame(height: 88)
+                                    }.foregroundColor(.label)
                                 }
-                            }.isDetailLink(false)
+                            }
                         }
                     }
                 }
+                .listStyle(GroupedListStyle())
+                .environment(\.horizontalSizeClass, .regular)
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
@@ -44,13 +68,6 @@ struct TemplatesView: View {
 //            }
         }
     }
-//    private func leadingItem() -> some View {
-//        return Button(action: {
-//            self.appState.isCreateTemplateViewPresented = true
-//        }) {
-//            Text("test")
-//        }
-//    }
     
     private func trailingItem() -> some View {
         return Button(action: {
@@ -76,7 +93,7 @@ struct TemplatesView_Previews: PreviewProvider {
 }
 
 //            .sheet(isPresented: self.$isShowingScannerSheet) {
-//                TemplateScannerView(completion: { oriImage in
+//                ScannerView(completion: { oriImage in
 //                    guard oriImage != nil else { return }
 //                    self.image = oriImage
 //                    self.isShowingScannerSheet = false

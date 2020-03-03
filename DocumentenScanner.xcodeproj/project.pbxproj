@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF155884240E95680020B487 /* ActivityIndicator.swift */; };
 		EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* ImageTemplate.swift */; };
 		EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */; };
 		EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EE24082F1600D76CE7 /* BackButton.swift */; };
@@ -20,7 +21,6 @@
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
 		EF61DB75240D70BB0083E0B7 /* ImageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* ImageResult.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
-		EF78DA2F240938AB00FBB1EA /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2E240938AB00FBB1EA /* ScannerView.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
 		EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */; };
 		EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4F2403E3EE008015F3 /* ContentView.swift */; };
@@ -28,7 +28,7 @@
 		EFE31F552403E3F4008015F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F542403E3F4008015F3 /* Preview Assets.xcassets */; };
 		EFE31F582403E3F4008015F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */; };
 		EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F622403E4BD008015F3 /* TemplatesView.swift */; };
-		EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */; };
+		EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* ScannerView.swift */; };
 		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
 		EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */; };
 		EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6C2403F340008015F3 /* OCRView.swift */; };
@@ -36,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF1945EA240804A700D76CE7 /* ImageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTemplate.swift; sourceTree = "<group>"; };
 		EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplateView.swift; sourceTree = "<group>"; };
 		EF1945EE24082F1600D76CE7 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
@@ -50,7 +51,6 @@
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		EF61DB74240D70BB0083E0B7 /* ImageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResult.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
-		EF78DA2E240938AB00FBB1EA /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		EFE31F572403E3F4008015F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFE31F592403E3F4008015F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE31F622403E4BD008015F3 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
-		EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateScannerView.swift; sourceTree = "<group>"; };
+		EFE31F642403E6A3008015F3 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		EFE31F6C2403F340008015F3 /* OCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRView.swift; sourceTree = "<group>"; };
@@ -83,6 +83,8 @@
 			children = (
 				EF4223BE2406792700FF510E /* BottomSheetView.swift */,
 				EF1945EE24082F1600D76CE7 /* BackButton.swift */,
+				EF155884240E95680020B487 /* ActivityIndicator.swift */,
+				EFE31F642403E6A3008015F3 /* ScannerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -108,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */,
-				EF78DA2E240938AB00FBB1EA /* ScannerView.swift */,
 			);
 			path = TemplateDetail;
 			sourceTree = "<group>";
@@ -165,7 +166,6 @@
 			children = (
 				EFE31F622403E4BD008015F3 /* TemplatesView.swift */,
 				EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */,
-				EFE31F642403E6A3008015F3 /* TemplateScannerView.swift */,
 				EFE31F6E24041049008015F3 /* CreateTemplateView.swift */,
 				EF4223C82406A7F500FF510E /* NewAttributView.swift */,
 				EF4223BB2406750600FF510E /* SelectRegionView.swift */,
@@ -295,12 +295,12 @@
 				EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */,
 				EF61DB75240D70BB0083E0B7 /* ImageResult.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
-				EFE31F652403E6A3008015F3 /* TemplateScannerView.swift in Sources */,
+				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
+				EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */,
 				EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */,
-				EF78DA2F240938AB00FBB1EA /* ScannerView.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EF4223C7240692E000FF510E /* AppState.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
