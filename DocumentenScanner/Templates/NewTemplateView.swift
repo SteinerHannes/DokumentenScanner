@@ -50,8 +50,10 @@ struct NewTemplateView: View {
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Template hinzufügen", displayMode: .inline)
+            .resignKeyboardOnDragGesture()
+            
             if self.showCamera {
-                TemplateScannerView(isActive: self.$showCamera, completion: { oriImage in
+                ScannerView(isActive: self.$showCamera, completion: { oriImage in
                     guard oriImage != nil else { return }
                     self.appState.image = oriImage!
                     self.appState.isNewTemplateViewPresented = false

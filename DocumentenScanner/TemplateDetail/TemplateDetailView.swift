@@ -11,10 +11,11 @@ import SwiftUI
 struct TemplateDetailView: View {
     @EnvironmentObject var appState: AppState
     
-    private let id:String
-    init(id: String) {
-        self.id = id
+    private var isLoading: Bool {
+        return self.result.isEmpty && cameraDidFinish
     }
+    
+    @State var cameraDidFinish: Bool = false
     
     @State private var result : [String] = []
     @State private var showCamera : Bool = false
@@ -22,14 +23,13 @@ struct TemplateDetailView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if self.showCamera {
-                TemplateScannerView(isActive: self.$showCamera, completion: { image in
+                ScannerView(isActive: self.$showCamera, completion: { image in
                     self.onCompletion(image: image)
-                })
-                    .edgesIgnoringSafeArea(.all)
+                }).edgesIgnoringSafeArea(.all)
+                .navigationBarHidden(true)
             }else{
                 Form {
                     Section {
-                        Text(id)
                         VStack(alignment: .leading, spacing: 10) {
                             HStack(alignment: .top, spacing: 10) {
                                 Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
@@ -49,15 +49,26 @@ struct TemplateDetailView: View {
                                 TextField(self.appState.currentImageTemplate!.attributeList[index].name, text: self.$result[index])
                             }
                         }
+                    }else if (isLoading){
+                        HStack(alignment: .center, spacing: 0) {
+                            Spacer()
+                            ActivityIndicator(isAnimating: isLoading)
+                                .configure { $0.color = .tertiaryLabel }
+                            Spacer()
+                        }
                     }
                 }
+                .listStyle(GroupedListStyle())
+                .environment(\.horizontalSizeClass, .regular)
+                .resignKeyboardOnDragGesture()
             }
-        }.onAppear{
-            self.appState.setCurrentImageTemplate(for: self.id)
         }
+//        .onAppear{
+//            self.appState.setCurrentImageTemplate(for: self.id)
+//        }
         .navigationBarTitle("\(self.appState.currentImageTemplate?.name ?? "FAIL")", displayMode: .large)
-        .navigationBarItems(trailing: self.newPictureButton())
-        .edgesIgnoringSafeArea(.top)
+            .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
+        .navigationBarBackButtonHidden(true)
     }
     
     fileprivate func newPictureButton() -> some View {
@@ -68,9 +79,18 @@ struct TemplateDetailView: View {
         }
     }
     
+    fileprivate func leadingItem() -> some View {
+        return Button(action: {
+            self.appState.isTemplateDetailViewPresented = false
+        }) {
+           BackButtonView()
+        }
+    }
+    
     fileprivate func onCompletion(image: UIImage?){
         self.showCamera = false
         guard image != nil else { return }
+        self.cameraDidFinish = true
         let imageResults: [ImageResult] = getImageRegions(image: image!)
         TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
             self.result = resultArray
@@ -92,16 +112,12 @@ struct TemplateDetailView: View {
 
             guard let newImage:CGImage = image.cgImage?.cropping(to: proportionalRect)
                 else {
-//                    let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: CGImage())
-//                    results.append(imageResult)
                     continue
             }
 
             let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: newImage)
             results.append(imageResult)
         }
-        print(3)
-        print(results)
         return results
     }
     
@@ -121,6 +137,6 @@ struct TemplateDetailView: View {
 
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TemplateDetailView(id: "String")
+        TemplateDetailView()
     }
 }

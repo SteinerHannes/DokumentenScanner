@@ -42,4 +42,6 @@ final class AppState: ObservableObject {
             template.id == id
         })
     }
+    
+    @Published var isTemplateDetailViewPresented:Bool = false
 }
