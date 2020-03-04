@@ -61,7 +61,7 @@ struct SelectRegionView: View {
     /// Zoom gesture state
     @GestureState var magnificationState = MagnificationState.inactive
     /// Zoom variable
-    @State var viewMagnificationState = CGFloat(1.0)
+    @State var viewMagnificationState: CGFloat = 1.0
     
     /// Drag gesture state for the rectangle
     @GestureState var rectDragState: DragState = DragState.inactive
@@ -178,19 +178,21 @@ struct SelectRegionView: View {
 //            print("point",self.zoomPoint.x)
 //        }))
         
-        return HStack {
+        return VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
                 ZStack(alignment: .topLeading) {
                     Group {
                         Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
+                            .frame(alignment: .center)
                             // MARK: Problem-Ursache Scale wird nicht beachtet!
                             //.resizable()
                             //.scaledToFit()
                             .gesture(longPressDraw)
                             .gesture(imageDragGesture)
                             .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)
+                            .frame(alignment: .topLeading)
                         Rectangle()
-                            .stroke()
+                            .stroke(Color.label, lineWidth: 3)
                             .background(Color.red.opacity(0.1))
                             .frame(width: self.width, height: self.height, alignment: .topLeading)
                             .offset(rectTranslastionOffset)
@@ -198,7 +200,6 @@ struct SelectRegionView: View {
                     }
                     .offset(imageTranslastionOffset)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                 .scaleEffect(magnificationScale, anchor: self.zoomPoint )
                 popOverButton
             }
@@ -208,6 +209,11 @@ struct SelectRegionView: View {
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
         //.navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton(), trailing: saveButton())
+        .onAppear{
+            self.zoomPoint = .topLeading
+            self.viewMagnificationState = (UIScreen.main.bounds.width / (self.appState.image?.size.width ?? 1 ))
+            self.zoomPoint = .center
+        }
     }
     
     private var popOverButton: some View {
@@ -295,8 +301,12 @@ struct SelectRegionView: View {
 
 struct SelectRegionView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            SelectRegionView().environmentObject(AppState())
+        let image = UIImage(imageLiteralResourceName: "post")
+        let appState = AppState()
+        appState.image = image
+        
+        return NavigationView {
+            SelectRegionView().environmentObject(appState)
         }
     }
 }

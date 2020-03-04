@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF155884240E95680020B487 /* ActivityIndicator.swift */; };
+		EF15588B240F01480020B487 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15588A240F01480020B487 /* LazyView.swift */; };
 		EF1945EB240804A700D76CE7 /* ImageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* ImageTemplate.swift */; };
 		EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */; };
 		EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EE24082F1600D76CE7 /* BackButton.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		EF1945EA240804A700D76CE7 /* ImageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTemplate.swift; sourceTree = "<group>"; };
 		EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplateView.swift; sourceTree = "<group>"; };
 		EF1945EE24082F1600D76CE7 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			children = (
 				EF4223C12406797600FF510E /* Colors.swift */,
 				EF4C5B762407E4210047D94B /* DismissKeyboard.swift */,
+				EF15588A240F01480020B487 /* LazyView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 			files = (
 				EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */,
 				EF4223C4240685CE00FF510E /* ImageAttribute.swift in Sources */,
+				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
