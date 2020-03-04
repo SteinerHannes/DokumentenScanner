@@ -15,71 +15,77 @@ struct CreateTemplateView: View {
     @State var isBottomSheetOpen: Bool = true
     @State var isSaveAlertPresented: Bool = false
     
-//    init() {
-//        UITableView.appearance().backgroundColor = .clear // tableview background
-//        //UITableViewCell.appearance().backgroundColor = .clear // cell background
-//    }
+    //    init() {
+    //        UITableView.appearance().backgroundColor = .clear // tableview background
+    //        //UITableViewCell.appearance().backgroundColor = .clear // cell background
+    //    }
     
     private var scale: CGFloat {
-        if self.appState.image?.size.width ?? 1 <= self.appState.image?.size.height ?? 1 {
+        if self.appState.image?.size.width ?? 1 >= self.appState.image?.size.height ?? 1 {
             return (UIScreen.main.bounds.width / (self.appState.image?.size.width ?? 1 ))
         }else{
             return (UIScreen.main.bounds.height / (self.appState.image?.size.height ?? 1 ))
         }
     }
-
+    
+    init(){
+        print("init CreateTemplateView")
+    }
+    
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(alignment: .leading, spacing: 0) {
-                ZStack(alignment: .topLeading) {
-                    Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post")).frame(alignment: .topLeading)
-                    .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)
-                    ForEach(self.appState.attributList) { attribut in
-                        Rectangle()
-                            .frame(width: attribut.width, height: attribut.height, alignment: .topLeading)
-                            .offset(attribut.rectState)
-                            .foregroundColor(Color.gray.opacity(0.9))
-                            .overlay(AttributeNameTag(name: attribut.name)
-                                .frame(width: attribut.width, height: attribut.height)
+        NavigationView {
+            ZStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 0) {
+                    ZStack(alignment: .topLeading) {
+                        Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post")).frame(alignment: .topLeading)
+                            .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)
+                        ForEach(self.appState.attributList) { attribut in
+                            Rectangle()
+                                .frame(width: attribut.width, height: attribut.height, alignment: .topLeading)
                                 .offset(attribut.rectState)
-                        )
-                    }
-                }.scaleEffect(self.scale)
-                Spacer()
-            }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            
-            BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$appState.maxHeight) {
-                List {
-                    Section {
-                        NavigationLink(destination: LazyView(NewAttributView()), isActive: self.$appState.showRoot) {
-                            Text("Neues Attribut hinzufügen").foregroundColor(.blue)
-                        }.isDetailLink(false)
-                    }
-                    Section {
-                        ForEach(self.appState.attributList, id: \.id) { attribut in
-                            Text(attribut.name)
-                                .contextMenu {
-                                    Button(action: {
-                                        self.deleteAttribute(for: attribut.id)
-                                    }) {
-                                        // MARK: no effect
-                                        Text("Löschen").font(.system(size: 15))
-                                        Image(systemName: "trash").font(.system(size: 15))
-                                            .foregroundColor(.red)
-                                    }
+                                .foregroundColor(Color.gray.opacity(0.9))
+                                .overlay(AttributeNameTag(name: attribut.name)
+                                    .frame(width: attribut.width, height: attribut.height)
+                                    .offset(attribut.rectState)
+                            )
+                        }
+                    }.scaleEffect(self.scale)
+                    Spacer()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                
+                BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$appState.maxHeight) {
+                    List {
+                        Section {
+                            NavigationLink(destination: NewAttributView(), isActive: self.$appState.showRoot) {
+                                Text("Neues Attribut hinzufügen").foregroundColor(.blue)
+                            }.isDetailLink(false)
+                        }
+                        Section {
+                            ForEach(self.appState.attributList, id: \.id) { attribut in
+                                Text(attribut.name)
+                                    .contextMenu {
+                                        Button(action: {
+                                            self.deleteAttribute(for: attribut.id)
+                                        }) {
+                                            // MARK: no effect
+                                            Text("Löschen").font(.system(size: 15))
+                                            Image(systemName: "trash").font(.system(size: 15))
+                                                .foregroundColor(.red)
+                                        }
+                                }
                             }
                         }
                     }
+                    .listStyle(GroupedListStyle())
+                    .environment(\.horizontalSizeClass, .regular)
                 }
-                .listStyle(GroupedListStyle())
-                .environment(\.horizontalSizeClass, .regular)
+                .edgesIgnoringSafeArea(.bottom)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
+            .navigationBarItems(leading: cancelButton(), trailing: saveButton())
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         }
-        .navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
-        .navigationBarItems(leading: cancelButton(), trailing: saveButton())
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }
     
     func deleteAttribute(for id: String){
@@ -110,11 +116,11 @@ struct CreateTemplateView: View {
                 template.image = image
                 self.appState.templates.append(template)
                 self.appState.reset()
-//
-//                print(self.appState.templates[0].attributeList[0])
-//                print(self.appState.templates[0].image!.size)
-//                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil);
-//
+                //
+                //                print(self.appState.templates[0].attributeList[0])
+                //                print(self.appState.templates[0].image!.size)
+                //                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil);
+                //
             } else {
                 self.isSaveAlertPresented = true
             }

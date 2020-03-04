@@ -10,12 +10,16 @@ import SwiftUI
 
 struct NewAttributView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
+    //@Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
     @State var name: String = ""
     @State var datatype: Int = 0
     @State var isShowingNextAlert: Bool = false
     @State var isShowingBackAlert: Bool = false
+    
+    init(){
+        print("init NewAttributView")
+    }
     
     var body: some View {
         VStack {
@@ -35,7 +39,7 @@ struct NewAttributView: View {
                 }
                 Section {
                     VStack {
-                        NavigationLink(destination: LazyView(SelectRegionView())) {
+                        NavigationLink(destination: SelectRegionView()) {
                             Text("Bereich auswählen").foregroundColor(.blue)
                         }
                         .isDetailLink(false)
@@ -76,7 +80,7 @@ struct NewAttributView: View {
             if  !self.name.isEmpty {
                 self.isShowingBackAlert = true
             } else {
-                self.presentation.wrappedValue.dismiss()
+//                self.presentation.wrappedValue.dismiss()
             }
         }) {
             BackButtonView()
@@ -85,7 +89,7 @@ struct NewAttributView: View {
                   message: nil,
                   primaryButton: .cancel(Text("Abbrechen")),
                   secondaryButton: .destructive(Text("Ja"), action: {
-                    self.presentation.wrappedValue.dismiss()
+//                    self.presentation.wrappedValue.dismiss()
                   }
                 )
             )

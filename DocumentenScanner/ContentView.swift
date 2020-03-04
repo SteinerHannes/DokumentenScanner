@@ -12,29 +12,29 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedView: Int = 0
     
+    init(){
+        print("init ContentView")
+    }
+    
     var body: some View {
-        ZStack {
-            TabView(selection: self.$selectedView) {
-                TemplatesView().tabItem {
-                    Text("Templates")
-                }.tag(0)
-                OCRView().tabItem {
-                    Text("OCRScanner")
-                }.tag(1)
-            }.edgesIgnoringSafeArea(.top)
-            
+        VStack(alignment: .leading, spacing: 0) {
             if self.appState.isCreateTemplateViewPresented {
-                NavigationView {
-                    LazyView(CreateTemplateView())
-                }
+                CreateTemplateView()
             } else if self.appState.isNewTemplateViewPresented {
-                NavigationView {
-                    LazyView(NewTemplateView())
-                }
+                NewTemplateView()
             } else if self.appState.isTemplateDetailViewPresented {
-                NavigationView {
-                    LazyView(TemplateDetailView())
-                }
+                TemplateDetailView()
+            }else{
+                TabView(selection: self.$selectedView) {
+                    TemplatesView().tabItem {
+                        Text("Templates")
+                        Image(systemName: "doc.richtext")
+                    }.tag(0)
+                    OCRView().tabItem {
+                        Text("OCRScanner")
+                        Image(systemName: "doc.plaintext")
+                    }.tag(1)
+                }.edgesIgnoringSafeArea(.top)
             }
         }
     }

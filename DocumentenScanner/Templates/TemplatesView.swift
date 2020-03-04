@@ -11,6 +11,10 @@ import SwiftUI
 struct TemplatesView: View {
     @EnvironmentObject var appState: AppState
     
+    init(){
+        print("init TemplatesView")
+    }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {

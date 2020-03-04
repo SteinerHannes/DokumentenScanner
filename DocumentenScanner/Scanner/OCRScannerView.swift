@@ -16,6 +16,7 @@ struct OCRScannerView: UIViewControllerRepresentable {
     
     init(completion: @escaping ([String]?) -> Void) {
         self.completionHandler = completion
+        print("init OCRScannerView")
     }
     
     typealias UIViewControllerType = VNDocumentCameraViewController
@@ -40,7 +41,7 @@ struct OCRScannerView: UIViewControllerRepresentable {
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-            print("Document camera view controller did finish with ", scan)
+//            print("Document camera view controller did finish with ", scan)
             let recognizer = TextRecognizer(cameraScan: scan)
             recognizer.recognizeText(withCompletionHandler: completionHandler)
         }
@@ -50,7 +51,7 @@ struct OCRScannerView: UIViewControllerRepresentable {
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-            print("Document camera view controller did finish with error ", error)
+//            print("Document camera view controller did finish with error ", error)
             completionHandler(nil)
         }
     }

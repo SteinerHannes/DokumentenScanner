@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SelectRegionView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
@@ -103,6 +102,10 @@ struct SelectRegionView: View {
     @State var isNoRectSet: Bool = false
     
     @State var zoomPoint: UnitPoint = .center
+    
+    init(){
+        print("init SelectRegionView")
+    }
     
     var body: some View {
         let rectDragGesture = DragGesture()
@@ -267,7 +270,7 @@ struct SelectRegionView: View {
     
     private func backButton() -> some View {
         Button(action: {
-            self.presentation.wrappedValue.dismiss()
+//            self.presentation.wrappedValue.dismiss()
         }) {
             BackButtonView()
         }

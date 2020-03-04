@@ -19,6 +19,7 @@ struct ScannerView: UIViewControllerRepresentable {
     private let completionHandler: (UIImage?) -> Void
     
     init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
+        print("init ScannerView")
         self.completionHandler = completion
         self._isActive = isActive
     }
@@ -30,7 +31,7 @@ struct ScannerView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: UIViewControllerRepresentableContext<ScannerView>) {
-        print("updateVC")
+//        print("updateVC")
     }
     
     func makeCoordinator() -> Coordinator {
@@ -47,20 +48,20 @@ struct ScannerView: UIViewControllerRepresentable {
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-            print("Document camera view controller did finish with ", scan)
+//            print("Document camera view controller did finish with ", scan)
             let image = scan.imageOfPage(at: 0)
             completionHandler(image)
             self.isActive = false
         }
         
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            print("Document camera view controller did cancel")
+//            print("Document camera view controller did cancel")
             completionHandler(nil)
             self.isActive = false
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-            print("Document camera view controller did finish with error ", error)
+//            print("Document camera view controller did finish with error ", error)
             completionHandler(nil)
             self.isActive = false
         }

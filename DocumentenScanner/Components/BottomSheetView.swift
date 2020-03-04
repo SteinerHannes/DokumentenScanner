@@ -68,20 +68,20 @@ struct BottomSheetView<Content: View>: View {
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.height
-                    print(value.translation.height)
+//                    print(value.translation.height)
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * Constants.snapRatio
                     guard abs(value.translation.height) > snapDistance else {
                         return
                     }
                     if !self.isOpen {
-                        print(value.translation.height)
+//                        print(value.translation.height)
                         self.isOpen = value.translation.height < 0
-                        print(value.translation.height < 0)
+//                        print(value.translation.height < 0)
                     } else {
-                        print(value.translation.height)
+//                        print(value.translation.height)
                         self.isOpen = !(value.translation.height > 0)
-                        print(value.translation.height > 0)
+//                        print(value.translation.height > 0)
                     }
                 }
             )

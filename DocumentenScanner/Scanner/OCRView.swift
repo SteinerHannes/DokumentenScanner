@@ -12,6 +12,10 @@ struct OCRView: View {
     @State private var isShowingScannerSheet = false
     @State private var text: String = ""
     
+    init(){
+        print("init OCRView")
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {

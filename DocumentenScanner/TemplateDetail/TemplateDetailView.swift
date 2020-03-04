@@ -20,55 +20,61 @@ struct TemplateDetailView: View {
     @State private var result : [String] = []
     @State private var showCamera : Bool = false
     
+    init(){
+        print("init TemplateDetailView")
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if self.showCamera {
-                ScannerView(isActive: self.$showCamera, completion: { image in
-                    self.onCompletion(image: image)
-                }).edgesIgnoringSafeArea(.all)
-                .navigationBarHidden(true)
-            }else{
-                Form {
-                    Section {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack(alignment: .top, spacing: 10) {
-                                Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(self.appState.currentImageTemplate?.name ?? "").font(.headline)
-                                    Text(self.appState.currentImageTemplate?.info ?? "").font(.system(size: 13))
+        NavigationView{
+            VStack(alignment: .leading, spacing: 0) {
+                if self.showCamera {
+                    ScannerView(isActive: self.$showCamera, completion: { image in
+                        self.onCompletion(image: image)
+                    }).edgesIgnoringSafeArea(.all)
+                        .navigationBarHidden(true)
+                }else{
+                    Form {
+                        Section {
+                            VStack(alignment: .leading, spacing: 10) {
+                                HStack(alignment: .top, spacing: 10) {
+                                    Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(self.appState.currentImageTemplate?.name ?? "").font(.headline)
+                                        Text(self.appState.currentImageTemplate?.info ?? "").font(.system(size: 13))
+                                    }
                                 }
                             }
                         }
-                    }
-                    if(!result.isEmpty){
-                        ForEach(0..<result.count) { index in
-                            Section(header: Text(self.appState.currentImageTemplate!.attributeList[index].name)) {
-                                TextField(self.appState.currentImageTemplate!.attributeList[index].name, text: self.$result[index])
+                        if(!result.isEmpty){
+                            ForEach(0..<result.count) { index in
+                                Section(header: Text(self.appState.currentImageTemplate!.attributeList[index].name)) {
+                                    TextField(self.appState.currentImageTemplate!.attributeList[index].name, text: self.$result[index])
+                                }
+                            }
+                        }else if (isLoading){
+                            HStack(alignment: .center, spacing: 0) {
+                                Spacer()
+                                ActivityIndicator(isAnimating: isLoading)
+                                    .configure { $0.color = .tertiaryLabel }
+                                Spacer()
                             }
                         }
-                    }else if (isLoading){
-                        HStack(alignment: .center, spacing: 0) {
-                            Spacer()
-                            ActivityIndicator(isAnimating: isLoading)
-                                .configure { $0.color = .tertiaryLabel }
-                            Spacer()
-                        }
                     }
+                    .listStyle(GroupedListStyle())
+                    .environment(\.horizontalSizeClass, .regular)
+                    .resignKeyboardOnDragGesture()
                 }
-                .listStyle(GroupedListStyle())
-                .environment(\.horizontalSizeClass, .regular)
-                .resignKeyboardOnDragGesture()
             }
+                //        .onAppear{
+                //            self.appState.setCurrentImageTemplate(for: self.id)
+                //        }
+                .navigationBarTitle("\(self.appState.currentImageTemplate?.name ?? "FAIL")", displayMode: .large)
+                .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
+                .navigationBarBackButtonHidden(true)
         }
-//        .onAppear{
-//            self.appState.setCurrentImageTemplate(for: self.id)
-//        }
-        .navigationBarTitle("\(self.appState.currentImageTemplate?.name ?? "FAIL")", displayMode: .large)
-            .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
-        .navigationBarBackButtonHidden(true)
     }
     
     fileprivate func newPictureButton() -> some View {
@@ -83,7 +89,7 @@ struct TemplateDetailView: View {
         return Button(action: {
             self.appState.isTemplateDetailViewPresented = false
         }) {
-           BackButtonView()
+            BackButtonView()
         }
     }
     
@@ -107,14 +113,14 @@ struct TemplateDetailView: View {
             let height = attribute.height
             let templateRect = CGRect(x: templateSize.width, y: templateSize.height, width:  width, height: height)
             let templateImage = self.appState.currentImageTemplate!.image!
-
+            
             let proportionalRect = newProportionalRect(templateImage: templateImage, newImage: image, templateRect: templateRect)
-
+            
             guard let newImage:CGImage = image.cgImage?.cropping(to: proportionalRect)
                 else {
                     continue
             }
-
+            
             let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: newImage)
             results.append(imageResult)
         }
