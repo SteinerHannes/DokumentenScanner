@@ -33,6 +33,7 @@ struct CreateTemplateView: View {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
                     Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post")).frame(alignment: .topLeading)
+                    .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)
                     ForEach(self.appState.attributList) { attribut in
                         Rectangle()
                             .frame(width: attribut.width, height: attribut.height, alignment: .topLeading)
