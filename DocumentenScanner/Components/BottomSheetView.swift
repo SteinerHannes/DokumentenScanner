@@ -11,7 +11,6 @@ import SwiftUI
 private enum Constants {
     static let radius: CGFloat = 16
     static let snapRatio: CGFloat = 0.30
-    static let minHeightRatio: CGFloat = 0.3
 }
 
 struct BottomSheetView<Content: View>: View {
@@ -97,7 +96,7 @@ struct BottomSheetView<Content: View>: View {
 
 struct BottomSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        BottomSheetView(isOpen: .constant(true), maxHeight: .constant(600)) {
+        return BottomSheetView(isOpen: .constant(true), maxHeight: .constant(200)) {
             Rectangle().fill(Color.systemFill)
         }
         .edgesIgnoringSafeArea(.all)

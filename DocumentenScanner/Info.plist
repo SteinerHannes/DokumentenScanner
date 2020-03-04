@@ -24,8 +24,6 @@
 	<string>Scanning</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Bla</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Bla2</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -49,6 +47,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
