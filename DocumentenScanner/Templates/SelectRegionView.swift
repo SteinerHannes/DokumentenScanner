@@ -193,7 +193,7 @@ struct SelectRegionView: View {
                             .frame(alignment: .topLeading)
                         Rectangle()
                             .stroke(Color.label, lineWidth: 3)
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.blue.opacity(0.1))
                             .frame(width: self.width, height: self.height, alignment: .topLeading)
                             .offset(rectTranslastionOffset)
                             .gesture(rectDragGesture)
