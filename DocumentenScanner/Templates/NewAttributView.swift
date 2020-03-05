@@ -44,7 +44,7 @@ struct NewAttributView: View {
                         }
                         .isDetailLink(false)
                         .onDisappear {
-                            self.appState.currentAttribut = ImageAttribute(name: self.name, datatype: self.datatype)
+                            self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
                         }
 //                        .alert(isPresented: self.$isShowingNextAlert) {
 //                            Alert(title: Text("Name ist leer"), message: Text("Setze einen Namen bevor du fortfährst"), dismissButton: .cancel(Text("Ok")) )
@@ -53,14 +53,14 @@ struct NewAttributView: View {
 //                            if (self.name.isEmpty){
 //                                self.isShowingNextAlert = true
 //                            }else{
-//                                self.appState.currentAttribut = ImageAttribute(name: self.name, datatype: self.datatype)
+//                                self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
 //                            }
 //                        })
 //                        .simultaneousGesture(LongPressGesture().onEnded{ _ in
 //                            if (self.name.isEmpty){
 //                                self.isShowingNextAlert = true
 //                            }else{
-//                                self.appState.currentAttribut = ImageAttribute(name: self.name, datatype: self.datatype)
+//                                self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
 //                            }
 //                        })
                     }

@@ -12,12 +12,12 @@ struct TemplateDetailView: View {
     @EnvironmentObject var appState: AppState
     
     private var isLoading: Bool {
-        return self.result.isEmpty && cameraDidFinish
+        return (self.result.isEmpty && !cameraDidFinish)
     }
     
     @State var cameraDidFinish: Bool = false
     
-    @State private var result : [String] = []
+    @State private var result : [[String]] = []
     @State private var showCamera : Bool = false
     
     init(){
@@ -28,8 +28,8 @@ struct TemplateDetailView: View {
         NavigationView{
             VStack(alignment: .leading, spacing: 0) {
                 if self.showCamera {
-                    ScannerView(isActive: self.$showCamera, completion: { image in
-                        self.onCompletion(image: image)
+                    ScannerView(isActive: self.$showCamera, completion: { pages in
+                        self.onCompletion(pages: pages)
                     }).edgesIgnoringSafeArea(.all)
                         .navigationBarHidden(true)
                 }else{
@@ -37,21 +37,34 @@ struct TemplateDetailView: View {
                         Section {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .top, spacing: 10) {
-                                    Image(uiImage: self.appState.currentImageTemplate?.image ?? UIImage(imageLiteralResourceName: "post"))
+                                    Image(uiImage: self.appState.currentTemplate!.pages[0].image)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text(self.appState.currentImageTemplate?.name ?? "").font(.headline)
-                                        Text(self.appState.currentImageTemplate?.info ?? "").font(.system(size: 13))
+                                        Text(self.appState.currentTemplate!.name).font(.headline)
+                                        Text(self.appState.currentTemplate!.info).font(.system(size: 13))
                                     }
                                 }
                             }
                         }
-                        if(!result.isEmpty){
-                            ForEach(0..<result.count) { index in
-                                Section(header: Text(self.appState.currentImageTemplate!.attributeList[index].name)) {
-                                    TextField(self.appState.currentImageTemplate!.attributeList[index].name, text: self.$result[index])
+                        if(!isLoading){
+                            ForEach (0..<self.appState.currentTemplate!.pages.count) { index in
+                                Section {
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        HStack(alignment: .top, spacing: 10) {
+                                            Image(uiImage: self.appState.currentTemplate!.pages[index].image)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                        }
+                                    }
+                                    ForEach(0..<self.appState.currentTemplate!.pages[index].regions.count){ regionIndex in
+                                        Text("\(self.appState.currentTemplate!.pages[index].regions[regionIndex].name):")
+                                        if(index < self.result.count){
+                                            TextField("", text: self.$result[index][regionIndex])
+                                        }
+                                    }
                                 }
                             }
                         }else if (isLoading){
@@ -68,12 +81,9 @@ struct TemplateDetailView: View {
                     .resignKeyboardOnDragGesture()
                 }
             }
-                //        .onAppear{
-                //            self.appState.setCurrentImageTemplate(for: self.id)
-                //        }
-                .navigationBarTitle("\(self.appState.currentImageTemplate?.name ?? "FAIL")", displayMode: .large)
-                .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
-                .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("\(self.appState.currentTemplate?.name ?? "FAIL")", displayMode: .large)
+            .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
+            .navigationBarBackButtonHidden(true)
         }
     }
     
@@ -93,26 +103,35 @@ struct TemplateDetailView: View {
         }
     }
     
-    fileprivate func onCompletion(image: UIImage?){
+    fileprivate func onCompletion(pages: [Page]?){
         self.showCamera = false
-        guard image != nil else { return }
-        self.cameraDidFinish = true
-        let imageResults: [ImageResult] = getImageRegions(image: image!)
-        TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
-            self.result = resultArray
+        guard pages != nil else { return }
+        if pages!.count == self.appState.currentTemplate!.pages.count {
+            for page in pages! {
+                print(page.id)
+                let imageResults: [PageResult] = getPageRegions(page: page)
+                TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
+                    self.result.append(resultArray)
+                    if page.id == pages!.count {
+                        print("Finish")
+                        print(self.result)
+//                        while(self.result[page.id].count != self.appState.currentTemplate!.pages[page.id].regions.count) { }
+                        self.cameraDidFinish = true
+                    }
+                }
+            }
         }
     }
     
-    fileprivate func getImageRegions(image: UIImage) -> [ImageResult] {
-        var results: [ImageResult] = []
-        
-        for attribute in self.appState.currentImageTemplate!.attributeList {
-            
-            let templateSize = attribute.rectState
-            let width = attribute.width
-            let height = attribute.height
+    fileprivate func getPageRegions(page: Page) -> [PageResult] {
+        var results: [PageResult] = []
+        for region in self.appState.currentTemplate!.pages[page.id].regions {
+            let templateSize = region.rectState
+            let width = region.width
+            let height = region.height
             let templateRect = CGRect(x: templateSize.width, y: templateSize.height, width:  width, height: height)
-            let templateImage = self.appState.currentImageTemplate!.image!
+            let templateImage = self.appState.currentTemplate!.pages[page.id].image
+            let image = page.image
             
             let proportionalRect = newProportionalRect(templateImage: templateImage, newImage: image, templateRect: templateRect)
             
@@ -121,7 +140,7 @@ struct TemplateDetailView: View {
                     continue
             }
             
-            let imageResult: ImageResult = ImageResult(imageAttributeName: attribute.name, regionImage: newImage)
+            let imageResult: PageResult = PageResult(imageAttributeName: region.name, regionImage: newImage)
             results.append(imageResult)
         }
         return results

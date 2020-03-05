@@ -18,8 +18,8 @@ struct ContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if self.appState.isCreateTemplateViewPresented {
-                CreateTemplateView()
+            if self.appState.isPageSelectViewPresented {
+                PageSelectView()
             } else if self.appState.isNewTemplateViewPresented {
                 NewTemplateView()
             } else if self.appState.isTemplateDetailViewPresented {

@@ -42,9 +42,9 @@ final class TextRecognizer {
 }
 
 final class TextRegionRecognizer {
-    let imageResults: [ImageResult]
+    let imageResults: [PageResult]
     
-    init(imageResults: [ImageResult]) {
+    init(imageResults: [PageResult]) {
         self.imageResults = imageResults
     }
     

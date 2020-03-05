@@ -16,9 +16,9 @@ struct ScannerView: UIViewControllerRepresentable {
     
     typealias UIViewControllerType = VNDocumentCameraViewController
     
-    private let completionHandler: (UIImage?) -> Void
+    private let completionHandler: ([Page]?) -> Void
     
-    init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
+    init(isActive: Binding<Bool>, completion: @escaping ([Page]?) -> Void) {
         print("init ScannerView")
         self.completionHandler = completion
         self._isActive = isActive
@@ -39,18 +39,23 @@ struct ScannerView: UIViewControllerRepresentable {
     }
     
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
-        private let completionHandler: (UIImage?) -> Void
+        private let completionHandler: ([Page]?) -> Void
         @Binding var isActive: Bool
 
-        init(isActive: Binding<Bool>, completion: @escaping (UIImage?) -> Void) {
+        init(isActive: Binding<Bool>, completion: @escaping ([Page]?) -> Void) {
             self.completionHandler = completion
             self._isActive = isActive
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
 //            print("Document camera view controller did finish with ", scan)
-            let image = scan.imageOfPage(at: 0)
-            completionHandler(image)
+            var pages: [Page] = []
+            
+            for index in 0..<scan.pageCount {
+                pages.append(Page(id: index, image: scan.imageOfPage(at: index)))
+            }
+
+            completionHandler(pages)
             self.isActive = false
         }
         
