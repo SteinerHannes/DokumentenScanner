@@ -9,15 +9,13 @@
 import Foundation
 import VisionKit
 
-struct ImageTemplate: Identifiable {
+struct Template: Identifiable {
+    /// The unique id of the template
     public var id: String = UUID().uuidString
-    public var attributeList: [ImageAttribute] = []
-    public var image: UIImage?
+    /// The name of the template
     public var name: String = "Klausur"
+    /// The info text of the template
     public var info: String = "Bla bla zusätzliche Infos, die sicher ganz intressant sein könnten, oder uach nicht, wer weiß das schon"
-    
-//    init(attributeList:[ImageAttribute],image:UIImage) {
-//        self.attributeList = attributeList
-//        self.image = image
-//    }
+    /// The pages of the template/document
+    public var pages: [Page] = []
 }

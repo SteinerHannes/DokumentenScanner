@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SelectRegionView: View {
     @EnvironmentObject var appState: AppState
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
@@ -205,6 +206,7 @@ struct SelectRegionView: View {
                 }
                 .scaleEffect(magnificationScale, anchor: self.zoomPoint )
                 popOverButton
+                    .frame(alignment: .bottomTrailing)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -270,7 +272,7 @@ struct SelectRegionView: View {
     
     private func backButton() -> some View {
         Button(action: {
-//            self.presentation.wrappedValue.dismiss()
+            self.presentation.wrappedValue.dismiss()
         }) {
             BackButtonView()
         }
@@ -287,7 +289,7 @@ struct SelectRegionView: View {
                 self.appState.currentAttribut!.height = self.height
                 self.appState.currentAttribut!.width = self.width
                 self.appState.currentAttribut!.rectState = self.rectState
-                self.appState.attributList.append(self.appState.currentAttribut!)
+                self.appState.currentTemplate!.pages[self.appState.currentPage!].regions.append(self.appState.currentAttribut!)
                 self.appState.currentAttribut = nil
                 self.appState.showRoot = false
             }

@@ -33,10 +33,10 @@ struct NewTemplateView: View {
                             if self.name.isEmpty {
                                 // MARK: Alert -> showAlert
                             } else {
-                                var template = ImageTemplate()
+                                var template = Template()
                                 template.name = self.name
                                 template.info = self.info
-                                self.appState.currentImageTemplate = template
+                                self.appState.currentTemplate = template
                                 UIApplication.shared.endEditing(true)
                                 self.showCamera = true
                             }
@@ -57,11 +57,11 @@ struct NewTemplateView: View {
                 .resignKeyboardOnDragGesture()
                 
                 if self.showCamera {
-                    ScannerView(isActive: self.$showCamera, completion: { oriImage in
-                        guard oriImage != nil else { return }
-                        self.appState.image = oriImage!
+                    ScannerView(isActive: self.$showCamera, completion: { pages in
+                        guard pages != nil else { return }
+                        self.appState.currentTemplate!.pages = pages!
                         self.appState.isNewTemplateViewPresented = false
-                        self.appState.isCreateTemplateViewPresented = true
+                        self.appState.isPageSelectViewPresented = true
                     })
                         .edgesIgnoringSafeArea(.all)
                 }

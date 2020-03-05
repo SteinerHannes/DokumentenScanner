@@ -29,12 +29,12 @@ struct TemplatesView: View {
                         }else{
                             ForEach(self.appState.templates, id: \.id) { template in
                                 Button(action: {
-                                    self.appState.setCurrentImageTemplate(for: template.id)
+                                    self.appState.setCurrentTemplate(for: template.id)
                                     self.appState.isTemplateDetailViewPresented = true
                                 }) {
                                     VStack(alignment: .center, spacing: 0) {
                                         HStack(alignment: .top, spacing: 10) {
-                                            Image(uiImage: template.image!)
+                                            Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
                                                 .renderingMode(.original)
                                                 .resizable()
                                                 .scaledToFit()
