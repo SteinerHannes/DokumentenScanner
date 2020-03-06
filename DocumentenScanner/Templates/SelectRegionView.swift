@@ -175,7 +175,8 @@ struct SelectRegionView: View {
                 state = .zooming(scale: value)
             }.onEnded { value in
                 // set the zoom level
-                self.viewMagnificationState *= value
+                self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1,5), 0.06)
+                print(self.viewMagnificationState)
             }
 //        .simultaneously(with: DragGesture(minimumDistance: 0, coordinateSpace: .local).onChanged({ value in
 //            self.zoomPoint = UnitPoint(x: value.startLocation.x, y: value.startLocation.y)
@@ -188,9 +189,6 @@ struct SelectRegionView: View {
                     Group {
                         Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
                             .frame(alignment: .center)
-                            // MARK: Problem-Ursache Scale wird nicht beachtet!
-                            //.resizable()
-                            //.scaledToFit()
                             .gesture(longPressDraw)
                             .gesture(imageDragGesture)
                             .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)

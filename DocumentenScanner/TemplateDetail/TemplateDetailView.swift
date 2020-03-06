@@ -38,14 +38,20 @@ struct TemplateDetailView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .top, spacing: 10) {
                                     Image(uiImage: self.appState.currentTemplate!.pages[0].image)
+                                        .renderingMode(.original)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                        .frame(width: 88, height: 88)
+                                        .layoutPriority(1)
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text(self.appState.currentTemplate!.name).font(.headline)
-                                        Text(self.appState.currentTemplate!.info).font(.system(size: 13))
+                                        Text(self.appState.currentTemplate!.name)
+                                            .font(.headline)
+                                            .lineLimit(1)
+                                        Text(self.appState.currentTemplate!.info)
+                                            .font(.system(size: 13))
+                                            .lineLimit(4)
                                     }
-                                }
+                                }.frame(height: 88)
                             }
                         }
                         if(!isLoading){
@@ -57,12 +63,29 @@ struct TemplateDetailView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                            VStack(alignment: .leading, spacing: 5) {
+                                                Text(self.pageInfo(index: index))
+                                                    .font(.headline)
+                                                    .lineLimit(1)
+                                                Text(self.regionInfo(index: index))
+                                                    .font(.system(size: 13))
+                                                    .lineLimit(4)
+                                            }
                                         }
                                     }
                                     ForEach(0..<self.appState.currentTemplate!.pages[index].regions.count){ regionIndex in
-                                        Text("\(self.appState.currentTemplate!.pages[index].regions[regionIndex].name):")
                                         if(index < self.result.count){
-                                            TextField("", text: self.$result[index][regionIndex])
+                                            if( regionIndex < self.result[index].count){
+                                                Text("\(self.appState.currentTemplate!.pages[index].regions[regionIndex].name):").font(.headline)
+                                                TextField("", text: self.$result[index][regionIndex])
+                                            }else{
+                                                HStack(alignment: .center, spacing: 0) {
+                                                    Spacer()
+                                                    ActivityIndicator(isAnimating: true)
+                                                        .configure { $0.color = .tertiaryLabel }
+                                                    Spacer()
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -87,9 +110,20 @@ struct TemplateDetailView: View {
         }
     }
     
+    fileprivate func regionInfo(index: Int) -> String {
+        return self.appState.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
+            return regeion.name
+        }).joined(separator: ", ")
+    }
+    
+    fileprivate func pageInfo(index: Int) -> String {
+        return "Seite \(index+1) von \(self.appState.currentTemplate!.pages.count)"
+    }
+    
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
+            self.cameraDidFinish = false
         }){
             Text("Neues Bild")
         }
@@ -105,17 +139,16 @@ struct TemplateDetailView: View {
     
     fileprivate func onCompletion(pages: [Page]?){
         self.showCamera = false
+        self.cameraDidFinish = false
+        self.result = []
         guard pages != nil else { return }
         if pages!.count == self.appState.currentTemplate!.pages.count {
             for page in pages! {
-                print(page.id)
+                self.result.append([])
                 let imageResults: [PageResult] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
-                    self.result.append(resultArray)
-                    if page.id == pages!.count {
-                        print("Finish")
-                        print(self.result)
-//                        while(self.result[page.id].count != self.appState.currentTemplate!.pages[page.id].regions.count) { }
+                    self.result[page.id] = resultArray
+                    if page.id == pages!.count - 1 {
                         self.cameraDidFinish = true
                     }
                 }
