@@ -8,20 +8,21 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct NewTemplateView: View {
     @EnvironmentObject var appState: AppState
-    
+
     @State var name: String = ""
     @State var info: String = ""
     @State var showCamera: Bool = false
     @State var showAlert: Bool = false
-    
-    init(){
+
+    init() {
         print("init NewTemplateView")
     }
-    
+
     var body: some View {
-        NavigationView{
+        NavigationView {
             ZStack {
                 Form {
                     Section {
@@ -55,7 +56,7 @@ struct NewTemplateView: View {
                 .environment(\.horizontalSizeClass, .regular)
                 .navigationBarTitle("Template hinzufügen", displayMode: .inline)
                 .resignKeyboardOnDragGesture()
-                
+
                 if self.showCamera {
                     ScannerView(isActive: self.$showCamera, completion: { pages in
                         guard pages != nil else { return }
@@ -70,7 +71,7 @@ struct NewTemplateView: View {
             .navigationBarHidden(self.showCamera)
         }
     }
-    
+
     private func backButton() -> some View {
         return Button(action: {
             if !self.name.isEmpty {

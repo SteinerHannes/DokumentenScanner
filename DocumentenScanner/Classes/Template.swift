@@ -13,9 +13,9 @@ struct Template: Identifiable {
     /// The unique id of the template
     public var id: String = UUID().uuidString
     /// The name of the template
-    public var name: String = "Klausur"
+    public var name: String = ""
     /// The info text of the template
-    public var info: String = "Bla bla zusätzliche Infos, die sicher ganz intressant sein könnten, oder uach nicht, wer weiß das schon"
+    public var info: String = ""
     /// The pages of the template/document
     public var pages: [Page] = []
 }

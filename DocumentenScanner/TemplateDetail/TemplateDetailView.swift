@@ -8,31 +8,32 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplateDetailView: View {
     @EnvironmentObject var appState: AppState
-    
+
     private var isLoading: Bool {
         return (self.result.isEmpty && !cameraDidFinish)
     }
-    
+
     @State var cameraDidFinish: Bool = false
-    
+
     @State private var result : [[String]] = []
     @State private var showCamera : Bool = false
-    
-    init(){
+
+    init() {
         print("init TemplateDetailView")
     }
-    
+
     var body: some View {
-        NavigationView{
+        NavigationView {
             VStack(alignment: .leading, spacing: 0) {
                 if self.showCamera {
                     ScannerView(isActive: self.$showCamera, completion: { pages in
                         self.onCompletion(pages: pages)
                     }).edgesIgnoringSafeArea(.all)
                         .navigationBarHidden(true)
-                }else{
+                } else {
                     Form {
                         Section {
                             VStack(alignment: .leading, spacing: 10) {
@@ -54,15 +55,15 @@ struct TemplateDetailView: View {
                                 }.frame(height: 88)
                             }
                         }
-                        if(!isLoading){
-                            ForEach (0..<self.appState.currentTemplate!.pages.count) { index in
+                        if(!isLoading) {
+                            ForEach(0..<self.appState.currentTemplate!.pages.count) { index in
                                 Section {
                                     VStack(alignment: .leading, spacing: 10) {
                                         HStack(alignment: .top, spacing: 10) {
                                             Image(uiImage: self.appState.currentTemplate!.pages[index].image)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, idealHeight: 88, maxHeight: 88)
+                                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, maxHeight: 88)
                                             VStack(alignment: .leading, spacing: 5) {
                                                 Text(self.pageInfo(index: index))
                                                     .font(.headline)
@@ -73,12 +74,13 @@ struct TemplateDetailView: View {
                                             }
                                         }
                                     }
-                                    ForEach(0..<self.appState.currentTemplate!.pages[index].regions.count){ regionIndex in
-                                        if(index < self.result.count){
-                                            if( regionIndex < self.result[index].count){
+                                    //swiftlint:disable line_length
+                                    ForEach(0..<self.appState.currentTemplate!.pages[index].regions.count) { regionIndex in
+                                        if(index < self.result.count) {
+                                            if( regionIndex < self.result[index].count) {
                                                 Text("\(self.appState.currentTemplate!.pages[index].regions[regionIndex].name):").font(.headline)
                                                 TextField("", text: self.$result[index][regionIndex])
-                                            }else{
+                                            } else {
                                                 HStack(alignment: .center, spacing: 0) {
                                                     Spacer()
                                                     ActivityIndicator(isAnimating: true)
@@ -88,9 +90,10 @@ struct TemplateDetailView: View {
                                             }
                                         }
                                     }
+                                    //swiftlint:enable line_length
                                 }
                             }
-                        }else if (isLoading){
+                        } else if (isLoading) {
                             HStack(alignment: .center, spacing: 0) {
                                 Spacer()
                                 ActivityIndicator(isAnimating: isLoading)
@@ -109,26 +112,26 @@ struct TemplateDetailView: View {
             .navigationBarBackButtonHidden(true)
         }
     }
-    
+
     fileprivate func regionInfo(index: Int) -> String {
         return self.appState.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
             return regeion.name
         }).joined(separator: ", ")
     }
-    
+
     fileprivate func pageInfo(index: Int) -> String {
         return "Seite \(index+1) von \(self.appState.currentTemplate!.pages.count)"
     }
-    
+
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
             self.cameraDidFinish = false
-        }){
+        }) {
             Text("Neues Bild")
         }
     }
-    
+
     fileprivate func leadingItem() -> some View {
         return Button(action: {
             self.appState.isTemplateDetailViewPresented = false
@@ -136,8 +139,8 @@ struct TemplateDetailView: View {
             BackButtonView()
         }
     }
-    
-    fileprivate func onCompletion(pages: [Page]?){
+
+    fileprivate func onCompletion(pages: [Page]?) {
         self.showCamera = false
         self.cameraDidFinish = false
         self.result = []
@@ -155,39 +158,41 @@ struct TemplateDetailView: View {
             }
         }
     }
-    
+
     fileprivate func getPageRegions(page: Page) -> [PageResult] {
         var results: [PageResult] = []
         for region in self.appState.currentTemplate!.pages[page.id].regions {
             let templateSize = region.rectState
             let width = region.width
             let height = region.height
-            let templateRect = CGRect(x: templateSize.width, y: templateSize.height, width:  width, height: height)
+            let templateRect = CGRect(x: templateSize.width,
+                                      y: templateSize.height, width:  width, height: height)
             let templateImage = self.appState.currentTemplate!.pages[page.id].image
             let image = page.image
-            
-            let proportionalRect = newProportionalRect(templateImage: templateImage, newImage: image, templateRect: templateRect)
-            
+
+            let proportionalRect = newProportionalRect(templateImage: templateImage,
+                                                       newImage: image, templateRect: templateRect)
+
             guard let newImage:CGImage = image.cgImage?.cropping(to: proportionalRect)
                 else {
                     continue
             }
-            
+
             let imageResult: PageResult = PageResult(imageAttributeName: region.name, regionImage: newImage)
             results.append(imageResult)
         }
         return results
     }
-    
+
     func newProportionalRect(templateImage: UIImage, newImage: UIImage, templateRect: CGRect) -> CGRect {
         let newWidthScale = (((newImage.size.width * 100)/templateImage.size.width) - 100)/100
         let newX = templateRect.origin.x + templateRect.origin.x * newWidthScale
         let newWidth = templateRect.width + templateRect.width * newWidthScale
-        
+
         let newHeightScale = (((newImage.size.height * 100)/templateImage.size.height) - 100)/100
         let newY = templateRect.origin.y + templateRect.origin.y * newHeightScale
         let newHeight = templateRect.height + templateRect.height * newHeightScale
-        
+
         let newRect = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
         return newRect
     }

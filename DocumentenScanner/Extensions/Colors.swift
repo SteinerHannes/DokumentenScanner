@@ -27,4 +27,6 @@ extension Color {
     // Text Colors
     public static let placeholderText: Color = Color(UIColor.placeholderText)
     public static let lightText: Color = Color(UIColor.lightText)
+
+    public static let shadow: Color = Color.init(hue: 0, saturation: 0, brightness: 0.7)
 }

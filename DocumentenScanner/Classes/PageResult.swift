@@ -14,7 +14,7 @@ struct PageResult {
     var regionImage: CGImage
     var rocognizedTest: String = ""
     var error: Int = 1
-    
+
     init(imageAttributeName: String, regionImage: CGImage) {
         self.imageAttributeName = imageAttributeName
         self.regionImage = regionImage

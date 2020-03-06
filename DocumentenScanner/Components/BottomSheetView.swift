@@ -20,13 +20,13 @@ struct BottomSheetView<Content: View>: View {
     private let minHeight: CGFloat
     private let content: Content
     private var tempMinHeight: CGFloat = 0.0
-    
+
     @GestureState private var translation: CGFloat = 0
-    
+
     private var offset: CGFloat {
         isOpen ? 0 : maxHeight - minHeight
     }
-    
+
     private var indicator: some View {
         VStack(alignment: .center, spacing: 0) {
             Image(systemName: self.isOpen ? "chevron.compact.down" : "chevron.compact.up")
@@ -38,7 +38,7 @@ struct BottomSheetView<Content: View>: View {
         }
         .frame(width: 100)
     }
-    
+
     init(isOpen: Binding<Bool>, maxHeight: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
         if #available(iOS 13.0, *) {
             tempMinHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
@@ -48,7 +48,7 @@ struct BottomSheetView<Content: View>: View {
         self.content = content()
         self._isOpen = isOpen
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {

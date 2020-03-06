@@ -8,19 +8,20 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct NewAttributView: View {
     @EnvironmentObject var appState: AppState
     //@Environment(\.presentationMode) var presentation: Binding<PresentationMode>
-    
+
     @State var name: String = ""
     @State var datatype: Int = 0
     @State var isShowingNextAlert: Bool = false
     @State var isShowingBackAlert: Bool = false
-    
-    init(){
+
+    init() {
         print("init NewAttributView")
     }
-    
+
     var body: some View {
         VStack {
             Form {
@@ -44,8 +45,10 @@ struct NewAttributView: View {
                         }
                         .isDetailLink(false)
                         .onDisappear {
-                            self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
+                            self.appState.currentAttribut = ImageRegion(name: self.name,
+                                                                        datatype: self.datatype)
                         }
+// swiftlint:disable line_length
 //                        .alert(isPresented: self.$isShowingNextAlert) {
 //                            Alert(title: Text("Name ist leer"), message: Text("Setze einen Namen bevor du fortfährst"), dismissButton: .cancel(Text("Ok")) )
 //                        }
@@ -63,6 +66,7 @@ struct NewAttributView: View {
 //                                self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
 //                            }
 //                        })
+// swiftlint:enable line_length
                     }
                 }
             }
@@ -74,7 +78,7 @@ struct NewAttributView: View {
             .resignKeyboardOnDragGesture()
         }
     }
-    
+
     private func backButton() -> some View {
         Button(action: {
             if  !self.name.isEmpty {

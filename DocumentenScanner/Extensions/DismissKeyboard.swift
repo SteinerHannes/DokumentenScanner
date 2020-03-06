@@ -40,7 +40,7 @@ extension View {
     func resignKeyboardOnDragGesture() -> some View {
         return modifier(ResignKeyboardOnDragGesture())
     }
-    
+
     func resignKeyboardOnTapGesture() -> some View {
         return modifier(ResignKeyboardOnTapGesture())
     }

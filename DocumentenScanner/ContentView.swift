@@ -11,11 +11,11 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedView: Int = 0
-    
-    init(){
+
+    init() {
         print("init ContentView")
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if self.appState.isPageSelectViewPresented {
@@ -24,7 +24,7 @@ struct ContentView: View {
                 NewTemplateView()
             } else if self.appState.isTemplateDetailViewPresented {
                 TemplateDetailView()
-            }else{
+            } else {
                 TabView(selection: self.$selectedView) {
                     TemplatesView().tabItem {
                         Text("Templates")

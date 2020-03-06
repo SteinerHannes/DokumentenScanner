@@ -17,8 +17,9 @@ class MockData {
         let page2 = Page(id: 1, image: UIImage(imageLiteralResourceName: "post"))
         let page3 = Page(id: 2, image: UIImage(imageLiteralResourceName: "klausur1"))
         let page4 = Page(id: 3, image: UIImage(imageLiteralResourceName: "klausur2"))
-        
-        appState.currentTemplate! = Template(id: "0", name: "Klausur", info: "Infotext", pages: [page1, page2, page3, page4])
+
+        appState.currentTemplate! = Template(id: "0", name: "Klausur",
+                                             info: "Infotext", pages: [page1, page2, page3, page4])
         return appState
     }
 }

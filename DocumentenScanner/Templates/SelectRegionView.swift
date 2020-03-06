@@ -8,16 +8,17 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct SelectRegionView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
-    
+
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
         case inactive
         case pressing
         case dragging(translation: CGSize)
-        
+
         var translation: CGSize {
             switch self {
             case .inactive, .pressing:
@@ -27,12 +28,12 @@ struct SelectRegionView: View {
             }
         }
     }
-    
+
     /// State for moving  the rectangle
     enum DragState {
         case inactive
         case dragging(translation: CGSize)
-        
+
         var translation: CGSize {
             switch self {
             case .dragging(let translation):
@@ -42,12 +43,12 @@ struct SelectRegionView: View {
             }
         }
     }
-    
+
     /// State for the Zoom-Gesture
     enum MagnificationState {
         case inactive
         case zooming(scale: CGFloat)
-        
+
         var scale: CGFloat {
             switch self {
             case .zooming(let scale):
@@ -57,27 +58,27 @@ struct SelectRegionView: View {
             }
         }
     }
-    
+
     /// Zoom gesture state
     @GestureState var magnificationState = MagnificationState.inactive
     /// Zoom variable
     @State var viewMagnificationState: CGFloat = 1.0
-    
+
     /// Drag gesture state for the rectangle
     @GestureState var rectDragState: DragState = DragState.inactive
     /// Position of the rectangle
     @State var rectState: CGSize = .zero
-    
+
     /// Position of the container
     @State var imageState: CGSize = .zero
-    
+
     /// Longpress-Drag gesture state for drawing the rectangle
     @GestureState var drawState = DrawState.inactive
     /// Starting point of the rectangle. Important for the calculation of the width and height of the rect
     @State private var startPoint: CGPoint = .zero
     /// Ending point of the rectangle. Important for the calculation of the width and height of the rect
     @State private var endPoint: CGPoint = .zero
-    
+
     /// Width of the rectangle
     private var width: CGFloat {
         return self.startPoint.x.distance(to: self.endPoint.x)
@@ -86,31 +87,33 @@ struct SelectRegionView: View {
     private var height: CGFloat {
         return self.startPoint.y.distance(to: self.endPoint.y)
     }
-    /// Offset of the image to the coordinate origin (current position + the translation of the last drag gesture)
+    /// Offset of the image to the coordinate origin
+    /// (current position + the translation of the last drag gesture)
     private var imageTranslastionOffset: CGSize {
         return CGSize(width: imageState.width, height: imageState.height)
     }
     /// Offset of the rectangle to the coordinate origin
     private var rectTranslastionOffset: CGSize {
-        return CGSize(width: rectState.width + rectDragState.translation.width, height: rectState.height + rectDragState.translation.height)
+        return CGSize(width: rectState.width + rectDragState.translation.width,
+                      height: rectState.height + rectDragState.translation.height)
     }
     /// New zoom level according to gesture
     private var magnificationScale: CGFloat {
         return viewMagnificationState * magnificationState.scale
     }
-    
+
     @State var isShowingPopOver: Bool = false
     @State var isNoRectSet: Bool = false
-    
+
     @State var zoomPoint: UnitPoint = .center
-    
-    init(){
+
+    init() {
         print("init SelectRegionView")
     }
-    
+
     var body: some View {
         let rectDragGesture = DragGesture()
-            .updating($rectDragState) { value, state, transaction in
+            .updating($rectDragState) { value, state, _ in
                 state = .dragging(translation: value.translation)
             }
             // Adding the translastion of the gesture to the position
@@ -118,7 +121,7 @@ struct SelectRegionView: View {
                 self.rectState.height += value.translation.height
                 self.rectState.width += value.translation.width
             }
-        
+
         let imageDragGesture = DragGesture()
             // Adding the translastion of the gesture to the position
             .onChanged { value in
@@ -129,12 +132,12 @@ struct SelectRegionView: View {
                 self.imageState.height += value.translation.height
                 self.imageState.width += value.translation.width
             }
-        
+
         let minimumLongPressDuration = 0.3
         let longPressDraw = LongPressGesture(minimumDuration: minimumLongPressDuration)
             // It takes a third of a second for the gesture to trigger the drag gesture
             .sequenced(before: DragGesture())
-            .updating($drawState) { value, state, transaction in
+            .updating($drawState) { value, state, _ in
                 switch value {
                 // Long press begins
                 case .first(true):
@@ -151,7 +154,7 @@ struct SelectRegionView: View {
                 guard case .second(true, let drag?) = value else { return }
                 // Set endpoint for calculating w+h
                 self.endPoint = drag.location
-                
+
             }
             .onChanged { value in
                 switch value {
@@ -168,9 +171,9 @@ struct SelectRegionView: View {
                     return
                 }
             }
-        
+
         let magnificationGesture = MagnificationGesture()
-            .updating($magnificationState) { value, state, transaction in
+            .updating($magnificationState) { value, state, _ in
                 // set zoom level change
                 state = .zooming(scale: value)
             }.onEnded { value in
@@ -182,7 +185,7 @@ struct SelectRegionView: View {
 //            self.zoomPoint = UnitPoint(x: value.startLocation.x, y: value.startLocation.y)
 //            print("point",self.zoomPoint.x)
 //        }))
-        
+
         return VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
                 ZStack(alignment: .topLeading) {
@@ -191,7 +194,7 @@ struct SelectRegionView: View {
                             .frame(alignment: .center)
                             .gesture(longPressDraw)
                             .gesture(imageDragGesture)
-                            .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 20, x: 0, y: 0)
+                            .shadow(color: .shadow, radius: 20, x: 0, y: 0)
                             .frame(alignment: .topLeading)
                         Rectangle()
                             .stroke(Color.label, lineWidth: 3)
@@ -212,13 +215,14 @@ struct SelectRegionView: View {
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
         //.navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton(), trailing: saveButton())
-        .onAppear{
+        .onAppear {
             self.zoomPoint = .topLeading
-            self.viewMagnificationState = (UIScreen.main.bounds.width / (self.appState.image?.size.width ?? 1 ))
+            self.viewMagnificationState = (UIScreen.main.bounds.width /
+                (self.appState.image?.size.width ?? 1 ))
             self.zoomPoint = .center
         }
     }
-    
+
     private var popOverButton: some View {
         Group {
             Button(action: {
@@ -237,7 +241,7 @@ struct SelectRegionView: View {
             }
         }
     }
-    
+
     private var popOverView: some View {
         ZStack(alignment: .center) {
             Color.gray.opacity(0.5)
@@ -267,7 +271,7 @@ struct SelectRegionView: View {
             .cornerRadius(15)
         }
     }
-    
+
     private func backButton() -> some View {
         Button(action: {
             self.presentation.wrappedValue.dismiss()
@@ -275,7 +279,7 @@ struct SelectRegionView: View {
             BackButtonView()
         }
     }
-    
+
     private func saveButton() -> some View {
         Button(action: {
             if self.rectState.equalTo(.zero) {
@@ -287,7 +291,9 @@ struct SelectRegionView: View {
                 self.appState.currentAttribut!.height = self.height
                 self.appState.currentAttribut!.width = self.width
                 self.appState.currentAttribut!.rectState = self.rectState
-                self.appState.currentTemplate!.pages[self.appState.currentPage!].regions.append(self.appState.currentAttribut!)
+                self.appState.currentTemplate!.pages[self.appState.currentPage!].regions.append(
+                    self.appState.currentAttribut!
+                )
                 self.appState.currentAttribut = nil
                 self.appState.showRoot = false
             }
@@ -307,7 +313,7 @@ struct SelectRegionView_Previews: PreviewProvider {
         let image = UIImage(imageLiteralResourceName: "post")
         let appState = AppState()
         appState.image = image
-        
+
         return NavigationView {
             SelectRegionView().environmentObject(appState)
         }

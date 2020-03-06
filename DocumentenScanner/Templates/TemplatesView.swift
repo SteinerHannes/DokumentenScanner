@@ -8,13 +8,14 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure line_length
 struct TemplatesView: View {
     @EnvironmentObject var appState: AppState
-    
-    init(){
+
+    init() {
         print("init TemplatesView")
     }
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
@@ -26,7 +27,7 @@ struct TemplatesView: View {
                                 Text("Keine Vorlagen vorhanden.")
                                 Spacer()
                             }
-                        }else{
+                        } else {
                             ForEach(self.appState.templates, id: \.id) { template in
                                 Button(action: {
                                     self.appState.setCurrentTemplate(for: template.id)
@@ -72,7 +73,7 @@ struct TemplatesView: View {
 //            }
         }
     }
-    
+
     private func trailingItem() -> some View {
         return Button(action: {
             self.appState.isNewTemplateViewPresented = true
@@ -80,12 +81,12 @@ struct TemplatesView: View {
             Text("Neue Vorlage")
         }
     }
-    
+
     struct ModalDetail: Identifiable {
         var id: String {
             return body
         }
-        
+
         let body: String
     }
 }

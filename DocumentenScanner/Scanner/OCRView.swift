@@ -8,24 +8,27 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct OCRView: View {
     @State private var isShowingScannerSheet = false
     @State private var text: String = ""
-    
-    init(){
+
+    init() {
         print("init OCRView")
     }
-    
+
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
-                Text(self.text).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+                Text(self.text).frame(minWidth: 0, maxWidth: .infinity,
+                                      minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             }
             .navigationBarTitle("OCRScanner", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
             .sheet(isPresented: self.$isShowingScannerSheet) {
                 OCRScannerView(completion: { textPerPage in
-                    if let text = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines) {
+                    if let text = textPerPage?.joined(separator: "\n")
+                        .trimmingCharacters(in: .whitespacesAndNewlines) {
                         self.text = text
                     }
                     self.isShowingScannerSheet = false
@@ -33,7 +36,7 @@ struct OCRView: View {
             }
         }
     }
-    
+
     private func trailingItem() -> some View {
         return Button(action: {
             self.openCamera()
@@ -41,7 +44,7 @@ struct OCRView: View {
             Image(systemName: "plus")
         }
     }
-    
+
     private func openCamera() {
         self.isShowingScannerSheet = true
     }

@@ -8,24 +8,26 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct PageSelectView: View {
     @EnvironmentObject var appState: AppState
-    
+
     var body: some View {
-        NavigationView{
+        NavigationView {
             ScrollView(.horizontal, showsIndicators: true) {
                 if self.appState.currentTemplate != nil {
                     HStack(alignment: .center, spacing: 15) {
-                        ForEach(0 ..< (self.appState.currentTemplate!.pages.count)){ index in
+                        ForEach(0 ..< (self.appState.currentTemplate!.pages.count)) { index in
                             NavigationLink(destination: CreateTemplateView(index: index)) {
                                 Image(uiImage: self.appState.currentTemplate!.pages[index].image)
                                     .renderingMode(.original)
                                     .resizable()
                                     .scaledToFit()
-                                    .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 5, x: 0, y: 0)
+                                    .shadow(color: .shadow, radius: 5, x: 0, y: 0)
                             }
                             .isDetailLink(false)
-                            .frame(maxWidth: UIScreen.main.bounds.width-32, maxHeight: UIScreen.main.bounds.width)
+                            .frame(maxWidth: UIScreen.main.bounds.width-32,
+                                   maxHeight: UIScreen.main.bounds.width)
                         }
                     }
                     .padding()
@@ -34,9 +36,9 @@ struct PageSelectView: View {
             .navigationBarTitle("Document", displayMode: .inline)
             .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
         }
-        
+
     }
-    
+
     func leadingItem() -> some View {
         Button(action: {
             self.appState.isPageSelectViewPresented = false
@@ -45,7 +47,7 @@ struct PageSelectView: View {
             Text("Abbrechen")
         }
     }
-    
+
     func trailingItem() -> some View {
         Button(action: {
             self.appState.templates.append(self.appState.currentTemplate!)
@@ -64,8 +66,9 @@ struct PageSelectView_Previews: PreviewProvider {
         let page2 = Page(id: 1, image: UIImage(imageLiteralResourceName: "post"))
         let page3 = Page(id: 2, image: UIImage(imageLiteralResourceName: "klausur1"))
         let page4 = Page(id: 3, image: UIImage(imageLiteralResourceName: "klausur2"))
-        
-        appState.currentTemplate! = Template(id: "0", name: "Klausur", info: "Infotext", pages: [page1, page2, page3, page4])
+
+        appState.currentTemplate! = Template(id: "0", name: "Klausur",
+                                             info: "Infotext", pages: [page1, page2, page3, page4])
         return PageSelectView().environmentObject(appState)
     }
 }
