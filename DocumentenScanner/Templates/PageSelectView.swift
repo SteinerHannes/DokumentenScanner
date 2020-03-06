@@ -25,7 +25,7 @@ struct PageSelectView: View {
                                     .shadow(color: Color.init(hue: 0, saturation: 0, brightness: 0.7), radius: 5, x: 0, y: 0)
                             }
                             .isDetailLink(false)
-                            .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width)
+                            .frame(maxWidth: UIScreen.main.bounds.width-32, maxHeight: UIScreen.main.bounds.width)
                         }
                     }
                     .padding()
