@@ -9,7 +9,7 @@
 import Foundation
 import VisionKit
 
-struct PageResult {
+struct PageRegionAndResult {
     var imageAttributeName: String
     var regionImage: CGImage
     var rocognizedTest: String = ""

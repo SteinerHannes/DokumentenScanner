@@ -11,15 +11,15 @@ import Vision
 import VisionKit
 
 final class TextRegionRecognizer {
-    let imageResults: [PageResult]
-    
-    init(imageResults: [PageResult]) {
+    let imageResults: [PageRegionAndResult]
+
+    init(imageResults: [PageRegionAndResult]) {
         self.imageResults = imageResults
     }
-    
+
     private let queue = DispatchQueue(label: "com.dokumentenscanner.scan",
                                       qos: .default, attributes: [], autoreleaseFrequency: .workItem)
-    
+
     func recognizeText(withCompletionHandler completionHandler: @escaping ([String]) -> Void) {
         queue.async {
             let images = (0..<self.imageResults.count).compactMap({ self.imageResults[$0].regionImage })

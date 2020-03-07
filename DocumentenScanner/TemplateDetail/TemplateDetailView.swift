@@ -148,7 +148,7 @@ struct TemplateDetailView: View {
         if pages!.count == self.appState.currentTemplate!.pages.count {
             for page in pages! {
                 self.result.append([])
-                let imageResults: [PageResult] = getPageRegions(page: page)
+                let imageResults: [PageRegionAndResult] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
                     self.result[page.id] = resultArray
                     if page.id == pages!.count - 1 {
@@ -159,8 +159,8 @@ struct TemplateDetailView: View {
         }
     }
 
-    fileprivate func getPageRegions(page: Page) -> [PageResult] {
-        var results: [PageResult] = []
+    fileprivate func getPageRegions(page: Page) -> [PageRegionAndResult] {
+        var results: [PageRegionAndResult] = []
         for region in self.appState.currentTemplate!.pages[page.id].regions {
             let templateSize = region.rectState
             let width = region.width
@@ -178,7 +178,8 @@ struct TemplateDetailView: View {
                     continue
             }
 
-            let imageResult: PageResult = PageResult(imageAttributeName: region.name, regionImage: newImage)
+            let imageResult: PageRegionAndResult = PageRegionAndResult(imageAttributeName: region.name,
+                                                                       regionImage: newImage)
             results.append(imageResult)
         }
         return results
