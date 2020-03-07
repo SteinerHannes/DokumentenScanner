@@ -9,24 +9,36 @@
 import SwiftUI
 
 private enum Constants {
+    /// The corner radius of the Bottomsheet
     static let radius: CGFloat = 16
-    static let snapRatio: CGFloat = 0.30
+    /// The snap ratio 
+    static let snapRatio: CGFloat = 1.00
 }
 
 struct BottomSheetView<Content: View>: View {
+    /// Is used to trigger the initaisation on appear only once
     @State private var initFirst: Bool = true
+    /// It shows wether the bottom sheet is open
     @Binding var isOpen: Bool
+    /// The calculated maximum height of the bottom sheet
     @Binding var maxHeight: CGFloat
+    /// The calculated minimum height of the bottom sheet
     private let minHeight: CGFloat
+    /// The content of the bottom sheet
     private let content: Content
-    private var tempMinHeight: CGFloat = 0.0
+    /// The tcalculated bottom safe area height (only exists on some devices)
+    private var bottomSafeAreaHeight: CGFloat = 0.0
 
+    /// The gesture state of the drag gesture
     @GestureState private var translation: CGFloat = 0
 
+    /// Computed property for the verticaly offset of the bottom sheet
     private var offset: CGFloat {
         isOpen ? 0 : maxHeight - minHeight
     }
 
+    /// The view over the content
+    /// contains a trigger to open and close the bottom view
     private var indicator: some View {
         VStack(alignment: .center, spacing: 0) {
             Image(systemName: self.isOpen ? "chevron.compact.down" : "chevron.compact.up")
@@ -39,11 +51,17 @@ struct BottomSheetView<Content: View>: View {
         .frame(width: 100)
     }
 
+    /**
+     This method initializes th view
+     - parameter isOpen: Binding bool from the parent view, to change the view from outside
+     - parameter maxHeight: Binding CGFloat for the maximum height of the sheet
+     - parameter content: The content of the bottom sheet
+     */
     init(isOpen: Binding<Bool>, maxHeight: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
         if #available(iOS 13.0, *) {
-            tempMinHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
+            bottomSafeAreaHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         }
-        self.minHeight = tempMinHeight + 10
+        self.minHeight = bottomSafeAreaHeight + 10
         self._maxHeight = maxHeight
         self.content = content()
         self._isOpen = isOpen
@@ -86,8 +104,9 @@ struct BottomSheetView<Content: View>: View {
                 }
             )
         }.onAppear {
+            // if the view appears the first time add the height of the bottom safe area
             if self.initFirst {
-                self._maxHeight.wrappedValue += self.tempMinHeight
+                self._maxHeight.wrappedValue += self.bottomSafeAreaHeight
                 self.initFirst = false
             }
         }

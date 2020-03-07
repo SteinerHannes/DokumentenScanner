@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// The view looks the same as the navigation back button
 struct BackButtonView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 5) {
