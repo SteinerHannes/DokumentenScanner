@@ -18,7 +18,7 @@ final class TextRegionRecognizer {
     init(imageResults: [PageRegion]) {
         self.pageRegions = imageResults
     }
-    
+
     /// A dispatch queue (thread) for multithreading the text recognition
     private let queue = DispatchQueue(label: "com.dokumentenscanner.scan",
                                       qos: .default, attributes: [], autoreleaseFrequency: .workItem)
