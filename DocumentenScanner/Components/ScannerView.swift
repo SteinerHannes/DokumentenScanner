@@ -11,13 +11,22 @@ import UIKit
 import Vision
 import VisionKit
 
+/// UIViewController representable for the VNDocumentCameraViewController
 struct ScannerView: UIViewControllerRepresentable {
+    /// It shows wether the UIView is active or not
     @Binding var isActive: Bool
 
     typealias UIViewControllerType = VNDocumentCameraViewController
 
+    /// The function which get triggered after the view dismisses
     private let completionHandler: ([Page]?) -> Void
 
+    /**
+     The initializer of this view
+     - parameter isActive: Binding bool from the parent view,
+     to active theview from outside and dismiss from the inside
+     - parameter completion: The function after the UIView is dismissed
+     */
     init(isActive: Binding<Bool>, completion: @escaping ([Page]?) -> Void) {
         print("init ScannerView")
         self.completionHandler = completion
@@ -40,10 +49,17 @@ struct ScannerView: UIViewControllerRepresentable {
         return Coordinator(isActive: self.$isActive, completion: completionHandler)
     }
 
+    /// The view delegate
     final class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let completionHandler: ([Page]?) -> Void
         @Binding var isActive: Bool
 
+        /**
+         The initializer of this delegate
+         - parameter isActive: Binding bool from the parent view,
+         to active the view from outside and dismiss from the inside
+         - parameter completion: The function after the UIView is dismissed
+         */
         init(isActive: Binding<Bool>, completion: @escaping ([Page]?) -> Void) {
             self.completionHandler = completion
             self._isActive = isActive
@@ -51,26 +67,22 @@ struct ScannerView: UIViewControllerRepresentable {
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFinishWith scan: VNDocumentCameraScan) {
-//            print("Document camera view controller did finish with ", scan)
             var pages: [Page] = []
-
             for index in 0..<scan.pageCount {
                 pages.append(Page(id: index, image: scan.imageOfPage(at: index)))
             }
-
+            // Returns a list of pages with a page number and the image from the scan
             completionHandler(pages)
             self.isActive = false
         }
 
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-//            print("Document camera view controller did cancel")
             completionHandler(nil)
             self.isActive = false
         }
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFailWithError error: Error) {
-//            print("Document camera view controller did finish with error ", error)
             completionHandler(nil)
             self.isActive = false
         }

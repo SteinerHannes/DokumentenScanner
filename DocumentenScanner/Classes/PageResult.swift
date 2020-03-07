@@ -1,5 +1,5 @@
 //
-//  ImageResult.swift
+//  PageRegion.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 02.03.20.
@@ -9,11 +9,11 @@
 import Foundation
 import VisionKit
 
-struct PageResult {
+struct PageRegion {
+    /// The name of the attribute in that region
     var imageAttributeName: String
+    /// The image of the region
     var regionImage: CGImage
-    var rocognizedTest: String = ""
-    var error: Int = 1
 
     init(imageAttributeName: String, regionImage: CGImage) {
         self.imageAttributeName = imageAttributeName

@@ -37,44 +37,6 @@ final class TextRecognizer {
                         $0.topCandidates(1).first?.string
                     }).joined(separator: "\n")
                 } catch {
-//                    print(error)
-                    return ""
-                }
-            }
-            DispatchQueue.main.async {
-                completionHandler(textPerPage)
-            }
-        }
-    }
-}
-
-final class TextRegionRecognizer {
-    let imageResults: [PageResult]
-
-    init(imageResults: [PageResult]) {
-        self.imageResults = imageResults
-    }
-
-    private let queue = DispatchQueue(label: "com.dokumentenscanner.scan",
-                                      qos: .default, attributes: [], autoreleaseFrequency: .workItem)
-
-    func recognizeText(withCompletionHandler completionHandler: @escaping ([String]) -> Void) {
-        queue.async {
-            let images = (0..<self.imageResults.count).compactMap({ self.imageResults[$0].regionImage })
-//            print(images)
-            let imagesAndRequests = images.map({ (image: $0, request: VNRecognizeTextRequest()) })
-            let textPerPage = imagesAndRequests.map { image, request -> String in
-                let handler = VNImageRequestHandler(cgImage: image, options: [:])
-                do {
-                    try handler.perform([request])
-                    guard let observations = request.results as? [VNRecognizedTextObservation] else {
-                        return ""
-                    }
-                    return observations.compactMap({
-                        $0.topCandidates(1).first?.string
-                    }).joined(separator: " ")
-                } catch {
-//                    print(error)
                     return ""
                 }
             }

@@ -11,7 +11,7 @@ import SwiftUI
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct NewAttributView: View {
     @EnvironmentObject var appState: AppState
-    //@Environment(\.presentationMode) var presentation: Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
     @State var name: String = ""
     @State var datatype: Int = 0
@@ -45,6 +45,7 @@ struct NewAttributView: View {
                         }
                         .isDetailLink(false)
                         .onDisappear {
+                            // MARK: TODO onDisappear only in one direction
                             self.appState.currentAttribut = ImageRegion(name: self.name,
                                                                         datatype: self.datatype)
                         }
@@ -74,17 +75,18 @@ struct NewAttributView: View {
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Eigenschaften festlegen")
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: backButton())
+            .navigationBarItems(leading: leadingItem())
             .resignKeyboardOnDragGesture()
         }
     }
 
-    private func backButton() -> some View {
+    private func leadingItem() -> some View {
         Button(action: {
             if  !self.name.isEmpty {
                 self.isShowingBackAlert = true
             } else {
-//                self.presentation.wrappedValue.dismiss()
+                self.presentation.wrappedValue.dismiss()
+                self.appState.currentAttribut = nil // MARK: TODO Test
             }
         }) {
             BackButtonView()
@@ -93,7 +95,8 @@ struct NewAttributView: View {
                   message: nil,
                   primaryButton: .cancel(Text("Abbrechen")),
                   secondaryButton: .destructive(Text("Ja"), action: {
-//                    self.presentation.wrappedValue.dismiss()
+                    self.presentation.wrappedValue.dismiss()
+                    self.appState.currentAttribut = nil // MARK: TODO Test
                   }
                 )
             )

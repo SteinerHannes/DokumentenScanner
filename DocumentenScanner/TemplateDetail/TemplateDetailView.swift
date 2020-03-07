@@ -12,13 +12,17 @@ import SwiftUI
 struct TemplateDetailView: View {
     @EnvironmentObject var appState: AppState
 
+    // MARK: TODO
     private var isLoading: Bool {
-        return (self.result.isEmpty && !cameraDidFinish)
+        return (self.result.isEmpty && !textRecognitionDidFinish)
     }
 
-    @State var cameraDidFinish: Bool = false
+    /// It shows wether the text recognition is finished or not
+    @State var textRecognitionDidFinish: Bool = false
 
+    /// The text recognition results of each page
     @State private var result : [[String]] = []
+    /// It shows wether the ScannerView isActive or not
     @State private var showCamera : Bool = false
 
     init() {
@@ -112,13 +116,18 @@ struct TemplateDetailView: View {
             .navigationBarBackButtonHidden(true)
         }
     }
-
+    /**
+    The functions returns a list of region/attribute names of the page
+     */
     fileprivate func regionInfo(index: Int) -> String {
         return self.appState.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
             return regeion.name
         }).joined(separator: ", ")
     }
 
+    /**
+    The function returns some page number information
+     */
     fileprivate func pageInfo(index: Int) -> String {
         return "Seite \(index+1) von \(self.appState.currentTemplate!.pages.count)"
     }
@@ -126,7 +135,7 @@ struct TemplateDetailView: View {
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
-            self.cameraDidFinish = false
+            self.textRecognitionDidFinish = false
         }) {
             Text("Neues Bild")
         }
@@ -140,27 +149,36 @@ struct TemplateDetailView: View {
         }
     }
 
+    /**
+     The function is triggers after the ScannerView did finish. Here the text recognition takes place.
+     The regocnized text will be saved in the correct order
+     (ordered like the pages and the regions of the pages).
+     */
     fileprivate func onCompletion(pages: [Page]?) {
         self.showCamera = false
-        self.cameraDidFinish = false
+        self.textRecognitionDidFinish = false
         self.result = []
         guard pages != nil else { return }
         if pages!.count == self.appState.currentTemplate!.pages.count {
             for page in pages! {
                 self.result.append([])
-                let imageResults: [PageResult] = getPageRegions(page: page)
+                let imageResults: [PageRegion] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
                     self.result[page.id] = resultArray
                     if page.id == pages!.count - 1 {
-                        self.cameraDidFinish = true
+                        self.textRecognitionDidFinish = true
                     }
                 }
             }
         }
     }
 
-    fileprivate func getPageRegions(page: Page) -> [PageResult] {
-        var results: [PageResult] = []
+    /**
+     The function returns an array of all calculated page regions from taken picture.
+     The template is used as reference.
+     */
+    fileprivate func getPageRegions(page: Page) -> [PageRegion] {
+        var results: [PageRegion] = []
         for region in self.appState.currentTemplate!.pages[page.id].regions {
             let templateSize = region.rectState
             let width = region.width
@@ -178,12 +196,17 @@ struct TemplateDetailView: View {
                     continue
             }
 
-            let imageResult: PageResult = PageResult(imageAttributeName: region.name, regionImage: newImage)
+            let imageResult: PageRegion = PageRegion(imageAttributeName: region.name,
+                                                                       regionImage: newImage)
             results.append(imageResult)
         }
         return results
     }
 
+    /**
+     The function calulates the position of the regions in the taken picture
+     corresponding to the template picutre. 
+     */
     func newProportionalRect(templateImage: UIImage, newImage: UIImage, templateRect: CGRect) -> CGRect {
         let newWidthScale = (((newImage.size.width * 100)/templateImage.size.width) - 100)/100
         let newX = templateRect.origin.x + templateRect.origin.x * newWidthScale

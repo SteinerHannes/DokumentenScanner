@@ -66,11 +66,6 @@ struct TemplatesView: View {
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
-//            .onAppear {
-//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "post")))
-//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur1")))
-//                self.appState.templates.append(ImageTemplate(attributeList: [], image: UIImage(imageLiteralResourceName: "klausur2")))
-//            }
         }
     }
 
@@ -96,15 +91,3 @@ struct TemplatesView_Previews: PreviewProvider {
         TemplatesView().environmentObject(AppState())
     }
 }
-
-//            .sheet(isPresented: self.$isShowingScannerSheet) {
-//                ScannerView(completion: { oriImage in
-//                    guard oriImage != nil else { return }
-//                    self.image = oriImage
-//                    self.isShowingScannerSheet = false
-//                    self.isShowingEditSheet = true
-//                })
-//            }
-//            .sheet(isPresented: self.$isShowingEditSheet) {
-//                CreateTemplateView(image: self.$image)
-//            }
