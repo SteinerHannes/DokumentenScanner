@@ -10,27 +10,39 @@ import Foundation
 import Vision
 import VisionKit
 
+/// The text recognizer for the PageRegionAndResult struct
 final class TextRegionRecognizer {
-    let imageResults: [PageRegionAndResult]
+    /// The list of all regions on a page
+    let pageRegions: [PageRegion]
 
-    init(imageResults: [PageRegionAndResult]) {
-        self.imageResults = imageResults
+    init(imageResults: [PageRegion]) {
+        self.pageRegions = imageResults
     }
-
+    
+    /// A dispatch queue (thread) for multithreading the text recognition
     private let queue = DispatchQueue(label: "com.dokumentenscanner.scan",
                                       qos: .default, attributes: [], autoreleaseFrequency: .workItem)
 
+    /**
+     The fucntion "returns" a list of the recognized text in the order of the page regions
+     */
     func recognizeText(withCompletionHandler completionHandler: @escaping ([String]) -> Void) {
         queue.async {
-            let images = (0..<self.imageResults.count).compactMap({ self.imageResults[$0].regionImage })
+            // extracs the images from the structs
+            let images = (0..<self.pageRegions.count).compactMap({ self.pageRegions[$0].regionImage })
+            // makes a tupel of an image and a request
             let imagesAndRequests = images.map({ (image: $0, request: VNRecognizeTextRequest()) })
-            let textPerPage = imagesAndRequests.map { image, request -> String in
+            // append the result for each tupel
+            let listOfTextsInRegions = imagesAndRequests.map { image, request -> String in
+                // initilaize the request
                 let handler = VNImageRequestHandler(cgImage: image, options: [:])
                 do {
+                    // start the request
                     try handler.perform([request])
                     guard let observations = request.results as? [VNRecognizedTextObservation] else {
                         return ""
                     }
+                    // return the result
                     return observations.compactMap({
                         $0.topCandidates(1).first?.string
                     }).joined(separator: " ")
@@ -38,8 +50,9 @@ final class TextRegionRecognizer {
                     return ""
                 }
             }
+            // send the result back to the main thread
             DispatchQueue.main.async {
-                completionHandler(textPerPage)
+                completionHandler(listOfTextsInRegions)
             }
         }
     }
