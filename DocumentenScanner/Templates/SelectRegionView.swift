@@ -10,9 +10,10 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct SelectRegionView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
+    @Binding var showRoot: Bool
     /// State for the Longpress-Drag-Gesture
     enum DrawState {
         case inactive
@@ -107,8 +108,9 @@ struct SelectRegionView: View {
 
     @State var zoomPoint: UnitPoint = .center
 
-    init() {
+    init(showRoot: Binding<Bool>) {
         print("init SelectRegionView")
+        self._showRoot = showRoot
     }
 
     var body: some View {
@@ -190,7 +192,8 @@ struct SelectRegionView: View {
             ZStack(alignment: .bottomTrailing) {
                 ZStack(alignment: .topLeading) {
                     Group {
-                        Image(uiImage: self.appState.image ?? UIImage(imageLiteralResourceName: "post"))
+                        Image(uiImage: self.store.states.newTemplateState.image
+                            ?? UIImage(imageLiteralResourceName: "post"))
                             .frame(alignment: .center)
                             .gesture(longPressDraw)
                             .gesture(imageDragGesture)
@@ -218,7 +221,7 @@ struct SelectRegionView: View {
         .onAppear {
             self.zoomPoint = .topLeading
             self.viewMagnificationState = (UIScreen.main.bounds.width /
-                (self.appState.image?.size.width ?? 1 ))
+                (self.store.states.newTemplateState.image?.size.width ?? 1 ))
             self.zoomPoint = .center
         }
     }
@@ -285,17 +288,10 @@ struct SelectRegionView: View {
             if self.rectState.equalTo(.zero) {
                 self.isNoRectSet = true
             } else {
-                if self.appState.maxHeight < 140+3*45 {
-                    self.appState.maxHeight += 45
-                }
-                self.appState.currentAttribut!.height = self.height
-                self.appState.currentAttribut!.width = self.width
-                self.appState.currentAttribut!.rectState = self.rectState
-                self.appState.currentTemplate!.pages[self.appState.currentPage!].regions.append(
-                    self.appState.currentAttribut!
-                )
-                self.appState.currentAttribut = nil
-                self.appState.showRoot = false
+
+                self.store.send(.newTemplate(action:
+                    .addAttributeToPage(height: self.height, width: self.width, rectState: self.rectState)))
+                self.showRoot = false
             }
         }) {
             Text("Speichern")
@@ -315,7 +311,13 @@ struct SelectRegionView_Previews: PreviewProvider {
         appState.image = image
 
         return NavigationView {
-            SelectRegionView().environmentObject(appState)
+            SelectRegionView(showRoot: .constant(false))
+                .environmentObject(
+                    AppStore(initialState: .init(),
+                             reducer: appReducer,
+                             environment: AppEnviorment()
+                    )
+                )
         }
     }
 }

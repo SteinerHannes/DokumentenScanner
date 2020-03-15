@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
+
     @State private var selectedView: Int = 0
 
     init() {
@@ -18,11 +19,11 @@ struct ContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if self.appState.isPageSelectViewPresented {
+            if self.store.states.routes.isPageSelectViewPresented {
                 PageSelectView()
-            } else if self.appState.isNewTemplateViewPresented {
+            } else if self.store.states.routes.isNewTemplateViewPresented {
                 NewTemplateView()
-            } else if self.appState.isTemplateDetailViewPresented {
+            } else if self.store.states.routes.isTemplateDetailViewPresented {
                 TemplateDetailView()
             } else {
                 TabView(selection: self.$selectedView) {
@@ -42,6 +43,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(AppState())
+        ContentView()
+            .environmentObject(
+                AppStore(initialState: .init(),
+                         reducer: appReducer,
+                         environment: AppEnviorment()
+                )
+            )
     }
 }

@@ -21,6 +21,9 @@
 		EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EF44754624090C64005A0ADB /* .swiftlint.yml */; };
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
 		EF61DB75240D70BB0083E0B7 /* PageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* PageResult.swift */; };
+		EF62965C241E753B00030997 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62965B241E753B00030997 /* AppStore.swift */; };
+		EF629661241E805D00030997 /* TemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF629660241E805D00030997 /* TemplateService.swift */; };
+		EF629663241E812400030997 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF629662241E812400030997 /* Store.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
@@ -56,6 +59,9 @@
 		EF44754624090C64005A0ADB /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		EF61DB74240D70BB0083E0B7 /* PageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageResult.swift; sourceTree = "<group>"; };
+		EF62965B241E753B00030997 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		EF629660241E805D00030997 /* TemplateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateService.swift; sourceTree = "<group>"; };
+		EF629662241E812400030997 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
 		EF88C7F924103597008C4497 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -119,6 +125,24 @@
 			path = AppState;
 			sourceTree = "<group>";
 		};
+		EF62965A241E752400030997 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				EF629662241E812400030997 /* Store.swift */,
+				EF62965B241E753B00030997 /* AppStore.swift */,
+				EF62965F241E804500030997 /* Services */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		EF62965F241E804500030997 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EF629660241E805D00030997 /* TemplateService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		EF78DA2B240932B400FBB1EA /* TemplateDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +179,7 @@
 		EFE31F4A2403E3EE008015F3 /* DocumentenScanner */ = {
 			isa = PBXGroup;
 			children = (
+				EF62965A241E752400030997 /* Store */,
 				EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */,
 				EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */,
 				EFE31F4F2403E3EE008015F3 /* ContentView.swift */,
@@ -319,7 +344,9 @@
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
+				EF62965C241E753B00030997 /* AppStore.swift in Sources */,
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
+				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
 				EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */,
 				EF61DB75240D70BB0083E0B7 /* PageResult.swift in Sources */,
@@ -337,6 +364,7 @@
 				EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */,
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
+				EF629663241E812400030997 /* Store.swift in Sources */,
 				EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
 			);
