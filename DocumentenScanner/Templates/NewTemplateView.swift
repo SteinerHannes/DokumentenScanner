@@ -10,7 +10,7 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct NewTemplateView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
 
     @State var name: String = ""
     @State var info: String = ""
@@ -34,10 +34,9 @@ struct NewTemplateView: View {
                             if self.name.isEmpty {
                                 // MARK: Alert -> showAlert
                             } else {
-                                var template = Template()
-                                template.name = self.name
-                                template.info = self.info
-                                self.appState.currentTemplate = template
+                                self.store.send(.newTemplate(action:
+                                    .createNewTemplate(name: self.name, info: self.info))
+                                )
                                 UIApplication.shared.endEditing(true)
                                 self.showCamera = true
                             }
@@ -60,9 +59,8 @@ struct NewTemplateView: View {
                 if self.showCamera {
                     ScannerView(isActive: self.$showCamera, completion: { pages in
                         guard pages != nil else { return }
-                        self.appState.currentTemplate!.pages = pages!
-                        self.appState.isNewTemplateViewPresented = false
-                        self.appState.isPageSelectViewPresented = true
+                        self.store.send(.newTemplate(action: .addPagesToNewTemplate(pages: pages!)))
+                        self.store.send(.routing(action: .showPageSelectView))
                     })
                         .edgesIgnoringSafeArea(.all)
                 }
@@ -77,8 +75,8 @@ struct NewTemplateView: View {
             if !self.name.isEmpty {
                 self.showAlert = true
             } else {
-                self.appState.cleanCurrentImageTemplate()
-                self.appState.isNewTemplateViewPresented = false
+                self.store.send(.newTemplate(action: .clearNewTemplate))
+                self.store.send(.routing(action: .showContentView))
             }
         }) {
             BackButtonView()
@@ -90,6 +88,12 @@ struct NewTemplateView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             NewTemplateView()
+                .environmentObject(
+                    AppStore(initialState: .init(),
+                             reducer: appReducer,
+                             environment: AppEnviorment()
+                    )
+                )
         }
     }
 }

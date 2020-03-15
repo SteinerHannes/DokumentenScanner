@@ -10,16 +10,18 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct NewAttributView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
     @State var name: String = ""
     @State var datatype: Int = 0
     @State var isShowingNextAlert: Bool = false
     @State var isShowingBackAlert: Bool = false
+    @Binding var showRoot: Bool
 
-    init() {
+    init(showRoot: Binding<Bool>) {
         print("init NewAttributView")
+        self._showRoot = showRoot
     }
 
     var body: some View {
@@ -40,14 +42,15 @@ struct NewAttributView: View {
                 }
                 Section {
                     VStack {
-                        NavigationLink(destination: SelectRegionView()) {
+                        NavigationLink(destination: SelectRegionView(showRoot: self.$showRoot)) {
                             Text("Bereich auswählen").foregroundColor(.blue)
                         }
                         .isDetailLink(false)
                         .onDisappear {
                             // MARK: TODO onDisappear only in one direction
-                            self.appState.currentAttribut = ImageRegion(name: self.name,
-                                                                        datatype: self.datatype)
+                            self.store.send( .newTemplate(action:
+                                .setAttribute(name: self.name, datatype: self.datatype))
+                            )
                         }
 // swiftlint:disable line_length
 //                        .alert(isPresented: self.$isShowingNextAlert) {
@@ -86,7 +89,7 @@ struct NewAttributView: View {
                 self.isShowingBackAlert = true
             } else {
                 self.presentation.wrappedValue.dismiss()
-                self.appState.currentAttribut = nil // MARK: TODO Test
+                self.store.send(.newTemplate(action: .clearCurrentAttribute))
             }
         }) {
             BackButtonView()
@@ -96,7 +99,7 @@ struct NewAttributView: View {
                   primaryButton: .cancel(Text("Abbrechen")),
                   secondaryButton: .destructive(Text("Ja"), action: {
                     self.presentation.wrappedValue.dismiss()
-                    self.appState.currentAttribut = nil // MARK: TODO Test
+                    self.store.send(.newTemplate(action: .clearCurrentAttribute))
                   }
                 )
             )
@@ -106,6 +109,12 @@ struct NewAttributView: View {
 
 struct NewAttributView_Previews: PreviewProvider {
     static var previews: some View {
-        NewAttributView().environmentObject(AppState())
+        NewAttributView(showRoot: .constant(false))
+            .environmentObject(
+                AppStore(initialState: .init(),
+                         reducer: appReducer,
+                         environment: AppEnviorment()
+                )
+            )
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure line_length
 struct TemplatesView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
 
     init() {
         print("init TemplatesView")
@@ -21,17 +21,17 @@ struct TemplatesView: View {
             VStack(alignment: .leading, spacing: 0) {
                 List {
                     Section {
-                        if self.appState.templates.isEmpty {
+                        if self.store.states.teamplates.isEmpty {
                             HStack(alignment: .center, spacing: 0) {
                                 Spacer()
                                 Text("Keine Vorlagen vorhanden.")
                                 Spacer()
                             }
                         } else {
-                            ForEach(self.appState.templates, id: \.id) { template in
+                            ForEach(self.store.states.teamplates, id: \.id) { template in
                                 Button(action: {
-                                    self.appState.setCurrentTemplate(for: template.id)
-                                    self.appState.isTemplateDetailViewPresented = true
+                                    self.store.send(.setCurrentTemplate(id: template.id))
+                                    self.store.send(.routing(action: .showTemplateDetailView))
                                 }) {
                                     VStack(alignment: .center, spacing: 0) {
                                         HStack(alignment: .top, spacing: 10) {
@@ -71,7 +71,7 @@ struct TemplatesView: View {
 
     private func trailingItem() -> some View {
         return Button(action: {
-            self.appState.isNewTemplateViewPresented = true
+            self.store.send(.routing(action: .showNewTemplateView))
         }) {
             Text("Neue Vorlage")
         }
@@ -88,6 +88,12 @@ struct TemplatesView: View {
 
 struct TemplatesView_Previews: PreviewProvider {
     static var previews: some View {
-        TemplatesView().environmentObject(AppState())
+        TemplatesView()
+            .environmentObject(
+                AppStore(initialState: .init(),
+                         reducer: appReducer,
+                         environment: AppEnviorment()
+                )
+            )
     }
 }

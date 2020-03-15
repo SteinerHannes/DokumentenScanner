@@ -10,16 +10,20 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct PageSelectView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         NavigationView {
             ScrollView(.horizontal, showsIndicators: true) {
-                if self.appState.currentTemplate != nil {
+                if self.store.states.newTemplateState.newTemplate != nil {
                     HStack(alignment: .center, spacing: 15) {
-                        ForEach(0 ..< (self.appState.currentTemplate!.pages.count)) { index in
-                            NavigationLink(destination: CreateTemplateView(index: index)) {
-                                Image(uiImage: self.appState.currentTemplate!.pages[index].image)
+                        //swiftlint:disable line_length
+                        ForEach(0 ..< (self.store.states.newTemplateState.newTemplate!.pages.count)) { index in
+                        //swiftlint:enable line_length
+                            NavigationLink(destination: TemplatePageView(index: index)) {
+                                Image(uiImage:
+                                    self.store.states.newTemplateState.newTemplate!.pages[index].image
+                                )
                                     .renderingMode(.original)
                                     .resizable()
                                     .scaledToFit()
@@ -41,8 +45,8 @@ struct PageSelectView: View {
 
     func leadingItem() -> some View {
         Button(action: {
-            self.appState.isPageSelectViewPresented = false
-            self.appState.reset()
+            self.store.send(.routing(action: .showContentView))
+            self.store.send(.newTemplate(action: .clearState))
         }) {
             Text("Abbrechen")
         }
@@ -50,9 +54,9 @@ struct PageSelectView: View {
 
     func trailingItem() -> some View {
         Button(action: {
-            self.appState.templates.append(self.appState.currentTemplate!)
-            self.appState.isPageSelectViewPresented = false
-            self.appState.reset()
+            self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
+            self.store.send(.routing(action: .showContentView))
+            self.store.send(.newTemplate(action: .clearState))
         }) {
             Text("Speichern")
         }
@@ -69,6 +73,12 @@ struct PageSelectView_Previews: PreviewProvider {
 
         appState.currentTemplate! = Template(id: "0", name: "Klausur",
                                              info: "Infotext", pages: [page1, page2, page3, page4])
-        return PageSelectView().environmentObject(appState)
+        return PageSelectView()
+            .environmentObject(
+                AppStore(initialState: .init(),
+                         reducer: appReducer,
+                         environment: AppEnviorment()
+                )
+        )
     }
 }
