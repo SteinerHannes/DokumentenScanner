@@ -11,6 +11,7 @@ import Foundation
 import Combine
 import VisionKit
 
+/// The actions to mange routing
 enum RoutingAction {
     case showNewTemplateView
     case showTemplateDetailView
@@ -18,12 +19,14 @@ enum RoutingAction {
     case showContentView
 }
 
+/// The routing variables
 struct RoutingState {
     var isNewTemplateViewPresented: Bool = false
     var isTemplateDetailViewPresented:Bool = false
     var isPageSelectViewPresented: Bool = false
 }
 
+/// The routing reducer for the funtionality of the routing actions
 func routingReducer(state: inout RoutingState, acction: RoutingAction) {
     switch acction {
         case .showNewTemplateView:
@@ -45,6 +48,7 @@ func routingReducer(state: inout RoutingState, acction: RoutingAction) {
     }
 }
 
+/// The actions for managing the new template
 enum NewTemplateAction {
     case createNewTemplate(name: String, info: String)
     case addPagesToNewTemplate(pages: [Page])
@@ -57,14 +61,16 @@ enum NewTemplateAction {
     case clearCurrentAttribute
 }
 
+/// The variables required for handling the new template
 struct NewTemplateState {
     var newTemplate: Template?
     var image: UIImage?
     var currentAttribut: ImageRegion?
     var currentPage: Int?
-    var maxHeight: CGFloat = 140
 }
 
+/// The reducer of the new template 
+/// for the functionality of the template actions
 func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction) {
     switch action {
         case let .createNewTemplate(name: name, info: info):
@@ -80,7 +86,6 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentAttribut = nil
             state.currentPage = nil
             state.image = nil
-            state.maxHeight = 140
             state.newTemplate = nil
         case let .setImageAndPageNumber(number: number):
             state.image = state.newTemplate!.pages[number].image
@@ -104,13 +109,16 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
     }
 }
 
+/// The enviorment for handling the asyncronously funtions 
 struct AppEnviorment {
     var service = TemplateService()
 }
 
 /// The actions of the app state
 enum AppAction {
+    /// The routing reducer function
     case routing(action: RoutingAction)
+    /// The reducer function for the new template
     case newTemplate(action: NewTemplateAction)
     case clearCurrentTemplate
     case setCurrentTemplate(id: String)
@@ -119,7 +127,9 @@ enum AppAction {
 
 /// The new app state
 struct AppStates {
+    /// Variables for routing
     var routes: RoutingState
+    /// Variables for the new template
     var newTemplateState: NewTemplateState
     /// The loaded templates
     var teamplates: [Template] = []
@@ -132,6 +142,7 @@ struct AppStates {
     }
 }
 
+/// The reducer the handle the functionality of the app state actions
 func appReducer(
     states: inout AppStates,
     action: AppAction,
