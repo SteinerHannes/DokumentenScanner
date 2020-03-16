@@ -10,7 +10,6 @@ import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplateDetailView: View {
-    @EnvironmentObject var appState: AppState
     @EnvironmentObject var store: AppStore
 
     // MARK: TODO
@@ -22,9 +21,9 @@ struct TemplateDetailView: View {
     @State var textRecognitionDidFinish: Bool = false
 
     /// The text recognition results of each page
-    @State private var result : [[String]] = []
+    @State private var result: [[String]] = []
     /// It shows wether the ScannerView isActive or not
-    @State private var showCamera : Bool = false
+    @State private var showCamera: Bool = false
 
     init() {
         print("init TemplateDetailView")
@@ -60,7 +59,7 @@ struct TemplateDetailView: View {
                                 }.frame(height: 88)
                             }
                         }
-                        if(!isLoading) {
+                        if !isLoading {
                             ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
                                 Section {
                                     VStack(alignment: .leading, spacing: 10) {
@@ -82,8 +81,8 @@ struct TemplateDetailView: View {
                                     }
                                     //swiftlint:disable line_length
                                     ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
-                                        if(index < self.result.count) {
-                                            if( regionIndex < self.result[index].count) {
+                                        if index < self.result.count {
+                                            if  regionIndex < self.result[index].count {
                                                 Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):").font(.headline)
                                                 TextField("", text: self.$result[index][regionIndex])
                                             } else {
@@ -99,7 +98,7 @@ struct TemplateDetailView: View {
                                     //swiftlint:enable line_length
                                 }
                             }
-                        } else if (isLoading) {
+                        } else if isLoading {
                             HStack(alignment: .center, spacing: 0) {
                                 Spacer()
                                 ActivityIndicator(isAnimating: isLoading)
@@ -186,14 +185,14 @@ struct TemplateDetailView: View {
             let width = region.width
             let height = region.height
             let templateRect = CGRect(x: templateSize.width,
-                                      y: templateSize.height, width:  width, height: height)
+                                      y: templateSize.height, width: width, height: height)
             let templateImage = self.store.states.currentTemplate!.pages[page.id].image
             let image = page.image
 
             let proportionalRect = newProportionalRect(templateImage: templateImage,
                                                        newImage: image, templateRect: templateRect)
 
-            guard let newImage:CGImage = image.cgImage?.cropping(to: proportionalRect)
+            guard let newImage: CGImage = image.cgImage?.cropping(to: proportionalRect)
                 else {
                     continue
             }
