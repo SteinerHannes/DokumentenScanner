@@ -140,6 +140,16 @@
 			path = TemplateDetail;
 			sourceTree = "<group>";
 		};
+		EFC8928D241FD8F5006ABDA2 /* Start */ = {
+			isa = PBXGroup;
+			children = (
+				EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */,
+				EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */,
+				EFE31F4F2403E3EE008015F3 /* ContentView.swift */,
+			);
+			path = Start;
+			sourceTree = "<group>";
+		};
 		EFE31F3F2403E3ED008015F3 = {
 			isa = PBXGroup;
 			children = (
@@ -161,10 +171,8 @@
 		EFE31F4A2403E3EE008015F3 /* DocumentenScanner */ = {
 			isa = PBXGroup;
 			children = (
+				EFC8928D241FD8F5006ABDA2 /* Start */,
 				EF62965A241E752400030997 /* Store */,
-				EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */,
-				EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */,
-				EFE31F4F2403E3EE008015F3 /* ContentView.swift */,
 				EF4223C02406795D00FF510E /* Extensions */,
 				EF4223BD2406790E00FF510E /* Components */,
 				EFE31F662403E9AB008015F3 /* Classes */,
