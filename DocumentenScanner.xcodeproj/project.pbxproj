@@ -39,7 +39,7 @@
 		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
 		EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */; };
 		EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6C2403F340008015F3 /* OCRView.swift */; };
-		EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* CreateTemplateView.swift */; };
+		EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* TemplatePageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,7 +79,7 @@
 		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		EFE31F6C2403F340008015F3 /* OCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRView.swift; sourceTree = "<group>"; };
-		EFE31F6E24041049008015F3 /* CreateTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTemplateView.swift; sourceTree = "<group>"; };
+		EFE31F6E24041049008015F3 /* TemplatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,7 +210,7 @@
 				EFE31F622403E4BD008015F3 /* TemplatesView.swift */,
 				EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */,
 				EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */,
-				EFE31F6E24041049008015F3 /* CreateTemplateView.swift */,
+				EFE31F6E24041049008015F3 /* TemplatePageView.swift */,
 				EF4223C82406A7F500FF510E /* NewAttributView.swift */,
 				EF4223BB2406750600FF510E /* SelectRegionView.swift */,
 			);
@@ -345,7 +345,7 @@
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
-				EFE31F6F24041049008015F3 /* CreateTemplateView.swift in Sources */,
+				EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */,
 				EF61DB75240D70BB0083E0B7 /* PageResult.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,

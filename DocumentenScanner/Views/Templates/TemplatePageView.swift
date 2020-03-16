@@ -11,32 +11,30 @@ import Foundation
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplatePageView: View {
-    @EnvironmentObject var appState: AppState
     @EnvironmentObject var store: AppStore
 
     let index: Int
 
     @State var isBottomSheetOpen: Bool = true
     @State var maxHeight: CGFloat = 140.0
+    @State var showRoot: Bool = false
 
     private var scale: CGFloat {
         // if the images height is greater then the image width * 16/9 screen size
-        if self.store.states.currentTemplate!.pages[self.index].image.size.height >
-            self.store.states.currentTemplate!.pages[self.index].image.size.width * (16/9) {
+        if self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.height >
+            self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.width * (16/9) {
             var tempHeight: CGFloat = 0.0
-            if #available(iOS 13.0, *) {
-                tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
-            }
+            tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
             // shrink the image to fit inside the safe area with some padding
             // 10 := beacuse of the bottom sheet indicator
             // 80 := bottom and top padding
             // (screen height - some padding) / image height
             return (UIScreen.main.bounds.height - ((2 * tempHeight) + 10 + 80)) /
-                self.store.states.currentTemplate!.pages[self.index].image.size.height
+                self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.height
         }
         // screen width / image width
         return UIScreen.main.bounds.width /
-            self.store.states.currentTemplate!.pages[self.index].image.size.width
+            self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.width
     }
 
     init(index: Int) {
@@ -48,10 +46,12 @@ struct TemplatePageView: View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Image(uiImage: self.store.states.currentTemplate!.pages[self.index].image)
+                    Image(uiImage: self.store.states.newTemplateState.newTemplate!.pages[self.index].image)
                         .frame(alignment: .topLeading)
                         .shadow(color: .shadow, radius: 20, x: 0, y: 0)
-                    ForEach(self.store.states.currentTemplate!.pages[self.index].regions) { region in
+                    //swiftlint:disable line_length
+                    ForEach(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions) { region in
+                    //swiftlint:enable line_length
                         Rectangle()
                             .frame(width: region.width, height: region.height, alignment: .topLeading)
                             .offset(region.rectState)
@@ -69,13 +69,14 @@ struct TemplatePageView: View {
             BottomSheetView(isOpen: self.$isBottomSheetOpen, maxHeight: self.$maxHeight) {
                 List {
                     Section {
-                        NavigationLink(destination: NewAttributView(), isActive: self.$appState.showRoot) {
+                        NavigationLink(destination: NewAttributView(showRoot: self.$showRoot),
+                                       isActive: self.$showRoot) {
                             Text("Neues Attribut hinzufügen").foregroundColor(.blue)
                         }.isDetailLink(false)
                     }
                     Section {
                         //swiftlint:disable line_length
-                        ForEach(self.store.states.currentTemplate!.pages[self.index].regions, id: \.id) { region in
+                        ForEach(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions, id: \.id) { region in
                         //swiftlint:enable line_length
                             Text(region.name)
                                 .contextMenu {
@@ -99,13 +100,12 @@ struct TemplatePageView: View {
         .navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .onAppear {
-            // set the image to the current page of the template
-            self.appState.image = self.appState.currentTemplate!.pages[self.index].image
+            // set the image to the current page of the template and
             // set the index in the appstate for the child views
-            self.appState.currentPage = self.index
+            self.store.send(.newTemplate(action: .setImageAndPageNumber(number: self.index)))
             // set the max height to the min(3 , regions in the image)
             self.maxHeight = 140.0 + CGFloat(45 *
-                min(self.appState.currentTemplate!.pages[self.appState.currentPage!].regions.count, 3))
+                min(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions.count, 3))
         }
     }
 
@@ -115,15 +115,11 @@ struct TemplatePageView: View {
      */
     func deleteAttribute(for id: String) {
         // uses the current page number to delete the attribute in the app state
-        if let index = self.appState.currentTemplate!.pages[self.index].regions.firstIndex(where: {
-            $0.id == id
-        }) {
-            self.appState.currentTemplate!.pages[self.index].regions.remove(at: index)
-            // shrink the height of the bottom sheet, if there are less than 4 itmes in it
-            if self.appState.maxHeight > 140 &&
-                self.appState.currentTemplate!.pages[self.index].regions.count < 3 {
-                self.appState.maxHeight -= 45
-            }
+        self.store.send(.newTemplate(action: .removeAttribute(id: id)))
+        // shrink the height of the bottom sheet, if there are less than 4 itmes in it
+        if self.maxHeight > 140 &&
+            self.store.states.newTemplateState.newTemplate!.pages[self.index].regions.count < 3 {
+            self.maxHeight -= 45
         }
     }
 }
@@ -147,14 +143,16 @@ private struct AttributeNameTag: View {
 
 struct CreateTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-        let appState = AppState()
-        appState.currentTemplate = Template(id: "0", name: "Bla", info: "Bla",
-                                            pages: [Page(id: 0,
-                                                         image: UIImage(imageLiteralResourceName: "test"))])
+//        let appState = AppState()
+//        appState.currentTemplate =
+//            Template(id: "0",
+//                     name: "Bla",
+//                     info: "Bla",
+//                     pages: [Page(id: 0, image: UIImage(imageLiteralResourceName: "test"))]
+//            )
 
         return NavigationView {
             TemplatePageView(index: 0)
-                .environmentObject(appState)
                 .environmentObject(
                     AppStore(initialState: .init(),
                              reducer: appReducer,
