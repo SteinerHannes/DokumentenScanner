@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Vision
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplateDetailView: View {
@@ -21,9 +22,13 @@ struct TemplateDetailView: View {
     @State var textRecognitionDidFinish: Bool = false
 
     /// The text recognition results of each page
-    @State private var result: [[String]] = []
-    /// It shows wether the ScannerView isActive or not
+    @State private var result: [[(String,VNConfidence)]] = []
+    /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
+    /// It shows wether the alert is active or not
+    @State private var showAlert: Bool = false
+    /// Is set when the taken pages != the pages of the template
+    @State private var takenPages: Int?
 
     init() {
         print("init TemplateDetailView")
@@ -52,9 +57,12 @@ struct TemplateDetailView: View {
                                         Text(self.store.states.currentTemplate!.name)
                                             .font(.headline)
                                             .lineLimit(1)
+                                        Text("\(self.store.states.currentTemplate!.pages.count) Steiten")
+                                            .font(.system(size: 13))
+                                            .lineLimit(1)
                                         Text(self.store.states.currentTemplate!.info)
                                             .font(.system(size: 13))
-                                            .lineLimit(4)
+                                            .lineLimit(3)
                                     }
                                 }.frame(height: 88)
                             }
@@ -83,8 +91,15 @@ struct TemplateDetailView: View {
                                     ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
                                         if index < self.result.count {
                                             if  regionIndex < self.result[index].count {
-                                                Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):").font(.headline)
-                                                TextField("", text: self.$result[index][regionIndex])
+                                                HStack(alignment: .center, spacing: 2.5) {
+                                                    Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):")
+                                                        .font(.headline)
+                                                        .layoutPriority(1.0)
+                                                    Spacer()
+                                                    Text("\(self.result[index][regionIndex].1)")
+                                                        .layoutPriority(1.0)
+                                                }
+                                                TextField("", text: self.$result[index][regionIndex].0)
                                             } else {
                                                 HStack(alignment: .center, spacing: 0) {
                                                     Spacer()
@@ -110,6 +125,12 @@ struct TemplateDetailView: View {
                     .listStyle(GroupedListStyle())
                     .environment(\.horizontalSizeClass, .regular)
                     .resignKeyboardOnDragGesture()
+                    .alert(isPresented: self.$showAlert) {
+                        //swiftlint:disable line_length
+                        Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.store.states.currentTemplate!.pages.count)) überein.")
+                        )
+                        //swiftlint:enable line_length
+                    }
                 }
             }
             .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")", displayMode: .large)
@@ -171,6 +192,9 @@ struct TemplateDetailView: View {
                     }
                 }
             }
+        } else {
+            self.takenPages = pages!.count
+            self.showAlert = true
         }
     }
 
@@ -225,5 +249,11 @@ struct TemplateDetailView: View {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         TemplateDetailView()
+            .environmentObject(
+                AppStore(initialState: .init(),
+                         reducer: appReducer,
+                         environment: AppEnviorment()
+                )
+            )
     }
 }
