@@ -24,9 +24,7 @@ struct TemplatePageView: View {
         if self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.height >
             self.store.states.newTemplateState.newTemplate!.pages[self.index].image.size.width * (16/9) {
             var tempHeight: CGFloat = 0.0
-            if #available(iOS 13.0, *) {
-                tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
-            }
+            tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
             // shrink the image to fit inside the safe area with some padding
             // 10 := beacuse of the bottom sheet indicator
             // 80 := bottom and top padding
@@ -83,7 +81,7 @@ struct TemplatePageView: View {
                             Text(region.name)
                                 .contextMenu {
                                     Button(action: {
-                                        //self.deleteAttribute(for: region.id)
+                                        self.deleteAttribute(for: region.id)
                                     }) {
                                         // MARK: no size and color effect
                                         Text("Löschen").font(.system(size: 15))
@@ -145,13 +143,13 @@ private struct AttributeNameTag: View {
 
 struct CreateTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-        let appState = AppState()
-        appState.currentTemplate =
-            Template(id: "0",
-                     name: "Bla",
-                     info: "Bla",
-                     pages: [Page(id: 0, image: UIImage(imageLiteralResourceName: "test"))]
-            )
+//        let appState = AppState()
+//        appState.currentTemplate =
+//            Template(id: "0",
+//                     name: "Bla",
+//                     info: "Bla",
+//                     pages: [Page(id: 0, image: UIImage(imageLiteralResourceName: "test"))]
+//            )
 
         return NavigationView {
             TemplatePageView(index: 0)

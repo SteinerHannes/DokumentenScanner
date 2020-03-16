@@ -16,8 +16,6 @@ private enum Constants {
 }
 
 struct BottomSheetView<Content: View>: View {
-    /// Is used to trigger the initaisation on appear only once
-    @State private var initFirst: Bool = true
     /// It shows wether the bottom sheet is open
     @Binding var isOpen: Bool
     /// The calculated maximum height of the bottom sheet
@@ -86,29 +84,21 @@ struct BottomSheetView<Content: View>: View {
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
                     state = value.translation.height
-//                    print(value.translation.height)
                 }.onEnded { value in
                     let snapDistance = self.maxHeight * Constants.snapRatio
                     guard abs(value.translation.height) > snapDistance else {
                         return
                     }
                     if !self.isOpen {
-//                        print(value.translation.height)
                         self.isOpen = value.translation.height < 0
-//                        print(value.translation.height < 0)
                     } else {
-//                        print(value.translation.height)
                         self.isOpen = !(value.translation.height > 0)
-//                        print(value.translation.height > 0)
                     }
                 }
             )
         }.onAppear {
             // if the view appears the first time add the height of the bottom safe area
-            if self.initFirst {
-                self._maxHeight.wrappedValue += self.bottomSafeAreaHeight
-                self.initFirst = false
-            }
+            self._maxHeight.wrappedValue += self.bottomSafeAreaHeight
         }
     }
 }
