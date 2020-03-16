@@ -12,6 +12,7 @@
 		EF1945EB240804A700D76CE7 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* Template.swift */; };
 		EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */; };
 		EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EE24082F1600D76CE7 /* BackButton.swift */; };
+		EF1C82D8241FD2880098F5CB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EF1C82D7241FD2880098F5CB /* .gitignore */; };
 		EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BB2406750600FF510E /* SelectRegionView.swift */; };
 		EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BE2406792700FF510E /* BottomSheetView.swift */; };
 		EF4223C22406797600FF510E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C12406797600FF510E /* Colors.swift */; };
@@ -47,6 +48,7 @@
 		EF1945EA240804A700D76CE7 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplateView.swift; sourceTree = "<group>"; };
 		EF1945EE24082F1600D76CE7 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		EF1C82D7241FD2880098F5CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		EF4223BB2406750600FF510E /* SelectRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegionView.swift; sourceTree = "<group>"; };
 		EF4223BE2406792700FF510E /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		EF4223C12406797600FF510E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		EFE31F3F2403E3ED008015F3 = {
 			isa = PBXGroup;
 			children = (
+				EF1C82D7241FD2880098F5CB /* .gitignore */,
 				EF44754624090C64005A0ADB /* .swiftlint.yml */,
 				EFE31F4A2403E3EE008015F3 /* DocumentenScanner */,
 				EFE31F492403E3EE008015F3 /* Products */,
@@ -280,6 +283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF1C82D8241FD2880098F5CB /* .gitignore in Resources */,
 				EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */,
 				EFE31F582403E3F4008015F3 /* LaunchScreen.storyboard in Resources */,
 				EFE31F552403E3F4008015F3 /* Preview Assets.xcassets in Resources */,
