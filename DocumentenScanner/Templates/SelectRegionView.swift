@@ -180,7 +180,7 @@ struct SelectRegionView: View {
                 state = .zooming(scale: value)
             }.onEnded { value in
                 // set the zoom level
-                self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1,5), 0.06)
+                self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1.5), 0.06)
                 print(self.viewMagnificationState)
             }
 //        .simultaneously(with: DragGesture(minimumDistance: 0, coordinateSpace: .local).onChanged({ value in
@@ -306,9 +306,9 @@ struct SelectRegionView: View {
 
 struct SelectRegionView_Previews: PreviewProvider {
     static var previews: some View {
-        let image = UIImage(imageLiteralResourceName: "post")
-        let appState = AppState()
-        appState.image = image
+//        let image = UIImage(imageLiteralResourceName: "post")
+//        let appState = AppState()
+//        appState.image = image
 
         return NavigationView {
             SelectRegionView(showRoot: .constant(false))

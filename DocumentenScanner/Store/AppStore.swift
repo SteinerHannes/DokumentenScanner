@@ -22,7 +22,7 @@ enum RoutingAction {
 /// The routing variables
 struct RoutingState {
     var isNewTemplateViewPresented: Bool = false
-    var isTemplateDetailViewPresented:Bool = false
+    var isTemplateDetailViewPresented: Bool = false
     var isPageSelectViewPresented: Bool = false
 }
 
@@ -78,28 +78,36 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             template.name = name
             template.info = info
             state.newTemplate = template
+
         case let .addPagesToNewTemplate(pages: pages):
             state.newTemplate!.pages = pages
+
         case .clearNewTemplate:
             state.newTemplate = nil
+
         case .clearState:
             state.currentAttribut = nil
             state.currentPage = nil
             state.image = nil
             state.newTemplate = nil
+
         case let .setImageAndPageNumber(number: number):
             state.image = state.newTemplate!.pages[number].image
             state.currentPage = number
+
         case let .removeAttribute(id: id):
             if let index = state.newTemplate!.pages[state.currentPage!].regions.firstIndex(where: {
                 $0.id == id
             }) {
                 state.newTemplate!.pages[state.currentPage!].regions.remove(at: index)
             }
+
         case let .setAttribute(name: name, datatype: type):
             state.currentAttribut = ImageRegion(name: name, datatype: type)
+
         case .clearCurrentAttribute:
             state.currentAttribut = nil
+
         case let .addAttributeToPage(height: height, width: width, rectState: rectState):
             state.currentAttribut!.height = height
             state.currentAttribut!.width = width
