@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Vision
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplateDetailView: View {
@@ -21,7 +22,7 @@ struct TemplateDetailView: View {
     @State var textRecognitionDidFinish: Bool = false
 
     /// The text recognition results of each page
-    @State private var result: [[String]] = []
+    @State private var result: [[(String,VNConfidence)]] = []
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
@@ -90,8 +91,15 @@ struct TemplateDetailView: View {
                                     ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
                                         if index < self.result.count {
                                             if  regionIndex < self.result[index].count {
-                                                Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):").font(.headline)
-                                                TextField("", text: self.$result[index][regionIndex])
+                                                HStack(alignment: .center, spacing: 2.5) {
+                                                    Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):")
+                                                        .font(.headline)
+                                                        .layoutPriority(1.0)
+                                                    Spacer()
+                                                    Text("\(self.result[index][regionIndex].1)")
+                                                        .layoutPriority(1.0)
+                                                }
+                                                TextField("", text: self.$result[index][regionIndex].0)
                                             } else {
                                                 HStack(alignment: .center, spacing: 0) {
                                                     Spacer()
