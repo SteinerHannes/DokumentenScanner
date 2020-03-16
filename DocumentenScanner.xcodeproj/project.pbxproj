@@ -150,6 +150,17 @@
 			path = Start;
 			sourceTree = "<group>";
 		};
+		EFC8928E241FD9BF006ABDA2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EFE31F5F2403E430008015F3 /* Templates */,
+				EF78DA2B240932B400FBB1EA /* TemplateDetail */,
+				EFE31F692403F2C1008015F3 /* Scanner */,
+				EF4223BD2406790E00FF510E /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		EFE31F3F2403E3ED008015F3 = {
 			isa = PBXGroup;
 			children = (
@@ -172,13 +183,10 @@
 			isa = PBXGroup;
 			children = (
 				EFC8928D241FD8F5006ABDA2 /* Start */,
+				EFC8928E241FD9BF006ABDA2 /* Views */,
 				EF62965A241E752400030997 /* Store */,
 				EF4223C02406795D00FF510E /* Extensions */,
-				EF4223BD2406790E00FF510E /* Components */,
 				EFE31F662403E9AB008015F3 /* Classes */,
-				EFE31F692403F2C1008015F3 /* Scanner */,
-				EFE31F5F2403E430008015F3 /* Templates */,
-				EF78DA2B240932B400FBB1EA /* TemplateDetail */,
 				EFE31F512403E3F4008015F3 /* Assets.xcassets */,
 				EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */,
 				EFE31F592403E3F4008015F3 /* Info.plist */,
