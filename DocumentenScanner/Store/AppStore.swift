@@ -56,7 +56,7 @@ enum NewTemplateAction {
     case clearState
     case setImageAndPageNumber(number: Int)
     case removeAttribute(id: String)
-    case setAttribute(name: String, datatype: Int)
+    case setAttribute(name: String, datatype: ResultDatatype)
     case addAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
     case clearCurrentAttribute
 }

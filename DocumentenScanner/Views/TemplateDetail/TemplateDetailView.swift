@@ -22,7 +22,7 @@ struct TemplateDetailView: View {
     @State var textRecognitionDidFinish: Bool = false
 
     /// The text recognition results of each page
-    @State private var result: [[(String,VNConfidence)]] = []
+    @State private var result: [[PageRegion]] = []
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
@@ -96,10 +96,10 @@ struct TemplateDetailView: View {
                                                         .font(.headline)
                                                         .layoutPriority(1.0)
                                                     Spacer()
-                                                    Text("\(self.result[index][regionIndex].1)")
+                                                    Text("\(self.result[index][regionIndex].confidence)")
                                                         .layoutPriority(1.0)
                                                 }
-                                                TextField("", text: self.$result[index][regionIndex].0)
+                                                TextField("", text: self.$result[index][regionIndex].textResult)
                                             } else {
                                                 HStack(alignment: .center, spacing: 0) {
                                                     Spacer()
@@ -185,8 +185,8 @@ struct TemplateDetailView: View {
             for page in pages! {
                 self.result.append([])
                 let imageResults: [PageRegion] = getPageRegions(page: page)
-                TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
-                    self.result[page.id] = resultArray
+                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
+                    self.result[page.id] = pageRegions
                     if page.id == pages!.count - 1 {
                         self.textRecognitionDidFinish = true
                     }
@@ -221,9 +221,10 @@ struct TemplateDetailView: View {
                     continue
             }
 
-            let imageResult: PageRegion = PageRegion(imageAttributeName: region.name,
-                                                                       regionImage: newImage)
-            results.append(imageResult)
+            let imageAndId: PageRegion = PageRegion(regionID: region.id,
+                                                    regionImage: newImage,
+                                                    datatype:  region.datatype)
+            results.append(imageAndId)
         }
         return results
     }

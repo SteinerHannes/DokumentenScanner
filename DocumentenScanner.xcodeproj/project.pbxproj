@@ -20,10 +20,11 @@
 		EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C82406A7F500FF510E /* NewAttributView.swift */; };
 		EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EF44754624090C64005A0ADB /* .swiftlint.yml */; };
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
-		EF61DB75240D70BB0083E0B7 /* PageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* PageResult.swift */; };
+		EF61DB75240D70BB0083E0B7 /* PageRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* PageRegion.swift */; };
 		EF62965C241E753B00030997 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62965B241E753B00030997 /* AppStore.swift */; };
 		EF629661241E805D00030997 /* TemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF629660241E805D00030997 /* TemplateService.swift */; };
 		EF629663241E812400030997 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF629662241E812400030997 /* Store.swift */; };
+		EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BEC2420DE38001D71F9 /* GlobalRecognitionTextList.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
@@ -57,10 +58,11 @@
 		EF44754524090C22005A0ADB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		EF44754624090C64005A0ADB /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
-		EF61DB74240D70BB0083E0B7 /* PageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageResult.swift; sourceTree = "<group>"; };
+		EF61DB74240D70BB0083E0B7 /* PageRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRegion.swift; sourceTree = "<group>"; };
 		EF62965B241E753B00030997 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		EF629660241E805D00030997 /* TemplateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateService.swift; sourceTree = "<group>"; };
 		EF629662241E812400030997 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		EF786BEC2420DE38001D71F9 /* GlobalRecognitionTextList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalRecognitionTextList.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
 		EF88C7F924103597008C4497 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -130,6 +132,14 @@
 				EF629660241E805D00030997 /* TemplateService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		EF786BEB2420DDF2001D71F9 /* TextRecognition */ = {
+			isa = PBXGroup;
+			children = (
+				EF786BEC2420DE38001D71F9 /* GlobalRecognitionTextList.swift */,
+			);
+			path = TextRecognition;
 			sourceTree = "<group>";
 		};
 		EF78DA2B240932B400FBB1EA /* TemplateDetail */ = {
@@ -220,11 +230,12 @@
 		EFE31F662403E9AB008015F3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EF786BEB2420DDF2001D71F9 /* TextRecognition */,
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF1945EA240804A700D76CE7 /* Template.swift */,
 				EF8E6D8C241100DB00ABDC19 /* Page.swift */,
 				EF4223C3240685CE00FF510E /* ImageRegion.swift */,
-				EF61DB74240D70BB0083E0B7 /* PageResult.swift */,
+				EF61DB74240D70BB0083E0B7 /* PageRegion.swift */,
 				EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */,
 			);
 			path = Classes;
@@ -346,7 +357,7 @@
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
 				EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */,
-				EF61DB75240D70BB0083E0B7 /* PageResult.swift in Sources */,
+				EF61DB75240D70BB0083E0B7 /* PageRegion.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
@@ -361,6 +372,7 @@
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
 				EF629663241E812400030997 /* Store.swift in Sources */,
+				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
 				EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
 			);
