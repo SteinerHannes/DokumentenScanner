@@ -86,14 +86,7 @@ struct NewTemplateView: View {
 
 struct NewTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            NewTemplateView()
-                .environmentObject(
-                    AppStore(initialState: .init(),
-                             reducer: appReducer,
-                             environment: AppEnviorment()
-                    )
-                )
-        }
+        NewTemplateView()
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

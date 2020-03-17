@@ -223,7 +223,7 @@ struct TemplateDetailView: View {
 
             let imageAndId: PageRegion = PageRegion(regionID: region.id,
                                                     regionImage: newImage,
-                                                    datatype:  region.datatype)
+                                                    datatype: region.datatype)
             results.append(imageAndId)
         }
         return results
@@ -250,11 +250,6 @@ struct TemplateDetailView: View {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         TemplateDetailView()
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

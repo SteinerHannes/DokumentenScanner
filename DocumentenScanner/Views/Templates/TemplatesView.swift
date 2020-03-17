@@ -89,11 +89,6 @@ struct TemplatesView: View {
 struct TemplatesView_Previews: PreviewProvider {
     static var previews: some View {
         TemplatesView()
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

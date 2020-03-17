@@ -76,7 +76,7 @@ struct NewAttributView: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Eigenschaften festlegen")
+            .navigationBarTitle("Eigenschaften festlegen", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: leadingItem())
             .resignKeyboardOnDragGesture()
@@ -109,12 +109,9 @@ struct NewAttributView: View {
 
 struct NewAttributView_Previews: PreviewProvider {
     static var previews: some View {
-        NewAttributView(showRoot: .constant(false))
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+        NavigationView {
+            NewAttributView(showRoot: .constant(false))
+                .environmentObject(AppStoreMock.getAppStore())
+        }
     }
 }

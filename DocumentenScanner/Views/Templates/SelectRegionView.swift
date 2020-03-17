@@ -306,18 +306,9 @@ struct SelectRegionView: View {
 
 struct SelectRegionView_Previews: PreviewProvider {
     static var previews: some View {
-//        let image = UIImage(imageLiteralResourceName: "post")
-//        let appState = AppState()
-//        appState.image = image
-
-        return NavigationView {
+        NavigationView {
             SelectRegionView(showRoot: .constant(false))
-                .environmentObject(
-                    AppStore(initialState: .init(),
-                             reducer: appReducer,
-                             environment: AppEnviorment()
-                    )
-                )
+                .environmentObject(AppStoreMock.getAppStore())
         }
     }
 }
