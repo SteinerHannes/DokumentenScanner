@@ -8,15 +8,6 @@
 
 import Foundation
 
-public enum ResultDatatype: Int {
-    case none = 0
-    case mark = 1
-    case name = 2
-    case studentNumber = 3
-    case seminarGroup = 4
-    case point = 5
-}
-
 public let Marks: [String] = [
     "1,0","1,3","1,7",
     "2,0","2,3","2,7",
