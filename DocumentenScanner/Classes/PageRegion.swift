@@ -22,7 +22,10 @@ struct PageRegion {
     ///
     public var confidence: VNConfidence = 0.0
 
-    init(regionID: String, regionImage: CGImage, datatype: ResultDatatype) {
+    public var regionName: String
+
+    init(regionID: String, regionName: String, regionImage: CGImage, datatype: ResultDatatype) {
+        self.regionName = regionName
         self.regionID = regionID
         self.regionImage = regionImage
         self.datatype = datatype
