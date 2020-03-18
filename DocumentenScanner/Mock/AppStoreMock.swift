@@ -20,7 +20,7 @@ class AppStoreMock {
         // set current template
         appState.currentTemplate = template
         // add templte to templates
-        //appState.teamplates.append(template)
+        appState.teamplates.append(template)
         // set a new template to the test template
         appState.newTemplateState.newTemplate = template
         // set a test image
