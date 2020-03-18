@@ -23,3 +23,10 @@ struct ImageRegion: Identifiable {
     /// The data type of the content of the region
     public var datatype: ResultDatatype = .none
 }
+
+extension ImageRegion: Equatable {
+    static func == (lhs: ImageRegion, rhs: ImageRegion) -> Bool {
+        return
+            lhs.id == rhs.id
+    }
+}
