@@ -53,13 +53,9 @@ struct PageSelectView: View {
     }
 
     func trailingItem() -> some View {
-        Button(action: {
-            self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
-            self.store.send(.routing(action: .showContentView))
-            self.store.send(.newTemplate(action: .clearState))
-        }) {
-            Text("Speichern")
-        }
+        NavigationLink(destination: LinkedRegionsView()) {
+            Text("Weiter")
+        }.isDetailLink(false)
     }
 }
 

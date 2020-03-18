@@ -13,7 +13,7 @@ enum RegionActionType {
     case sum
 }
 //swiftlint:disable switch_case_alignment
-class LinkedPageRegions {
+struct LinkedPageRegions {
     private let type: RegionActionType
 
     init(from type: RegionActionType) {
@@ -22,7 +22,7 @@ class LinkedPageRegions {
 
     private var regions: [String] = []
 
-    func setRegionsFor(ids list: [String]) {
+    mutating func setRegionsFor(ids list: [String]) {
         self.regions = list
     }
 

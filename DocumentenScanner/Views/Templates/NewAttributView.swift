@@ -31,7 +31,7 @@ struct NewAttributView: View {
                     TextField("Name", text: self.$name)
                         .keyboardType(.alphabet)
                     Picker(selection: $datatype, label: Text("Datentyp")) {
-                        Text("Unbekannt").tag(Int(ResultDatatype.none.rawValue))
+                        Text("Unbekannt").tag(ResultDatatype.none.rawValue)
                         Text("Note").tag(ResultDatatype.mark.rawValue)
                         Text("Name").tag(ResultDatatype.name.rawValue)
                         Text("Matrikelnummer").tag(ResultDatatype.studentNumber.rawValue)

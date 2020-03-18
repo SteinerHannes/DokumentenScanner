@@ -68,57 +68,65 @@ struct TemplateDetailView: View {
                             }
                         }
                         if !isLoading {
-                            ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
-                                Section {
-                                    VStack(alignment: .leading, spacing: 10) {
-                                        HStack(alignment: .top, spacing: 10) {
-                                            Image(uiImage:
-                                                self.store.states.currentTemplate!.pages[index].image)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, maxHeight: 88)
-                                            VStack(alignment: .leading, spacing: 5) {
-                                                Text(self.pageInfo(index: index))
-                                                    .font(.headline)
-                                                    .lineLimit(1)
-                                                Text(self.regionInfo(index: index))
-                                                    .font(.system(size: 13))
-                                                    .lineLimit(4)
-                                            }
-                                        }
-                                    }
-                                    //swiftlint:disable line_length
-                                    ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
-                                        if index < self.result.count {
-                                            if  regionIndex < self.result[index].count {
-                                                HStack(alignment: .center, spacing: 2.5) {
-                                                    Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):")
+                            Group {
+                                ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
+                                    Section {
+                                        VStack(alignment: .leading, spacing: 10) {
+                                            HStack(alignment: .top, spacing: 10) {
+                                                Image(uiImage:
+                                                    self.store.states.currentTemplate!.pages[index].image)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(minWidth: 0, maxWidth: 88,
+                                                           minHeight: 0, maxHeight: 88)
+                                                VStack(alignment: .leading, spacing: 5) {
+                                                    Text(self.pageInfo(index: index))
                                                         .font(.headline)
-                                                        .layoutPriority(1.0)
-                                                    Spacer()
-                                                    Text("\(self.result[index][regionIndex].confidence)")
-                                                        .layoutPriority(1.0)
-                                                }
-                                                TextField("", text: self.$result[index][regionIndex].textResult)
-                                            } else {
-                                                HStack(alignment: .center, spacing: 0) {
-                                                    Spacer()
-                                                    ActivityIndicator(isAnimating: true)
-                                                        .configure { $0.color = .tertiaryLabel }
-                                                    Spacer()
+                                                        .lineLimit(1)
+                                                    Text(self.regionInfo(index: index))
+                                                        .font(.system(size: 13))
+                                                        .lineLimit(4)
                                                 }
                                             }
                                         }
+                                        //swiftlint:disable line_length
+                                        ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
+                                            if index < self.result.count {
+                                                if  regionIndex < self.result[index].count {
+                                                    HStack(alignment: .center, spacing: 2.5) {
+                                                        Text("\(self.result[index][regionIndex].regionName):")
+                                                            .font(.headline)
+                                                            .layoutPriority(1.0)
+                                                        Spacer()
+                                                        Text("\(self.result[index][regionIndex].confidence)")
+                                                            .layoutPriority(1.0)
+                                                    }
+                                                    TextField("", text: self.$result[index][regionIndex].textResult)
+                                                } else {
+                                                    HStack(alignment: .center, spacing: 0) {
+                                                        Spacer()
+                                                        ActivityIndicator(isAnimating: true)
+                                                            .configure { $0.color = .tertiaryLabel }
+                                                        Spacer()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //swiftlint:enable line_length
                                     }
-                                    //swiftlint:enable line_length
+                                }
+                                Divider()
+                                Section {
+                                    Text("Links")
                                 }
                             }
                         } else if isLoading {
-                            HStack(alignment: .center, spacing: 0) {
-                                Spacer()
-                                ActivityIndicator(isAnimating: isLoading)
-                                    .configure { $0.color = .tertiaryLabel }
-                                Spacer()
+                            Section {
+                                HStack(alignment: .center, spacing: 0) {
+                                    Spacer()
+                                    Text("Keine Ergebnisse vorhanden.")
+                                    Spacer()
+                                }
                             }
                         }
                     }
@@ -139,7 +147,7 @@ struct TemplateDetailView: View {
         }
     }
     /**
-    The functions returns a list of region/attribute names of the page
+     The functions returns a list of region/attribute names of the page
      */
     fileprivate func regionInfo(index: Int) -> String {
         return self.store.states.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
@@ -148,7 +156,7 @@ struct TemplateDetailView: View {
     }
 
     /**
-    The function returns some page number information
+     The function returns some page number information
      */
     fileprivate func pageInfo(index: Int) -> String {
         return "Seite \(index+1) von \(self.store.states.currentTemplate!.pages.count)"
@@ -222,6 +230,7 @@ struct TemplateDetailView: View {
             }
 
             let imageAndId: PageRegion = PageRegion(regionID: region.id,
+                                                    regionName: region.name,
                                                     regionImage: newImage,
                                                     datatype: region.datatype)
             results.append(imageAndId)

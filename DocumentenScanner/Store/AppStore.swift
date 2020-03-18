@@ -6,7 +6,7 @@
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
-//swiftlint:disable switch_case_alignment
+//swiftlint:disable switch_case_alignment cyclomatic_complexity
 import Foundation
 import Combine
 import VisionKit
@@ -59,6 +59,7 @@ enum NewTemplateAction {
     case setAttribute(name: String, datatype: ResultDatatype)
     case addAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
     case clearCurrentAttribute
+    case links(action: LinkAction)
 }
 
 /// The variables required for handling the new template
@@ -67,6 +68,11 @@ struct NewTemplateState {
     var image: UIImage?
     var currentAttribut: ImageRegion?
     var currentPage: Int?
+    var linkState: LinkState
+
+    init() {
+        self.linkState = LinkState()
+    }
 }
 
 /// The reducer of the new template 
@@ -114,6 +120,50 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentAttribut!.rectState = rectState
             state.newTemplate!.pages[state.currentPage!].regions.append(state.currentAttribut!)
             state.currentAttribut = nil
+
+        case let .links(action: action):
+            linkReducer(state: &state.linkState, action: action)
+    }
+}
+
+enum LinkAction {
+    case setLinkType(type: LinkType)
+    case setFirstSelections(selections: [String])
+    case setSecondSelections(selections: [String])
+    case createLink
+    case deletLink(linkID: String)
+}
+
+struct LinkState {
+    var links: [Link]?
+    var currentType: LinkType? = .compare
+    var firstSelections: [String]?
+    var secondSelections: [String]?
+}
+
+func linkReducer(state: inout LinkState, action: LinkAction) {
+    switch action {
+        case let .setLinkType(type: type):
+            state.currentType = type
+            state.firstSelections = nil
+            state.secondSelections = nil
+        case let .setFirstSelections(selections: links):
+            state.firstSelections = links
+        case let .setSecondSelections(selections: links):
+            state.secondSelections = links
+        case .createLink:
+            let regionIDs = state.firstSelections! + state.secondSelections!
+            let link = Link(linktype: state.currentType!, regionIDs: regionIDs)
+            if state.links == nil {
+                state.links = []
+            }
+            state.links!.append(link)
+        case let .deletLink(linkID: id):
+            if let index = state.links?.firstIndex(where: { (link) -> Bool in
+                link.id == id
+            }) {
+                state.links?.remove(at: index)
+            }
     }
 }
 
@@ -161,7 +211,6 @@ func appReducer(
             routingReducer(state: &states.routes, acction: action)
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
-
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
         case let .setCurrentTemplate(id: id):
