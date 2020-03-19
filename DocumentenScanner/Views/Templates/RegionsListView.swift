@@ -33,48 +33,56 @@ struct RegionsListView: View {
         .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle("Region auswählen", displayMode: .inline)
         .onDisappear {
-            if self.selectionNumber == 1 {
-                self.store.send(
-                    .newTemplate(action:
-                        .links(action:
-                            .setFirstSelections(selections: self.selections.map({ (region) -> String in
-                                region.id
-                            }))
-                        )
-                    )
-                )
-            } else {
-                self.store.send(
-                    .newTemplate(action:
-                        .links(action:
-                            .setSecondSelections(selections: self.selections.map({ (region) -> String in
-                                region.id
-                            }))
-                        )
-                    )
-                )
-            }
+            self.sendSelection()
         }.onAppear {
-            if self.selectionNumber == 1 {
-                let id = self.store.states.newTemplateState.linkState.firstSelections?.first
-                for page in self.store.states.newTemplateState.newTemplate!.pages {
-                    for region in page.regions where region.id == id {
-                        self.selections.append(region)
-                    }
-                }
-            } else {
-                let id = self.store.states.newTemplateState.linkState.secondSelections?.first
-                for page in self.store.states.newTemplateState.newTemplate!.pages {
-                    for region in page.regions where region.id == id {
-                        self.selections.append(region)
-                    }
-                }
-            }
+            self.getSelection()
         }
     }
 
     private func getRegion(for page: Int, and region: Int) -> ImageRegion {
         return store.states.newTemplateState.newTemplate!.pages[page].regions[region]
+    }
+
+    private func sendSelection() {
+        if self.selectionNumber == 1 {
+            self.store.send(
+                .newTemplate(action:
+                    .links(action:
+                        .setFirstSelections(selections: self.selections.map({ (region) -> String in
+                            region.id
+                        }))
+                    )
+                )
+            )
+        } else {
+            self.store.send(
+                .newTemplate(action:
+                    .links(action:
+                        .setSecondSelections(selections: self.selections.map({ (region) -> String in
+                            region.id
+                        }))
+                    )
+                )
+            )
+        }
+    }
+
+    private func getSelection() {
+        if self.selectionNumber == 1 {
+            let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+            for page in self.store.states.newTemplateState.newTemplate!.pages {
+                for region in page.regions where region.id == id {
+                    self.selections.append(region)
+                }
+            }
+        } else {
+            let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+            for page in self.store.states.newTemplateState.newTemplate!.pages {
+                for region in page.regions where region.id == id {
+                    self.selections.append(region)
+                }
+            }
+        }
     }
 }
 
