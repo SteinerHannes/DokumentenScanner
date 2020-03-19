@@ -8,12 +8,21 @@
 
 import SwiftUI
 
+struct AlertIdentifier: Identifiable {
+    enum AlertType {
+        case noFirstSelections
+        case noSecondSelections
+    }
+
+    var id: AlertType
+}
+
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct AddLinkView: View {
-
     @EnvironmentObject var store: AppStore
-    // MARK: TODO create own type
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     @State var linktype: Int = 0
+    @State var showAlert: AlertIdentifier?
 
     var body: some View {
         NavigationView {
@@ -22,13 +31,6 @@ struct AddLinkView: View {
                     Picker(selection: self.$linktype, label: Text("Linktype")) {
                         Text("Vergleichen").tag(LinkType.compare.rawValue)
                         Text("Summieren").tag(LinkType.sum.rawValue)
-                            .onDisappear {
-                                // set the type on disappear (no better option because of navigation)
-                                self.store.send(.newTemplate(action: .links(action:
-                                    .setLinkType(type: LinkType(rawValue: self.linktype)!)))
-                                )
-                                print(self.store.states.newTemplateState.linkState.currentType!)
-                            }
                     }
                     if self.linktype == LinkType.compare.rawValue {
                         Text("Hilfstext für Vergleichen:")
@@ -39,7 +41,8 @@ struct AddLinkView: View {
                 }
                 if self.linktype == LinkType.compare.rawValue {
                     Section {
-                        NavigationLink(destination: RegionsListView(selectionNumber: 1).environmentObject(self.store)) {
+                        NavigationLink(destination: RegionsListView(selectionNumber: 1)
+                                                        .environmentObject(self.store)) {
                             HStack {
                                 Text("1. Vergleicher")
                                     .foregroundColor(.label)
@@ -50,7 +53,8 @@ struct AddLinkView: View {
                         }.isDetailLink(false)
                     }
                     Section {
-                        NavigationLink(destination: RegionsListView(selectionNumber: 2).environmentObject(self.store)) {
+                        NavigationLink(destination: RegionsListView(selectionNumber: 2)
+                                                        .environmentObject(self.store)) {
                             HStack {
                                 Text("2. Vergleicher")
                                     .foregroundColor(.label)
@@ -66,12 +70,39 @@ struct AddLinkView: View {
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Neuen Link erstellen", displayMode: .inline)
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
+            .onDisappear {
+                // set the type on disappear (no better option because of navigation)
+                self.store.send(.newTemplate(action: .links(action:
+                    .setLinkType(type: LinkType(rawValue: self.linktype)!)))
+                )
+                print(self.store.states.newTemplateState.linkState.currentType!)
+            }
+            .alert(item: self.$showAlert) { alert in
+                switch alert.id {
+                    case .noFirstSelections:
+                        return Alert(title: Text("1. Vergleicher leer."),
+                              message: Text("Füge einen 1. Verlgiecher hinzu!"),
+                              dismissButton: .cancel())
+                    case .noSecondSelections:
+                        return Alert(title: Text("2. Vergleicher leer."),
+                                     message: Text("Füge einen 2. Verlgiecher hinzu!"),
+                                     dismissButton: .cancel())
+                }
+            }
         }
     }
 
     private func trailingItem() -> some View {
         Button(action: {
-
+            if self.store.states.newTemplateState.linkState.firstSelections == nil {
+                self.showAlert = .init(id: .noFirstSelections)
+            } else if self.store.states.newTemplateState.linkState.secondSelections == nil {
+                self.showAlert = .init(id: .noSecondSelections)
+            } else {
+                self.store.send(.newTemplate(action: .addLinkToNewTemplate))
+                self.presentation.wrappedValue.dismiss()
+                self.store.send(.newTemplate(action: .links(action: .clearLink)))
+            }
         }) {
             Text("Speichern")
         }
@@ -79,7 +110,8 @@ struct AddLinkView: View {
 
     private func leadingItem() -> some View {
         Button(action: {
-
+            self.presentation.wrappedValue.dismiss()
+            self.store.send(.newTemplate(action: .links(action: .clearLink)))
         }) {
             Text("Abbrechen")
         }
