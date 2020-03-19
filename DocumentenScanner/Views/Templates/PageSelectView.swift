@@ -46,7 +46,6 @@ struct PageSelectView: View {
     func leadingItem() -> some View {
         Button(action: {
             self.store.send(.routing(action: .showContentView))
-            self.store.send(.newTemplate(action: .clearState))
         }) {
             Text("Abbrechen")
         }

@@ -63,6 +63,9 @@ struct TemplatesView: View {
                 }
                 .listStyle(GroupedListStyle())
                 .environment(\.horizontalSizeClass, .regular)
+                .onAppear {
+                    self.store.send(.newTemplate(action: .clearState))
+                }
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())

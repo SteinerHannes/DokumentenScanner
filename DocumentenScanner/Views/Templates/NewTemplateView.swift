@@ -75,7 +75,6 @@ struct NewTemplateView: View {
             if !self.name.isEmpty {
                 self.showAlert = true
             } else {
-                self.store.send(.newTemplate(action: .clearNewTemplate))
                 self.store.send(.routing(action: .showContentView))
             }
         }) {
