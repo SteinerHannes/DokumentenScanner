@@ -52,7 +52,6 @@ func routingReducer(state: inout RoutingState, acction: RoutingAction) {
 enum NewTemplateAction {
     case createNewTemplate(name: String, info: String)
     case addPagesToNewTemplate(pages: [Page])
-    case clearNewTemplate
     case clearState
     case setImageAndPageNumber(number: Int)
     case removeAttribute(id: String)
@@ -60,6 +59,8 @@ enum NewTemplateAction {
     case addAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
     case clearCurrentAttribute
     case links(action: LinkAction)
+    case addLinkToNewTemplate
+    case deletLinkFromNewTemplate(linkID: String)
 }
 
 /// The variables required for handling the new template
@@ -88,14 +89,12 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
         case let .addPagesToNewTemplate(pages: pages):
             state.newTemplate!.pages = pages
 
-        case .clearNewTemplate:
-            state.newTemplate = nil
-
         case .clearState:
             state.currentAttribut = nil
             state.currentPage = nil
             state.image = nil
             state.newTemplate = nil
+            state.linkState = LinkState()
 
         case let .setImageAndPageNumber(number: number):
             state.image = state.newTemplate!.pages[number].image
@@ -123,6 +122,19 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
 
         case let .links(action: action):
             linkReducer(state: &state.linkState, action: action)
+
+        case .addLinkToNewTemplate:
+            let regionIDs = state.linkState.firstSelections! + state.linkState.secondSelections!
+
+            let link = Link(linktype: state.linkState.currentType!, regionIDs: regionIDs)
+            state.newTemplate!.links.append(link)
+
+        case let .deletLinkFromNewTemplate(linkID: id):
+            if let index = state.newTemplate!.links.firstIndex(where: { (link) -> Bool in
+                link.id == id
+            }) {
+                state.newTemplate!.links.remove(at: index)
+        }
     }
 }
 
@@ -130,8 +142,7 @@ enum LinkAction {
     case setLinkType(type: LinkType)
     case setFirstSelections(selections: [String])
     case setSecondSelections(selections: [String])
-    case createLink
-    case deletLink(linkID: String)
+    case clearLink
 }
 
 struct LinkState {
@@ -145,25 +156,14 @@ func linkReducer(state: inout LinkState, action: LinkAction) {
     switch action {
         case let .setLinkType(type: type):
             state.currentType = type
-            state.firstSelections = nil
-            state.secondSelections = nil
         case let .setFirstSelections(selections: links):
             state.firstSelections = links
         case let .setSecondSelections(selections: links):
             state.secondSelections = links
-        case .createLink:
-            let regionIDs = state.firstSelections! + state.secondSelections!
-            let link = Link(linktype: state.currentType!, regionIDs: regionIDs)
-            if state.links == nil {
-                state.links = []
-            }
-            state.links!.append(link)
-        case let .deletLink(linkID: id):
-            if let index = state.links?.firstIndex(where: { (link) -> Bool in
-                link.id == id
-            }) {
-                state.links?.remove(at: index)
-            }
+        case .clearLink:
+            state.currentType = nil
+            state.firstSelections = nil
+            state.secondSelections = nil
     }
 }
 
