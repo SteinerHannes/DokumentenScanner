@@ -33,6 +33,7 @@
 		EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */; };
 		EF786BF8242115C5001D71F9 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF7242115C5001D71F9 /* TestView.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
+		EF8263C224236E5200931CD4 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8263C124236E5200931CD4 /* View.swift */; };
 		EF8A2D792422CAEE007396AD /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A2D782422CAEE007396AD /* Link.swift */; };
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
@@ -79,6 +80,7 @@
 		EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedRegionsView.swift; sourceTree = "<group>"; };
 		EF786BF7242115C5001D71F9 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
+		EF8263C124236E5200931CD4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		EF88C7F924103597008C4497 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EF8A2D782422CAEE007396AD /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				EF4223C12406797600FF510E /* Colors.swift */,
 				EF4C5B762407E4210047D94B /* DismissKeyboard.swift */,
 				EF15588A240F01480020B487 /* LazyView.swift */,
+				EF8263C124236E5200931CD4 /* View.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
+				EF8263C224236E5200931CD4 /* View.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EF62965C241E753B00030997 /* AppStore.swift in Sources */,
 				EF786BF8242115C5001D71F9 /* TestView.swift in Sources */,
