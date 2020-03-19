@@ -33,7 +33,20 @@ struct LinkedRegionsView: View {
                 }
             } else {
                 Section {
-                    Text("asd")
+                    ForEach(self.store.states.newTemplateState.newTemplate!.links) { link in
+                        LinkRow(link: link)
+                            .contextMenu {
+                                Button(action: {
+                                    self.store.send(.newTemplate(action:
+                                        .deletLinkFromNewTemplate(linkID: link.id)))
+                                }) {
+                                    // MARK: no size and color effect
+                                    Text("Löschen").font(.system(size: 15))
+                                    Image(systemName: "trash").font(.system(size: 15))
+                                        .foregroundColor(.red)
+                                }
+                        }
+                    }
                 }
             }
         }
@@ -50,11 +63,45 @@ struct LinkedRegionsView: View {
         Button(action: {
             self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
             self.store.send(.routing(action: .showContentView))
-            self.store.send(.newTemplate(action: .clearState))
-            self.store.send(.routing(action: .showContentView))
         }) {
             Text("Speichern")
         }
+    }
+}
+
+struct LinkRow: View {
+    @EnvironmentObject var store: AppStore
+
+    let link: Link
+
+    var body: some View {
+        if link.linktype == .compare {
+            return VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .center, spacing: 5) {
+                    Text("1. Vergleicher:")
+                    Spacer()
+                    Text(getRegionInfo(for: link.regionIDs[0]))
+                        .foregroundColor(.secondaryLabel)
+                }
+                HStack(alignment: .center, spacing: 5) {
+                    Text("2. Vergleicher:")
+                    Spacer()
+                    Text(getRegionInfo(for: link.regionIDs[1]))
+                        .foregroundColor(.secondaryLabel)
+                }
+            }.eraseToAnyView()
+        } else {
+            return Text("Comming soon").eraseToAnyView()
+        }
+    }
+
+    private func getRegionInfo(for id: String) -> String {
+        for (index, page) in self.store.states.newTemplateState.newTemplate!.pages.enumerated() {
+            for region in page.regions where region.id == id {
+                return "\(region.name) (\(index+1))"
+            }
+        }
+        return ""
     }
 }
 
