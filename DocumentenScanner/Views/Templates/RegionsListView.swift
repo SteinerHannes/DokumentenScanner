@@ -26,6 +26,13 @@ struct RegionsListView: View {
                                      selections: self.$selections,
                                      linktype: self.store.states.newTemplateState.linkState.currentType!)
                     }
+                    if self.store.states.newTemplateState.newTemplate!.pages[index].regions.isEmpty {
+                        HStack(alignment: .center, spacing: 0) {
+                            Spacer()
+                            Text("Keine Regionen auf der Seite.")
+                            Spacer()
+                        }
+                    }
                 }
             }
         }
