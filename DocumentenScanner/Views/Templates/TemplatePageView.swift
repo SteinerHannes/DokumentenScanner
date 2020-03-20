@@ -143,22 +143,9 @@ private struct AttributeNameTag: View {
 
 struct CreateTemplateView_Previews: PreviewProvider {
     static var previews: some View {
-//        let appState = AppState()
-//        appState.currentTemplate =
-//            Template(id: "0",
-//                     name: "Bla",
-//                     info: "Bla",
-//                     pages: [Page(id: 0, image: UIImage(imageLiteralResourceName: "test"))]
-//            )
-
-        return NavigationView {
+        NavigationView {
             TemplatePageView(index: 0)
-                .environmentObject(
-                    AppStore(initialState: .init(),
-                             reducer: appReducer,
-                             environment: AppEnviorment()
-                    )
-                )
+                .environmentObject(AppStoreMock.getAppStore())
         }
     }
 }

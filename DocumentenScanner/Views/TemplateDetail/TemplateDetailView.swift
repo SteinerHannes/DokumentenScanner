@@ -15,20 +15,24 @@ struct TemplateDetailView: View {
 
     // MARK: TODO
     private var isLoading: Bool {
-        return (self.result.isEmpty && !textRecognitionDidFinish)
+        return self.result.isEmpty
     }
 
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
 
     /// The text recognition results of each page
-    @State private var result: [[(String,VNConfidence)]] = []
+    @State private var result: [[PageRegion]] = []
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
     @State private var showAlert: Bool = false
     /// Is set when the taken pages != the pages of the template
     @State private var takenPages: Int?
+
+    @State private var links: [String: String] = [:]
+
+    @State private var errors: [String] = []
 
     init() {
         print("init TemplateDetailView")
@@ -68,57 +72,76 @@ struct TemplateDetailView: View {
                             }
                         }
                         if !isLoading {
-                            ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
-                                Section {
-                                    VStack(alignment: .leading, spacing: 10) {
-                                        HStack(alignment: .top, spacing: 10) {
-                                            Image(uiImage:
-                                                self.store.states.currentTemplate!.pages[index].image)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(minWidth: 0, maxWidth: 88, minHeight: 0, maxHeight: 88)
-                                            VStack(alignment: .leading, spacing: 5) {
-                                                Text(self.pageInfo(index: index))
-                                                    .font(.headline)
-                                                    .lineLimit(1)
-                                                Text(self.regionInfo(index: index))
-                                                    .font(.system(size: 13))
-                                                    .lineLimit(4)
-                                            }
-                                        }
-                                    }
-                                    //swiftlint:disable line_length
-                                    ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
-                                        if index < self.result.count {
-                                            if  regionIndex < self.result[index].count {
-                                                HStack(alignment: .center, spacing: 2.5) {
-                                                    Text("\(self.store.states.currentTemplate!.pages[index].regions[regionIndex].name):")
+                            Group {
+                                ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
+                                    Section {
+                                        VStack(alignment: .leading, spacing: 10) {
+                                            HStack(alignment: .top, spacing: 10) {
+                                                Image(uiImage:
+                                                    self.store.states.currentTemplate!.pages[index].image)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(minWidth: 0, maxWidth: 88,
+                                                           minHeight: 0, maxHeight: 88)
+                                                VStack(alignment: .leading, spacing: 5) {
+                                                    Text(self.pageInfo(index: index))
                                                         .font(.headline)
-                                                        .layoutPriority(1.0)
-                                                    Spacer()
-                                                    Text("\(self.result[index][regionIndex].1)")
-                                                        .layoutPriority(1.0)
-                                                }
-                                                TextField("", text: self.$result[index][regionIndex].0)
-                                            } else {
-                                                HStack(alignment: .center, spacing: 0) {
-                                                    Spacer()
-                                                    ActivityIndicator(isAnimating: true)
-                                                        .configure { $0.color = .tertiaryLabel }
-                                                    Spacer()
+                                                        .lineLimit(1)
+                                                    Text(self.regionInfo(index: index))
+                                                        .font(.system(size: 13))
+                                                        .lineLimit(4)
                                                 }
                                             }
                                         }
+                                        //swiftlint:disable line_length
+                                        ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
+                                            if index < self.result.count {
+                                                if  regionIndex < self.result[index].count {
+                                                    HStack(alignment: .center, spacing: 2.5) {
+                                                        Text("\(self.result[index][regionIndex].regionName):")
+                                                            .font(.headline)
+                                                            .layoutPriority(1.0)
+                                                        Spacer()
+                                                        Text("\(self.result[index][regionIndex].confidence)")
+                                                            .layoutPriority(1.0)
+                                                    }
+                                                    TextField("", text: self.$result[index][regionIndex].textResult)
+                                                } else {
+                                                    HStack(alignment: .center, spacing: 0) {
+                                                        Spacer()
+                                                        ActivityIndicator(isAnimating: true)
+                                                            .configure { $0.color = .tertiaryLabel }
+                                                        Spacer()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //swiftlint:enable line_length
                                     }
-                                    //swiftlint:enable line_length
+                                }
+                                Section {
+                                    Text("Link Fehler")
+                                    if self.textRecognitionDidFinish {
+                                        ForEach(self.errors, id: \.self) { error in
+                                            Text("\(error)")
+                                        }
+                                    } else {
+                                        HStack(alignment: .center, spacing: 0) {
+                                            Spacer()
+                                            ActivityIndicator(isAnimating: true)
+                                                .configure { $0.color = .tertiaryLabel }
+                                            Spacer()
+                                        }
+                                    }
                                 }
                             }
                         } else if isLoading {
-                            HStack(alignment: .center, spacing: 0) {
-                                Spacer()
-                                ActivityIndicator(isAnimating: isLoading)
-                                    .configure { $0.color = .tertiaryLabel }
-                                Spacer()
+                            Section {
+                                HStack(alignment: .center, spacing: 0) {
+                                    Spacer()
+                                    Text("Keine Ergebnisse vorhanden.")
+                                    Spacer()
+                                }
                             }
                         }
                     }
@@ -139,7 +162,7 @@ struct TemplateDetailView: View {
         }
     }
     /**
-    The functions returns a list of region/attribute names of the page
+     The functions returns a list of region/attribute names of the page
      */
     fileprivate func regionInfo(index: Int) -> String {
         return self.store.states.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
@@ -148,7 +171,7 @@ struct TemplateDetailView: View {
     }
 
     /**
-    The function returns some page number information
+     The function returns some page number information
      */
     fileprivate func pageInfo(index: Int) -> String {
         return "Seite \(index+1) von \(self.store.states.currentTemplate!.pages.count)"
@@ -157,7 +180,6 @@ struct TemplateDetailView: View {
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
-            self.textRecognitionDidFinish = false
         }) {
             Text("Neues Bild")
         }
@@ -185,10 +207,18 @@ struct TemplateDetailView: View {
             for page in pages! {
                 self.result.append([])
                 let imageResults: [PageRegion] = getPageRegions(page: page)
-                TextRegionRecognizer(imageResults: imageResults).recognizeText { (resultArray) in
-                    self.result[page.id] = resultArray
-                    if page.id == pages!.count - 1 {
-                        self.textRecognitionDidFinish = true
+                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
+                    for region in pageRegions {
+                        self.links[region.regionID] = region.textResult
+                    }
+                    self.result[page.id] = pageRegions
+                    if pageRegions.last!.regionID ==
+                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
+                        LinkAnalyzer(results: self.links,
+                                     links: self.store.states.currentTemplate!.links).analyze { errors in
+                            self.errors.append(contentsOf: errors)
+                            self.textRecognitionDidFinish = true
+                        }
                     }
                 }
             }
@@ -221,9 +251,11 @@ struct TemplateDetailView: View {
                     continue
             }
 
-            let imageResult: PageRegion = PageRegion(imageAttributeName: region.name,
-                                                                       regionImage: newImage)
-            results.append(imageResult)
+            let imageAndId: PageRegion = PageRegion(regionID: region.id,
+                                                    regionName: region.name,
+                                                    regionImage: newImage,
+                                                    datatype: region.datatype)
+            results.append(imageAndId)
         }
         return results
     }
@@ -249,11 +281,6 @@ struct TemplateDetailView: View {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         TemplateDetailView()
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

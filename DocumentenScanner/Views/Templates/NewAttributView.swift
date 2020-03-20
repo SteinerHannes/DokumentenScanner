@@ -31,13 +31,12 @@ struct NewAttributView: View {
                     TextField("Name", text: self.$name)
                         .keyboardType(.alphabet)
                     Picker(selection: $datatype, label: Text("Datentyp")) {
-                        List {
-                            Text("Unbekannt").tag(0)
-                            Text("Note").tag(1)
-                            Text("Name").tag(2)
-                            Text("Matrikelnummer").tag(3)
-                            Text("Seminargruppe").tag(4)
-                        }
+                        Text("Unbekannt").tag(ResultDatatype.none.rawValue)
+                        Text("Note").tag(ResultDatatype.mark.rawValue)
+                        Text("Name").tag(ResultDatatype.name.rawValue)
+                        Text("Matrikelnummer").tag(ResultDatatype.studentNumber.rawValue)
+                        Text("Seminargruppe").tag(ResultDatatype.seminarGroup.rawValue)
+                        Text("Punkte").tag(ResultDatatype.point.rawValue)
                     }
                 }
                 Section {
@@ -49,7 +48,8 @@ struct NewAttributView: View {
                         .onDisappear {
                             // MARK: TODO onDisappear only in one direction
                             self.store.send( .newTemplate(action:
-                                .setAttribute(name: self.name, datatype: self.datatype))
+                                .setAttribute(name: self.name,
+                                              datatype: ResultDatatype(rawValue: self.datatype)!))
                             )
                         }
 // swiftlint:disable line_length
@@ -76,7 +76,7 @@ struct NewAttributView: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Eigenschaften festlegen")
+            .navigationBarTitle("Eigenschaften festlegen", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: leadingItem())
             .resignKeyboardOnDragGesture()
@@ -109,12 +109,9 @@ struct NewAttributView: View {
 
 struct NewAttributView_Previews: PreviewProvider {
     static var previews: some View {
-        NewAttributView(showRoot: .constant(false))
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+        NavigationView {
+            NewAttributView(showRoot: .constant(false))
+                .environmentObject(AppStoreMock.getAppStore())
+        }
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
-//swiftlint:disable switch_case_alignment
+//swiftlint:disable switch_case_alignment cyclomatic_complexity
 import Foundation
 import Combine
 import VisionKit
@@ -52,13 +52,15 @@ func routingReducer(state: inout RoutingState, acction: RoutingAction) {
 enum NewTemplateAction {
     case createNewTemplate(name: String, info: String)
     case addPagesToNewTemplate(pages: [Page])
-    case clearNewTemplate
     case clearState
     case setImageAndPageNumber(number: Int)
     case removeAttribute(id: String)
-    case setAttribute(name: String, datatype: Int)
+    case setAttribute(name: String, datatype: ResultDatatype)
     case addAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
     case clearCurrentAttribute
+    case links(action: LinkAction)
+    case addLinkToNewTemplate
+    case deletLinkFromNewTemplate(linkID: String)
 }
 
 /// The variables required for handling the new template
@@ -67,6 +69,11 @@ struct NewTemplateState {
     var image: UIImage?
     var currentAttribut: ImageRegion?
     var currentPage: Int?
+    var linkState: LinkState
+
+    init() {
+        self.linkState = LinkState()
+    }
 }
 
 /// The reducer of the new template 
@@ -82,14 +89,12 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
         case let .addPagesToNewTemplate(pages: pages):
             state.newTemplate!.pages = pages
 
-        case .clearNewTemplate:
-            state.newTemplate = nil
-
         case .clearState:
             state.currentAttribut = nil
             state.currentPage = nil
             state.image = nil
             state.newTemplate = nil
+            state.linkState = LinkState()
 
         case let .setImageAndPageNumber(number: number):
             state.image = state.newTemplate!.pages[number].image
@@ -114,6 +119,51 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentAttribut!.rectState = rectState
             state.newTemplate!.pages[state.currentPage!].regions.append(state.currentAttribut!)
             state.currentAttribut = nil
+
+        case let .links(action: action):
+            linkReducer(state: &state.linkState, action: action)
+
+        case .addLinkToNewTemplate:
+            let regionIDs = state.linkState.firstSelections! + state.linkState.secondSelections!
+
+            let link = Link(linktype: state.linkState.currentType!, regionIDs: regionIDs)
+            state.newTemplate!.links.append(link)
+
+        case let .deletLinkFromNewTemplate(linkID: id):
+            if let index = state.newTemplate!.links.firstIndex(where: { (link) -> Bool in
+                link.id == id
+            }) {
+                state.newTemplate!.links.remove(at: index)
+        }
+    }
+}
+
+enum LinkAction {
+    case setLinkType(type: LinkType)
+    case setFirstSelections(selections: [String])
+    case setSecondSelections(selections: [String])
+    case clearLink
+}
+
+struct LinkState {
+    var links: [Link]?
+    var currentType: LinkType? = .compare
+    var firstSelections: [String]?
+    var secondSelections: [String]?
+}
+
+func linkReducer(state: inout LinkState, action: LinkAction) {
+    switch action {
+        case let .setLinkType(type: type):
+            state.currentType = type
+        case let .setFirstSelections(selections: links):
+            state.firstSelections = links
+        case let .setSecondSelections(selections: links):
+            state.secondSelections = links
+        case .clearLink:
+            state.currentType = nil
+            state.firstSelections = nil
+            state.secondSelections = nil
     }
 }
 
@@ -161,7 +211,6 @@ func appReducer(
             routingReducer(state: &states.routes, acction: action)
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
-
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
         case let .setCurrentTemplate(id: id):

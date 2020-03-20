@@ -18,4 +18,7 @@ struct Template: Identifiable {
     public var info: String = ""
     /// The pages of the template/document
     public var pages: [Page] = []
+
+    public var links: [Link] = []
+    // public var linkedRegions: [LinkedPageRegions] = []
 }

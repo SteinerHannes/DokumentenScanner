@@ -63,6 +63,9 @@ struct TemplatesView: View {
                 }
                 .listStyle(GroupedListStyle())
                 .environment(\.horizontalSizeClass, .regular)
+                .onAppear {
+                    self.store.send(.newTemplate(action: .clearState))
+                }
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
@@ -89,11 +92,6 @@ struct TemplatesView: View {
 struct TemplatesView_Previews: PreviewProvider {
     static var previews: some View {
         TemplatesView()
-            .environmentObject(
-                AppStore(initialState: .init(),
-                         reducer: appReducer,
-                         environment: AppEnviorment()
-                )
-            )
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }
