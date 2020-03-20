@@ -15,7 +15,7 @@ struct TemplateDetailView: View {
 
     // MARK: TODO
     private var isLoading: Bool {
-        return (self.result.isEmpty && !textRecognitionDidFinish)
+        return self.result.isEmpty
     }
 
     /// It shows wether the text recognition is finished or not
@@ -29,6 +29,10 @@ struct TemplateDetailView: View {
     @State private var showAlert: Bool = false
     /// Is set when the taken pages != the pages of the template
     @State private var takenPages: Int?
+
+    @State private var links: [String: String] = [:]
+
+    @State private var errors: [String] = []
 
     init() {
         print("init TemplateDetailView")
@@ -115,9 +119,20 @@ struct TemplateDetailView: View {
                                         //swiftlint:enable line_length
                                     }
                                 }
-                                Divider()
                                 Section {
-                                    Text("Links")
+                                    Text("Link Fehler")
+                                    if self.textRecognitionDidFinish {
+                                        ForEach(self.errors, id: \.self) { error in
+                                            Text("\(error)")
+                                        }
+                                    } else {
+                                        HStack(alignment: .center, spacing: 0) {
+                                            Spacer()
+                                            ActivityIndicator(isAnimating: true)
+                                                .configure { $0.color = .tertiaryLabel }
+                                            Spacer()
+                                        }
+                                    }
                                 }
                             }
                         } else if isLoading {
@@ -165,7 +180,6 @@ struct TemplateDetailView: View {
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
-            self.textRecognitionDidFinish = false
         }) {
             Text("Neues Bild")
         }
@@ -194,9 +208,17 @@ struct TemplateDetailView: View {
                 self.result.append([])
                 let imageResults: [PageRegion] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
+                    for region in pageRegions {
+                        self.links[region.regionID] = region.textResult
+                    }
                     self.result[page.id] = pageRegions
-                    if page.id == pages!.count - 1 {
-                        self.textRecognitionDidFinish = true
+                    if pageRegions.last!.regionID ==
+                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
+                        LinkAnalyzer(results: self.links,
+                                     links: self.store.states.currentTemplate!.links).analyze { errors in
+                            self.errors.append(contentsOf: errors)
+                            self.textRecognitionDidFinish = true
+                        }
                     }
                 }
             }

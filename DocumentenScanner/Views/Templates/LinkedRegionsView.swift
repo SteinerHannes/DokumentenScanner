@@ -96,9 +96,9 @@ struct LinkRow: View {
     }
 
     private func getRegionInfo(for id: String) -> String {
-        for (index, page) in self.store.states.newTemplateState.newTemplate!.pages.enumerated() {
+        for page in self.store.states.newTemplateState.newTemplate?.pages ?? [] {
             for region in page.regions where region.id == id {
-                return "\(region.name) (\(index+1))"
+                return "\(region.name) (\(page.id))"
             }
         }
         return ""

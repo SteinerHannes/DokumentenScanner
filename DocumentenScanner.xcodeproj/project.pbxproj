@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */; };
 		EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF155884240E95680020B487 /* ActivityIndicator.swift */; };
 		EF15588B240F01480020B487 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15588A240F01480020B487 /* LazyView.swift */; };
 		EF1945EB240804A700D76CE7 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* Template.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAnalyzer.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		EF1945EA240804A700D76CE7 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF019A2D2423B32D008964B7 /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */,
+			);
+			path = Link;
+			sourceTree = "<group>";
+		};
 		EF4223BD2406790E00FF510E /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +273,7 @@
 		EFE31F662403E9AB008015F3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EF019A2D2423B32D008964B7 /* Link */,
 				EF786BEB2420DDF2001D71F9 /* TextRecognition */,
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF1945EA240804A700D76CE7 /* Template.swift */,
@@ -417,6 +428,7 @@
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
 				EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */,
+				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
 			);
