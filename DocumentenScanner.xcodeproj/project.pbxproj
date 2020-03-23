@@ -49,8 +49,6 @@
 		EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F622403E4BD008015F3 /* TemplatesView.swift */; };
 		EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* ScannerView.swift */; };
 		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
-		EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */; };
-		EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6C2403F340008015F3 /* OCRView.swift */; };
 		EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* TemplatePageView.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,8 +99,6 @@
 		EFE31F622403E4BD008015F3 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
 		EFE31F642403E6A3008015F3 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
-		EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
-		EFE31F6C2403F340008015F3 /* OCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRView.swift; sourceTree = "<group>"; };
 		EFE31F6E24041049008015F3 /* TemplatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,7 +127,6 @@
 				EF4223BE2406792700FF510E /* BottomSheetView.swift */,
 				EF1945EE24082F1600D76CE7 /* BackButton.swift */,
 				EF155884240E95680020B487 /* ActivityIndicator.swift */,
-				EFE31F642403E6A3008015F3 /* ScannerView.swift */,
 				EF63DEC72428E94700689F5A /* CustomTextField.swift */,
 			);
 			path = Components;
@@ -192,6 +187,37 @@
 			path = TemplateDetail;
 			sourceTree = "<group>";
 		};
+		EF83C29A24290944008B2200 /* NewTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */,
+				EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */,
+				EFE31F6E24041049008015F3 /* TemplatePageView.swift */,
+				EF83C29B24290964008B2200 /* Attribute */,
+				EF83C29C24290976008B2200 /* Link */,
+			);
+			path = NewTemplate;
+			sourceTree = "<group>";
+		};
+		EF83C29B24290964008B2200 /* Attribute */ = {
+			isa = PBXGroup;
+			children = (
+				EF4223C82406A7F500FF510E /* NewAttributView.swift */,
+				EF4223BB2406750600FF510E /* SelectRegionView.swift */,
+			);
+			path = Attribute;
+			sourceTree = "<group>";
+		};
+		EF83C29C24290976008B2200 /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */,
+				EF4031182421303D00BF6306 /* AddLinkView.swift */,
+				EF40311A24213EB200BF6306 /* RegionsListView.swift */,
+			);
+			path = Link;
+			sourceTree = "<group>";
+		};
 		EFC8928D241FD8F5006ABDA2 /* Start */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				EFE31F5F2403E430008015F3 /* Templates */,
-				EF78DA2B240932B400FBB1EA /* TemplateDetail */,
 				EFE31F692403F2C1008015F3 /* Scanner */,
 				EF4223BD2406790E00FF510E /* Components */,
 			);
@@ -261,14 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				EFE31F622403E4BD008015F3 /* TemplatesView.swift */,
-				EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */,
-				EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */,
-				EFE31F6E24041049008015F3 /* TemplatePageView.swift */,
-				EF4223C82406A7F500FF510E /* NewAttributView.swift */,
-				EF4223BB2406750600FF510E /* SelectRegionView.swift */,
-				EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */,
-				EF4031182421303D00BF6306 /* AddLinkView.swift */,
-				EF40311A24213EB200BF6306 /* RegionsListView.swift */,
+				EF78DA2B240932B400FBB1EA /* TemplateDetail */,
+				EF83C29A24290944008B2200 /* NewTemplate */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -293,8 +312,7 @@
 		EFE31F692403F2C1008015F3 /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
-				EFE31F6C2403F340008015F3 /* OCRView.swift */,
-				EFE31F6A2403F2E7008015F3 /* OCRScannerView.swift */,
+				EFE31F642403E6A3008015F3 /* ScannerView.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -425,13 +443,11 @@
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
 				EF786BF12420F92A001D71F9 /* LinkedPageRegions.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
-				EFE31F6B2403F2E7008015F3 /* OCRScannerView.swift in Sources */,
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
 				EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */,
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
-				EFE31F6D2403F340008015F3 /* OCRView.swift in Sources */,
 				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
