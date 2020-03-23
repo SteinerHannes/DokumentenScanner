@@ -216,8 +216,7 @@ struct SelectRegionView: View {
         .edgesIgnoringSafeArea(.bottom)
         .gesture(magnificationGesture)
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
-        //.navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
+        .navigationBarItems(trailing: trailingItem())
         .onAppear {
             self.zoomPoint = .topLeading
             self.viewMagnificationState = (UIScreen.main.bounds.width /
@@ -272,14 +271,6 @@ struct SelectRegionView: View {
             .frame(width: UIScreen.main.bounds.width-64, alignment: .leading)
             .background(Color.systemBackground)
             .cornerRadius(15)
-        }
-    }
-
-    private func leadingItem() -> some View {
-        Button(action: {
-            self.presentation.wrappedValue.dismiss()
-        }) {
-            BackButtonView()
         }
     }
 

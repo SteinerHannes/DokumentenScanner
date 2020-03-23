@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-//swiftlint:disable multiple_closures_with_trailing_closure line_length
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplatesView: View {
     @EnvironmentObject var store: AppStore
 
@@ -33,29 +33,7 @@ struct TemplatesView: View {
                                     self.store.send(.setCurrentTemplate(id: template.id))
                                     self.store.send(.routing(action: .showTemplateDetailView))
                                 }) {
-                                    VStack(alignment: .center, spacing: 0) {
-                                        HStack(alignment: .top, spacing: 10) {
-                                            Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
-                                                .renderingMode(.original)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 88, height: 88)
-                                                .layoutPriority(1)
-                                            VStack(alignment: .leading, spacing: 5) {
-                                                Text(template.name).font(.headline)
-                                                    .lineLimit(1)
-                                                Text(template.info).font(.system(size: 13))
-                                                    .lineLimit(4)
-                                            }
-                                                .layoutPriority(1)
-                                            Spacer().frame(minWidth: 0, maxWidth: .infinity)
-                                            Image(systemName: "chevron.right")
-                                                .frame(width: nil, height: 88, alignment: .trailing)
-                                                .font(.system(size: 13, weight: .semibold, design: .default))
-                                                .foregroundColor(.systemFill)
-                                                .layoutPriority(1)
-                                        }.frame(height: 88)
-                                    }.foregroundColor(.label)
+                                    TemplateView(template: template)
                                 }
                             }
                         }
@@ -63,21 +41,48 @@ struct TemplatesView: View {
                 }
                 .listStyle(GroupedListStyle())
                 .environment(\.horizontalSizeClass, .regular)
-                .onAppear {
-                    self.store.send(.newTemplate(action: .clearState))
-                }
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
+            .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
     }
 
     private func trailingItem() -> some View {
-        return Button(action: {
-            self.store.send(.routing(action: .showNewTemplateView))
-        }) {
+        return NavigationLink(destination: NewTemplateView()) {
             Text("Neue Vorlage")
         }
+    }
+}
+
+private struct TemplateView: View {
+
+    var template: Template
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
+                    .renderingMode(.original)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 88, height: 88)
+                    .layoutPriority(1)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(template.name).font(.headline)
+                        .lineLimit(1)
+                    Text(template.info).font(.system(size: 13))
+                        .lineLimit(4)
+                }
+                .layoutPriority(1)
+                Spacer().frame(minWidth: 0, maxWidth: .infinity)
+                Image(systemName: "chevron.right")
+                    .frame(width: nil, height: 88, alignment: .trailing)
+                    .font(.system(size: 13, weight: .semibold, design: .default))
+                    .foregroundColor(.systemFill)
+                    .layoutPriority(1)
+            }.frame(height: 88)
+        }.foregroundColor(.label)
     }
 }
 

@@ -26,16 +26,7 @@ struct ContentView: View {
             } else if self.store.states.routes.isTemplateDetailViewPresented {
                 TemplateDetailView()
             } else {
-                TabView(selection: self.$selectedView) {
-                    TemplatesView().tabItem {
-                        Text("Templates")
-                        Image(systemName: "doc.richtext")
-                    }.tag(0)
-                    OCRView().tabItem {
-                        Text("OCRScanner")
-                        Image(systemName: "doc.plaintext")
-                    }.tag(1)
-                }.edgesIgnoringSafeArea(.top)
+                TemplatesView()
             }
         }
     }
