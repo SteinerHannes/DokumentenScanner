@@ -24,10 +24,15 @@ struct NewAttributView: View {
     }
 
     var body: some View {
-        VStack {
+        if !self.showRoot {
+            UIApplication.shared.endEditing(true)
+            self.presentation.wrappedValue.dismiss()
+        }
+
+        return VStack {
             Form {
                 Section {
-                    CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: true)
+                    CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: self.showRoot)
                     Picker(selection: $datatype, label: Text("Datentyp")) {
                         Text("Unbekannt").tag(ResultDatatype.none.rawValue)
                         Text("Note").tag(ResultDatatype.mark.rawValue)
@@ -49,7 +54,6 @@ struct NewAttributView: View {
                                 .setAttribute(name: self.name,
                                               datatype: ResultDatatype(rawValue: self.datatype)!))
                             )
-                            UIApplication.shared.endEditing(true)
                         }
                     }
                 }

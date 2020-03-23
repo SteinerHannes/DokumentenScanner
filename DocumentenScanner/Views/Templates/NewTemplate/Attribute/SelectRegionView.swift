@@ -279,12 +279,12 @@ struct SelectRegionView: View {
             if self.rectState.equalTo(.zero) {
                 self.isNoRectSet = true
             } else {
-
                 self.store.send(.newTemplate(action:
                     .setRegionAndAddAttributeToPage(height: self.height,
                                                     width: self.width,
                                                     rectState: self.rectState)))
                 self.showRoot = false
+                self.presentation.wrappedValue.dismiss()
             }
         }) {
             Text("Speichern")
