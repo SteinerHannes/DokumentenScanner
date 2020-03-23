@@ -47,7 +47,7 @@ final class Store<State, Action, Environment>: ObservableObject {
             .sink(
                 receiveCompletion: { [weak self] _ in
                     didComplete = true
-                    cancellable.map { self?.effectCancellables.remove($0) }
+                    _ = cancellable.map { self?.effectCancellables.remove($0) }
                 }, receiveValue: send)
         if !didComplete, let cancellable = cancellable {
             effectCancellables.insert(cancellable)

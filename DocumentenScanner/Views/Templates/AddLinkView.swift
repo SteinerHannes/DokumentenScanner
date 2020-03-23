@@ -75,7 +75,6 @@ struct AddLinkView: View {
                 self.store.send(.newTemplate(action: .links(action:
                     .setLinkType(type: LinkType(rawValue: self.linktype)!)))
                 )
-                print(self.store.states.newTemplateState.linkState.currentType!)
             }
             .alert(item: self.$showAlert) { alert in
                 switch alert.id {
@@ -117,6 +116,7 @@ struct AddLinkView: View {
         }
     }
 
+    /// Return the Name of the ImageRegion in the selection
     private func getImageRegionName(selectionNumber: Int) -> String {
         if selectionNumber == 1 {
             guard let id = self.store.states.newTemplateState.linkState.firstSelections?.first

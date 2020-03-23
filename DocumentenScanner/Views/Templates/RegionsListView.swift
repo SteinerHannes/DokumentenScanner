@@ -10,9 +10,9 @@ import SwiftUI
 
 struct RegionsListView: View {
     @EnvironmentObject var store: AppStore
-
+    /// The selected ImageRegions
     @State var selections: [ImageRegion] = []
-
+    /// The first or the second selection
     let selectionNumber: Int
 
     var body: some View {
@@ -46,10 +46,15 @@ struct RegionsListView: View {
         }
     }
 
+    /// Returns an ImageRegion for the pagenumber and index of the region
+    /// - parameter page: The page number
+    /// - parameter region: The index of the region in the page.regions list
+    /// - returns: An ImageRegion
     private func getRegion(for page: Int, and region: Int) -> ImageRegion {
         return store.states.newTemplateState.newTemplate!.pages[page].regions[region]
     }
 
+    /// Adds the selection into the store
     private func sendSelection() {
         if self.selectionNumber == 1 {
             self.store.send(
@@ -74,16 +79,19 @@ struct RegionsListView: View {
         }
     }
 
+    /// Sets the selection to the previous selected regions
     private func getSelection() {
         if self.selectionNumber == 1 {
-            let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+            guard let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+                else { return }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
                     self.selections.append(region)
                 }
             }
         } else {
-            let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+            guard let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+                else { return }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
                     self.selections.append(region)
