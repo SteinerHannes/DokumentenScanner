@@ -290,7 +290,9 @@ struct SelectRegionView: View {
             } else {
 
                 self.store.send(.newTemplate(action:
-                    .addAttributeToPage(height: self.height, width: self.width, rectState: self.rectState)))
+                    .setRegionAndAddAttributeToPage(height: self.height,
+                                                    width: self.width,
+                                                    rectState: self.rectState)))
                 self.showRoot = false
             }
         }) {
