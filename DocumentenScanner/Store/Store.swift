@@ -33,6 +33,7 @@ final class Store<State, Action, Environment>: ObservableObject {
         self.environment = environment
     }
 
+    /// The function for sending actions into the app store, for mutating the states
     func send(_ action: Action) {
         guard let effect = reducer(&states, action, environment) else {
             return
@@ -46,7 +47,7 @@ final class Store<State, Action, Environment>: ObservableObject {
             .sink(
                 receiveCompletion: { [weak self] _ in
                     didComplete = true
-                    cancellable.map { self?.effectCancellables.remove($0) }
+                    _ = cancellable.map { self?.effectCancellables.remove($0) }
                 }, receiveValue: send)
         if !didComplete, let cancellable = cancellable {
             effectCancellables.insert(cancellable)

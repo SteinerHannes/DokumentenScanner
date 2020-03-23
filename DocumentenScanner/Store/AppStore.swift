@@ -1,5 +1,5 @@
 //
-//  Store.swift
+//  AppStore.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 15.03.20.
@@ -13,9 +13,13 @@ import VisionKit
 
 /// The actions to mange routing
 enum RoutingAction {
+    /// Shows the NewTemplateView
     case showNewTemplateView
+    /// Shows the TemplateDetailView
     case showTemplateDetailView
+    /// Shows the PageSelectView
     case showPageSelectView
+    /// Shows the ContentView
     case showContentView
 }
 
@@ -50,25 +54,55 @@ func routingReducer(state: inout RoutingState, acction: RoutingAction) {
 
 /// The actions for managing the new template
 enum NewTemplateAction {
+    /// Create a new template -> var newTemplate
+    /// - parameter name: The name of the template
+    /// - parameter info: An info text, about the template
     case createNewTemplate(name: String, info: String)
+    /// Add pages to var newTemplate.pages
+    /// - parameter pages: A List of pages of the template
     case addPagesToNewTemplate(pages: [Page])
+    /// Make all variables nil and initilaize the LinkState
     case clearState
+    /// Set var currentPage to the page number you want
+    /// and therefor it sets var image too the image from this page
+    /// - parameter number: The page number you want
     case setImageAndPageNumber(number: Int)
+    /// Removes the Attribute
+    /// - parameter id: The unique identifier of the attribute
     case removeAttribute(id: String)
+    /// Sets var currentAttribute
+    /// - parameter name: The name of the attribute
+    /// - parameter datatype: The ResultDatatype of the attribute
     case setAttribute(name: String, datatype: ResultDatatype)
-    case addAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
+    /// Set the height, width and rectState of the Attribute, adds it to the current page and clears it after
+    /// - parameter height: The height of the region
+    /// - parameter width: The width of the region
+    /// - parameter rectState: The start point of the region
+    case setRegionAndAddAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
+    /// Sets the current attribute to nil
     case clearCurrentAttribute
+    /// The reducer function of the link state
+    /// for the functionality of the link actions
+    /// - parameter action: A LinkAction for mutating the link state
     case links(action: LinkAction)
+    /// Adds combines the variables from link state to create a link
+    /// and to add it to the link list of the template
     case addLinkToNewTemplate
+    /// Delets a link from the link list of the new template
     case deletLinkFromNewTemplate(linkID: String)
 }
 
 /// The variables required for handling the new template
 struct NewTemplateState {
+    /// The new template you create and will save later
     var newTemplate: Template?
+    /// The image for the SelectRegionView and other detail views
     var image: UIImage?
-    var currentAttribut: ImageRegion?
+    /// The page number for the views after the PageSelectView and following views
     var currentPage: Int?
+    /// The current attribute you create in the NewAttributeView and others
+    var currentAttribut: ImageRegion?
+    /// The state for handling the link variables
     var linkState: LinkState
 
     init() {
@@ -78,6 +112,7 @@ struct NewTemplateState {
 
 /// The reducer of the new template 
 /// for the functionality of the template actions
+// swiftlint:disable function_body_length
 func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction) {
     switch action {
         case let .createNewTemplate(name: name, info: info):
@@ -113,7 +148,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
         case .clearCurrentAttribute:
             state.currentAttribut = nil
 
-        case let .addAttributeToPage(height: height, width: width, rectState: rectState):
+        case let .setRegionAndAddAttributeToPage(height: height, width: width, rectState: rectState):
             state.currentAttribut!.height = height
             state.currentAttribut!.width = width
             state.currentAttribut!.rectState = rectState
@@ -134,24 +169,37 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
                 link.id == id
             }) {
                 state.newTemplate!.links.remove(at: index)
-        }
+            }
     }
 }
+// swiftlint:enable function_body_length
 
+/// The actions for managing the variables in LinkState
 enum LinkAction {
+    /// Set the link type for the new link
+    /// - parameter type: The link type of the new link
     case setLinkType(type: LinkType)
+    /// Set the first sekection of regions to later combine them to a new link
+    /// - parameter selections: A list of region ids
     case setFirstSelections(selections: [String])
+    /// Set the second sekection of regions to later combine them to a new link
+    /// - parameter selections: A list of region ids
     case setSecondSelections(selections: [String])
+    /// Sets all variables in the link state to nil
     case clearLink
 }
 
+/// The state for a new link created in the AddLinkView and RegionsListView
 struct LinkState {
-    var links: [Link]?
+    /// The type of the link
     var currentType: LinkType? = .compare
+    /// The first selection of region ids
     var firstSelections: [String]?
+    /// The second selection of region ids
     var secondSelections: [String]?
 }
 
+/// The reducer the handle the functionality of the link state actions
 func linkReducer(state: inout LinkState, action: LinkAction) {
     switch action {
         case let .setLinkType(type: type):

@@ -45,10 +45,12 @@ final class LinkAnalyzer {
     }
 
     private func compare(link: Link) -> String? {
-        let result1: String = results[link.regionIDs[0]] ?? "Fehler 1"
-        let result2: String = results[link.regionIDs[1]] ?? "Fehler 2"
+        let id1 = link.regionIDs[0]
+        let id2 = link.regionIDs[1]
+        let result1: String = results[id1] ?? "Fehler 1"
+        let result2: String = results[id2] ?? "Fehler 2"
         if result1 != result2 {
-            return "\(results[link.regionIDs[0]] ?? "Fehler 1") ist ungleich \(results[link.regionIDs[1]] ?? "Fehler 2")"
+            return "\(results[id1] ?? "Fehler 1") ist ungleich \(results[id2] ?? "Fehler 2")"
         }
         return nil
     }
