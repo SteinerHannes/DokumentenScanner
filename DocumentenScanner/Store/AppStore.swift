@@ -120,7 +120,6 @@ struct NewTemplateState {
 
 /// The reducer of the new template 
 /// for the functionality of the template actions
-// swiftlint:disable function_body_length
 func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction) {
     switch action {
         case let .createNewTemplate(name: name, info: info):
@@ -161,7 +160,6 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentAttribut!.width = width
             state.currentAttribut!.rectState = rectState
             state.newTemplate!.pages[state.currentPage!].regions.append(state.currentAttribut!)
-            state.currentAttribut = nil
 
         case let .links(action: action):
             linkReducer(state: &state.linkState, action: action)

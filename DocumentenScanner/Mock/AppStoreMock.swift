@@ -17,7 +17,8 @@ class AppStoreMock {
         // create pages
         let pages: [Page] = self.pages()
         // create templte with the pages
-        let template = Template(name: "Klausur", info: "Infotext", pages: pages)
+        //swiftlint:disable line_length
+        let template = Template(name: "Klausur", info: "Am Ende der Woche konnte man in der App Vorlagen mit einer Seite erstellen. Das heißt man konnte ein Foto machen, aus welchem das Dokument rausgeschnitten und anschließend ausgerichtet wurde. Weiter war es möglich Regionen auf dem Dokument zu markieren und diese in der Vorlage abspeichern. Ansonsten konnten die Vorlage schon dazu benutzt werden, um die Regionen auf dem neuen Foto heraus zu schneiden.", pages: pages)
         // set current template
         appState.currentTemplate = template
         // add templte to templates
