@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-//swiftlint:disable multiple_closures_with_trailing_closure
 struct NewAttributView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
@@ -28,8 +27,7 @@ struct NewAttributView: View {
         VStack {
             Form {
                 Section {
-                    TextField("Name", text: self.$name)
-                        .keyboardType(.alphabet)
+                    CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: true)
                     Picker(selection: $datatype, label: Text("Datentyp")) {
                         Text("Unbekannt").tag(ResultDatatype.none.rawValue)
                         Text("Note").tag(ResultDatatype.mark.rawValue)
@@ -51,58 +49,15 @@ struct NewAttributView: View {
                                 .setAttribute(name: self.name,
                                               datatype: ResultDatatype(rawValue: self.datatype)!))
                             )
+                            UIApplication.shared.endEditing(true)
                         }
-// swiftlint:disable line_length
-//                        .alert(isPresented: self.$isShowingNextAlert) {
-//                            Alert(title: Text("Name ist leer"), message: Text("Setze einen Namen bevor du fortfährst"), dismissButton: .cancel(Text("Ok")) )
-//                        }
-//                        .simultaneousGesture(TapGesture().onEnded{
-//                            if (self.name.isEmpty){
-//                                self.isShowingNextAlert = true
-//                            }else{
-//                                self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
-//                            }
-//                        })
-//                        .simultaneousGesture(LongPressGesture().onEnded{ _ in
-//                            if (self.name.isEmpty){
-//                                self.isShowingNextAlert = true
-//                            }else{
-//                                self.appState.currentAttribut = ImageRegion(name: self.name, datatype: self.datatype)
-//                            }
-//                        })
-// swiftlint:enable line_length
                     }
                 }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Eigenschaften festlegen", displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: leadingItem())
             .resignKeyboardOnDragGesture()
-        }
-    }
-
-    private func leadingItem() -> some View {
-        Button(action: {
-            if  !self.name.isEmpty {
-                self.isShowingBackAlert = true
-            } else {
-                self.presentation.wrappedValue.dismiss()
-                self.store.send(.newTemplate(action: .clearCurrentAttribute))
-            }
-        }) {
-            BackButtonView()
-        }.alert(isPresented: self.$isShowingBackAlert) {
-            Alert(title: Text("Änderungen verwerfen?"),
-                  message: nil,
-                  primaryButton: .cancel(Text("Abbrechen")),
-                  secondaryButton: .destructive(Text("Ja"), action: {
-                    self.presentation.wrappedValue.dismiss()
-                    self.store.send(.newTemplate(action: .clearCurrentAttribute))
-                  }
-                )
-            )
         }
     }
 }

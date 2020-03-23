@@ -12,6 +12,10 @@ import SwiftUI
 struct PageSelectView: View {
     @EnvironmentObject var store: AppStore
 
+    init() {
+        print("init PageSelectView")
+    }
+
     var body: some View {
         NavigationView {
             ScrollView(.horizontal, showsIndicators: true) {
@@ -40,12 +44,12 @@ struct PageSelectView: View {
             .navigationBarTitle("Document", displayMode: .inline)
             .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
         }
-
     }
 
     func leadingItem() -> some View {
         Button(action: {
             self.store.send(.routing(action: .showContentView))
+            self.store.send(.newTemplate(action: .clearState))
         }) {
             Text("Abbrechen")
         }

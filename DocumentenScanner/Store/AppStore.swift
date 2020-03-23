@@ -21,6 +21,9 @@ enum RoutingAction {
     case showPageSelectView
     /// Shows the ContentView
     case showContentView
+
+    case turnOnCamera
+    case turnOffCamera
 }
 
 /// The routing variables
@@ -28,11 +31,12 @@ struct RoutingState {
     var isNewTemplateViewPresented: Bool = false
     var isTemplateDetailViewPresented: Bool = false
     var isPageSelectViewPresented: Bool = false
+    var isCameraPresented: Bool = false
 }
 
 /// The routing reducer for the funtionality of the routing actions
-func routingReducer(state: inout RoutingState, acction: RoutingAction) {
-    switch acction {
+func routingReducer(state: inout RoutingState, action: RoutingAction) {
+    switch action {
         case .showNewTemplateView:
             state.isPageSelectViewPresented = false
             state.isTemplateDetailViewPresented = false
@@ -49,6 +53,10 @@ func routingReducer(state: inout RoutingState, acction: RoutingAction) {
             state.isNewTemplateViewPresented = false
             state.isPageSelectViewPresented = false
             state.isTemplateDetailViewPresented = false
+        case .turnOnCamera:
+            state.isCameraPresented = true
+        case .turnOffCamera:
+            state.isCameraPresented = false
     }
 }
 
@@ -256,7 +264,7 @@ func appReducer(
 ) -> AnyPublisher<AppAction, Never> {
     switch action {
         case let .routing(action: action):
-            routingReducer(state: &states.routes, acction: action)
+            routingReducer(state: &states.routes, action: action)
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
         case let .addNewTemplate(template: template):
