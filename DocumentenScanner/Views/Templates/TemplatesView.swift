@@ -79,14 +79,6 @@ struct TemplatesView: View {
             Text("Neue Vorlage")
         }
     }
-
-    struct ModalDetail: Identifiable {
-        var id: String {
-            return body
-        }
-
-        let body: String
-    }
 }
 
 struct TemplatesView_Previews: PreviewProvider {
