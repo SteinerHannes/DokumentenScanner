@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 class AppStoreMock {
+    /// Returns an app store mock, with all important things
     static func getAppStore() -> AppStore {
         var appState = AppStates()
 
@@ -30,6 +31,7 @@ class AppStoreMock {
         return store
     }
 
+    /// Creates mock ImageRegions
     private static func regions1() -> [ImageRegion] {
         let region1 = ImageRegion(name: "Note", rectState: CGSize(width: 10, height: 10),
                                   width: 50, height: 100, datatype: .mark)
@@ -40,6 +42,7 @@ class AppStoreMock {
         return [region1, region2, region3]
     }
 
+    /// Creates mock ImageRegions
     private static func regions2() -> [ImageRegion] {
         let region1 = ImageRegion(name: "Test", rectState: CGSize(width: 10, height: 10),
                                   width: 50, height: 100, datatype: .mark)
@@ -50,6 +53,7 @@ class AppStoreMock {
         return [region1, region2, region3]
     }
 
+    /// Creates mock Pages
     private static func pages() -> [Page] {
         let page1 = Page(id: 0, image: UIImage(imageLiteralResourceName: "test"), regions: regions1())
         let page2 = Page(id: 1, image: UIImage(imageLiteralResourceName: "post"), regions: regions2())
