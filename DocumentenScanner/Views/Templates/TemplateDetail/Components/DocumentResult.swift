@@ -32,7 +32,8 @@ struct DocumentResult: View {
                                         .font(.headline)
                                         .layoutPriority(1.0)
                                     Spacer()
-                                    Text("\(self.result[index][regionIndex].confidence)")
+                                    Text(String(format: "%.3G",
+                                                self.result[index][regionIndex].confidence))
                                         .layoutPriority(1.0)
                                 }
                                 TextField("", text: self.$result[index][regionIndex].textResult)
