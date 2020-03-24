@@ -15,8 +15,6 @@ import VisionKit
 enum RoutingAction {
     /// Shows the NewTemplateView
     case showNewTemplateView
-    /// Shows the TemplateDetailView
-    case showTemplateDetailView
     /// Shows the PageSelectView
     case showPageSelectView
     /// Shows the ContentView
@@ -29,7 +27,6 @@ enum RoutingAction {
 /// The routing variables
 struct RoutingState {
     var isNewTemplateViewPresented: Bool = false
-    var isTemplateDetailViewPresented: Bool = false
     var isPageSelectViewPresented: Bool = false
     var isCameraPresented: Bool = false
 }
@@ -39,20 +36,13 @@ func routingReducer(state: inout RoutingState, action: RoutingAction) {
     switch action {
         case .showNewTemplateView:
             state.isPageSelectViewPresented = false
-            state.isTemplateDetailViewPresented = false
             state.isNewTemplateViewPresented = true
         case .showPageSelectView:
             state.isNewTemplateViewPresented = false
-            state.isTemplateDetailViewPresented = false
             state.isPageSelectViewPresented = true
-        case .showTemplateDetailView:
-            state.isNewTemplateViewPresented = false
-            state.isPageSelectViewPresented = false
-            state.isTemplateDetailViewPresented = true
         case .showContentView:
             state.isNewTemplateViewPresented = false
             state.isPageSelectViewPresented = false
-            state.isTemplateDetailViewPresented = false
         case .turnOnCamera:
             state.isCameraPresented = true
         case .turnOffCamera:

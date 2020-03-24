@@ -39,102 +39,29 @@ struct TemplateDetailView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                ScrollView(.vertical, showsIndicators: true) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            //swiftlint:disable line_length
-                            Text("Das Dokument hat \(self.store.states.currentTemplate!.pages.count) \(self.store.states.currentTemplate!.pages.count == 1 ? "Seite" : "Steiten")")
-                            //swiftlint:enable line_length
-                                .font(.callout)
-                                .foregroundColor(.label)
-                            Text(self.store.states.currentTemplate!.info)
-                                .font(.footnote)
-                                .foregroundColor(.secondaryLabel)
-                                .lineLimit(3)
-                        }.padding(.horizontal)
-
-                        ScrollView(.horizontal, showsIndicators: true) {
-                            if self.store.states.currentTemplate != nil {
-                                HStack(alignment: .center, spacing: 15) {
-                                    ForEach(0 ..< (self.store.states.currentTemplate!.pages.count)) { index in
-                                        Image(uiImage:
-                                            self.store.states.currentTemplate!.pages[index].image
-                                        )
-                                            .renderingMode(.original)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .shadow(color: .shadow, radius: 5, x: 0, y: 0)
-                                            .frame(maxWidth: UIScreen.main.bounds.width-32,
-                                                   maxHeight: UIScreen.main.bounds.width)
-                                    }
-                                }
-                                .padding()
-                            }
-                        }.frame(height: 200)
-                        ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(self.pageInfo(index: index))
-                                    .font(.headline)
-                                    .lineLimit(1)
-                                Text(self.regionInfo(index: index))
-                                    .font(.system(size: 13))
-                                    .lineLimit(4)
-                                VStack(alignment: .leading, spacing: 10) {
-                                    //swiftlint:disable line_length
-                                    ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
-                                        if index < self.result.count {
-                                            Divider()
-                                            if  regionIndex < self.result[index].count {
-                                                HStack(alignment: .center, spacing: 2.5) {
-                                                    Text("\(self.result[index][regionIndex].regionName):")
-                                                        .font(.headline)
-                                                        .layoutPriority(1.0)
-                                                    Spacer()
-                                                    Text("\(self.result[index][regionIndex].confidence)")
-                                                        .layoutPriority(1.0)
-                                                }
-                                                TextField("", text: self.$result[index][regionIndex].textResult)
-                                                    .textFieldStyle(PlainTextFieldStyle())
-                                            } else {
-                                                HStack(alignment: .center, spacing: 0) {
-                                                    Spacer()
-                                                    ActivityIndicator(isAnimating: true)
-                                                        .configure { $0.color = .tertiaryLabel }
-                                                    Spacer()
-                                                }
-                                            }
-                                        }
-                                    }
-                                    //swiftlint:enable line_length
-                                }
-                            }
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(Color.tertiarySystemFill)
-                            .cornerRadius(8)
-                            .padding()
-                        }
-                    }
+        ZStack {
+            ScrollView(.vertical, showsIndicators: true) {
+                VStack(alignment: .leading, spacing: 0) {
+                    DocumentInfo(template: self.store.states.currentTemplate!)
+                    DocumentPreview(template: self.store.states.currentTemplate!)
+                    DocumentResult(result: self.$result, template: self.store.states.currentTemplate!)
                 }
-                .resignKeyboardOnDragGesture()
-                .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")",
-                    displayMode: .large)
-                .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
-                .navigationBarBackButtonHidden(true)
+            }
+            .resignKeyboardOnDragGesture()
+            .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")",
+                displayMode: .large)
+                .navigationBarItems(trailing: self.newPictureButton())
                 .alert(isPresented: self.$showAlert) {
                     //swiftlint:disable line_length
                     Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.store.states.currentTemplate!.pages.count)) überein.")
                     )
                     //swiftlint:enable line_length
-                }
-                if self.showCamera {
-                    ScannerView(isActive: self.$showCamera, completion: { pages in
-                        self.onCompletion(pages: pages)
-                    }).edgesIgnoringSafeArea(.all)
-                        .navigationBarHidden(true)
-                }
+            }
+            if self.showCamera {
+                ScannerView(isActive: self.$showCamera, completion: { pages in
+                    self.onCompletion(pages: pages)
+                }).edgesIgnoringSafeArea(.all)
+                    .navigationBarHidden(true)
             }
         }
     }
@@ -165,35 +92,12 @@ struct TemplateDetailView: View {
         .cornerRadius(8)
         .padding()
     }
-    /**
-     The functions returns a list of region/attribute names of the page
-     */
-    fileprivate func regionInfo(index: Int) -> String {
-        return self.store.states.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
-            return regeion.name
-        }).joined(separator: ", ")
-    }
-
-    /**
-     The function returns some page number information
-     */
-    fileprivate func pageInfo(index: Int) -> String {
-        return "Seite \(index+1) von \(self.store.states.currentTemplate!.pages.count)"
-    }
 
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
             self.showCamera = true
         }) {
             Text("Neues Bild")
-        }
-    }
-
-    fileprivate func leadingItem() -> some View {
-        return Button(action: {
-            self.store.send(.routing(action: .showContentView))
-        }) {
-            BackButtonView()
         }
     }
 
@@ -284,7 +188,9 @@ struct TemplateDetailView: View {
 
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TemplateDetailView()
-            .environmentObject(AppStoreMock.getAppStore())
+        NavigationView {
+            TemplateDetailView()
+                .environmentObject(AppStoreMock.getAppStore())
+        }
     }
 }
