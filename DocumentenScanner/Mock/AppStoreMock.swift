@@ -11,14 +11,10 @@ import SwiftUI
 
 class AppStoreMock {
     /// Returns an app store mock, with all important things
-    static func getAppStore() -> AppStore {
+    public static func getAppStore() -> AppStore {
         var appState = AppStates()
 
-        // create pages
-        let pages: [Page] = self.pages()
-        // create templte with the pages
-        //swiftlint:disable line_length
-        let template = Template(name: "Klausur", info: "Am Ende der Woche konnte man in der App Vorlagen mit einer Seite erstellen. Das heißt man konnte ein Foto machen, aus welchem das Dokument rausgeschnitten und anschließend ausgerichtet wurde. Weiter war es möglich Regionen auf dem Dokument zu markieren und diese in der Vorlage abspeichern. Ansonsten konnten die Vorlage schon dazu benutzt werden, um die Regionen auf dem neuen Foto heraus zu schneiden.", pages: pages)
+        let template: Template = getTemplate()
         // set current template
         appState.currentTemplate = template
         // add templte to templates
@@ -30,6 +26,16 @@ class AppStoreMock {
 
         let store = AppStore(initialState: appState, reducer: appReducer, environment: AppEnviorment())
         return store
+    }
+
+    public static func getTemplate() -> Template {
+        // create pages
+        let pages: [Page] = self.pages()
+        // create templte with the pages
+
+        //swiftlint:disable line_length
+        return Template(name: "Klausur", info: "Am Ende der Woche konnte man in der App Vorlagen mit einer Seite erstellen. Das heißt man konnte ein Foto machen, aus welchem das Dokument rausgeschnitten und anschließend ausgerichtet wurde. Weiter war es möglich Regionen auf dem Dokument zu markieren und diese in der Vorlage abspeichern. Ansonsten konnten die Vorlage schon dazu benutzt werden, um die Regionen auf dem neuen Foto heraus zu schneiden.", pages: pages)
+        //swiftlint:ensable line_length
     }
 
     /// Creates mock ImageRegions
