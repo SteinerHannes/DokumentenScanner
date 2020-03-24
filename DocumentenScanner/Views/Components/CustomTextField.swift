@@ -23,7 +23,6 @@ struct CustomTextField: UIViewRepresentable {
         func textFieldDidChangeSelection(_ textField: UITextField) {
             text = textField.text ?? ""
         }
-
     }
     var placeholder: String?
     @Binding var text: String
@@ -32,6 +31,8 @@ struct CustomTextField: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<CustomTextField>) -> UITextField {
         let textField = UITextField(frame: .zero)
         textField.delegate = context.coordinator
+        textField.placeholder = placeholder
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }
 
@@ -40,9 +41,6 @@ struct CustomTextField: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<CustomTextField>) {
-        uiView.text = text
-        uiView.placeholder = placeholder
-        uiView.font = UIFont(descriptor: .init(), size: 15)
         if isFirstResponder && !context.coordinator.didBecomeFirstResponder {
             uiView.becomeFirstResponder()
             context.coordinator.didBecomeFirstResponder = true

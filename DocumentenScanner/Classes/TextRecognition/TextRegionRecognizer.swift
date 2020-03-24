@@ -58,7 +58,7 @@ final class TextRegionRecognizer {
                         $0.topCandidates(1).first?.string
                     }).joined(separator: " ")
                     self.pageRegions[index].confidence = observations.compactMap({
-                        $0.confidence
+                        $0.topCandidates(1).first?.confidence
                     }).reduce(0, +) / Float(observations.count)
                 } catch {
                     continue

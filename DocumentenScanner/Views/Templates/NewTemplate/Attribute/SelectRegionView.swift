@@ -183,10 +183,6 @@ struct SelectRegionView: View {
                 self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1.5), 0.06)
                 print(self.viewMagnificationState)
             }
-//        .simultaneously(with: DragGesture(minimumDistance: 0, coordinateSpace: .local).onChanged({ value in
-//            self.zoomPoint = UnitPoint(x: value.startLocation.x, y: value.startLocation.y)
-//            print("point",self.zoomPoint.x)
-//        }))
 
         return VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
@@ -209,8 +205,6 @@ struct SelectRegionView: View {
                     .offset(imageTranslastionOffset)
                 }
                 .scaleEffect(magnificationScale, anchor: self.zoomPoint )
-                popOverButton
-                    .frame(alignment: .bottomTrailing)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -225,66 +219,17 @@ struct SelectRegionView: View {
         }
     }
 
-    private var popOverButton: some View {
-        Group {
-            Button(action: {
-                self.isShowingPopOver = true
-            }) {
-                ZStack(alignment: .center) {
-                    Image(systemName: "questionmark.circle.fill")
-                        .font(.system(size: 50, weight: .regular, design: .default))
-                        .foregroundColor(Color.red)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 20))
-                    .opacity(0.8)
-                }
-            }
-            if self.isShowingPopOver {
-                self.popOverView
-            }
-        }
-    }
-
-    private var popOverView: some View {
-        ZStack(alignment: .center) {
-            Color.gray.opacity(0.5)
-            VStack(alignment: .leading, spacing: 0) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Wie der Spaß hier funktioniert...")
-                    .font(Font.system(size: 16, weight: .semibold, design: .default))
-                    Group {
-                        Text("Bild verschieben")
-                        Text("Region einzeichnen")
-                        Text("Region verschieben")
-                        Text("Zoom...")
-                    }.font(Font.system(size: 13, weight: .regular, design: .default))
-                }
-                .padding()
-                Divider()
-                Button(action: { self.isShowingPopOver = false }) {
-                    Text("Verstanden!")
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .padding()
-                        .background(Color.tertiarySystemBackground)
-                        .font(Font.system(size: 16, weight: .semibold, design: .default))
-                }
-            }
-            .frame(width: UIScreen.main.bounds.width-64, alignment: .leading)
-            .background(Color.systemBackground)
-            .cornerRadius(15)
-        }
-    }
-
     private func trailingItem() -> some View {
         Button(action: {
             if self.rectState.equalTo(.zero) {
                 self.isNoRectSet = true
             } else {
-
                 self.store.send(.newTemplate(action:
                     .setRegionAndAddAttributeToPage(height: self.height,
                                                     width: self.width,
                                                     rectState: self.rectState)))
                 self.showRoot = false
+                self.presentation.wrappedValue.dismiss()
             }
         }) {
             Text("Speichern")

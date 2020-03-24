@@ -39,142 +39,58 @@ struct TemplateDetailView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
-                if self.showCamera {
-                    ScannerView(isActive: self.$showCamera, completion: { pages in
-                        self.onCompletion(pages: pages)
-                    }).edgesIgnoringSafeArea(.all)
-                        .navigationBarHidden(true)
-                } else {
-                    Form {
-                        Section {
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack(alignment: .top, spacing: 10) {
-                                    Image(uiImage: self.store.states.currentTemplate!.pages[0].image)
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 88, height: 88)
-                                        .layoutPriority(1)
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text(self.store.states.currentTemplate!.name)
-                                            .font(.headline)
-                                            .lineLimit(1)
-                                        Text("\(self.store.states.currentTemplate!.pages.count) Steiten")
-                                            .font(.system(size: 13))
-                                            .lineLimit(1)
-                                        Text(self.store.states.currentTemplate!.info)
-                                            .font(.system(size: 13))
-                                            .lineLimit(3)
-                                    }
-                                }.frame(height: 88)
-                            }
-                        }
-                        if !isLoading {
-                            Group {
-                                ForEach(0..<self.store.states.currentTemplate!.pages.count) { index in
-                                    Section {
-                                        VStack(alignment: .leading, spacing: 10) {
-                                            HStack(alignment: .top, spacing: 10) {
-                                                Image(uiImage:
-                                                    self.store.states.currentTemplate!.pages[index].image)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(minWidth: 0, maxWidth: 88,
-                                                           minHeight: 0, maxHeight: 88)
-                                                VStack(alignment: .leading, spacing: 5) {
-                                                    Text(self.pageInfo(index: index))
-                                                        .font(.headline)
-                                                        .lineLimit(1)
-                                                    Text(self.regionInfo(index: index))
-                                                        .font(.system(size: 13))
-                                                        .lineLimit(4)
-                                                }
-                                            }
-                                        }
-                                        //swiftlint:disable line_length
-                                        ForEach(0..<self.store.states.currentTemplate!.pages[index].regions.count) { regionIndex in
-                                            if index < self.result.count {
-                                                if  regionIndex < self.result[index].count {
-                                                    HStack(alignment: .center, spacing: 2.5) {
-                                                        Text("\(self.result[index][regionIndex].regionName):")
-                                                            .font(.headline)
-                                                            .layoutPriority(1.0)
-                                                        Spacer()
-                                                        Text("\(self.result[index][regionIndex].confidence)")
-                                                            .layoutPriority(1.0)
-                                                    }
-                                                    TextField("", text: self.$result[index][regionIndex].textResult)
-                                                } else {
-                                                    HStack(alignment: .center, spacing: 0) {
-                                                        Spacer()
-                                                        ActivityIndicator(isAnimating: true)
-                                                            .configure { $0.color = .tertiaryLabel }
-                                                        Spacer()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        //swiftlint:enable line_length
-                                    }
-                                }
-                                Section {
-                                    Text("Link Fehler")
-                                    if self.textRecognitionDidFinish {
-                                        ForEach(self.errors, id: \.self) { error in
-                                            Text("\(error)")
-                                        }
-                                    } else {
-                                        HStack(alignment: .center, spacing: 0) {
-                                            Spacer()
-                                            ActivityIndicator(isAnimating: true)
-                                                .configure { $0.color = .tertiaryLabel }
-                                            Spacer()
-                                        }
-                                    }
-                                }
-                            }
-                        } else if isLoading {
-                            Section {
-                                HStack(alignment: .center, spacing: 0) {
-                                    Spacer()
-                                    Text("Keine Ergebnisse vorhanden.")
-                                    Spacer()
-                                }
-                            }
-                        }
-                    }
-                    .listStyle(GroupedListStyle())
-                    .environment(\.horizontalSizeClass, .regular)
-                    .resignKeyboardOnDragGesture()
-                    .alert(isPresented: self.$showAlert) {
-                        //swiftlint:disable line_length
-                        Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.store.states.currentTemplate!.pages.count)) überein.")
-                        )
-                        //swiftlint:enable line_length
-                    }
+        ZStack {
+            ScrollView(.vertical, showsIndicators: true) {
+                VStack(alignment: .leading, spacing: 0) {
+                    DocumentInfo(template: self.store.states.currentTemplate!)
+                    DocumentPreview(template: self.store.states.currentTemplate!)
+                    DocumentResult(result: self.$result, template: self.store.states.currentTemplate!)
                 }
             }
-            .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")", displayMode: .large)
-            .navigationBarItems(leading: self.leadingItem(), trailing: self.newPictureButton())
-            .navigationBarBackButtonHidden(true)
+            .resignKeyboardOnDragGesture()
+            .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")",
+                displayMode: .large)
+                .navigationBarItems(trailing: self.newPictureButton())
+                .alert(isPresented: self.$showAlert) {
+                    //swiftlint:disable line_length
+                    Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.store.states.currentTemplate!.pages.count)) überein.")
+                    )
+                    //swiftlint:enable line_length
+            }
+            if self.showCamera {
+                ScannerView(isActive: self.$showCamera, completion: { pages in
+                    self.onCompletion(pages: pages)
+                }).edgesIgnoringSafeArea(.all)
+                    .navigationBarHidden(true)
+            }
         }
     }
-    /**
-     The functions returns a list of region/attribute names of the page
-     */
-    fileprivate func regionInfo(index: Int) -> String {
-        return self.store.states.currentTemplate!.pages[index].regions.map({ (regeion) -> String in
-            return regeion.name
-        }).joined(separator: ", ")
-    }
 
-    /**
-     The function returns some page number information
-     */
-    fileprivate func pageInfo(index: Int) -> String {
-        return "Seite \(index+1) von \(self.store.states.currentTemplate!.pages.count)"
+    private var LinkView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Link Fehler: ")
+            if self.textRecognitionDidFinish {
+                ForEach(self.errors, id: \.self) { error in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Divider()
+                        Text("\(error)")
+                    }
+                }
+            } else {
+                Divider()
+                HStack(alignment: .center, spacing: 0) {
+                    Spacer()
+                    ActivityIndicator(isAnimating: true)
+                        .configure { $0.color = .tertiaryLabel }
+                    Spacer()
+                }
+            }
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(Color.tertiarySystemFill)
+        .cornerRadius(8)
+        .padding()
     }
 
     fileprivate func newPictureButton() -> some View {
@@ -182,14 +98,6 @@ struct TemplateDetailView: View {
             self.showCamera = true
         }) {
             Text("Neues Bild")
-        }
-    }
-
-    fileprivate func leadingItem() -> some View {
-        return Button(action: {
-            self.store.send(.routing(action: .showContentView))
-        }) {
-            BackButtonView()
         }
     }
 
@@ -262,7 +170,7 @@ struct TemplateDetailView: View {
 
     /**
      The function calulates the position of the regions in the taken picture
-     corresponding to the template picutre. 
+     corresponding to the template picutre.
      */
     func newProportionalRect(templateImage: UIImage, newImage: UIImage, templateRect: CGRect) -> CGRect {
         let newWidthScale = (((newImage.size.width * 100)/templateImage.size.width) - 100)/100
@@ -280,7 +188,9 @@ struct TemplateDetailView: View {
 
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TemplateDetailView()
-            .environmentObject(AppStoreMock.getAppStore())
+        NavigationView {
+            TemplateDetailView()
+                .environmentObject(AppStoreMock.getAppStore())
+        }
     }
 }

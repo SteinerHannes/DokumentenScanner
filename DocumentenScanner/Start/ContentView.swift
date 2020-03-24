@@ -23,8 +23,6 @@ struct ContentView: View {
                 PageSelectView()
             } else if self.store.states.routes.isNewTemplateViewPresented {
                 NewTemplateView()
-            } else if self.store.states.routes.isTemplateDetailViewPresented {
-                TemplateDetailView()
             } else {
                 TemplatesView()
             }

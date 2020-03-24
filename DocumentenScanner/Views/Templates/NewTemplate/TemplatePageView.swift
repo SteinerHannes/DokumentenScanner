@@ -72,7 +72,7 @@ struct TemplatePageView: View {
                         NavigationLink(destination: NewAttributView(showRoot: self.$showRoot),
                                        isActive: self.$showRoot) {
                             Text("Neues Attribut hinzufügen").foregroundColor(.blue)
-                        }
+                        }.isDetailLink(false)
                     }
                     Section {
                         //swiftlint:disable line_length

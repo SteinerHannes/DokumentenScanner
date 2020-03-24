@@ -12,39 +12,51 @@ import SwiftUI
 struct TemplatesView: View {
     @EnvironmentObject var store: AppStore
 
+    @State var selection: String?
+
     init() {
         print("init TemplatesView")
     }
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
-                List {
-                    Section {
-                        if self.store.states.teamplates.isEmpty {
-                            HStack(alignment: .center, spacing: 0) {
-                                Spacer()
-                                Text("Keine Vorlagen vorhanden.")
-                                Spacer()
-                            }
-                        } else {
-                            ForEach(self.store.states.teamplates, id: \.id) { template in
+            ScrollView(.vertical, showsIndicators: true) {
+                VStack(alignment: .leading, spacing: 0) {
+                    if self.store.states.teamplates.isEmpty {
+                        HStack(alignment: .center, spacing: 0) {
+                            Spacer()
+                            Text("Keine Vorlagen vorhanden.")
+                            Spacer()
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(Color.tertiarySystemFill)
+                        .cornerRadius(8)
+                        .padding()
+                    } else {
+                        ForEach(self.store.states.teamplates, id: \.id) { template in
+                            NavigationLink(destination: TemplateDetailView(),
+                                           tag: template.id,
+                                           selection: self.$selection) {
                                 Button(action: {
+                                    self.selection = template.id
                                     self.store.send(.setCurrentTemplate(id: template.id))
-                                    self.store.send(.routing(action: .showTemplateDetailView))
                                 }) {
                                     TemplateView(template: template)
                                 }
                             }
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(Color.tertiarySystemFill)
+                            .cornerRadius(8)
+                            .padding()
                         }
                     }
                 }
-                .listStyle(GroupedListStyle())
-                .environment(\.horizontalSizeClass, .regular)
+                .navigationBarTitle("Vorlagen", displayMode: .large)
+                .navigationBarItems(trailing: self.trailingItem())
+                .navigationBarHidden(self.store.states.routes.isCameraPresented)
             }
-            .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(trailing: self.trailingItem())
-            .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
     }
 
