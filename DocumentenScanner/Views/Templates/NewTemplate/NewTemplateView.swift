@@ -27,7 +27,7 @@ struct NewTemplateView: View {
             Form {
                 Section {
                     CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: true)
-                    CustomTextField(placeholder: "Info", text: self.$info, isFirstResponder: false)
+                    TextField("Info", text: self.$info)
                 }
                 Section {
                     Button(action: {

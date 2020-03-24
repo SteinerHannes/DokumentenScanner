@@ -33,8 +33,12 @@ struct AddLinkView: View {
                         Text("Summieren").tag(LinkType.sum.rawValue)
                     }
                     if self.linktype == LinkType.compare.rawValue {
-                        Text("Hilfstext für Vergleichen:")
-
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("Vergleichen: ")
+                            //swiftlint:disable line_length
+                            Text("Wählen Sie zwei zu vergleichende Regionen aus. Diese werden beim Scannen auf Gleichheit überprüft. Sind beide Inhalte identisch kommt keine Fehlermeldung, ansonsten schon.").font(.footnote)
+                            //swiftlint:enable line_length
+                        }
                     } else {
                         Text("Hilfstext für Summieren:")
                     }
