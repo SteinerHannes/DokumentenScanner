@@ -40,6 +40,7 @@ struct TemplatesView: View {
                                            selection: self.$selection) {
                                 Button(action: {
                                     self.selection = template.id
+                                    self.store.send(.clearResult)
                                     self.store.send(.setCurrentTemplate(id: template.id))
                                 }) {
                                     TemplateView(template: template)

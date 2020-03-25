@@ -7,37 +7,42 @@
 //
 
 import SwiftUI
-
+//swiftlint:disable all line_length unused_closure_parameter
 struct DocumentResult: View {
-    @Binding var result: [[PageRegion]]
+    @EnvironmentObject var store: AppStore
 
     let template: Template
 
     var body: some View {
-        ForEach(0..<self.template.pages.count) { index in
+        ForEach(self.template.pages.indexed(), id: \.1.id) { idx, page in
             VStack(alignment: .leading, spacing: 5) {
-                Text(self.pageInfo(index: index))
+                Text("Seite \(idx+1) von \(self.template.pages.count)")
                     .font(.headline)
                     .lineLimit(1)
-                Text(self.regionInfo(index: index))
+                Text("Regionen: \(self.regionInfo(index: idx))")
                     .font(.system(size: 13))
                     .lineLimit(4)
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(0..<self.template.pages[index].regions.count) { regionIndex in
-                        if index < self.result.count {
-                            Divider()
-                            if  regionIndex < self.result[index].count {
-                                HStack(alignment: .center, spacing: 2.5) {
-                                    Text("\(self.result[index][regionIndex].regionName):")
-                                        .font(.headline)
-                                        .layoutPriority(1.0)
-                                    Spacer()
-                                    Text(String(format: "%.3G",
-                                                self.result[index][regionIndex].confidence))
-                                        .layoutPriority(1.0)
-                                }
-                                TextField("", text: self.$result[index][regionIndex].textResult)
-                                    .textFieldStyle(PlainTextFieldStyle())
+                ForEach(page.regions.indexed() , id: \.1.id) { ind, region in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Divider()
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("\(region.name):")
+                            Spacer()
+                            Text(self.getConfidence(page: idx, region: ind))
+                        }
+                        if self.store.states.result.isEmpty {
+                            Text("-")
+                                .foregroundColor(.secondaryLabel)
+                        } else {
+                            if !self.store.states.result[idx]!.isEmpty {
+                                TextField("\(region.name)", text: Binding<String>(
+                                    get: {
+                                        return self.store.states.result[idx]![ind].textResult
+                                    },
+                                    set: { (string) in
+                                        self.store.send(.setResult(page: idx, region: ind, text: string))
+                                    }
+                                ))
                             } else {
                                 HStack(alignment: .center, spacing: 0) {
                                     Spacer()
@@ -57,11 +62,25 @@ struct DocumentResult: View {
             .padding()
         }
     }
-
+    
+    fileprivate func getConfidence(page: Int, region: Int) -> String {
+        if self.store.states.result.isEmpty {
+            return "-"
+        }
+        if self.store.states.result[page] == nil || self.store.states.result[page]!.isEmpty {
+            return "-"
+        } else {
+            return String(format: "%.3G", self.store.states.result[page]![region].confidence as Float)
+        }
+    }
+    
     /**
      The functions returns a list of region/attribute names of the page
      */
     fileprivate func regionInfo(index: Int) -> String {
+        if self.template.pages[index].regions.isEmpty {
+            return "-"
+        }
         return self.template.pages[index].regions.map({ (regeion) -> String in
             return regeion.name
         }).joined(separator: ", ")
@@ -77,6 +96,7 @@ struct DocumentResult: View {
 
 struct DocumentResult_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentResult(result: .constant([]), template: AppStoreMock.getTemplate())
+        DocumentResult(template: AppStoreMock.getTemplate())
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

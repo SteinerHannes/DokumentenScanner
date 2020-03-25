@@ -31,3 +31,9 @@ struct PageRegion {
         self.datatype = datatype
     }
 }
+
+extension PageRegion : Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(regionID)
+    }
+}

@@ -13,16 +13,9 @@ import Vision
 struct TemplateDetailView: View {
     @EnvironmentObject var store: AppStore
 
-    // MARK: TODO
-    private var isLoading: Bool {
-        return self.result.isEmpty
-    }
-
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
 
-    /// The text recognition results of each page
-    @State private var result: [[PageRegion]] = []
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
@@ -44,7 +37,7 @@ struct TemplateDetailView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     DocumentInfo(template: self.store.states.currentTemplate!)
                     DocumentPreview(template: self.store.states.currentTemplate!)
-                    DocumentResult(result: self.$result, template: self.store.states.currentTemplate!)
+                    DocumentResult(template: self.store.states.currentTemplate!)
                 }
             }
             .resignKeyboardOnDragGesture()
@@ -109,25 +102,26 @@ struct TemplateDetailView: View {
     fileprivate func onCompletion(pages: [Page]?) {
         self.showCamera = false
         self.textRecognitionDidFinish = false
-        self.result = []
         guard pages != nil else { return }
+        let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
+        self.store.send(.initResult(array: array))
         if pages!.count == self.store.states.currentTemplate!.pages.count {
             for page in pages! {
-                self.result.append([])
+                self.store.send(.appendResult(at: page.id))
                 let imageResults: [PageRegion] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
                     for region in pageRegions {
                         self.links[region.regionID] = region.textResult
                     }
-                    self.result[page.id] = pageRegions
-                    if pageRegions.last!.regionID ==
-                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
-                        LinkAnalyzer(results: self.links,
-                                     links: self.store.states.currentTemplate!.links).analyze { errors in
-                            self.errors.append(contentsOf: errors)
-                            self.textRecognitionDidFinish = true
-                        }
-                    }
+                    self.store.send(.sendResult(pageNumber: page.id, result: pageRegions))
+//                    if pageRegions.last!.regionID ==
+//                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
+//                        LinkAnalyzer(results: self.links,
+//                                     links: self.store.states.currentTemplate!.links).analyze { errors in
+//                            self.errors.append(contentsOf: errors)
+//                            self.textRecognitionDidFinish = true
+//                        }
+//                    }
                 }
             }
         } else {

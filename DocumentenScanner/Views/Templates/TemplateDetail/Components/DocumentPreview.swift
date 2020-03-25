@@ -14,7 +14,7 @@ struct DocumentPreview: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(alignment: .center, spacing: 15) {
-                ForEach(0 ..< (self.template.pages.count)) { index in
+                ForEach(0 ..< self.template.pages.count) { index in
                     Image(uiImage: self.template.pages[index].image)
                         .renderingMode(.original)
                         .resizable()

@@ -21,7 +21,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Scanning</string>
+	<string>Die Berechtigung wird benötigt, um Dokumente ein zu scannen und sie zu digitalisieren.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Bla</string>
 	<key>UIApplicationSceneManifest</key>
