@@ -7,37 +7,45 @@
 //
 
 import SwiftUI
-
+//swiftlint:disable all line_length unused_closure_parameter
 struct DocumentResult: View {
-    @Binding var result: [[PageRegion]]
+    @EnvironmentObject var store: AppStore
+    
+    @State var showSymbole: Bool = true
 
     let template: Template
 
     var body: some View {
-        ForEach(0..<self.template.pages.count) { index in
-            VStack(alignment: .leading, spacing: 5) {
-                Text(self.pageInfo(index: index))
+        ForEach(self.template.pages.indexed(), id: \.1.id) { idx, page in
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Seite \(idx+1) von \(self.template.pages.count)")
                     .font(.headline)
                     .lineLimit(1)
-                Text(self.regionInfo(index: index))
+                Text("\(self.regionInfo(index: idx))")
                     .font(.system(size: 13))
                     .lineLimit(4)
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(0..<self.template.pages[index].regions.count) { regionIndex in
-                        if index < self.result.count {
-                            Divider()
-                            if  regionIndex < self.result[index].count {
-                                HStack(alignment: .center, spacing: 2.5) {
-                                    Text("\(self.result[index][regionIndex].regionName):")
-                                        .font(.headline)
-                                        .layoutPriority(1.0)
-                                    Spacer()
-                                    Text(String(format: "%.3G",
-                                                self.result[index][regionIndex].confidence))
-                                        .layoutPriority(1.0)
-                                }
-                                TextField("", text: self.$result[index][regionIndex].textResult)
-                                    .textFieldStyle(PlainTextFieldStyle())
+                ForEach(page.regions.indexed() , id: \.1.id) { ind, region in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Divider()
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("\(region.name):")
+                                .bold()
+                            Spacer()
+                            ConfidenceButton(showSymbole: self.$showSymbole, page: idx, region: ind)
+                        }
+                        if self.store.states.result.isEmpty {
+                            Text("-")
+                                .foregroundColor(.secondaryLabel)
+                        } else {
+                            if !self.store.states.result[idx]!.isEmpty {
+                                TextField("\(region.name)", text: Binding<String>(
+                                    get: {
+                                        return self.store.states.result[idx]![ind].textResult
+                                    },
+                                    set: { (string) in
+                                        self.store.send(.setResult(page: idx, region: ind, text: string))
+                                    }
+                                )).keyboardType(self.getKeyboardType(page: idx, region: ind))
                             } else {
                                 HStack(alignment: .center, spacing: 0) {
                                     Spacer()
@@ -57,12 +65,28 @@ struct DocumentResult: View {
             .padding()
         }
     }
-
+    
+    fileprivate func getKeyboardType(page: Int, region: Int) -> UIKeyboardType {
+        switch self.store.states.result[page]?[region].datatype {
+            case .mark:
+                return .decimalPad
+            case .name:
+                return .alphabet
+            case .point:
+                return .decimalPad
+            default:
+                return .default
+        }
+    }
+    
     /**
      The functions returns a list of region/attribute names of the page
      */
     fileprivate func regionInfo(index: Int) -> String {
-        return self.template.pages[index].regions.map({ (regeion) -> String in
+        if self.template.pages[index].regions.isEmpty {
+            return "Keine Regionen"
+        }
+        return "Regionen: " + self.template.pages[index].regions.map({ (regeion) -> String in
             return regeion.name
         }).joined(separator: ", ")
     }
@@ -75,8 +99,78 @@ struct DocumentResult: View {
     }
 }
 
+struct ConfidenceButton: View {
+    @EnvironmentObject var store: AppStore
+    
+    @Binding var showSymbole: Bool
+    let page: Int
+    let region: Int
+    
+    var body: some View {
+        Button(action: {
+            self.showSymbole.toggle()
+        }) {
+            if showSymbole {
+                self.getConfidenceCircle(page: page, region: region)
+                    .frame(width: 10, height: 10)
+            } else {
+                Text(self.getConfidence(page: page, region: region))
+                    .foregroundColor(.secondaryLabel)
+            }
+        }
+    }
+    
+    fileprivate func getConfidence(page: Int, region: Int) -> String {
+        if self.store.states.result.isEmpty {
+            return "-"
+        }
+        if self.store.states.result[page] == nil || self.store.states.result[page]!.isEmpty {
+            return "-"
+        } else {
+            if self.store.states.result[page]![region].confidence.isNaN {
+                return "Kein Ergebnis"
+            }
+            return String(format: "%.3G", self.store.states.result[page]![region].confidence as Float)
+        }
+    }
+    
+    fileprivate func getConfidenceCircle(page: Int, region: Int) -> some View {
+        let error = Image(systemName: "exclamationmark.triangle.fill")
+            .foregroundColor(.red)
+            .eraseToAnyView()
+        
+        if self.store.states.result.isEmpty {
+            return EmptyView().eraseToAnyView()
+        }
+        if self.store.states.result[page] == nil || self.store.states.result[page]!.isEmpty {
+            return EmptyView().eraseToAnyView()
+        } else {
+            if self.store.states.result[page]![region].confidence.isNaN {
+                return error
+            }
+            let color: Color
+            switch self.store.states.result[page]![region].confidence {
+                case 0.65...1.0:
+                    color = .green
+                case 0.35..<0.65:
+                    color = .yellow
+                case 0.2..<0.35:
+                    color = .orange
+                default:
+                    color = .red
+            }
+            
+            return Circle()
+                .frame(width: 10, height: 10)
+                .foregroundColor(color)
+                .eraseToAnyView()
+        }
+    }
+}
+
 struct DocumentResult_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentResult(result: .constant([]), template: AppStoreMock.getTemplate())
+        DocumentResult(template: AppStoreMock.getTemplate())
+            .environmentObject(AppStoreMock.getAppStore())
     }
 }

@@ -15,4 +15,21 @@ public enum ResultDatatype: Int {
     case studentNumber = 3
     case seminarGroup = 4
     case point = 5
+
+    func getName() -> String {
+        switch self {
+            case .none:
+                return "Unbekannt"
+            case .mark:
+                return "Note"
+            case .name:
+                return "Name"
+            case .studentNumber:
+                return "Matrikelnummer"
+            case .seminarGroup:
+                return "Seminargruppe"
+            case .point:
+                return "Punkte"
+        }
+    }
 }

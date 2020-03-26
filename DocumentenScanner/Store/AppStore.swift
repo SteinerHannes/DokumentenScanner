@@ -225,6 +225,11 @@ enum AppAction {
     case clearCurrentTemplate
     case setCurrentTemplate(id: String)
     case addNewTemplate(template: Template)
+    case sendResult(pageNumber: Int, result: [PageRegion])
+    case appendResult(at: Int)
+    case initResult(array: [[PageRegion]?])
+    case clearResult
+    case setResult(page: Int, region: Int, text: String)
 }
 
 /// The new app state
@@ -238,9 +243,17 @@ struct AppStates {
     /// The currently inspected template
     var currentTemplate: Template?
 
+    var result: [[PageRegion]?] = []
+
     init() {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
+    }
+
+    init(template: Template) {
+        self.routes = RoutingState()
+        self.newTemplateState = NewTemplateState()
+        self.teamplates.append(template)
     }
 }
 
@@ -257,12 +270,25 @@ func appReducer(
             newTemplateReducer(state: &states.newTemplateState, action: action)
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
+//            for page in template.pages {
+//                UIImageWriteToSavedPhotosAlbum(page.image, nil, nil, nil)
+//            }
         case let .setCurrentTemplate(id: id):
             states.currentTemplate = states.teamplates.first(where: { template -> Bool in
                 template.id == id
             })
         case .clearCurrentTemplate:
             states.currentTemplate = nil
+        case let .sendResult(pageNumber: number, result: pageRegions):
+            states.result[number] = pageRegions
+        case let .appendResult(at: pageNumber):
+            states.result[pageNumber] = []
+        case let .initResult(array: nilPages):
+            states.result = nilPages
+        case .clearResult:
+            states.result = []
+        case let .setResult(page: page, region: region, text: text):
+            states.result[page]![region].textResult = text
     }
     return Empty().eraseToAnyPublisher()
 }

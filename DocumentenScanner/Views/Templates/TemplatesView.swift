@@ -40,6 +40,7 @@ struct TemplatesView: View {
                                            selection: self.$selection) {
                                 Button(action: {
                                     self.selection = template.id
+                                    self.store.send(.clearResult)
                                     self.store.send(.setCurrentTemplate(id: template.id))
                                 }) {
                                     TemplateView(template: template)
@@ -62,6 +63,8 @@ struct TemplatesView: View {
 
     private func trailingItem() -> some View {
         return NavigationLink(destination: NewTemplateView()) {
+            Image(systemName: "plus.square.on.square")
+                .font(.body)
             Text("Neue Vorlage")
         }
     }
