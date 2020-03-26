@@ -34,18 +34,28 @@ struct NewAttributView: View {
                 Section {
                     CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: self.showRoot)
                     Picker(selection: $datatype, label: Text("Datentyp")) {
-                        Text("Unbekannt").tag(ResultDatatype.none.rawValue)
-                        Text("Note").tag(ResultDatatype.mark.rawValue)
-                        Text("Name").tag(ResultDatatype.name.rawValue)
-                        Text("Matrikelnummer").tag(ResultDatatype.studentNumber.rawValue)
-                        Text("Seminargruppe").tag(ResultDatatype.seminarGroup.rawValue)
-                        Text("Punkte").tag(ResultDatatype.point.rawValue)
+                        Text(ResultDatatype.none.getName())
+                            .tag(ResultDatatype.none.rawValue)
+                        Text(ResultDatatype.mark.getName())
+                            .tag(ResultDatatype.mark.rawValue)
+                        Text(ResultDatatype.name.getName())
+                            .tag(ResultDatatype.name.rawValue)
+                        Text(ResultDatatype.studentNumber.getName())
+                            .tag(ResultDatatype.studentNumber.rawValue)
+                        Text(ResultDatatype.seminarGroup.getName())
+                            .tag(ResultDatatype.seminarGroup.rawValue)
+                        Text(ResultDatatype.point.getName())
+                            .tag(ResultDatatype.point.rawValue)
                     }
                 }
                 Section {
                     VStack {
                         NavigationLink(destination: SelectRegionView(showRoot: self.$showRoot)) {
-                            Text("Bereich auswählen").foregroundColor(.blue)
+                            Group {
+                                Image(systemName: "textbox")
+                                    .font(.system(size: 20))
+                                Text("Bereich auswählen")
+                            }.foregroundColor(.blue)
                         }
                         .isDetailLink(false)
                         .onDisappear {

@@ -90,7 +90,9 @@ struct TemplateDetailView: View {
         return Button(action: {
             self.showCamera = true
         }) {
-            Text("Neues Bild")
+            Image(systemName: "doc.text.viewfinder")
+                .font(.body)
+            Text("Scannen")
         }
     }
 

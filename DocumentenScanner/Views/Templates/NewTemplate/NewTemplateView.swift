@@ -42,7 +42,9 @@ struct NewTemplateView: View {
                             self.showCamera = true
                         }
                     }) {
-                        HStack {
+                        HStack(alignment: .center, spacing: 5) {
+                            Image(systemName: "doc.text.viewfinder")
+                                .font(.system(size: 24))
                             Text("Foto aufnehmen")
                             Spacer()
                             Image(systemName: "chevron.right")

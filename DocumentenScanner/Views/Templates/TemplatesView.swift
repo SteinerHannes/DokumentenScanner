@@ -63,6 +63,8 @@ struct TemplatesView: View {
 
     private func trailingItem() -> some View {
         return NavigationLink(destination: NewTemplateView()) {
+            Image(systemName: "plus.square.on.square")
+                .font(.body)
             Text("Neue Vorlage")
         }
     }

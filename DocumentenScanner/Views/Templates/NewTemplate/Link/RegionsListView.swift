@@ -118,7 +118,7 @@ struct RowContainer: View {
     }
 
     var body: some View {
-        MultipleSelectionRow(title: self.region.name, isSelected: self.selections.contains(self.region)) {
+        MultipleSelectionRow(region: self.region, isSelected: self.selections.contains(self.region)) {
             switch self.linktype {
                 case .compare:
                     // only one is selected
@@ -140,15 +140,20 @@ struct RowContainer: View {
 struct MultipleSelectionRow: View {
     @EnvironmentObject var store: AppStore
 
-    let title: String
+    let region: ImageRegion
     var isSelected: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: self.action) {
-            HStack {
-                Text(self.title)
-                    .foregroundColor(.label)
+            HStack(alignment: .center, spacing: 0) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(self.region.name)
+                        .foregroundColor(.label)
+                    Text(self.region.datatype.getName())
+                        .font(.footnote)
+                        .foregroundColor(.secondaryLabel)
+                }
                 if self.isSelected {
                     Spacer()
                     Image(systemName: "checkmark")

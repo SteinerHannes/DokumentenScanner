@@ -32,7 +32,7 @@ struct PageRegion {
     }
 }
 
-extension PageRegion : Hashable {
+extension PageRegion: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(regionID)
     }

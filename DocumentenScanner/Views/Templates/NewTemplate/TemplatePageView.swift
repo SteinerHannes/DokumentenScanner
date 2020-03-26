@@ -53,9 +53,10 @@ struct TemplatePageView: View {
                     ForEach(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions) { region in
                     //swiftlint:enable line_length
                         Rectangle()
+                            .stroke(Color.label, lineWidth: 3)
+                            .background(Color.blue.opacity(0.7))
                             .frame(width: region.width, height: region.height, alignment: .topLeading)
                             .offset(region.rectState)
-                            .foregroundColor(Color.gray.opacity(0.9))
                             .overlay(AttributeNameTag(name: region.name)
                                 .frame(width: region.width, height: region.height)
                                 .offset(region.rectState)
@@ -71,7 +72,11 @@ struct TemplatePageView: View {
                     Section {
                         NavigationLink(destination: NewAttributView(showRoot: self.$showRoot),
                                        isActive: self.$showRoot) {
-                            Text("Neues Attribut hinzufügen").foregroundColor(.blue)
+                            Group {
+                                Image(systemName: "square.and.pencil")
+                                    .font(.system(size: 20))
+                                Text("Neues Attribut hinzufügen")
+                            }.foregroundColor(.blue)
                         }.isDetailLink(false)
                     }
                     Section {
