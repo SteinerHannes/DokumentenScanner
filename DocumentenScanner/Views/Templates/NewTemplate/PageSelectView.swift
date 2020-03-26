@@ -41,7 +41,7 @@ struct PageSelectView: View {
                     .padding()
                 }
             }
-            .navigationBarTitle("\(self.store.states.newTemplateState.newTemplate!.name)",
+            .navigationBarTitle("\(self.store.states.newTemplateState.newTemplate?.name ?? "Dokument")",
                 displayMode: .inline)
             .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
         }
