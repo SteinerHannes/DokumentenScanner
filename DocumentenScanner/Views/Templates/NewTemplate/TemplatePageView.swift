@@ -54,7 +54,7 @@ struct TemplatePageView: View {
                     //swiftlint:enable line_length
                         Rectangle()
                             .stroke(Color.label, lineWidth: 3)
-                            .background(Color.blue.opacity(0.7))
+                            .background(Color.accentColor.opacity(0.7))
                             .frame(width: region.width, height: region.height, alignment: .topLeading)
                             .offset(region.rectState)
                             .overlay(AttributeNameTag(name: region.name)

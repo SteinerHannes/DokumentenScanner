@@ -21,7 +21,7 @@ struct DocumentResult: View {
                 Text("Seite \(idx+1) von \(self.template.pages.count)")
                     .font(.headline)
                     .lineLimit(1)
-                Text("Regionen: \(self.regionInfo(index: idx))")
+                Text("\(self.regionInfo(index: idx))")
                     .font(.system(size: 13))
                     .lineLimit(4)
                 ForEach(page.regions.indexed() , id: \.1.id) { ind, region in
@@ -84,9 +84,9 @@ struct DocumentResult: View {
      */
     fileprivate func regionInfo(index: Int) -> String {
         if self.template.pages[index].regions.isEmpty {
-            return "-"
+            return "Keine Regionen"
         }
-        return self.template.pages[index].regions.map({ (regeion) -> String in
+        return "Regionen: " + self.template.pages[index].regions.map({ (regeion) -> String in
             return regeion.name
         }).joined(separator: ", ")
     }
