@@ -249,6 +249,12 @@ struct AppStates {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
     }
+
+    init(template: Template) {
+        self.routes = RoutingState()
+        self.newTemplateState = NewTemplateState()
+        self.teamplates.append(template)
+    }
 }
 
 /// The reducer the handle the functionality of the app state actions
