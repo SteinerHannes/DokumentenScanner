@@ -19,13 +19,15 @@ struct ContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if self.store.states.routes.isPageSelectViewPresented {
-                PageSelectView()
-            } else if self.store.states.routes.isNewTemplateViewPresented {
-                NewTemplateView()
-            } else {
-                TemplatesView()
+            Group {
+                if self.store.states.routes.isPageSelectViewPresented {
+                    PageSelectView()
+                } else {
+                    TemplatesView()
+                }
             }
+            .environmentObject(self.store)
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

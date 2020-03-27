@@ -72,7 +72,7 @@ struct NewTemplateView: View {
                 .edgesIgnoringSafeArea(.all)
             }
         }
-        .navigationBarTitle("Template hinzufügen", displayMode: .inline)
+        .navigationBarTitle("Vorlage anlegen", displayMode: .inline)
         .navigationBarHidden(self.showCamera)
     }
 }

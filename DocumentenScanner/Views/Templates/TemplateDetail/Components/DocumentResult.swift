@@ -16,36 +16,37 @@ struct DocumentResult: View {
     let template: Template
 
     var body: some View {
-        ForEach(self.template.pages.indexed(), id: \.1.id) { idx, page in
+        ForEach(self.template.pages.indexed(), id: \.1.id) { pageIdx, page in
             VStack(alignment: .leading, spacing: 8) {
-                Text("Seite \(idx+1) von \(self.template.pages.count)")
+                Text("Seite \(pageIdx+1) von \(self.template.pages.count)")
                     .font(.headline)
                     .lineLimit(1)
-                Text("\(self.regionInfo(index: idx))")
-                    .font(.system(size: 13))
+                Text("\(self.regionInfo(index: pageIdx))")
+                    .font(.caption)
                     .lineLimit(4)
-                ForEach(page.regions.indexed() , id: \.1.id) { ind, region in
+                ForEach(page.regions.indexed() , id: \.1.id) { regionIdx, region in
                     VStack(alignment: .leading, spacing: 8) {
                         Divider()
                         HStack(alignment: .center, spacing: 0) {
                             Text("\(region.name):")
                                 .bold()
                             Spacer()
-                            ConfidenceButton(showSymbole: self.$showSymbole, page: idx, region: ind)
+                            ConfidenceButton(showSymbole: self.$showSymbole, page: pageIdx, region: regionIdx)
                         }
                         if self.store.states.result.isEmpty {
                             Text("-")
                                 .foregroundColor(.secondaryLabel)
                         } else {
-                            if !self.store.states.result[idx]!.isEmpty {
+                            if !self.store.states.result[pageIdx]!.isEmpty {
                                 TextField("\(region.name)", text: Binding<String>(
                                     get: {
-                                        return self.store.states.result[idx]![ind].textResult
+                                        return self.store.states.result[pageIdx]![regionIdx].textResult
                                     },
                                     set: { (string) in
-                                        self.store.send(.setResult(page: idx, region: ind, text: string))
+                                        self.store.send(
+                                            .setResult(page: pageIdx, region: regionIdx, text: string))
                                     }
-                                )).keyboardType(self.getKeyboardType(page: idx, region: ind))
+                                )).keyboardType(self.getKeyboardType(page: pageIdx, region: regionIdx))
                             } else {
                                 HStack(alignment: .center, spacing: 0) {
                                     Spacer()

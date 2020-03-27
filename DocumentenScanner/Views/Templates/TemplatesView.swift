@@ -35,69 +35,80 @@ struct TemplatesView: View {
                         .padding()
                     } else {
                         ForEach(self.store.states.teamplates, id: \.id) { template in
-                            NavigationLink(destination: TemplateDetailView(),
-                                           tag: template.id,
-                                           selection: self.$selection) {
-                                Button(action: {
-                                    self.selection = template.id
-                                    self.store.send(.clearResult)
-                                    self.store.send(.setCurrentTemplate(id: template.id))
-                                }) {
-                                    TemplateView(template: template)
-                                }
+                            NavigationLink(
+                                destination:
+                                    TemplateDetailView(template: template)
+                                        .environmentObject(self.store)
+                                , tag: template.id
+                                , selection: self.$selection) {
+                                    Button(action: {
+                                        self.store.send(.setCurrentTemplate(id: template.id))
+                                        self.selection = template.id
+                                        self.store.send(.clearResult)
+                                    }) {
+                                        TemplateCard(template: template)
+                                    }
                             }
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding()
                             .background(Color.tertiarySystemFill)
-                            .cornerRadius(8)
+                            .cornerRadius(12)
                             .padding()
                         }
                     }
                 }
-                .navigationBarTitle("Vorlagen", displayMode: .large)
-                .navigationBarItems(trailing: self.trailingItem())
-                .navigationBarHidden(self.store.states.routes.isCameraPresented)
             }
+            .navigationBarTitle("Vorlagen", displayMode: .large)
+            .navigationBarItems(trailing: self.trailingItem())
+            .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
     }
 
     private func trailingItem() -> some View {
-        return NavigationLink(destination: NewTemplateView()) {
-            Image(systemName: "plus.square.on.square")
-                .font(.body)
-            Text("Neue Vorlage")
-        }
+        return
+            NavigationLink(destination: NewTemplateView()) {
+                Image(systemName: "plus.square.on.square")
+                    .font(.body)
+                Text("Neue Vorlage")
+            }
     }
 }
 
-private struct TemplateView: View {
-
+private struct TemplateCard: View {
     var template: Template
 
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            HStack(alignment: .top, spacing: 10) {
-                Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
-                    .renderingMode(.original)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 88, height: 88)
-                    .layoutPriority(1)
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(template.name).font(.headline)
-                        .lineLimit(1)
-                    Text(template.info).font(.system(size: 13))
-                        .lineLimit(4)
-                }
+        HStack(alignment: .center, spacing: 5) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text(template.name)
+                    .font(.title)
+                    .lineLimit(2)
+                HStack(alignment: .top, spacing: 10) {
+                    Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 88, height: 120)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("\(template.pages.count) \(template.pages.count == 1 ? "Seite" : "Seiten" )")
+                            .font(.callout)
+                            .foregroundColor(.secondaryLabel)
+                        Text(template.info)
+                            .font(.body)
+                            .lineLimit(4)
+                    }
+                }.frame(height: 120)
+            }
+            .foregroundColor(.label)
+            .layoutPriority(1)
+            Spacer()
+                .frame(minWidth: 0, maxWidth: .infinity)
+            Image(systemName: "chevron.right")
+                .frame(width: nil, height: 88, alignment: .trailing)
+                .font(.system(size: 13, weight: .semibold, design: .default))
+                .foregroundColor(.systemFill)
                 .layoutPriority(1)
-                Spacer().frame(minWidth: 0, maxWidth: .infinity)
-                Image(systemName: "chevron.right")
-                    .frame(width: nil, height: 88, alignment: .trailing)
-                    .font(.system(size: 13, weight: .semibold, design: .default))
-                    .foregroundColor(.systemFill)
-                    .layoutPriority(1)
-            }.frame(height: 88)
-        }.foregroundColor(.label)
+        }
     }
 }
 

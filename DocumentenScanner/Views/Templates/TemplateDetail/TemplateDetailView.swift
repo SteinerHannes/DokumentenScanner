@@ -13,6 +13,7 @@ import Vision
 struct TemplateDetailView: View {
     @EnvironmentObject var store: AppStore
 
+    var template: Template
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
 
@@ -27,26 +28,27 @@ struct TemplateDetailView: View {
 
     @State private var errors: [String] = []
 
-    init() {
+    init(template: Template) {
         print("init TemplateDetailView")
+        self.template = template
     }
 
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading, spacing: 0) {
-                    DocumentInfo(template: self.store.states.currentTemplate!)
-                    DocumentPreview(template: self.store.states.currentTemplate!)
-                    DocumentResult(template: self.store.states.currentTemplate!)
+                    DocumentInfo(template: template)
+                    DocumentPreview(template: template)
+                    DocumentResult(template: template)
                 }
             }
             .resignKeyboardOnDragGesture()
-            .navigationBarTitle("\(self.store.states.currentTemplate?.name ?? "FAIL")",
+            .navigationBarTitle("\(self.template.name)",
                 displayMode: .large)
                 .navigationBarItems(trailing: self.newPictureButton())
                 .alert(isPresented: self.$showAlert) {
                     //swiftlint:disable line_length
-                    Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.store.states.currentTemplate!.pages.count)) überein.")
+                    Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.template.pages.count)) überein.")
                     )
                     //swiftlint:enable line_length
             }
@@ -185,7 +187,7 @@ struct TemplateDetailView: View {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            TemplateDetailView()
+            TemplateDetailView(template: AppStoreMock.getTemplate())
                 .environmentObject(AppStoreMock.getAppStore())
         }
     }
