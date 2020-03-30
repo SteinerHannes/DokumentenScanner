@@ -204,7 +204,8 @@ func linkReducer(state: inout LinkState, action: LinkAction) {
 
 /// The enviorment for handling the asyncronously funtions 
 struct AppEnviorment {
-    var service = TemplateService()
+    var template = TemplateService()
+    var auth = AuthService()
 }
 
 /// The actions of the app state
@@ -221,6 +222,7 @@ enum AppAction {
     case initResult(array: [[PageRegion]?])
     case clearResult
     case setResult(page: Int, region: Int, text: String)
+    case login
 }
 
 /// The new app state
@@ -280,6 +282,8 @@ func appReducer(
             states.result = []
         case let .setResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
+        case .login:
+            enviorment.auth.login()
     }
     return Empty().eraseToAnyPublisher()
 }

@@ -38,9 +38,9 @@ struct TemplatesView: View {
                             NavigationLink(
                                 destination:
                                     TemplateDetailView(template: template)
-                                        .environmentObject(self.store)
-                                , tag: template.id
-                                , selection: self.$selection) {
+                                        .environmentObject(self.store),
+                                tag: template.id,
+                                selection: self.$selection) {
                                     Button(action: {
                                         self.store.send(.setCurrentTemplate(id: template.id))
                                         self.selection = template.id
