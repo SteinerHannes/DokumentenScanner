@@ -12,7 +12,7 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var store: AppStore
 
-    @State var mail: String = "max@hs-mittweida.de"
+    @State var mail: String = ""
     @State var password: String = ""
 
     var body: some View {
@@ -28,23 +28,24 @@ struct LoginView: View {
                                textContentType: .emailAddress,
                                isValid: isEmailValid)
                     .frame(height: 70)
-                if isEmailValid(email: self.mail) {
-                    ErrorTextField(title: "Passwort",
-                                   placeholder: "Passwort",
-                                   iconName: "",
-                                   text: self.$password,
-                                   isFirstResponder: false,
-                                   keyboardType: .alphabet,
-                                   isSecure: true,
-                                   textContentType: .password,
-                                   isValid: isPasswordValid)
-                        .frame(height: 70)
-                    Button(action: {
-                        //
-                    }) {
-                        PrimaryButton(title: "Anmelden")
-                    }.disabled(!(isEmailValid(email: self.mail) && isPasswordValid(password: self.password)))
+                ErrorTextField(title: "Passwort",
+                               placeholder: "Passwort",
+                               iconName: "",
+                               text: self.$password,
+                               isFirstResponder: false,
+                               keyboardType: .alphabet,
+                               isSecure: true,
+                               textContentType: .password,
+                               isValid: isPasswordValid)
+                    .frame(height: 70)
+                Button(action: {
+                    //
+                }) {
+                    PrimaryButton(title: "Anmelden")
                 }
+                .disabled(!(isEmailValid(email: self.mail) && isPasswordValid(password: self.password)))
+                .offset(x: 0, y: isEmailValid(email: self.mail) ? 0 : UIScreen.main.bounds.height)
+                .animation(.spring())
                 Spacer()
             }.padding(.horizontal)
         }.navigationBarTitle("Anmelden", displayMode: .large)
