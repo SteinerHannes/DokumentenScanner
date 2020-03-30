@@ -9,7 +9,7 @@
 import Foundation
 
 final class AuthService {
-    let baseUrl: String = "https://localhost:5000/auth/"
+    let baseUrl: String = "https://192.168.178.50:5000/auth/"
 
     func login() {
         // prepare data for uplaod
@@ -22,7 +22,7 @@ final class AuthService {
         print(uploadData)
 
         // configure an uplaod request
-        guard let url = URL(string: "http://localhost:5000/auth/login") else {
+        guard let url = URL(string: "http://192.168.178.50:5000/auth/login") else {
             return
         }
         var request = URLRequest(url: url)
