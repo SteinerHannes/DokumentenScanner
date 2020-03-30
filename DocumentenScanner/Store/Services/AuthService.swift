@@ -22,7 +22,7 @@ final class AuthService {
         print(uploadData)
 
         // configure an uplaod request
-        guard let url = URL(string: "http://192.168.178.50:5000/auth/login") else {
+        guard let url = URL(string: baseUrl + "login") else {
             return
         }
         var request = URLRequest(url: url)
