@@ -59,6 +59,10 @@
 		EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */; };
 		EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3E2432456200A80FBD /* ErrorTextField.swift */; };
 		EFF85A422432497500A80FBD /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A412432497500A80FBD /* Button.swift */; };
+		EFFECC0D24331F29008EED63 /* Routing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC0C24331F29008EED63 /* Routing.swift */; };
+		EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC0E24331F62008EED63 /* NewTemplate.swift */; };
+		EFFECC142433206A008EED63 /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC132433206A008EED63 /* Links.swift */; };
+		EFFECC17243323BE008EED63 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC16243323BE008EED63 /* Reach.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +122,10 @@
 		EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		EFF85A3E2432456200A80FBD /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
 		EFF85A412432497500A80FBD /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		EFFECC0C24331F29008EED63 /* Routing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routing.swift; sourceTree = "<group>"; };
+		EFFECC0E24331F62008EED63 /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
+		EFFECC132433206A008EED63 /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
+		EFFECC16243323BE008EED63 /* Reach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				EF629662241E812400030997 /* Store.swift */,
-				EF62965B241E753B00030997 /* AppStore.swift */,
+				EFFECC1224331FAC008EED63 /* States */,
 				EFDF50372431F48100E37C4F /* DTO */,
 				EF62965F241E804500030997 /* Services */,
 			);
@@ -337,6 +345,7 @@
 		EFE31F662403E9AB008015F3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EFFECC1524332307008EED63 /* Internet */,
 				EF019A2D2423B32D008964B7 /* Link */,
 				EF786BEB2420DDF2001D71F9 /* TextRecognition */,
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
@@ -374,6 +383,25 @@
 				EFF85A412432497500A80FBD /* Button.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		EFFECC1224331FAC008EED63 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				EF62965B241E753B00030997 /* AppStore.swift */,
+				EFFECC0C24331F29008EED63 /* Routing.swift */,
+				EFFECC0E24331F62008EED63 /* NewTemplate.swift */,
+				EFFECC132433206A008EED63 /* Links.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		EFFECC1524332307008EED63 /* Internet */ = {
+			isa = PBXGroup;
+			children = (
+				EFFECC16243323BE008EED63 /* Reach.swift */,
+			);
+			path = Internet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -483,6 +511,7 @@
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
+				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EF62965C241E753B00030997 /* AppStore.swift in Sources */,
@@ -491,6 +520,7 @@
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF63DEC82428E94700689F5A /* CustomTextField.swift in Sources */,
+				EFFECC142433206A008EED63 /* Links.swift in Sources */,
 				EFF85A422432497500A80FBD /* Button.swift in Sources */,
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
 				EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */,
@@ -508,6 +538,7 @@
 				EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */,
 				EFDF50362431F47900E37C4F /* AuthService.swift in Sources */,
 				EF1945EB240804A700D76CE7 /* Template.swift in Sources */,
+				EFFECC0D24331F29008EED63 /* Routing.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
@@ -516,6 +547,7 @@
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
 				EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */,
+				EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */,
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,

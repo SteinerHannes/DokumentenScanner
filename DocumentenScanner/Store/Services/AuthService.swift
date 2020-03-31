@@ -11,9 +11,9 @@ import Foundation
 final class AuthService {
     let baseUrl: String = "https://192.168.178.50:5000/auth/"
 
-    func login() {
+    func login(email: String, password: String, completion: @escaping (Result<String, Error>) -> Void ) {
         // prepare data for uplaod
-        let login = LoginDTO(email: "a@a.a", password: "hsmw")
+        let login = LoginDTO(email: email, password: password)
 
         guard let uploadData = try? JSONEncoder().encode(login) else {
             return

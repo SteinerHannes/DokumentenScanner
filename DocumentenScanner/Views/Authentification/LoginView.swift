@@ -39,7 +39,8 @@ struct LoginView: View {
                                isValid: isPasswordValid)
                     .frame(height: 70)
                 Button(action: {
-                    //
+                    UIApplication.shared.endEditing(true)
+                    self.store.send(.login(email: self.mail, password: self.password))
                 }) {
                     PrimaryButton(title: "Anmelden")
                 }

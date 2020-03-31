@@ -30,8 +30,6 @@ struct ContentView: View {
                 }
                 .environmentObject(self.store)
                 .navigationViewStyle(StackNavigationViewStyle())
-            }.onAppear {
-                self.store.send(.login)
             }.eraseToAnyView()
         } else {
             return WelcomeView()
