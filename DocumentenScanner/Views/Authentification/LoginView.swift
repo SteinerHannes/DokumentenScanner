@@ -25,8 +25,9 @@ struct LoginView: View {
                                isFirstResponder: true,
                                keyboardType: .emailAddress,
                                isSecure: false,
-                               textContentType: .emailAddress,
-                               isValid: isEmailValid)
+                               textContentType: .emailAddress//,
+                               //isValid: isEmailValid)
+                                )
                     .frame(height: 70)
                 ErrorTextField(title: "Passwort",
                                placeholder: "Passwort",
@@ -35,8 +36,9 @@ struct LoginView: View {
                                isFirstResponder: false,
                                keyboardType: .alphabet,
                                isSecure: true,
-                               textContentType: .password,
-                               isValid: isPasswordValid)
+                               textContentType: .password//,
+                               //isValid: isPasswordValid)
+                                )
                     .frame(height: 70)
                 Button(action: {
                     UIApplication.shared.endEditing(true)
@@ -44,9 +46,9 @@ struct LoginView: View {
                 }) {
                     PrimaryButton(title: "Anmelden")
                 }
-                .disabled(!(isEmailValid(email: self.mail) && isPasswordValid(password: self.password)))
-                .offset(x: 0, y: isEmailValid(email: self.mail) ? 0 : UIScreen.main.bounds.height)
-                .animation(.spring())
+//                .disabled(!(isEmailValid(email: self.mail) && isPasswordValid(password: self.password)))
+//                .offset(x: 0, y: isEmailValid(email: self.mail) ? 0 : UIScreen.main.bounds.height)
+//                .animation(.spring())
                 Spacer()
             }.padding(.horizontal)
         }.navigationBarTitle("Anmelden", displayMode: .large)

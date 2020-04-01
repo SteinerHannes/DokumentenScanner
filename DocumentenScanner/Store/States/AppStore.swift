@@ -11,10 +11,16 @@ import Foundation
 import Combine
 import VisionKit
 
-/// The enviorment for handling the asyncronously funtions 
-struct AppEnviorment {
-    var template = TemplateService()
-    var auth = AuthService()
+final class AppEnviorment {
+    let session = URLSession.shared
+    let decoder = JSONDecoder()
+    let encoder = JSONEncoder()
+    let files = FileManager.default
+
+    var test: String = ""
+
+    lazy var template = TemplateService()
+    lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
 }
 
 /// The actions of the app state
@@ -32,6 +38,8 @@ enum AppAction {
     case clearResult
     case setResult(page: Int, region: Int, text: String)
     case login(email: String, password: String)
+    case test(text: String)
+    case loginResult(result: Result<LoginAnswer, AuthServiceError>)
 }
 
 /// The new app state
@@ -46,6 +54,8 @@ struct AppStates {
     var currentTemplate: Template?
 
     var result: [[PageRegion]?] = []
+
+    var jwt: String?
 
     init() {
         self.routes = RoutingState()
@@ -64,7 +74,7 @@ func appReducer(
     states: inout AppStates,
     action: AppAction,
     enviorment: AppEnviorment
-) -> AnyPublisher<AppAction, Never> {
+) -> AnyPublisher<AppAction, Never>? {
     switch action {
         case let .routing(action: action):
             routingReducer(state: &states.routes, action: action)
@@ -92,7 +102,16 @@ func appReducer(
         case let .setResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
         case let .login(email: email, password: password):
-            enviorment.auth.login(email: email, password: password)
+            return enviorment.auth.login(email: email, password: password)
+        case .test(text: let text):
+            print(text)
+        case let .loginResult(result: result):
+            switch result {
+                case let .success(answer):
+                    print(answer.jwt)
+                case let .failure(error):
+                    print(error.localizedDescription)
+        }
     }
     return Empty().eraseToAnyPublisher()
 }
