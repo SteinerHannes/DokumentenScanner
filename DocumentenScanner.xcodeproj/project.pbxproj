@@ -43,6 +43,7 @@
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
 		EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */; };
+		EFB870722434D533007E604C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870712434D533007E604C /* Auth.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -104,6 +105,7 @@
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSelectView.swift; sourceTree = "<group>"; };
 		EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRegionRecognizer.swift; sourceTree = "<group>"; };
+		EFB870712434D533007E604C /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -392,6 +394,7 @@
 				EFFECC0C24331F29008EED63 /* Routing.swift */,
 				EFFECC0E24331F62008EED63 /* NewTemplate.swift */,
 				EFFECC132433206A008EED63 /* Links.swift */,
+				EFB870712434D533007E604C /* Auth.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
 				EF786BF12420F92A001D71F9 /* LinkedPageRegions.swift in Sources */,
+				EFB870722434D533007E604C /* Auth.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,

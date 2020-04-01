@@ -17,8 +17,6 @@ final class AppEnviorment {
     let encoder = JSONEncoder()
     let files = FileManager.default
 
-    var test: String = ""
-
     lazy var template = TemplateService()
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
 }
@@ -38,7 +36,6 @@ enum AppAction {
     case clearResult
     case setResult(page: Int, region: Int, text: String)
     case login(email: String, password: String)
-    case test(text: String)
     case loginResult(result: Result<LoginAnswer, AuthServiceError>)
 }
 
@@ -48,6 +45,8 @@ struct AppStates {
     var routes: RoutingState
     /// Variables for the new template
     var newTemplateState: NewTemplateState
+    /// Variables for authentification
+    var authState: AuthState
     /// The loaded templates
     var teamplates: [Template] = []
     /// The currently inspected template
@@ -55,16 +54,16 @@ struct AppStates {
 
     var result: [[PageRegion]?] = []
 
-    var jwt: String?
-
     init() {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
+        self.authState = AuthState()
     }
 
     init(template: Template) {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
+        self.authState = AuthState()
         self.teamplates.append(template)
     }
 }
@@ -102,9 +101,8 @@ func appReducer(
         case let .setResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
         case let .login(email: email, password: password):
+            // returns an AppAction, which will get called
             return enviorment.auth.login(email: email, password: password)
-        case .test(text: let text):
-            print(text)
         case let .loginResult(result: result):
             switch result {
                 case let .success(answer):
