@@ -44,6 +44,8 @@
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
 		EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */; };
 		EFB870722434D533007E604C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870712434D533007E604C /* Auth.swift */; };
+		EFB870752434D996007E604C /* AuthServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870742434D996007E604C /* AuthServiceError.swift */; };
+		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -106,6 +108,8 @@
 		EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSelectView.swift; sourceTree = "<group>"; };
 		EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRegionRecognizer.swift; sourceTree = "<group>"; };
 		EFB870712434D533007E604C /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		EFB870742434D996007E604C /* AuthServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceError.swift; sourceTree = "<group>"; };
+		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +190,7 @@
 		EF62965F241E804500030997 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				EFB870732434D984007E604C /* Error */,
 				EF629660241E805D00030997 /* TemplateService.swift */,
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
 			);
@@ -258,6 +263,14 @@
 				EF40311A24213EB200BF6306 /* RegionsListView.swift */,
 			);
 			path = Link;
+			sourceTree = "<group>";
+		};
+		EFB870732434D984007E604C /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				EFB870742434D996007E604C /* AuthServiceError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		EFC8928D241FD8F5006ABDA2 /* Start */ = {
@@ -375,6 +388,7 @@
 			children = (
 				EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */,
 				EFF85A3A24320D6B00A80FBD /* LoginView.swift */,
+				EFB870762434E5DF007E604C /* RegisterView.swift */,
 			);
 			path = Authentification;
 			sourceTree = "<group>";
@@ -516,6 +530,7 @@
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
+				EFB870772434E5DF007E604C /* RegisterView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EF62965C241E753B00030997 /* AppStore.swift in Sources */,
 				EF786BF8242115C5001D71F9 /* TestView.swift in Sources */,
@@ -535,6 +550,7 @@
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */,
+				EFB870752434D996007E604C /* AuthServiceError.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
 				EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */,
 				EF8A2D792422CAEE007396AD /* Link.swift in Sources */,

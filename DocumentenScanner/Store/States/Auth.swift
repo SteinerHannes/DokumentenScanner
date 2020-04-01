@@ -16,7 +16,7 @@ struct AuthState {
 
 enum AuthAction {
     case logout
-    case dissmissAlert
+    case dismissAlert
 }
 
 func authReducer(state: inout AuthState, action: AuthAction) {
@@ -24,7 +24,7 @@ func authReducer(state: inout AuthState, action: AuthAction) {
         case .logout:
             state.isLoggedin = false
             state.jwt = nil
-        case .dissmissAlert:
+        case .dismissAlert:
             state.showAlert = nil
     }
 }

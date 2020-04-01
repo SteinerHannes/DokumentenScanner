@@ -9,35 +9,6 @@
 import Foundation
 import Combine
 
-enum AuthServiceError: Error, LocalizedError {
-    case badUrl
-    case badEncoding
-    case url(error: URLError)
-    case decoder(error: Error)
-    case error
-    case responseCode(code: Int)
-    case response(text: String)
-
-    var errorDescription: String? {
-        switch self {
-            case .badEncoding:
-                return "badEncoding"
-            case .badUrl:
-                return "badURL"
-            case let .decoder(error: error):
-                return "decoder \(error.localizedDescription)"
-            case let .url(error: error):
-                return "url \(error.localizedDescription)"
-            case .error:
-                return "error"
-            case let .responseCode(code: code):
-                return "response \(code)"
-            case let .response(text: text):
-                return "response \(text)"
-        }
-    }
-}
-
 struct LoginAnswer: Decodable {
     let jwt: String
 }

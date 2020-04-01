@@ -12,29 +12,25 @@ struct ContentView: View {
     @EnvironmentObject var store: AppStore
 
     @State private var selectedView: Int = 0
-    @State private var isLoggedin: Bool = false
 
     init() {
         print("init ContentView")
     }
 
     var body: some View {
-        if isLoggedin {
-            return VStack(alignment: .leading, spacing: 0) {
-                Group {
-                    if self.store.states.routes.isPageSelectViewPresented {
-                        PageSelectView()
-                    } else {
-                        TemplatesView()
-                    }
+        VStack(alignment: .leading, spacing: 0) {
+            if self.store.states.authState.isLoggedin {
+                if self.store.states.routes.isPageSelectViewPresented {
+                    PageSelectView()
+                } else {
+                    TemplatesView()
                 }
-                .environmentObject(self.store)
-                .navigationViewStyle(StackNavigationViewStyle())
-            }.eraseToAnyView()
-        } else {
-            return WelcomeView()
-                .eraseToAnyView()
+            } else {
+                WelcomeView()
+            }
         }
+        .environmentObject(self.store)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

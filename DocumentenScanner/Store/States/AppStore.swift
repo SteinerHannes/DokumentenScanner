@@ -27,6 +27,7 @@ enum AppAction {
     case routing(action: RoutingAction)
     /// The reducer function for the new template
     case newTemplate(action: NewTemplateAction)
+    case auth(action: AuthAction)
     case clearCurrentTemplate
     case setCurrentTemplate(id: String)
     case addNewTemplate(template: Template)
@@ -79,6 +80,8 @@ func appReducer(
             routingReducer(state: &states.routes, action: action)
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
+        case let .auth(action: action):
+            authReducer(state: &states.authState, action: action)
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
 //            for page in template.pages {
@@ -107,8 +110,10 @@ func appReducer(
             switch result {
                 case let .success(answer):
                     print(answer.jwt)
+                    states.authState.isLoggedin = true
+                    states.authState.jwt = answer.jwt
                 case let .failure(error):
-                    print(error.localizedDescription)
+                    states.authState.showAlert = error
         }
     }
     return Empty().eraseToAnyPublisher()

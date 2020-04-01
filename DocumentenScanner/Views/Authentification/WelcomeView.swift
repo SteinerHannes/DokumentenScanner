@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @EnvironmentObject var store: AppStore
     let motivation: String = """
         Melde dich an
         oder erstelle einen Account,
@@ -30,12 +31,12 @@ struct WelcomeView: View {
                 }
                 .frame(width: UIScreen.main.bounds.width)
                 VStack(spacing: 30) {
-                    NavigationLink(destination: LoginView()) {
+                    NavigationLink(destination: LoginView().environmentObject(self.store)) {
                         PrimaryButton(title: "Anmelden")
-                    }
-                    NavigationLink(destination: EmptyView()) {
+                    }.isDetailLink(false)
+                    NavigationLink(destination: RegisterView()) {
                         SecondaryButton(title: "Registrieren")
-                    }
+                    }.isDetailLink(false)
                 }
                 .padding([.horizontal, .bottom])
                 .padding(.top, 40)
@@ -47,6 +48,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeView().environmentObject(AppStoreMock.getAppStore())
     }
 }

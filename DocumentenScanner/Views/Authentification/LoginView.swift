@@ -51,7 +51,17 @@ struct LoginView: View {
 //                .animation(.spring())
                 Spacer()
             }.padding(.horizontal)
-        }.navigationBarTitle("Anmelden", displayMode: .large)
+        }
+            .navigationBarTitle("Anmelden", displayMode: .large)
+        .alert(item:
+            Binding<AuthServiceError?>(
+                get: {
+                    return self.store.states.authState.showAlert
+                }, set: { _ in
+                    self.store.send(.auth(action: .dismissAlert))
+                })) { (error) -> Alert in
+                    error.alert
+            }
     }
 
     private func isEmailValid(email: String) -> Bool {
