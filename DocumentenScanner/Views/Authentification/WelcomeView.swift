@@ -45,7 +45,7 @@ struct WelcomeView: View {
                     }.isDetailLink(false)
                     NavigationLink(
                         destination: RegisterView().environmentObject(self.store),
-                        tag:  AuthView.register,
+                        tag: AuthView.register,
                         selection: Binding<AuthView?>(
                             get: { return self.store.states.authState.authView },
                             set: { view in

@@ -12,13 +12,21 @@ import Combine
 import VisionKit
 
 final class AppEnviorment {
-    let session = URLSession.shared
+    var session = URLSession.shared
     let decoder = JSONDecoder()
     let encoder = JSONEncoder()
     let files = FileManager.default
 
-    lazy var template = TemplateService()
+    lazy var template = TemplateService(session: session, encoder: encoder, decoder: decoder)
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
+
+    func setJWT(token: String) {
+        let sessionConfig = URLSessionConfiguration.default
+        let authValue: String = "Bearer \(token)"
+        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+        self.session = URLSession(configuration: sessionConfig,
+                                  delegate: self as? URLSessionDelegate, delegateQueue: nil)
+    }
 }
 
 public typealias StatusCode = Int
@@ -30,6 +38,7 @@ enum AppAction {
     /// The reducer function for the new template
     case newTemplate(action: NewTemplateAction)
     case auth(action: AuthAction)
+    case service(action: ServiceAction)
     case clearCurrentTemplate
     case setCurrentTemplate(id: String)
     case addNewTemplate(template: Template)
@@ -38,10 +47,6 @@ enum AppAction {
     case initResult(array: [[PageRegion]?])
     case clearResult
     case setResult(page: Int, region: Int, text: String)
-    case login(email: String, password: String)
-    case loginResult(result: Result<LoginAnswer, AuthServiceError>)
-    case register(email: String, name: String, password: String)
-    case registerResult(result: Result<StatusCode, AuthServiceError>)
 }
 
 /// The new app state
@@ -52,6 +57,8 @@ struct AppStates {
     var newTemplateState: NewTemplateState
     /// Variables for authentification
     var authState: AuthState
+
+    var serviceState: ServiceState
     /// The loaded templates
     var teamplates: [Template] = []
     /// The currently inspected template
@@ -63,12 +70,14 @@ struct AppStates {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
+        self.serviceState = ServiceState()
     }
 
     init(template: Template) {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
+        self.serviceState = ServiceState()
         self.teamplates.append(template)
     }
 }
@@ -85,7 +94,9 @@ func appReducer(
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
         case let .auth(action: action):
-            authReducer(state: &states.authState, action: action)
+            return authReducer(state: &states.authState, action: action, enviorment: enviorment)
+        case let .service(action: action):
+            return serviceReducer(states: &states, action: action, enviorment: enviorment)
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
 //            for page in template.pages {
@@ -107,30 +118,6 @@ func appReducer(
             states.result = []
         case let .setResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
-        case let .login(email: email, password: password):
-            // returns an AppAction, which will get called
-            return enviorment.auth.login(email: email, password: password)
-        case let .loginResult(result: result):
-            switch result {
-                case let .success(answer):
-                    print(answer.jwt)
-                    states.authState.isLoggedin = true
-                    states.authState.jwt = answer.jwt
-                case let .failure(error):
-                    states.authState.showAlert = error
-            }
-        case let .register(email: email, name: name, password: password):
-            return enviorment.auth.register(email: email, name: name, password: password)
-        case let .registerResult(result: result):
-            switch result {
-                case let .success(code):
-                    if code == 200 {
-                        print("Registriert!")
-                        return AnyPublisher(Just<AppAction>(.auth(action: .setView(view: .login))))
-                    }
-                case let .failure(error):
-                    states.authState.showAlert = error
-            }
     }
     return Empty().eraseToAnyPublisher()
 }

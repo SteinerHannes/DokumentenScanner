@@ -34,12 +34,16 @@ final class AuthService {
         // prepare data for uplaod
         let login = LoginDTO(email: email, password: password)
         // encode data
-        guard let uploadData = try? JSONEncoder().encode(login) else {
-            return AnyPublisher<AppAction, Never>(Just(.loginResult(result: .failure(.badEncoding))))
+        guard let uploadData = try? self.encoder.encode(login) else {
+            return AnyPublisher<AppAction, Never>(
+                Just(.auth(action: .loginResult(result: .failure(.badEncoding))))
+            )
         }
         // configure an uplaod request
         guard let url = URL(string: baseUrl + "login") else {
-            return AnyPublisher<AppAction, Never>(Just(.loginResult(result: .failure(.badUrl))))
+            return AnyPublisher<AppAction, Never>(
+                Just(.auth(action: .loginResult(result: .failure(.badUrl))))
+            )
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -72,10 +76,12 @@ final class AuthService {
             }
             .map { (result) -> AppAction in
                 // if there is an AppAction
-                return .loginResult(result: result)
+                return .auth(action: .loginResult(result: result))
             }
             .replaceError(with:
-                .loginResult(result: Result<LoginAnswer, AuthServiceError>.failure(.serverError))
+                .auth(action:
+                    .loginResult(result: Result<LoginAnswer, AuthServiceError>.failure(.serverError))
+                )
             )
             .eraseToAnyPublisher()
     }
@@ -84,11 +90,15 @@ final class AuthService {
         // prepare data for uplaod
         let register: RegisterDTO = RegisterDTO(email: email, username: name, password: password)
         // encode data
-        guard let uploadData = try? JSONEncoder().encode(register) else {
-            return AnyPublisher<AppAction, Never>(Just(.registerResult(result: .failure(.badEncoding))))
+        guard let uploadData = try? self.encoder.encode(register) else {
+            return AnyPublisher<AppAction, Never>(
+                Just(.auth(action: .registerResult(result: .failure(.badEncoding))))
+            )
         }
         guard let url = URL(string: baseUrl + "register") else {
-            return AnyPublisher<AppAction, Never>(Just(.registerResult(result: .failure(.badUrl))))
+            return AnyPublisher<AppAction, Never>(
+                Just(.auth(action: .registerResult(result: .failure(.badUrl))))
+            )
         }
         print(url.absoluteURL)
         var request = URLRequest(url: url)
@@ -114,7 +124,6 @@ final class AuthService {
                         } else if answer.error == "Username exists" {
                             return .failure(.response(text: "Dieser Name ist bereits vergeben."))
                         } else {
-                            print("asd",answer.error)
                             return .failure(.response(text: answer.error))
                         }
 
@@ -122,14 +131,13 @@ final class AuthService {
                         return .failure(.decoder(error: decodeError))
                     }
                 }
-                print("ASD",String(data: data, encoding: .utf8) ?? "Fehler")
                 return .failure(.response(text: String(data: data, encoding: .utf8) ?? "Fehler" ))
         }
         .map { (result) -> AppAction in
-            return .registerResult(result: result)
+            return .auth(action: .registerResult(result: result))
         }
         .replaceError(with:
-            .registerResult(result: Result<StatusCode, AuthServiceError>.failure(.serverError))
+            .auth(action: .registerResult(result: Result<StatusCode, AuthServiceError>.failure(.serverError)))
         )
         .eraseToAnyPublisher()
     }

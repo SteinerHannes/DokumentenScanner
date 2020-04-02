@@ -50,7 +50,7 @@ struct LoginView: View {
                     UIApplication.shared.endEditing(true)
                     let mail = self.mail.trimmingCharacters(in: .whitespacesAndNewlines)
                     let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
-                    self.store.send(.login(email: mail, password: password))
+                    self.store.send(.auth(action: .login(email: mail, password: password)))
                 }) {
                     PrimaryButton(title: "Anmelden")
                 }

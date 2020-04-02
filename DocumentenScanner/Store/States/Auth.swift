@@ -6,7 +6,9 @@
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
+//swiftlint:disable switch_case_alignment cyclomatic_complexity
 import Foundation
+import Combine
 
 struct AuthState {
     var jwt: String?
@@ -20,9 +22,14 @@ enum AuthAction {
     case dismissAlert
     case setView(view: AuthView?)
     case clearView
+    case login(email: String, password: String)
+    case loginResult(result: Result<LoginAnswer, AuthServiceError>)
+    case register(email: String, name: String, password: String)
+    case registerResult(result: Result<StatusCode, AuthServiceError>)
 }
 
-func authReducer(state: inout AuthState, action: AuthAction) {
+func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnviorment)
+    -> AnyPublisher<AppAction, Never>? {
     switch action {
         case .logout:
             state.isLoggedin = false
@@ -34,7 +41,34 @@ func authReducer(state: inout AuthState, action: AuthAction) {
             state.authView = view
         case .clearView:
             state.authView = nil
+        case let .login(email: email, password: password):
+            // returns an AppAction, which will get called
+            return enviorment.auth.login(email: email, password: password)
+        case let .loginResult(result: result):
+            switch result {
+                case let .success(answer):
+                    print(answer.jwt)
+                    state.isLoggedin = true
+                    state.jwt = answer.jwt
+                    enviorment.setJWT(token: answer.jwt)
+                case let .failure(error):
+                    state.showAlert = error
+        }
+        case let .register(email: email, name: name, password: password):
+            return enviorment.auth.register(email: email, name: name, password: password)
+        case let .registerResult(result: result):
+            switch result {
+                case let .success(code):
+                    if code == 200 {
+                        print("Registriert!")
+                        return AnyPublisher(Just<AppAction>(.auth(action: .setView(view: .login))))
+                }
+                case let .failure(error):
+                    state.showAlert = error
+        }
     }
+
+    return Empty().eraseToAnyPublisher()
 }
 
 enum AuthView: Int, Hashable {

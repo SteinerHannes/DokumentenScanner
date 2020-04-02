@@ -85,7 +85,7 @@ struct RegisterView: View {
                     let mail = self.mail.trimmingCharacters(in: .whitespacesAndNewlines)
                     let name = self.name.trimmingCharacters(in: .whitespacesAndNewlines)
                     let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
-                    self.store.send(.register(email: mail, name: name, password: password))
+                    self.store.send(.auth(action: .register(email: mail, name: name, password: password)))
                 }) {
                     PrimaryButton(title: "Registrieren")
                 }

@@ -21,6 +21,9 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
+                VStack(alignment: .leading, spacing: 20) {
+                    APITestView()
+                }.frame(height: 50)
                 VStack(alignment: .leading, spacing: 0) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {

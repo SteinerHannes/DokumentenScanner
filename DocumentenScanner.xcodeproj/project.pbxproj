@@ -68,6 +68,11 @@
 		EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC0E24331F62008EED63 /* NewTemplate.swift */; };
 		EFFECC142433206A008EED63 /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC132433206A008EED63 /* Links.swift */; };
 		EFFECC17243323BE008EED63 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFECC16243323BE008EED63 /* Reach.swift */; };
+		EFFF9EE42436139B00E3CD98 /* TemplateDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EE32436139B00E3CD98 /* TemplateDTO.swift */; };
+		EFFF9EE62436147B00E3CD98 /* UserInfoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */; };
+		EFFF9EE8243614D700E3CD98 /* PageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EE7243614D700E3CD98 /* PageDTO.swift */; };
+		EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EE9243620FF00E3CD98 /* APITestView.swift */; };
+		EFFF9EEC2436369C00E3CD98 /* ServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +141,11 @@
 		EFFECC0E24331F62008EED63 /* NewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplate.swift; sourceTree = "<group>"; };
 		EFFECC132433206A008EED63 /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
 		EFFECC16243323BE008EED63 /* Reach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
+		EFFF9EE32436139B00E3CD98 /* TemplateDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDTO.swift; sourceTree = "<group>"; };
+		EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoDTO.swift; sourceTree = "<group>"; };
+		EFFF9EE7243614D700E3CD98 /* PageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDTO.swift; sourceTree = "<group>"; };
+		EFFF9EE9243620FF00E3CD98 /* APITestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITestView.swift; sourceTree = "<group>"; };
+		EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +226,7 @@
 			children = (
 				EF786BF32421098D001D71F9 /* AppStoreMock.swift */,
 				EF786BF7242115C5001D71F9 /* TestView.swift */,
+				EFFF9EE9243620FF00E3CD98 /* APITestView.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -304,6 +315,9 @@
 			isa = PBXGroup;
 			children = (
 				EFDF50382431F49500E37C4F /* AuthDTO.swift */,
+				EFFF9EE32436139B00E3CD98 /* TemplateDTO.swift */,
+				EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */,
+				EFFF9EE7243614D700E3CD98 /* PageDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -415,6 +429,7 @@
 				EFFECC0E24331F62008EED63 /* NewTemplate.swift */,
 				EFFECC132433206A008EED63 /* Links.swift */,
 				EFB870712434D533007E604C /* Auth.swift */,
+				EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -532,6 +547,7 @@
 				EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */,
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
+				EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */,
 				EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
@@ -549,6 +565,7 @@
 				EF4223C22406797600FF510E /* Colors.swift in Sources */,
 				EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */,
 				EF7BB50F242A0A9600B69EB5 /* DocumentInfo.swift in Sources */,
+				EFFF9EEC2436369C00E3CD98 /* ServiceState.swift in Sources */,
 				EF61DB75240D70BB0083E0B7 /* PageRegion.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
@@ -563,11 +580,13 @@
 				EF8A2D792422CAEE007396AD /* Link.swift in Sources */,
 				EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */,
 				EFDF50362431F47900E37C4F /* AuthService.swift in Sources */,
+				EFFF9EE42436139B00E3CD98 /* TemplateDTO.swift in Sources */,
 				EF1945EB240804A700D76CE7 /* Template.swift in Sources */,
 				EFFECC0D24331F29008EED63 /* Routing.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
+				EFFF9EE8243614D700E3CD98 /* PageDTO.swift in Sources */,
 				EF786BF12420F92A001D71F9 /* LinkedPageRegions.swift in Sources */,
 				EFB870722434D533007E604C /* Auth.swift in Sources */,
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
@@ -580,6 +599,7 @@
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
 				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,
+				EFFF9EE62436147B00E3CD98 /* UserInfoDTO.swift in Sources */,
 				EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */,
 				EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
