@@ -77,7 +77,7 @@ extension AuthServiceError {
                         return Alert(title: Text("Serverfehler: \(code)"))
             }
             case let .response(text: text):
-                return Alert(title: Text("Serverfehler: \(text)"))
+                return Alert(title: Text("\(text)"))
         }
     }
 }
