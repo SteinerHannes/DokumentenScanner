@@ -15,6 +15,14 @@ struct LoginView: View {
     @State var mail: String = ""
     @State var password: String = ""
 
+    var isEmailValid: Bool {
+        validateEmail(email: self.mail)
+    }
+
+    var isPasswordValid: Bool {
+        validatePassword(password: self.password)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             VStack(alignment: .center, spacing: 30) {
@@ -25,9 +33,8 @@ struct LoginView: View {
                                isFirstResponder: true,
                                keyboardType: .emailAddress,
                                isSecure: false,
-                               textContentType: .emailAddress//,
-                               //isValid: isEmailValid)
-                                )
+                               textContentType: .emailAddress,
+                               isValid: validateEmail)
                     .frame(height: 70)
                 ErrorTextField(title: "Passwort",
                                placeholder: "Passwort",
@@ -36,9 +43,8 @@ struct LoginView: View {
                                isFirstResponder: false,
                                keyboardType: .alphabet,
                                isSecure: true,
-                               textContentType: .password//,
-                               //isValid: isPasswordValid)
-                                )
+                               textContentType: .password,
+                               isValid: validatePassword)
                     .frame(height: 70)
                 Button(action: {
                     UIApplication.shared.endEditing(true)
@@ -46,9 +52,9 @@ struct LoginView: View {
                 }) {
                     PrimaryButton(title: "Anmelden")
                 }
-//                .disabled(!(isEmailValid(email: self.mail) && isPasswordValid(password: self.password)))
-//                .offset(x: 0, y: isEmailValid(email: self.mail) ? 0 : UIScreen.main.bounds.height)
-//                .animation(.spring())
+                .disabled(!(isEmailValid && isPasswordValid))
+                .offset(x: 0, y: isEmailValid ? 0 : UIScreen.main.bounds.height)
+                .animation(.spring())
                 Spacer()
             }.padding(.horizontal)
         }
@@ -63,19 +69,6 @@ struct LoginView: View {
                     error.alert
             }
     }
-
-    private func isEmailValid(email: String) -> Bool {
-        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}(\\s*){2,64}"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-        return predicate.evaluate(with: email)
-    }
-    //swiftlint:disable line_length
-    private func isPasswordValid(password: String) -> Bool {
-        let regex = "^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-        return predicate.evaluate(with: password)
-    }
-    //swiftlint:enable line_length
 }
 
 struct LoginView_Previews: PreviewProvider {

@@ -34,7 +34,7 @@ struct WelcomeView: View {
                     NavigationLink(destination: LoginView().environmentObject(self.store)) {
                         PrimaryButton(title: "Anmelden")
                     }.isDetailLink(false)
-                    NavigationLink(destination: RegisterView()) {
+                    NavigationLink(destination: RegisterView().environmentObject(self.store)) {
                         SecondaryButton(title: "Registrieren")
                     }.isDetailLink(false)
                 }

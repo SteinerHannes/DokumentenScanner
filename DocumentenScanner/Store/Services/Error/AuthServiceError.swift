@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 enum AuthServiceError: Error {
-    
     case badUrl
     case badEncoding
     case decoder(error: Error)

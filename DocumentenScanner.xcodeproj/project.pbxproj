@@ -46,6 +46,7 @@
 		EFB870722434D533007E604C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870712434D533007E604C /* Auth.swift */; };
 		EFB870752434D996007E604C /* AuthServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870742434D996007E604C /* AuthServiceError.swift */; };
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
+		EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -110,6 +111,7 @@
 		EFB870712434D533007E604C /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		EFB870742434D996007E604C /* AuthServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceError.swift; sourceTree = "<group>"; };
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidationFunctions.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,6 +391,7 @@
 				EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */,
 				EFF85A3A24320D6B00A80FBD /* LoginView.swift */,
 				EFB870762434E5DF007E604C /* RegisterView.swift */,
+				EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */,
 			);
 			path = Authentification;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
 				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,
+				EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */,
 				EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
 			);
