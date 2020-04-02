@@ -31,10 +31,28 @@ struct WelcomeView: View {
                 }
                 .frame(width: UIScreen.main.bounds.width)
                 VStack(spacing: 30) {
-                    NavigationLink(destination: LoginView().environmentObject(self.store)) {
+                    NavigationLink(
+                        destination: LoginView().environmentObject(self.store),
+                        tag: AuthView.login,
+                        selection: Binding<AuthView?>(
+                            get: { return self.store.states.authState.authView },
+                            set: { view in
+                                self.store.send(.auth(action: .setView(view: view)))
+                            }
+                        )
+                    ) {
                         PrimaryButton(title: "Anmelden")
                     }.isDetailLink(false)
-                    NavigationLink(destination: RegisterView().environmentObject(self.store)) {
+                    NavigationLink(
+                        destination: RegisterView().environmentObject(self.store),
+                        tag:  AuthView.register,
+                        selection: Binding<AuthView?>(
+                            get: { return self.store.states.authState.authView },
+                            set: { view in
+                                self.store.send(.auth(action: .setView(view: view)))
+                            }
+                        )
+                    ) {
                         SecondaryButton(title: "Registrieren")
                     }.isDetailLink(false)
                 }

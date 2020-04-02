@@ -47,6 +47,7 @@
 		EFB870752434D996007E604C /* AuthServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870742434D996007E604C /* AuthServiceError.swift */; };
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
 		EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */; };
+		EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E252435DE86003726F1 /* GlobalSetting.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -112,6 +113,7 @@
 		EFB870742434D996007E604C /* AuthServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceError.swift; sourceTree = "<group>"; };
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidationFunctions.swift; sourceTree = "<group>"; };
+		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +197,7 @@
 				EFB870732434D984007E604C /* Error */,
 				EF629660241E805D00030997 /* TemplateService.swift */,
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
+				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */,
+				EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */,
 				EFB870752434D996007E604C /* AuthServiceError.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
 				EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */,

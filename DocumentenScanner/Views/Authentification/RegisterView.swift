@@ -53,7 +53,7 @@ struct RegisterView: View {
                                isFirstResponder: false,
                                keyboardType: .alphabet,
                                isSecure: false,
-                               textContentType: .name,
+                               textContentType: .username,
                                isValid: validateName)
                     .frame(height: 70)
                 Group {
@@ -62,7 +62,7 @@ struct RegisterView: View {
                                    iconName: "",
                                    text: self.$password,
                                    isFirstResponder: false,
-                                   keyboardType: .alphabet,
+                                   keyboardType: .default,
                                    isSecure: true,
                                    textContentType: .newPassword,
                                    isValid: validatePassword)
@@ -72,7 +72,7 @@ struct RegisterView: View {
                                    iconName: "",
                                    text: self.$tempPassword,
                                    isFirstResponder: false,
-                                   keyboardType: .alphabet,
+                                   keyboardType: .default,
                                    isSecure: true,
                                    textContentType: .newPassword,
                                    isValid: { _ in self.arePasswordSame })
@@ -82,7 +82,10 @@ struct RegisterView: View {
                 .animation(.spring())
                 Button(action: {
                     UIApplication.shared.endEditing(true)
-//                    self.store.send(.login(email: self.mail, password: self.password))
+                    let mail = self.mail.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let name = self.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self.store.send(.register(email: mail, name: name, password: password))
                 }) {
                     PrimaryButton(title: "Registrieren")
                 }
@@ -92,6 +95,7 @@ struct RegisterView: View {
                 Spacer()
             }.padding(.horizontal)
         }
+        .resignKeyboardOnDragGesture()
         .navigationBarTitle("Registrieren", displayMode: .large)
         .alert(item:
             Binding<AuthServiceError?>(

@@ -13,7 +13,7 @@ enum AuthServiceError: Error {
     case badUrl
     case badEncoding
     case decoder(error: Error)
-    case error
+    case serverError
     case responseCode(code: Int)
     case response(text: String)
 }
@@ -27,8 +27,8 @@ extension AuthServiceError: LocalizedError {
                 return "badURL"
             case let .decoder(error: error):
                 return "decoder \(error.localizedDescription)"
-            case .error:
-                return "error"
+            case .serverError:
+                return "server error"
             case let .responseCode(code: code):
                 return "response \(code)"
             case let .response(text: text):
@@ -46,7 +46,7 @@ extension AuthServiceError: Identifiable {
                 return 2
             case .decoder(error: _):
                 return 3
-            case .error:
+            case .serverError:
                 return 4
             case .responseCode(code: _):
                 return 5
@@ -62,11 +62,11 @@ extension AuthServiceError {
             case .badEncoding:
                 return Alert(title: Text("Die Eingabedaten sind fehlerhaft."))
             case .badUrl:
-                return Alert(title: Text("Keine Verbindung zum Server möglich."))
+                return Alert(title: Text("Die URL konnte nicht erstellt werden."))
             case let .decoder(error: error):
                 return Alert(title: Text("Decoder: \(error.localizedDescription)"))
-            case .error:
-                return Alert(title: Text("Server nicht erreichber"))
+            case .serverError:
+                return Alert(title: Text("Keine Verbindung zum Server möglich."))
             case let .responseCode(code: code):
                 switch code {
                     case 404:

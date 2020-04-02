@@ -21,6 +21,8 @@ final class AppEnviorment {
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
 }
 
+public typealias StatusCode = Int
+
 /// The actions of the app state
 enum AppAction {
     /// The routing reducer function
@@ -38,6 +40,8 @@ enum AppAction {
     case setResult(page: Int, region: Int, text: String)
     case login(email: String, password: String)
     case loginResult(result: Result<LoginAnswer, AuthServiceError>)
+    case register(email: String, name: String, password: String)
+    case registerResult(result: Result<StatusCode, AuthServiceError>)
 }
 
 /// The new app state
@@ -114,7 +118,19 @@ func appReducer(
                     states.authState.jwt = answer.jwt
                 case let .failure(error):
                     states.authState.showAlert = error
-        }
+            }
+        case let .register(email: email, name: name, password: password):
+            return enviorment.auth.register(email: email, name: name, password: password)
+        case let .registerResult(result: result):
+            switch result {
+                case let .success(code):
+                    if code == 200 {
+                        print("Registriert!")
+                        return AnyPublisher(Just<AppAction>(.auth(action: .setView(view: .login))))
+                    }
+                case let .failure(error):
+                    states.authState.showAlert = error
+            }
     }
     return Empty().eraseToAnyPublisher()
 }

@@ -13,7 +13,7 @@ public struct LoginDTO: Codable {
     public let password: String
 }
 
-public struct RegisterDTO: Decodable {
+public struct RegisterDTO: Codable {
     public let email: String
     public let username: String
     public let password: String
