@@ -35,6 +35,7 @@
 		EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */; };
 		EF786BF8242115C5001D71F9 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF7242115C5001D71F9 /* TestView.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
+		EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7988DD24372AF6001241C0 /* AttributeDTO.swift */; };
 		EF7BB50F242A0A9600B69EB5 /* DocumentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7BB50E242A0A9600B69EB5 /* DocumentInfo.swift */; };
 		EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */; };
 		EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */; };
@@ -105,6 +106,7 @@
 		EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedRegionsView.swift; sourceTree = "<group>"; };
 		EF786BF7242115C5001D71F9 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
+		EF7988DD24372AF6001241C0 /* AttributeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDTO.swift; sourceTree = "<group>"; };
 		EF7BB50E242A0A9600B69EB5 /* DocumentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentInfo.swift; sourceTree = "<group>"; };
 		EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentResult.swift; sourceTree = "<group>"; };
 		EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreview.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				EFFF9EE32436139B00E3CD98 /* TemplateDTO.swift */,
 				EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */,
 				EFFF9EE7243614D700E3CD98 /* PageDTO.swift */,
+				EF7988DD24372AF6001241C0 /* AttributeDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
+				EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */,
 				EFB870772434E5DF007E604C /* RegisterView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EF62965C241E753B00030997 /* AppStore.swift in Sources */,

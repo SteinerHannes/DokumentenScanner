@@ -13,11 +13,14 @@ public struct PageDTO: Codable {
     public let number: Int
     public let imagePath: String
     public let imageHash: String
-    public let created: Date
-    public let updated: Date
+    public let created: String //Date
+    public let updated: String //Date
     public let attributes: [AttributeDTO]
 }
 
-public struct AttributeDTO: Codable {
-
+public struct PageCreateDTO: Codable {
+    /// template id
+    public let templateID: Int
+    public let number: Int
+    public let imagePath: String
 }
