@@ -31,7 +31,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                 switch result {
                     case let .success(template):
                         states.serviceState.templateId = template.id
-                        print("erstelltes Template hat die id:" , template.id)
+                        print("erstelltes Template hat die id:", template.id)
                     case let .failure(error):
                         print("fehler", error)
             }
