@@ -33,7 +33,22 @@ final class TemplateService {
         self.decoder = decoder
     }
 
+    private func hasInternetConnection() -> Bool {
+        let status = Reach().connectionStatus()
+        switch status {
+            case .offline, .unknown:
+                return false
+            default:
+                return true
+        }
+    }
+
     func createTemplate(name: String, description: String) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+            )
+        }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
             return AnyPublisher<AppAction, Never>(
@@ -95,6 +110,11 @@ final class TemplateService {
     }
 
     func createPage(id: Int, number: Int, imagePath: String) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+            )
+        }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
             return AnyPublisher<AppAction, Never>(
@@ -151,11 +171,16 @@ final class TemplateService {
         .replaceError(with:
             .service(action: .createPageResult(result: .failure(.serverError)))
         )
-            .eraseToAnyPublisher()
+        .eraseToAnyPublisher()
     }
 
     func createAttribute(name: String, x: Int, y: Int, width: Int,
                          height: Int, dataType: String, pageId: Int) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+            )
+        }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
             return AnyPublisher<AppAction, Never>(
@@ -213,6 +238,6 @@ final class TemplateService {
         .replaceError(with:
             .service(action: .createAttributeResult(result: .failure(.serverError)))
         )
-            .eraseToAnyPublisher()
+        .eraseToAnyPublisher()
     }
 }
