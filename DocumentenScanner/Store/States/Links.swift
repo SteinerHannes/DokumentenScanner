@@ -38,10 +38,13 @@ func linkReducer(state: inout LinkState, action: LinkAction) {
     switch action {
         case let .setLinkType(type: type):
             state.currentType = type
+        
         case let .setFirstSelections(selections: links):
             state.firstSelections = links
+        
         case let .setSecondSelections(selections: links):
             state.secondSelections = links
+        
         case .clearLink:
             state.currentType = nil
             state.firstSelections = nil

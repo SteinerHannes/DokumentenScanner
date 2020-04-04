@@ -12,14 +12,20 @@ import Combine
 import VisionKit
 
 final class AppEnviorment {
+    /// Global session
     var session = URLSession.shared
+    /// Global decoder
     let decoder = JSONDecoder()
+    /// Global encoder
     let encoder = JSONEncoder()
-    let files = FileManager.default
+//    let files = FileManager.default
 
+    /// The api service for managing templates, pages and attributes
     lazy var template = TemplateService(session: session, encoder: encoder, decoder: decoder)
+    /// The api service for managing login and logout
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
 
+    /// Set a auth token into the global session
     func setJWT(token: String) {
         let sessionConfig = URLSessionConfiguration.default
         let authValue: String = "Bearer \(token)"
@@ -37,16 +43,26 @@ enum AppAction {
     case routing(action: RoutingAction)
     /// The reducer function for the new template
     case newTemplate(action: NewTemplateAction)
+    /// The reducer function for login. register and logout
     case auth(action: AuthAction)
+    /// The reducer function for API-Services
     case service(action: ServiceAction)
+    /// Clears the variables of the cuurent selected template
     case clearCurrentTemplate
+    /// Sets the current template in the state
     case setCurrentTemplate(id: String)
+    /// Adds a new template to the temaplte list
     case addNewTemplate(template: Template)
+    /// Send the results of the textrecognition to the correct page number
     case sendResult(pageNumber: Int, result: [PageRegion])
+    /// Adds an empty list to the result list at the page number
     case appendResult(at: Int)
+    /// Initialize the result list
     case initResult(array: [[PageRegion]?])
+    /// Clears the result list
     case clearResult
-    case setResult(page: Int, region: Int, text: String)
+    /// Change the result at page and region, with textfield
+    case changeResult(page: Int, region: Int, text: String)
 }
 
 /// The new app state
@@ -91,32 +107,43 @@ func appReducer(
     switch action {
         case let .routing(action: action):
             routingReducer(state: &states.routes, action: action)
+        
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
+        
         case let .auth(action: action):
             return authReducer(state: &states.authState, action: action, enviorment: enviorment)
+        
         case let .service(action: action):
             return serviceReducer(states: &states, action: action, enviorment: enviorment)
+        
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
 //            for page in template.pages {
 //                UIImageWriteToSavedPhotosAlbum(page.image, nil, nil, nil)
 //            }
+        
         case let .setCurrentTemplate(id: id):
             states.currentTemplate = states.teamplates.first(where: { template -> Bool in
                 template.id == id
             })
+        
         case .clearCurrentTemplate:
             states.currentTemplate = nil
+        
         case let .sendResult(pageNumber: number, result: pageRegions):
             states.result[number] = pageRegions
+        
         case let .appendResult(at: pageNumber):
             states.result[pageNumber] = []
+        
         case let .initResult(array: nilPages):
             states.result = nilPages
+        
         case .clearResult:
             states.result = []
-        case let .setResult(page: page, region: region, text: text):
+        
+        case let .changeResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
     }
     return Empty().eraseToAnyPublisher()
