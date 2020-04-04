@@ -37,10 +37,10 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
         switch action {
             case let .test(text: text):
                 print(text)
-            
+
             case let .createTemplate(name: name, description: description):
                 return enviorment.template.createTemplate(name: name, description: description)
-            
+
             case let .createTeamplateResult(result: result):
                 switch result {
                     case let .success(template):
@@ -49,10 +49,10 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                     case let .failure(error):
                         print("fehler", error)
                 }
-            
+
             case let .createPage(templateId: id, number: number, imagePath: imagePath):
                 return enviorment.template.createPage(id: id, number: number, imagePath: imagePath)
-            
+
             case .createPageResult(result: let result):
                 switch result {
                     case let .success(page):
@@ -61,12 +61,12 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                     case let .failure(error):
                         print("page fehler:", error)
                 }
-            
+
             case let .createAttribute(name: name, x: x, y: y, width: width,
                                       height: height, dataType: dataType, pageId: pageId):
                 return enviorment.template.createAttribute(name: name, x: x, y: y, width: width,
                                                     height: height, dataType: dataType, pageId: pageId)
-            
+
             case let .createAttributeResult(result: result):
                 switch result {
                     case let .success(attribute):

@@ -37,7 +37,6 @@ final class LinkAnalyzer {
                         break
                 }
             }
-
             DispatchQueue.main.async {
                 completionHandler(self.errors)
             }
@@ -47,10 +46,10 @@ final class LinkAnalyzer {
     private func compare(link: Link) -> String? {
         let id1 = link.regionIDs[0]
         let id2 = link.regionIDs[1]
-        let result1: String = results[id1] ?? "Fehler 1"
-        let result2: String = results[id2] ?? "Fehler 2"
+        let result1: String = results[id1] ?? " (1)"
+        let result2: String = results[id2] ?? " (2)"
         if result1 != result2 {
-            return "\(results[id1] ?? "Fehler 1") ist ungleich \(results[id2] ?? "Fehler 2")"
+            return "'"+"\(results[id1] ?? " (1.)")" + "' ist ungleich '" + "\(results[id2] ?? " (2.)")" + "'"
         }
         return nil
     }

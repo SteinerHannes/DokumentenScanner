@@ -40,6 +40,9 @@ struct TemplateDetailView: View {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
                     DocumentResult(template: template)
+                    ForEach(self.errors, id: \.self) { error in
+                        Text(error)
+                    }
                 }
             }
             .resignKeyboardOnDragGesture()
@@ -118,14 +121,14 @@ struct TemplateDetailView: View {
                         self.links[region.regionID] = region.textResult
                     }
                     self.store.send(.sendResult(pageNumber: page.id, result: pageRegions))
-//                    if pageRegions.last!.regionID ==
-//                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
-//                        LinkAnalyzer(results: self.links,
-//                                     links: self.store.states.currentTemplate!.links).analyze { errors in
-//                            self.errors.append(contentsOf: errors)
-//                            self.textRecognitionDidFinish = true
-//                        }
-//                    }
+                    if pageRegions.last!.regionID ==
+                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
+                        LinkAnalyzer(results: self.links,
+                                     links: self.store.states.currentTemplate!.links).analyze { errors in
+                            self.errors.append(contentsOf: errors)
+                            self.textRecognitionDidFinish = true
+                        }
+                    }
                 }
             }
         } else {

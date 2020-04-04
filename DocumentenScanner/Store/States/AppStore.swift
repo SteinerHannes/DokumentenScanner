@@ -107,42 +107,42 @@ func appReducer(
     switch action {
         case let .routing(action: action):
             routingReducer(state: &states.routes, action: action)
-        
+
         case let .newTemplate(action: action):
             newTemplateReducer(state: &states.newTemplateState, action: action)
-        
+
         case let .auth(action: action):
             return authReducer(state: &states.authState, action: action, enviorment: enviorment)
-        
+
         case let .service(action: action):
             return serviceReducer(states: &states, action: action, enviorment: enviorment)
-        
+
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
 //            for page in template.pages {
 //                UIImageWriteToSavedPhotosAlbum(page.image, nil, nil, nil)
 //            }
-        
+
         case let .setCurrentTemplate(id: id):
             states.currentTemplate = states.teamplates.first(where: { template -> Bool in
                 template.id == id
             })
-        
+
         case .clearCurrentTemplate:
             states.currentTemplate = nil
-        
+
         case let .sendResult(pageNumber: number, result: pageRegions):
             states.result[number] = pageRegions
-        
+
         case let .appendResult(at: pageNumber):
             states.result[pageNumber] = []
-        
+
         case let .initResult(array: nilPages):
             states.result = nilPages
-        
+
         case .clearResult:
             states.result = []
-        
+
         case let .changeResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
     }

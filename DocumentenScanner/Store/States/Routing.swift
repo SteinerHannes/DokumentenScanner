@@ -31,13 +31,13 @@ func routingReducer(state: inout RoutingState, action: RoutingAction) {
     switch action {
         case .showPageSelectView:
             state.isPageSelectViewPresented = true
-        
+
         case .showContentView:
             state.isPageSelectViewPresented = false
-        
+
         case .turnOnCamera:
             state.isCameraPresented = true
-        
+
         case .turnOffCamera:
             state.isCameraPresented = false
     }
