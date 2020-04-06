@@ -12,6 +12,15 @@ struct Link: Identifiable {
     var id: String = UUID().uuidString
     var linktype: LinkType
     var regionIDs: [String] = []
+
+    var linktypeName: String {
+        switch self.linktype {
+            case .compare:
+                return "Vergleich"
+            case .sum:
+                return "Summieren und Vergleichen"
+        }
+    }
 }
 
 enum LinkType: Int {
