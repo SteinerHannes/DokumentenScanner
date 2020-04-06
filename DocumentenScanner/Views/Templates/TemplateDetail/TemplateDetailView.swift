@@ -84,18 +84,6 @@ struct TemplateDetailView: View {
      The regocnized text will be saved in the correct order
      (ordered like the pages and the regions of the pages).
      */
-     // im Texteecognition dicionary mit id : pageregion erstellen und zurück geben
-     // im Linkanalyzer dieses dann verwenden um genauere fehler analyse zu machen
-     // bzw  Views erstellen, die selbst Fehler ausgeben anhand des Typens
-     // foresch über alle links 
-     // link rein und analysieren 
-     // okay symbol, wenn link gut
-     // genaue Fehlermeldung zurück, wenn link nicht okay  
-     // view sollte darauf reagieren, wenn man den fehler korrigiert 
-     // vlt kamm man an dem entsprechenden Textfeld etwas anzeigen, 
-     // dass hier etwas geändert werden muss 
-     // dazu müsste das dicionary bindings haben 
-     // vermutlicj besta wahl, wegen der selbst updatenden views
     fileprivate func onCompletion(pages: [Page]?) {
         self.showCamera = false
         self.textRecognitionDidFinish = false
