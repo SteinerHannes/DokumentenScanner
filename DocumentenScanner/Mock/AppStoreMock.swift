@@ -100,35 +100,35 @@ class AppStoreMock {
                                      height: 98.91843314670382,
                                      datatype: ResultDatatype.seminarGroup)
         let region_1_4 = ImageRegion(id: "1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
-                                     name: "Punkte zur 1. Aufgabe ",
+                                     name: "Punkte zur 1. Aufgabe",
                                      rectState: CGSize(width: 804.0375270973395,
                                                        height: 928.4354497413003),
                                      width: 61.22519627352801,
                                      height: 73.04980422150925,
                                      datatype: ResultDatatype.point)
         let region_1_5 = ImageRegion(id: "4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
-                                     name: "Punkte zur 2. Aufgabe ",
+                                     name: "Punkte zur 2. Aufgabe",
                                      rectState: CGSize(width: 870.0314720945621,
                                                        height: 930.2450186465326),
                                      width: 47.77778116861987,
                                      height: 68.22221883138013,
                                      datatype: ResultDatatype.point)
         let region_1_6 = ImageRegion(id: "34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
-                                     name: "Punkte zur 3. Aufgabe ",
+                                     name: "Punkte zur 3. Aufgabe",
                                      rectState: CGSize(width: 924.4008382599063,
                                                        height: 927.5772328120122),
                                      width: 52.983856186378944,
                                      height: 71.90664595312887,
                                      datatype: ResultDatatype.point)
         let region_1_7 = ImageRegion(id: "45419F6E-4BFC-4C44-B920-B33FE6920B93",
-                                     name: "Punkte zur 4. Aufgabe ",
+                                     name: "Punkte zur 4. Aufgabe",
                                      rectState: CGSize(width: 979.1907498491578,
                                                        height: 928.0256172471986),
                                      width: 55.55555216471362,
                                      height: 75.33333333333348,
                                      datatype: ResultDatatype.point)
         let region_1_8 = ImageRegion(id: "907EF51F-F3F3-4E40-9A66-7792B68537F6",
-                                     name: "Punkte zur 5. Aufgabe ",
+                                     name: "Punkte zur 5. Aufgabe",
                                      rectState: CGSize(width: 1034.8599500693392,
                                                        height: 929.0150619469048),
                                      width: 55.111114501953125,
@@ -198,11 +198,26 @@ class AppStoreMock {
                          image: UIImage(imageLiteralResourceName: "page3"),
                          regions: [region_3_1, region_3_2])
 
+        let link1 = Link(id: "1", linktype: .compare, regionIDs: ["1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
+                                                                  "034C939D-900D-4BAF-8983-2D6174464AC6"])
+
+        let link2 = Link(id: "2", linktype: .compare, regionIDs: ["4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
+                                                                  "6DA3ADC2-9958-4D4F-BAEA-DF7F638B8AB8"])
+
+        let link3 = Link(id: "3", linktype: .compare, regionIDs: ["34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
+                                                                  "60273F95-3AE8-4226-97B9-7A62A56DC3C2"])
+
+        let link4 = Link(id: "4", linktype: .compare, regionIDs: ["45419F6E-4BFC-4C44-B920-B33FE6920B93",
+                                                                  "FF52C7A8-01A2-4B48-A6B6-9CAD5AFF2586"])
+
+        let link5 = Link(id: "5", linktype: .compare, regionIDs: ["907EF51F-F3F3-4E40-9A66-7792B68537F6",
+                                                                  "FF44642E-E064-4598-9741-D6BEDB003F2E"])
+
         let template = Template(id: "4C1FF6B7-99A1-42E6-A671-0F058C8EFB2B",
                                 name: "Klausur",
                                 info: "Grundlagen Infromationstechnologie",
                                 pages: [page1, page2, page3],
-                                links: [])
+                                links: [link1, link2, link3, link4, link5])
         return template
     }
 }

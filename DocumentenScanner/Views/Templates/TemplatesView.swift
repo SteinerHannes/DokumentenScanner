@@ -21,6 +21,9 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
+//                VStack(alignment: .leading, spacing: 20) {
+//                    APITestView()
+//                }.frame(height: 90)
                 VStack(alignment: .leading, spacing: 0) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
@@ -38,9 +41,9 @@ struct TemplatesView: View {
                             NavigationLink(
                                 destination:
                                     TemplateDetailView(template: template)
-                                        .environmentObject(self.store)
-                                , tag: template.id
-                                , selection: self.$selection) {
+                                        .environmentObject(self.store),
+                                tag: template.id,
+                                selection: self.$selection) {
                                     Button(action: {
                                         self.store.send(.setCurrentTemplate(id: template.id))
                                         self.selection = template.id
@@ -59,7 +62,7 @@ struct TemplatesView: View {
                 }
             }
             .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(trailing: self.trailingItem())
+            .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
     }
@@ -70,6 +73,15 @@ struct TemplatesView: View {
                 Image(systemName: "plus.square.on.square")
                     .font(.body)
                 Text("Neue Vorlage")
+            }
+    }
+
+    private func leadingItem() -> some View {
+        return
+            Button(action: {
+                self.store.send(.auth(action: .logout))
+            }) {
+                Text("Ausloggen")
             }
     }
 }

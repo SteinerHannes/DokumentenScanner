@@ -27,12 +27,31 @@ struct CustomTextField: UIViewRepresentable {
     var placeholder: String?
     @Binding var text: String
     var isFirstResponder: Bool = false
+    var configuration = { (view: UITextField) in }
+
+    init(_ placeholder: String,
+         text: Binding<String>,
+         isFirstResponder: Bool,
+         configuration: @escaping (UITextField) -> Void) {
+        self.placeholder = placeholder
+        self._text = text
+        self.isFirstResponder = isFirstResponder
+        self.configuration = configuration
+    }
+
+    init(_ placeholder: String, text: Binding<String>, isFirstResponder: Bool) {
+        self.placeholder = placeholder
+        self._text = text
+        self.isFirstResponder = isFirstResponder
+    }
 
     func makeUIView(context: UIViewRepresentableContext<CustomTextField>) -> UITextField {
         let textField = UITextField(frame: .zero)
         textField.delegate = context.coordinator
         textField.placeholder = placeholder
         textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.text = self.text
+        textField.adjustsFontSizeToFitWidth = true
         return textField
     }
 
@@ -45,5 +64,6 @@ struct CustomTextField: UIViewRepresentable {
             uiView.becomeFirstResponder()
             context.coordinator.didBecomeFirstResponder = true
         }
+        configuration(uiView)
     }
 }

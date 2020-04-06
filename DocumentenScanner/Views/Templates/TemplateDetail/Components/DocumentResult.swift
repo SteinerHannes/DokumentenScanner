@@ -44,7 +44,7 @@ struct DocumentResult: View {
                                     },
                                     set: { (string) in
                                         self.store.send(
-                                            .setResult(page: pageIdx, region: regionIdx, text: string))
+                                            .changeResult(page: pageIdx, region: regionIdx, text: string))
                                     }
                                 )).keyboardType(self.getKeyboardType(page: pageIdx, region: regionIdx))
                             } else {

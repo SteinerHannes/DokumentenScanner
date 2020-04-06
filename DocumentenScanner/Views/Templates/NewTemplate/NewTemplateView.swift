@@ -26,7 +26,9 @@ struct NewTemplateView: View {
         ZStack {
             Form {
                 Section {
-                    CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: true)
+                    CustomTextField("Name", text: self.$name, isFirstResponder: true) {
+                        $0.keyboardType = .alphabet
+                    }
                     TextField("Info", text: self.$info)
                 }
                 Section {

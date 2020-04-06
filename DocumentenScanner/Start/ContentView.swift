@@ -19,16 +19,18 @@ struct ContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Group {
+            if self.store.states.authState.isLoggedin {
                 if self.store.states.routes.isPageSelectViewPresented {
                     PageSelectView()
                 } else {
                     TemplatesView()
                 }
+            } else {
+                WelcomeView()
             }
-            .environmentObject(self.store)
-            .navigationViewStyle(StackNavigationViewStyle())
         }
+        .environmentObject(self.store)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

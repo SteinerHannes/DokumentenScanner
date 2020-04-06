@@ -32,7 +32,9 @@ struct NewAttributView: View {
         return VStack {
             Form {
                 Section {
-                    CustomTextField(placeholder: "Name", text: self.$name, isFirstResponder: self.showRoot)
+                    CustomTextField("Name", text: self.$name, isFirstResponder: self.showRoot) {
+                        $0.keyboardType = .alphabet
+                    }
                     Picker(selection: $datatype, label: Text("Datentyp")) {
                         Text(ResultDatatype.none.getName())
                             .tag(ResultDatatype.none.rawValue)
