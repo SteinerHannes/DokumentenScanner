@@ -14,9 +14,11 @@ struct TemplateDetailView: View {
     @EnvironmentObject var store: AppStore
 
     var template: Template
+
+    var idList: [String: ImageRegion]
+
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
-
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
@@ -24,13 +26,18 @@ struct TemplateDetailView: View {
     /// Is set when the taken pages != the pages of the template
     @State private var takenPages: Int?
 
-    @State private var links: [String: String] = [:]
-
-    @State private var errors: [String] = []
+    @State var links: [String: (Int, Int)] = [:]
 
     init(template: Template) {
         print("init TemplateDetailView")
         self.template = template
+        var tempIdList: [String: ImageRegion] = [:]
+        for page in self.template.pages {
+            for region in page.regions {
+                tempIdList[region.id] = region
+            }
+        }
+        self.idList = tempIdList
     }
 
     var body: some View {
@@ -40,9 +47,7 @@ struct TemplateDetailView: View {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
                     DocumentResult(template: template)
-                    ForEach(self.errors, id: \.self) { error in
-                        Text(error)
-                    }
+                    DocumentLink(template: template, links: self.$links, idList: self.idList)
                 }
             }
             .resignKeyboardOnDragGesture()
@@ -62,33 +67,6 @@ struct TemplateDetailView: View {
                     .navigationBarHidden(true)
             }
         }
-    }
-
-    private var LinkView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Link Fehler: ")
-            if self.textRecognitionDidFinish {
-                ForEach(self.errors, id: \.self) { error in
-                    VStack(alignment: .leading, spacing: 5) {
-                        Divider()
-                        Text("\(error)")
-                    }
-                }
-            } else {
-                Divider()
-                HStack(alignment: .center, spacing: 0) {
-                    Spacer()
-                    ActivityIndicator(isAnimating: true)
-                        .configure { $0.color = .tertiaryLabel }
-                    Spacer()
-                }
-            }
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color.tertiarySystemFill)
-        .cornerRadius(8)
-        .padding()
     }
 
     fileprivate func newPictureButton() -> some View {
@@ -122,24 +100,18 @@ struct TemplateDetailView: View {
         self.showCamera = false
         self.textRecognitionDidFinish = false
         guard pages != nil else { return }
-        let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
-        self.store.send(.initResult(array: array))
         if pages!.count == self.store.states.currentTemplate!.pages.count {
+            let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
+            self.store.send(.initResult(array: array))
             for page in pages! {
                 self.store.send(.appendResult(at: page.id))
                 let imageResults: [PageRegion] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
-                    for region in pageRegions {
-                        self.links[region.regionID] = region.textResult
-                    }
                     self.store.send(.sendResult(pageNumber: page.id, result: pageRegions))
-                    if pageRegions.last!.regionID ==
-                        self.store.states.currentTemplate!.pages.last!.regions.last!.id {
-                        LinkAnalyzer(results: self.links,
-                                     links: self.store.states.currentTemplate!.links).analyze { errors in
-                            self.errors.append(contentsOf: errors)
-                            self.textRecognitionDidFinish = true
-                        }
+                    var counter: Int = 0
+                    for region in pageRegions {
+                        self.links[region.regionID] = (page.id, counter)
+                        counter += 1
                     }
                 }
             }
@@ -202,7 +174,7 @@ struct TemplateDetailView: View {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            TemplateDetailView(template: AppStoreMock.getTemplate())
+            TemplateDetailView(template: AppStoreMock.realTemplate())
                 .environmentObject(AppStoreMock.getAppStore())
         }
     }
