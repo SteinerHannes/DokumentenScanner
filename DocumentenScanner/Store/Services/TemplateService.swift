@@ -9,6 +9,11 @@
 //swiftlint:disable function_parameter_count
 import Foundation
 import Combine
+import VisionKit
+
+struct ImageResponse: Decodable {
+    public let path: String
+}
 
 enum TemplateServiceError: Error {
     case badUrl
@@ -239,5 +244,98 @@ final class TemplateService {
             .service(action: .createAttributeResult(result: .failure(.serverError)))
         )
         .eraseToAnyPublisher()
+    }
+
+    func uploadImage(image: UIImage) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .uploadImageResult(result: .failure(.serverError))))
+            )
+        }
+        // chek if jwt exists
+        if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
+            )
+        }
+        guard let data = image.pngData() else {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .uploadImageResult(result: .failure(.badEncoding))))
+            )
+        }
+        // configure an uplaod request
+        guard let url = URL(string: baseUrl + "Image/upload" ) else {
+            return AnyPublisher<AppAction, Never>(
+                Just(.service(action: .uploadImageResult(result: .failure(.badUrl))))
+            )
+        }
+        let boundary = "Boundary-\(UUID().uuidString)"
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let httpBody = NSMutableData()
+
+        httpBody.append(convertFileData(fieldName: "image",
+                                        fileName: "image.png",
+                                        mimeType: "image/png",
+                                        fileData: data,
+                                        using: boundary))
+        httpBody.appendString("--\(boundary)--")
+        request.httpBody = httpBody as Data
+
+        // create and start an uplaod task
+        return session.dataTaskPublisher(for: request)
+            .map { (data: Data, response: URLResponse) -> Result<String, TemplateServiceError> in
+                // cast is needed for statuscode
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return .failure(.serverError)
+                }
+                // check if answer is OK
+                if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8))
+                    return .failure(.responseCode(code: httpResponse.statusCode))
+                }
+                // decode data and return it
+                if let mimeType = response.mimeType,
+                    mimeType == "application/json" {
+                    do {
+                        let answer: ImageResponse = try self.decoder.decode(ImageResponse.self, from: data)
+                        return .success(answer.path)
+                    } catch let decodeError {
+                        print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
+                        return .failure(.decoder(error: decodeError))
+                    }
+                }
+                return .failure(.response(text: String(data: data, encoding: .utf8) ?? "Fehler" ))
+        }
+        .map { result -> AppAction in
+            // if there is a result in the stream
+            return .service(action: .uploadImageResult(result: result))
+        }
+        .replaceError(with:
+            .service(action: .uploadImageResult(result: .failure(.serverError)))
+        )
+        .eraseToAnyPublisher()
+    }
+
+    private func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
+        let data = NSMutableData()
+
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.appendString("\r\n")
+
+        return data as Data
+    }
+}
+
+extension NSMutableData {
+    func appendString(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            self.append(data)
+        }
     }
 }

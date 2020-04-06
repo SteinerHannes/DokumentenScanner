@@ -37,12 +37,19 @@ struct APITestView: View {
                                      y: 20,
                                      width: 30,
                                      height: 40,
-                                     dataType: "Text",
+                                     dataType: "Grade",
                                      pageId: self.store.states.serviceState.pageId ?? 0)
                     )
                 )
             }) {
                 Text("Create Attribute")
+            }
+            Button(action: {
+                self.store.send(.service(action:
+                    .uploadImage(image: UIImage(imageLiteralResourceName: "page1")))
+                )
+            }) {
+                Text("Upload Image")
             }
         }
     }

@@ -9,6 +9,7 @@
 //swiftlint:disable cyclomatic_complexity
 import Foundation
 import Combine
+import SwiftUI
 
 struct ServiceState {
     var templateId: Int?
@@ -30,6 +31,10 @@ enum ServiceAction {
     case createAttribute(name: String, x: Int, y: Int, width: Int, height: Int, dataType: String, pageId: Int)
     /// Handels the result from the create attribute function in template service
     case createAttributeResult(result: Result<AttributeDTO, TemplateServiceError>)
+
+    case uploadImage(image: UIImage)
+
+    case uploadImageResult(result: Result<String, TemplateServiceError>)
 }
 
 func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: AppEnviorment)
@@ -74,6 +79,17 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                     case let .failure(error):
                         print("attribute fehler:", error)
                 }
+
+            case let .uploadImage(image: image):
+                return enviorment.template.uploadImage(image: image)
+
+            case let .uploadImageResult(result: result):
+                switch result {
+                    case let .success(url):
+                        print(url)
+                    case let .failure(error):
+                        print("upload fehler: ", error )
+            }
         }
         return Empty().eraseToAnyPublisher()
 }
