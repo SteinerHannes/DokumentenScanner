@@ -63,7 +63,8 @@ struct LinkedRegionsView: View {
         Button(action: {
             self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
             self.store.send(.routing(action: .showContentView))
-            self.store.send(.newTemplate(action: .clearState))
+//            self.store.send(.newTemplate(action: .clearState))
+            self.store.send(.service(action: .createTemplate))
         }) {
             Text("Speichern")
         }

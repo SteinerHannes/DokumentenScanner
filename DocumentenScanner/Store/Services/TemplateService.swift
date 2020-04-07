@@ -6,7 +6,7 @@
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
-//swiftlint:disable function_parameter_count
+//swiftlint:disable function_parameter_count function_body_length
 import Foundation
 import Combine
 import VisionKit
@@ -89,6 +89,7 @@ final class TemplateService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -154,6 +155,7 @@ final class TemplateService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -221,6 +223,7 @@ final class TemplateService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -270,12 +273,10 @@ final class TemplateService {
             )
         }
         let boundary = "Boundary-\(UUID().uuidString)"
-
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let httpBody = NSMutableData()
-
         httpBody.append(convertFileData(fieldName: "image",
                                         fileName: "image.png",
                                         mimeType: "image/png",
@@ -293,7 +294,7 @@ final class TemplateService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
-                    print(String(data: data, encoding: .utf8))
+                    print(String(data: data, encoding: .utf8) as Any)
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -319,11 +320,13 @@ final class TemplateService {
         .eraseToAnyPublisher()
     }
 
-    private func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
+    private func convertFileData(fieldName: String, fileName: String, mimeType: String,
+                                 fileData: Data, using boundary: String) -> Data {
         let data = NSMutableData()
-
         data.appendString("--\(boundary)\r\n")
+        //swiftlint:disable line_length
         data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        //swiftlint:enable line_length
         data.appendString("Content-Type: \(mimeType)\r\n\r\n")
         data.append(fileData)
         data.appendString("\r\n")

@@ -32,4 +32,21 @@ public enum ResultDatatype: Int {
                 return "Punkte"
         }
     }
+
+    func getNameType() -> String {
+        switch self {
+            case .none:
+                return "Unknown"
+            case .mark:
+                return "Grade"
+            case .name:
+                return "FirstName"
+            case .studentNumber:
+                return "StudentId"
+            case .seminarGroup:
+                return "SeminarGroup"
+            case .point:
+                return "Points"
+        }
+    }
 }

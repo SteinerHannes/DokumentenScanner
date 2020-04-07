@@ -33,7 +33,7 @@ struct NewTemplateView: View {
                 }
                 Section {
                     Button(action: {
-                        if self.name.isEmpty {
+                        if self.name.isEmpty || self.info.isEmpty {
                             self.showAlert = true
                         } else {
                             self.store.send(.routing(action: .turnOnCamera))
@@ -60,7 +60,7 @@ struct NewTemplateView: View {
             .environment(\.horizontalSizeClass, .regular)
             .resignKeyboardOnDragGesture()
             .alert(isPresented: self.$showAlert) {
-                Alert(title: Text("Die Vorlage hat noch keinen Namen."))
+                Alert(title: Text("Name und Beschreibung müssen ausgefüllt sein."))
             }
 
             if self.showCamera {
