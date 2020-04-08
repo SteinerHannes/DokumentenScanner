@@ -13,6 +13,7 @@ struct TemplatesView: View {
     @EnvironmentObject var store: AppStore
 
     @State var selection: String?
+    @State private var isShowing = false
 
     init() {
         print("init TemplatesView")
@@ -21,19 +22,6 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
-//                VStack(alignment: .leading, spacing: 20) {
-//                    APITestView()
-//                }.frame(height: 100)
-                HStack(alignment: .center, spacing: 8) {
-                    Spacer()
-                    Button(action: {
-                        self.store.send(.service(action: .getTemplateList))
-                    }) {
-                        Image(systemName: "arrow.2.circlepath.circle.fill")
-                            .font(.system(size: 30, weight: .light, design: .default))
-                    }
-                    .padding(.horizontal)
-                }.frame(width: UIScreen.main.bounds.width, height: 30)
                 VStack(alignment: .leading, spacing: 16) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
@@ -63,6 +51,10 @@ struct TemplatesView: View {
                     }
                 }
             }
+            .pullToRefresh(isShowing: self.$isShowing, onRefresh: {
+                self.store.send(.service(action: .getTemplateList))
+                self.isShowing = false
+            })
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
