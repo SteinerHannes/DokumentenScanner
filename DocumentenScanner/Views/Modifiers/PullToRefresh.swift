@@ -4,7 +4,7 @@
 //
 //  Created by Hannes Steiner on 08.04.20.
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
-//
+//  Source: https://github.com/siteline/SwiftUIRefresh/blob/master/Sources/PullToRefresh.swift
 
 import SwiftUI
 import Introspect
