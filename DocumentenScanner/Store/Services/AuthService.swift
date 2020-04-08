@@ -18,7 +18,7 @@ struct ErrorAnswer: Decodable {
 }
 
 final class AuthService {
-    let baseUrl: String = baseAuthority + "auth/"
+    let baseUrl: String = baseAuthority + "/auth"
 
     let session: URLSession
     let encoder: JSONEncoder
@@ -40,7 +40,7 @@ final class AuthService {
             )
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "login") else {
+        guard let url = URL(string: baseUrl + "/login") else {
             return AnyPublisher<AppAction, Never>(
                 Just(.auth(action: .loginResult(result: .failure(.badUrl))))
             )
@@ -95,7 +95,7 @@ final class AuthService {
                 Just(.auth(action: .registerResult(result: .failure(.badEncoding))))
             )
         }
-        guard let url = URL(string: baseUrl + "register") else {
+        guard let url = URL(string: baseUrl + "/register") else {
             return AnyPublisher<AppAction, Never>(
                 Just(.auth(action: .registerResult(result: .failure(.badUrl))))
             )

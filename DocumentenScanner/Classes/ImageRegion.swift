@@ -30,3 +30,45 @@ extension ImageRegion: Equatable {
             lhs.id == rhs.id
     }
 }
+
+extension ImageRegion: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case name
+        case x
+        case y
+        case width
+        case height
+        case datatype = "dataType"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(String.self, forKey: CodingKeys.name)
+        let x = try container.decode(Int.self, forKey: CodingKeys.x)
+        let y = try container.decode(Int.self, forKey: CodingKeys.y)
+        rectState = CGSize(width: x, height: y)
+        let tempWidth = try container.decode(Int.self, forKey: CodingKeys.width)
+        width = CGFloat(tempWidth)
+        let tempHeight = try container.decode(Int.self, forKey: CodingKeys.height)
+        height = CGFloat(tempHeight)
+        let datatypeString = try container.decode(String.self, forKey: CodingKeys.datatype)
+        switch datatypeString {
+            case "Unknown":
+                datatype = .none
+            case "Grade":
+                datatype = .mark
+            case "FirstName", "LastName":
+                datatype = .name
+            case "StudentId":
+                datatype = .studentNumber
+            case "SeminarGroup":
+                datatype = .seminarGroup
+            case "Points":
+                datatype = .point
+            default:
+                datatype = .none
+        }
+
+    }
+}

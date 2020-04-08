@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import class Kingfisher.KingfisherManager
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplatesView: View {
@@ -21,9 +22,9 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
-//                VStack(alignment: .leading, spacing: 20) {
-//                    APITestView()
-//                }.frame(height: 90)
+                VStack(alignment: .leading, spacing: 20) {
+                    APITestView()
+                }.frame(height: 100)
                 VStack(alignment: .leading, spacing: 0) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
@@ -96,10 +97,9 @@ private struct TemplateCard: View {
                     .font(.title)
                     .lineLimit(2)
                 HStack(alignment: .top, spacing: 10) {
-                    Image(uiImage: template.pages.first?.image ?? UIImage(imageLiteralResourceName: "test"))
-                        .renderingMode(.original)
-                        .resizable()
-                        .scaledToFit()
+// Image(uiImage: template.pages.first?._image ?? UIImage(imageLiteralResourceName: "test"))
+                    Image(systemName: "photo")
+                        .fetchingRemoteImage(from: template.pages[0].url)
                         .frame(width: 88, height: 120)
                     VStack(alignment: .leading, spacing: 5) {
                         Text("\(template.pages.count) \(template.pages.count == 1 ? "Seite" : "Seiten" )")
@@ -120,6 +120,38 @@ private struct TemplateCard: View {
                 .font(.system(size: 13, weight: .semibold, design: .default))
                 .foregroundColor(.systemFill)
                 .layoutPriority(1)
+        }
+    }
+}
+
+extension Image {
+    func fetchingRemoteImage(from url: String) -> some View {
+        ModifiedContent(content: self, modifier: RemoteImageModifier(url: url))
+    }
+}
+
+struct RemoteImageModifier: ViewModifier {
+
+    let url: String
+    @State private var fetchedImage: UIImage?
+
+    func body(content: Content) -> some View {
+        if let image = fetchedImage {
+            return Image(uiImage: image)
+                .renderingMode(.original)
+                .resizable()
+                .scaledToFit()
+                .eraseToAnyView()
+        }
+
+        return content
+            .onAppear(perform: fetch)
+            .eraseToAnyView()
+    }
+
+    private func fetch() {
+        KingfisherManager.shared.retrieveImage(with: URL(string: baseAuthority + url)!) { result in
+            self.fetchedImage = try? result.get().image
         }
     }
 }

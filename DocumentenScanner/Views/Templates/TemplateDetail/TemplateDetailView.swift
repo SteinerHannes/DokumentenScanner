@@ -121,8 +121,8 @@ struct TemplateDetailView: View {
             let height = region.height
             let templateRect = CGRect(x: templateSize.width,
                                       y: templateSize.height, width: width, height: height)
-            let templateImage = self.store.states.currentTemplate!.pages[page.id].image
-            let image = page.image
+            let templateImage = self.store.states.currentTemplate!.pages[page.id]._image
+            let image = page._image
 
             let proportionalRect = newProportionalRect(templateImage: templateImage,
                                                        newImage: image, templateRect: templateRect)

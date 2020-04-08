@@ -20,5 +20,36 @@ struct Template: Identifiable {
     public var pages: [Page] = []
 
     public var links: [Link] = []
-    // public var linkedRegions: [LinkedPageRegions] = []
+
+    public var created: String = "" // Date
+
+    public var updated: String = "" // Date
+
+    public var owner: UserInfoDTO?
+}
+
+extension Template: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case info = "description"
+        case pages
+        case created
+        case updated
+        case owner
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let tempIdInt = try container.decode(Int.self, forKey: CodingKeys.id)
+        id = String(tempIdInt)
+        name = try container.decode(String.self, forKey: CodingKeys.name)
+        info = try container.decode(String.self, forKey: CodingKeys.info)
+        pages = try container.decode([Page].self, forKey: CodingKeys.pages)
+        created = try container.decode(String.self, forKey: CodingKeys.created)
+        updated = try container.decode(String.self, forKey: CodingKeys.updated)
+        owner = try container.decode(UserInfoDTO.self, forKey: CodingKeys.owner)
+
+    }
 }

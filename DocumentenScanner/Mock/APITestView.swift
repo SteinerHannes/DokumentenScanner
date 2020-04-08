@@ -15,34 +15,16 @@ struct APITestView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Button(action: {
-                self.store.send(.service(action: .createTemplate(name: "Bla", description: "sdfjhskdjh fjk")))
-                self.counter = 1
+                let template = AppStoreMock.realTemplate()
+                self.store.send(.newTemplate(action: .setTemplate(template: template)))
+                self.store.send(.service(action: .createTemplate))
             }) {
-                Text("Create Template")
+                Text("Upload Template")
             }
             Button(action: {
-                self.store.send(.service(action:
-                    .createPage(templateId: self.store.states.serviceState.templateId ?? 0,
-                                number: self.counter,
-                                imagePath: "asd"))
-                )
-                self.counter += 1
+                self.store.send(.service(action: .getTemplateList))
             }) {
-                Text("Create Page")
-            }
-            Button(action: {
-                self.store.send(.service(action:
-                    .createAttribute(name: "Attribute 1",
-                                     x: 10,
-                                     y: 20,
-                                     width: 30,
-                                     height: 40,
-                                     dataType: "Text",
-                                     pageId: self.store.states.serviceState.pageId ?? 0)
-                    )
-                )
-            }) {
-                Text("Create Attribute")
+                Text("Get Templates")
             }
         }
     }

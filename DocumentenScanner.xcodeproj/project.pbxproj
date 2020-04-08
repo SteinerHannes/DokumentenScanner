@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */; };
 		EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EE24082F1600D76CE7 /* BackButton.swift */; };
 		EF1C82D8241FD2880098F5CB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EF1C82D7241FD2880098F5CB /* .gitignore */; };
+		EF3CDB71243CB6A000E516A7 /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */; };
+		EF3CDB72243CB6A000E516A7 /* KingfisherSwiftUI in Embed Frameworks */ = {isa = PBXBuildFile; productRef = EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4031182421303D00BF6306 /* AddLinkView.swift */; };
 		EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF40311A24213EB200BF6306 /* RegionsListView.swift */; };
 		EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BB2406750600FF510E /* SelectRegionView.swift */; };
@@ -75,6 +77,20 @@
 		EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EE9243620FF00E3CD98 /* APITestView.swift */; };
 		EFFF9EEC2436369C00E3CD98 /* ServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EF3CDB73243CB6A100E516A7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EF3CDB72243CB6A000E516A7 /* KingfisherSwiftUI in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAnalyzer.swift; sourceTree = "<group>"; };
@@ -155,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF3CDB71243CB6A000E516A7 /* KingfisherSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +473,7 @@
 				EFE31F452403E3EE008015F3 /* Frameworks */,
 				EFE31F462403E3EE008015F3 /* Resources */,
 				EF44754424090A9E005A0ADB /* SwiftLint */,
+				EF3CDB73243CB6A100E516A7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -463,6 +481,7 @@
 			);
 			name = DocumentenScanner;
 			packageProductDependencies = (
+				EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */,
 			);
 			productName = DocumentenScanner;
 			productReference = EFE31F482403E3EE008015F3 /* DocumentenScanner.app */;
@@ -494,6 +513,7 @@
 			);
 			mainGroup = EFE31F3F2403E3ED008015F3;
 			packageReferences = (
+				EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = EFE31F492403E3EE008015F3 /* Products */;
 			projectDirPath = "";
@@ -803,6 +823,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.13.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = KingfisherSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EFE31F402403E3ED008015F3 /* Project object */;
 }

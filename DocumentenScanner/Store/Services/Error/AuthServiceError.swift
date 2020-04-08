@@ -69,10 +69,8 @@ extension AuthServiceError {
                 return Alert(title: Text("Keine Verbindung zum Server möglich."))
             case let .responseCode(code: code):
                 switch code {
-                    case 404:
-                        return Alert(title: Text("E-Mail-Adresse nicht gefunden"))
                     case 401:
-                        return Alert(title: Text("Passwort falsch"))
+                        return Alert(title: Text("Passwort oder E-Mail-Adresse falsch"))
                     default:
                         return Alert(title: Text("Serverfehler: \(code)"))
             }

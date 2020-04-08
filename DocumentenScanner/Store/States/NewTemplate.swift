@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-//swiftlint:disable switch_case_alignment cyclomatic_complexity
+//swiftlint:disable switch_case_alignment cyclomatic_complexity function_body_length
 
 /// The actions for managing the new template
 enum NewTemplateAction {
@@ -48,6 +48,7 @@ enum NewTemplateAction {
     case addLinkToNewTemplate
     /// Delets a link from the link list of the new template
     case deletLinkFromNewTemplate(linkID: String)
+    case setTemplate(template: Template)
 }
 
 /// The variables required for handling the new template
@@ -89,7 +90,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.linkState = LinkState()
 
         case let .setImageAndPageNumber(number: number):
-            state.image = state.newTemplate!.pages[number].image
+            state.image = state.newTemplate!.pages[number]._image
             state.currentPage = number
 
         case let .removeAttribute(id: id):
@@ -126,5 +127,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             }) {
                 state.newTemplate!.links.remove(at: index)
         }
+        case let .setTemplate(template: template):
+            state.newTemplate = template
     }
 }
