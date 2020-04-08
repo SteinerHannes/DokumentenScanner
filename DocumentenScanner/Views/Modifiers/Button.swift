@@ -20,7 +20,7 @@ struct PrimaryButton: View {
             .padding()
             .frame(maxWidth: .infinity)
             .background(Color.accentColor)
-            .cornerRadius(5)
+            .cornerRadius(12)
             .shadow(color: self.colorScheme == .light ? .shadow : .clear, radius: 15, x: 0, y: 5)
     }
 }
@@ -37,7 +37,7 @@ struct SecondaryButton: View {
             .padding()
             .frame(maxWidth: .infinity)
             .background(Color.white)
-            .cornerRadius(5)
+            .cornerRadius(12)
             .shadow(color: self.colorScheme == .light ? .shadow : .clear, radius: 15, x: 0, y: 5)
     }
 }

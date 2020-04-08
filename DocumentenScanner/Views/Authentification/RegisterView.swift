@@ -93,7 +93,8 @@ struct RegisterView: View {
                 .offset(x: 0, y: arePasswordSame ? 0 : UIScreen.main.bounds.height)
                 .animation(.spring())
                 Spacer()
-            }.padding(.horizontal)
+            }
+            .padding(.horizontal)
         }
         .resignKeyboardOnDragGesture()
         .navigationBarTitle("Registrieren", displayMode: .large)

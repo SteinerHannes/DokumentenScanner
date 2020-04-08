@@ -38,14 +38,13 @@ struct DocumentLink_Previews: PreviewProvider {
     }
 }
 
-//swiftlint:disable all
 struct LinkView: View {
     @EnvironmentObject var store: AppStore
     @Binding var links: [String: (Int, Int)]
-    
+
     let link: Link
     let idList: [String: ImageRegion]
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Divider()
@@ -53,7 +52,6 @@ struct LinkView: View {
                 Text(link.linktypeName)
                     .font(.headline)
                 Spacer()
-                
             }
             Text(self.getLinkInfo(link: link))
                 .font(.subheadline)
@@ -65,7 +63,7 @@ struct LinkView: View {
             }
         }
     }
-    
+
     private func getLinkInfo(link: Link) -> String {
         switch link.linktype {
             case .compare:
@@ -76,7 +74,7 @@ struct LinkView: View {
                 return ""
         }
     }
-    
+
     private func getTypeView(link: Link) -> some View {
         switch link.linktype {
             case .compare:
@@ -92,7 +90,8 @@ struct LinkView: View {
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element1!.0, region: element1!.1, text: region.textResult))
+                                .changeResult(page: element1!.0, region: element1!.1,
+                                              text: region.textResult))
                     }
                     )
                     let region2 = Binding<PageRegion>(
@@ -101,27 +100,12 @@ struct LinkView: View {
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element2!.0, region: element2!.1, text: region.textResult))
+                                .changeResult(page: element2!.0, region: element2!.1,
+                                              text: region.textResult))
                     }
                     )
-                    return
-                        HStack(alignment: .center, spacing: 0) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                TextField("\(region1.regionName.wrappedValue)", text: region1.textResult)
-                                TextField("\(region2.regionName.wrappedValue)", text: region2.textResult)
-                            }
-                            Spacer()
-                            if !region1.textResult.wrappedValue.isEmpty &&
-                                region1.textResult.wrappedValue == region2.textResult.wrappedValue {
-                                Image(systemName: "checkmark.seal.fill")
-                                    .font(.body)
-                                    .foregroundColor(.green)
-                            } else {
-                                Image(systemName: "xmark.seal.fill")
-                                    .font(.body)
-                                    .foregroundColor(.red)
-                            }
-                        }.eraseToAnyView()
+                    return CompareResultView(region1: region1, region2: region2)
+                            .eraseToAnyView()
             }
             case .sum:
                 return Text("asd")
@@ -129,4 +113,30 @@ struct LinkView: View {
         }
     }
 }
-//swiftlint:enable all
+
+struct CompareResultView: View {
+    @EnvironmentObject var store: AppStore
+
+    var region1: Binding<PageRegion>
+    var region2: Binding<PageRegion>
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                TextField("\(region1.regionName.wrappedValue)", text: region1.textResult)
+                TextField("\(region2.regionName.wrappedValue)", text: region2.textResult)
+            }
+            Spacer()
+            if !region1.textResult.wrappedValue.isEmpty &&
+                region1.textResult.wrappedValue == region2.textResult.wrappedValue {
+                Image(systemName: "checkmark.seal.fill")
+                    .font(.body)
+                    .foregroundColor(.green)
+            } else {
+                Image(systemName: "xmark.seal.fill")
+                    .font(.body)
+                    .foregroundColor(.red)
+            }
+        }
+    }
+}

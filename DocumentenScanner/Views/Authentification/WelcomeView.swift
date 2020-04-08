@@ -42,7 +42,8 @@ struct WelcomeView: View {
                         )
                     ) {
                         PrimaryButton(title: "Anmelden")
-                    }.isDetailLink(false)
+                    }
+                    .isDetailLink(false)
                     NavigationLink(
                         destination: RegisterView().environmentObject(self.store),
                         tag: AuthView.register,
@@ -54,7 +55,8 @@ struct WelcomeView: View {
                         )
                     ) {
                         SecondaryButton(title: "Registrieren")
-                    }.isDetailLink(false)
+                    }
+                    .isDetailLink(false)
                 }
                 .padding([.horizontal, .bottom])
                 .padding(.top, 40)

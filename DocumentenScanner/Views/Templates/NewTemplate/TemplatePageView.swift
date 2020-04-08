@@ -43,24 +43,25 @@ struct TemplatePageView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        let template = self.store.states.newTemplateState.newTemplate!
+
+        return ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Image(uiImage: self.store.states.newTemplateState.newTemplate!.pages[self.index]._image)
+                    Image(uiImage: template.pages[self.index]._image)
                         .frame(alignment: .topLeading)
                         .shadow(color: .shadow, radius: 20, x: 0, y: 0)
-                    //swiftlint:disable line_length
-                    ForEach(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions) { region in
-                    //swiftlint:enable line_length
+                    ForEach(template.pages[self.index].regions) { region in
                         Rectangle()
                             .stroke(Color.label, lineWidth: 3)
                             .background(Color.accentColor.opacity(0.7))
                             .frame(width: region.width, height: region.height, alignment: .topLeading)
                             .offset(region.rectState)
-                            .overlay(AttributeNameTag(name: region.name)
+                            .overlay(
+                                AttributeNameTag(name: region.name)
                                 .frame(width: region.width, height: region.height)
                                 .offset(region.rectState)
-                        )
+                            )
                     }
                 }.scaleEffect(self.scale)
                 Spacer()
@@ -80,9 +81,7 @@ struct TemplatePageView: View {
                         }.isDetailLink(false)
                     }
                     Section {
-                        //swiftlint:disable line_length
-                        ForEach(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions, id: \.id) { region in
-                        //swiftlint:enable line_length
+                        ForEach(template.pages[self.index].regions, id: \.id) { region in
                             Text(region.name)
                                 .contextMenu {
                                     Button(action: {
@@ -110,7 +109,7 @@ struct TemplatePageView: View {
             self.store.send(.newTemplate(action: .setImageAndPageNumber(number: self.index)))
             // set the max height to the min(3 , regions in the image)
             self.maxHeight = 140.0 + CGFloat(45 *
-                min(self.store.states.newTemplateState.newTemplate!.pages[self.index].regions.count, 3))
+                min(template.pages[self.index].regions.count, 3))
         }
     }
 
@@ -122,8 +121,8 @@ struct TemplatePageView: View {
         // uses the current page number to delete the attribute in the app state
         self.store.send(.newTemplate(action: .removeAttribute(id: id)))
         // shrink the height of the bottom sheet, if there are less than 4 itmes in it
-        if self.maxHeight > 140 &&
-            self.store.states.newTemplateState.newTemplate!.pages[self.index].regions.count < 3 {
+        let template = self.store.states.newTemplateState.newTemplate!
+        if self.maxHeight > 140 && template.pages[self.index].regions.count < 3 {
             self.maxHeight -= 45
         }
     }

@@ -26,6 +26,12 @@ struct APITestView: View {
             }) {
                 Text("Get Templates")
             }
+            Button(action: {
+                self.store.send(.auth(action:
+                    .login(email: "mii@mii.mii", password: "mii2mii!")))
+            }) {
+                Text("Login")
+            }
         }
     }
 }

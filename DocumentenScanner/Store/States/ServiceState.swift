@@ -21,8 +21,6 @@ struct ServiceState {
 enum ServiceAction {
     /// Sends the template to the server
     case createTemplate
-    // MARK: TODO delete
-    case test(text: String)
     /// Handels the result from the create template function in template service
     case createTeamplateResult(result: Result<TemplateDTO, TemplateServiceError>)
     /// Sends the template to the server
@@ -48,9 +46,6 @@ enum ServiceAction {
 func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: AppEnviorment)
     -> AnyPublisher<AppAction, Never>? {
         switch action {
-            case let .test(text: text):
-                print(text)
-
             case let .getTemplateListResult(result: result):
                 switch result {
                     case let .success(list):

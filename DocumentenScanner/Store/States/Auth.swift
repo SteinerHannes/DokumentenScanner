@@ -11,8 +11,6 @@ import Foundation
 import Combine
 
 struct AuthState {
-    // MARK: TODO delete jwt
-    var jwt: String?
     /// Triggers the WelcomeView if not logged in
     var isLoggedin: Bool = false
     /// Shows an Alert, when set
@@ -48,7 +46,6 @@ func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnvi
         case .logout:
             // MARK: TODO reset session
             state.isLoggedin = false
-            state.jwt = nil
             state.authView = nil
         case .dismissAlert:
             state.showAlert = nil
@@ -57,15 +54,13 @@ func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnvi
         case .clearView:
             state.authView = nil
         case let .login(email: email, password: password):
-            // returns an AppAction, which will get called
             return enviorment.auth.login(email: email, password: password)
         case let .loginResult(result: result):
             switch result {
                 case let .success(answer):
-                    print(answer.jwt)
                     state.isLoggedin = true
-                    state.jwt = answer.jwt
                     enviorment.setJWT(token: answer.jwt)
+                    print(answer.jwt)
                 case let .failure(error):
                     state.showAlert = error
         }
@@ -75,8 +70,7 @@ func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnvi
             switch result {
                 case let .success(code):
                     if code == 200 {
-                        print("Registriert!")
-                        return AnyPublisher(Just<AppAction>(.auth(action: .setView(view: .login))))
+                        return Just<AppAction>(.auth(action: .setView(view: .login))).eraseToAnyPublisher()
                 }
                 case let .failure(error):
                     state.showAlert = error
