@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */; };
+		EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */; };
+		EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EF0FCF0A243DE35900584F92 /* Introspect */; };
 		EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF155884240E95680020B487 /* ActivityIndicator.swift */; };
 		EF15588B240F01480020B487 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15588A240F01480020B487 /* LazyView.swift */; };
 		EF1945EB240804A700D76CE7 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EA240804A700D76CE7 /* Template.swift */; };
@@ -96,6 +98,7 @@
 
 /* Begin PBXFileReference section */
 		EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAnalyzer.swift; sourceTree = "<group>"; };
+		EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		EF1945EA240804A700D76CE7 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF3CDB71243CB6A000E516A7 /* KingfisherSwiftUI in Frameworks */,
+				EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +447,7 @@
 				EFF85A412432497500A80FBD /* Button.swift */,
 				EFB4A9C0243DCA680056F75B /* RemoteImage.swift */,
 				EFB4A9C2243DD2690056F75B /* SectionBackground.swift */,
+				EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 			name = DocumentenScanner;
 			packageProductDependencies = (
 				EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */,
+				EF0FCF0A243DE35900584F92 /* Introspect */,
 			);
 			productName = DocumentenScanner;
 			productReference = EFE31F482403E3EE008015F3 /* DocumentenScanner.app */;
@@ -520,6 +526,7 @@
 			mainGroup = EFE31F3F2403E3ED008015F3;
 			packageReferences = (
 				EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				EF0FCF09243DE35900584F92 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = EFE31F492403E3EE008015F3 /* Products */;
 			projectDirPath = "";
@@ -574,6 +581,7 @@
 				EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */,
 				EF4223C4240685CE00FF510E /* ImageRegion.swift in Sources */,
 				EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */,
+				EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */,
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */,
@@ -833,6 +841,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EF0FCF09243DE35900584F92 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
 		EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -844,6 +860,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EF0FCF0A243DE35900584F92 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF0FCF09243DE35900584F92 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		EF3CDB70243CB6A000E516A7 /* KingfisherSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EF3CDB6F243CB6A000E516A7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
