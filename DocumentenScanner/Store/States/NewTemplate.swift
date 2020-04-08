@@ -90,7 +90,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.linkState = LinkState()
 
         case let .setImageAndPageNumber(number: number):
-            state.image = state.newTemplate!.pages[number].image
+            state.image = state.newTemplate!.pages[number]._image
             state.currentPage = number
 
         case let .removeAttribute(id: id):

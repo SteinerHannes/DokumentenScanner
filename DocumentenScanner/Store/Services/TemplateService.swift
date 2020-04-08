@@ -48,32 +48,78 @@ final class TemplateService {
         }
     }
 
+    func getTemplateList() -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return Just(.service(action: .getTemplateListResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
+        }
+        // configure an uplaod request
+        guard let url = URL(string: baseUrl + "/template" ) else {
+            return Just(.service(action: .getTemplateListResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        return session.dataTaskPublisher(for: request)
+            .map { (data: Data, response: URLResponse) -> Result<[Template], TemplateServiceError> in
+                // cast is needed for statuscode
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return .failure(.serverError)
+                }
+                // check if answer is OK
+                if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
+                    return .failure(.responseCode(code: httpResponse.statusCode))
+                }
+                // decode data and return it
+                if let mimeType = response.mimeType,
+                    mimeType == "application/json" {
+                    do {
+                        self.decoder.keyDecodingStrategy = .useDefaultKeys
+                        self.decoder.dataDecodingStrategy = .base64
+                        let answer: [Template] = try self.decoder.decode([Template].self, from: data)
+                        print("answer: ", answer)
+                        return .success(answer)
+                    } catch let decodeError {
+                        print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
+                        return .failure(.decoder(error: decodeError))
+                    }
+                }
+                return .failure(.response(text: String(data: data, encoding: .utf8) ?? "Fehler" ))
+        }
+        .map { result -> AppAction in
+            // if there is a result in the stream
+            return .service(action: .getTemplateListResult(result: result))
+        }
+        .replaceError(with:
+            .service(action: .getTemplateListResult(result: .failure(.serverError)))
+        )
+        .eraseToAnyPublisher()
+
+    }
+
     func createTemplate(name: String, description: String) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
-            )
+            return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
         }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
-            )
+            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
         }
 
         // prepare data for uplaod
         let template = TemplateEditDTO(name: name, description: description)
         // encode data
         guard let uploadData = try? self.encoder.encode(template) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))
-            )
+            return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "template" ) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.badUrl))))
-            )
+        guard let url = URL(string: baseUrl + "/template" ) else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -117,29 +163,25 @@ final class TemplateService {
 
     func createPage(id: Int, number: Int, imagePath: String) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
-            )
+            return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
         }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createPageResult(result: .failure(.noJWT))))
-            )
+            return Just(.service(action: .createPageResult(result: .failure(.noJWT))))
+            .eraseToAnyPublisher()
         }
         // prepare data for uplaod
         let page = PageCreateDTO(templateID: id, number: number, imagePath: imagePath)
         // encode data
         guard let uploadData = try? self.encoder.encode(page) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createPageResult(result: .failure(.badEncoding))))
-            )
+            return Just(.service(action: .createPageResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "page" ) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createPageResult(result: .failure(.badUrl))))
-            )
+        guard let url = URL(string: baseUrl + "/page" ) else {
+            return Just(.service(action: .createPageResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -184,30 +226,26 @@ final class TemplateService {
     func createAttribute(name: String, x: Int, y: Int, width: Int,
                          height: Int, dataType: String, pageId: Int) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
-            )
+            return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
         }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createPageResult(result: .failure(.noJWT))))
-            )
+            return Just(.service(action: .createPageResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
         }
         // prepare data for uplaod
         let attribute = AttributeCreateDTO(name: name, x: x, y: y, width: width,
                                            height: height, dataType: dataType, pageId: pageId)
         // encode data
         guard let uploadData = try? self.encoder.encode(attribute) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createAttributeResult(result: .failure(.badEncoding))))
-            )
+            return Just(.service(action: .createAttributeResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "attribute" ) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .createAttributeResult(result: .failure(.badUrl))))
-            )
+        guard let url = URL(string: baseUrl + "/attribute" ) else {
+            return Just(.service(action: .createAttributeResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -251,26 +289,22 @@ final class TemplateService {
 
     func uploadImage(image: UIImage) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .uploadImageResult(result: .failure(.serverError))))
-            )
+            return Just(.service(action: .uploadImageResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
         }
         // chek if jwt exists
         if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
-            )
+            return Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
         }
         guard let data = image.pngData() else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .uploadImageResult(result: .failure(.badEncoding))))
-            )
+            return Just(.service(action: .uploadImageResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "Image/upload" ) else {
-            return AnyPublisher<AppAction, Never>(
-                Just(.service(action: .uploadImageResult(result: .failure(.badUrl))))
-            )
+        guard let url = URL(string: baseUrl + "/Image/upload" ) else {
+            return Just(.service(action: .uploadImageResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
         }
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: url)

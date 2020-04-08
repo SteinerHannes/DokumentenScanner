@@ -15,18 +15,18 @@ struct APITestView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Button(action: {
-                self.uplaodTemplate()
+                let template = AppStoreMock.realTemplate()
+                self.store.send(.newTemplate(action: .setTemplate(template: template)))
+                self.store.send(.service(action: .createTemplate))
             }) {
                 Text("Upload Template")
             }
+            Button(action: {
+                self.store.send(.service(action: .getTemplateList))
+            }) {
+                Text("Get Templates")
+            }
         }
-    }
-
-    func uplaodTemplate() {
-        let template = AppStoreMock.realTemplate()
-        self.store.send(.newTemplate(action: .setTemplate(template: template)))
-        self.store.send(.service(action: .createTemplate))
-
     }
 }
 
