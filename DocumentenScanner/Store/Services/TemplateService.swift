@@ -78,7 +78,6 @@ final class TemplateService {
                         self.decoder.keyDecodingStrategy = .useDefaultKeys
                         self.decoder.dataDecodingStrategy = .base64
                         let answer: [Template] = try self.decoder.decode([Template].self, from: data)
-                        print("answer: ", answer)
                         return .success(answer)
                     } catch let decodeError {
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")

@@ -27,11 +27,7 @@ struct DocumentLink: View {
                 LinkView(links: self.$links, link: link, idList: self.idList)
             }
         }
-        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color.tertiarySystemFill)
-        .cornerRadius(8)
-        .padding()
+        .sectionBackground()
     }
 }
 

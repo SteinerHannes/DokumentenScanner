@@ -43,7 +43,7 @@ struct TemplateDetailView: View {
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 16) {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
                     DocumentResult(template: template)
