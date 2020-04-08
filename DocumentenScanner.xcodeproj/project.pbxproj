@@ -46,6 +46,8 @@
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
 		EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */; };
+		EFB4A9C1243DCA680056F75B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4A9C0243DCA680056F75B /* RemoteImage.swift */; };
+		EFB4A9C3243DD2690056F75B /* SectionBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4A9C2243DD2690056F75B /* SectionBackground.swift */; };
 		EFB870722434D533007E604C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870712434D533007E604C /* Auth.swift */; };
 		EFB870752434D996007E604C /* AuthServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870742434D996007E604C /* AuthServiceError.swift */; };
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
@@ -132,6 +134,8 @@
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSelectView.swift; sourceTree = "<group>"; };
 		EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRegionRecognizer.swift; sourceTree = "<group>"; };
+		EFB4A9C0243DCA680056F75B /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
+		EFB4A9C2243DD2690056F75B /* SectionBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBackground.swift; sourceTree = "<group>"; };
 		EFB870712434D533007E604C /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		EFB870742434D996007E604C /* AuthServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceError.swift; sourceTree = "<group>"; };
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -437,6 +441,8 @@
 			isa = PBXGroup;
 			children = (
 				EFF85A412432497500A80FBD /* Button.swift */,
+				EFB4A9C0243DCA680056F75B /* RemoteImage.swift */,
+				EFB4A9C2243DD2690056F75B /* SectionBackground.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -572,8 +578,10 @@
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */,
 				EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */,
+				EFB4A9C3243DD2690056F75B /* SectionBackground.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
+				EFB4A9C1243DCA680056F75B /* RemoteImage.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
 				EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */,
 				EFB870772434E5DF007E604C /* RegisterView.swift in Sources */,

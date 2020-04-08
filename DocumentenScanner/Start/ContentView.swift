@@ -19,11 +19,14 @@ struct ContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if self.store.states.authState.isLoggedin {
+            if self.store.states.authState.isLoggedin || true {
                 if self.store.states.routes.isPageSelectViewPresented {
                     PageSelectView()
                 } else {
-                    TemplatesView()
+                    TemplatesView().onAppear {
+                        self.store.send(.auth(action:
+                            .login(email: "hannes.steiner@web.de", password: "hsmw2020!")))
+                    }
                 }
             } else {
                 WelcomeView()

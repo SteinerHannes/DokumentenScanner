@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import class Kingfisher.KingfisherManager
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplatesView: View {
@@ -22,21 +21,27 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 20) {
-                    APITestView()
-                }.frame(height: 100)
-                VStack(alignment: .leading, spacing: 0) {
+//                VStack(alignment: .leading, spacing: 20) {
+//                    APITestView()
+//                }.frame(height: 100)
+                HStack(alignment: .center, spacing: 8) {
+                    Spacer()
+                    Button(action: {
+                        self.store.send(.service(action: .getTemplateList))
+                    }) {
+                        Image(systemName: "arrow.2.circlepath.circle.fill")
+                            .font(.system(size: 30, weight: .light, design: .default))
+                    }
+                    .padding(.horizontal)
+                }.frame(width: UIScreen.main.bounds.width, height: 30)
+                VStack(alignment: .leading, spacing: 16) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
                             Spacer()
                             Text("Keine Vorlagen vorhanden.")
                             Spacer()
                         }
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(Color.tertiarySystemFill)
-                        .cornerRadius(8)
-                        .padding()
+                        .sectionBackground()
                     } else {
                         ForEach(self.store.states.teamplates, id: \.id) { template in
                             NavigationLink(
@@ -53,11 +58,7 @@ struct TemplatesView: View {
                                         TemplateCard(template: template)
                                     }
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(Color.tertiarySystemFill)
-                            .cornerRadius(12)
-                            .padding()
+                            .sectionBackground()
                         }
                     }
                 }
@@ -99,7 +100,7 @@ private struct TemplateCard: View {
                 HStack(alignment: .top, spacing: 10) {
 // Image(uiImage: template.pages.first?._image ?? UIImage(imageLiteralResourceName: "test"))
                     Image(systemName: "photo")
-                        .fetchingRemoteImage(from: template.pages[0].url)
+                        .fetchingRemoteImage(from: template.pages.isEmpty ? "" : template.pages[0].url)
                         .frame(width: 88, height: 120)
                     VStack(alignment: .leading, spacing: 5) {
                         Text("\(template.pages.count) \(template.pages.count == 1 ? "Seite" : "Seiten" )")
@@ -120,38 +121,6 @@ private struct TemplateCard: View {
                 .font(.system(size: 13, weight: .semibold, design: .default))
                 .foregroundColor(.systemFill)
                 .layoutPriority(1)
-        }
-    }
-}
-
-extension Image {
-    func fetchingRemoteImage(from url: String) -> some View {
-        ModifiedContent(content: self, modifier: RemoteImageModifier(url: url))
-    }
-}
-
-struct RemoteImageModifier: ViewModifier {
-
-    let url: String
-    @State private var fetchedImage: UIImage?
-
-    func body(content: Content) -> some View {
-        if let image = fetchedImage {
-            return Image(uiImage: image)
-                .renderingMode(.original)
-                .resizable()
-                .scaledToFit()
-                .eraseToAnyView()
-        }
-
-        return content
-            .onAppear(perform: fetch)
-            .eraseToAnyView()
-    }
-
-    private func fetch() {
-        KingfisherManager.shared.retrieveImage(with: URL(string: baseAuthority + url)!) { result in
-            self.fetchedImage = try? result.get().image
         }
     }
 }

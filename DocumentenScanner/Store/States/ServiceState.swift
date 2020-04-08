@@ -54,7 +54,6 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             case let .getTemplateListResult(result: result):
                 switch result {
                     case let .success(list):
-                        print("asdasd")
                         states.teamplates = list
                     case let .failure(error):
                         print("get TemplateList:", error)
