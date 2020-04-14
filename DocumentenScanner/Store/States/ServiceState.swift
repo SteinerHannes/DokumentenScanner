@@ -49,7 +49,11 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             case let .getTemplateListResult(result: result):
                 switch result {
                     case let .success(list):
-                        states.teamplates = list
+                        for template in list where !states.teamplates.contains(where: { (item) -> Bool in
+                            item.id == template.id
+                        }) {
+                            states.teamplates.append(template)
+                        }
                     case let .failure(error):
                         print("get TemplateList:", error)
             }
@@ -60,7 +64,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             case .createTemplate:
                 let name = states.newTemplateState.newTemplate!.name
                 let description = states.newTemplateState.newTemplate!.info
-                return enviorment.template.createTemplate(name: name, description: description)
+                let links = states.newTemplateState.newTemplate!.links
+                return enviorment.template.createTemplate(name: name, description: description, links: links)
 
             case let .createTeamplateResult(result: result):
                 switch result {

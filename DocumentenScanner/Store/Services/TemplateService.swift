@@ -97,7 +97,7 @@ final class TemplateService {
 
     }
 
-    func createTemplate(name: String, description: String) -> AnyPublisher<AppAction, Never> {
+    func createTemplate(name: String, description: String, links: [Link]) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
             return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
                 .eraseToAnyPublisher()
@@ -107,9 +107,20 @@ final class TemplateService {
             return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
-
+        let linkArray: [LinkDTO] = links.map { (link) -> LinkDTO in
+            return LinkDTO(id: link.id, linktype: link.linktype.rawValue, regionIDs: link.regionIDs)
+        }
+        guard let linkJson = try? self.encoder.encode(LinksDTO(links: linkArray)) else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
+        }
+        guard let extra = String(data: linkJson, encoding: .utf8) else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
+        }
         // prepare data for uplaod
-        let template = TemplateEditDTO(name: name, description: description)
+        let template = TemplateEditDTO(name: name, description: description, extra:  extra)
+        print(template)
         // encode data
         guard let uploadData = try? self.encoder.encode(template) else {
             return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))

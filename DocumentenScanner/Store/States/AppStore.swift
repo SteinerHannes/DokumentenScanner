@@ -18,7 +18,6 @@ final class AppEnviorment {
     let decoder = JSONDecoder()
     /// Global encoder
     let encoder = JSONEncoder()
-//    let files = FileManager.default
 
     /// The api service for managing templates, pages and attributes
     lazy var template = TemplateService(session: session, encoder: encoder, decoder: decoder)
@@ -32,6 +31,11 @@ final class AppEnviorment {
         sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         self.session = URLSession(configuration: sessionConfig,
                                   delegate: self as? URLSessionDelegate, delegateQueue: nil)
+        print(self.session.configuration.httpAdditionalHeaders!["Authorization"])
+    }
+
+    func deleteJWT() {
+        self.session.configuration.httpAdditionalHeaders = [:]
     }
 }
 
