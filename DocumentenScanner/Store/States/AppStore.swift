@@ -26,16 +26,13 @@ final class AppEnviorment {
 
     /// Set a auth token into the global session
     func setJWT(token: String) {
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(token)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-        self.session = URLSession(configuration: sessionConfig,
-                                  delegate: self as? URLSessionDelegate, delegateQueue: nil)
-        print(self.session.configuration.httpAdditionalHeaders!["Authorization"])
+        let defaults = UserDefaults.standard
+        defaults.set(token, forKey: "JWT")
     }
 
     func deleteJWT() {
-        self.session.configuration.httpAdditionalHeaders = [:]
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "JWT")
     }
 }
 

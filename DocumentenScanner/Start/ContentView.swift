@@ -18,16 +18,14 @@ struct ContentView: View {
     }
 
     var body: some View {
-        if self.store.states.authState.isLoggedin {
-            self.store.send(.service(action: .getTemplateList))
-        }
-        return VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             if self.store.states.authState.isLoggedin {
                 if self.store.states.routes.isPageSelectViewPresented {
                     PageSelectView()
                 } else {
-                    TemplatesView()
-                        .equatable()
+                    TemplatesView().onAppear {
+                        self.store.send(.service(action: .getTemplateList))
+                    }
                 }
             } else {
                 WelcomeView()

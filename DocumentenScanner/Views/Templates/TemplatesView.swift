@@ -14,10 +14,6 @@ struct TemplatesView: View {
 
     @State var selection: String?
     @State private var isShowing = false
-    
-    private var templateCount: Int {
-        self.store.states.teamplates.count
-    }
 
     init() {
         print("init TemplatesView")
@@ -84,12 +80,6 @@ struct TemplatesView: View {
             }) {
                 Text("Ausloggen")
             }
-    }
-}
-
-extension TemplatesView: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.templateCount == rhs.templateCount
     }
 }
 

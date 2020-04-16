@@ -103,7 +103,7 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // chek if jwt exists
-        if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
             return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
@@ -133,6 +133,8 @@ final class TemplateService {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = uploadData
 
@@ -177,9 +179,9 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // chek if jwt exists
-        if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return Just(.service(action: .createPageResult(result: .failure(.noJWT))))
-            .eraseToAnyPublisher()
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
         }
         // prepare data for uplaod
         let page = PageCreateDTO(templateID: id, number: number, imagePath: imagePath)
@@ -195,6 +197,8 @@ final class TemplateService {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = uploadData
 
@@ -240,8 +244,8 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // chek if jwt exists
-        if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return Just(.service(action: .createPageResult(result: .failure(.noJWT))))
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
         // prepare data for uplaod
@@ -259,6 +263,8 @@ final class TemplateService {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = uploadData
 
@@ -303,8 +309,8 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // chek if jwt exists
-        if session.configuration.httpAdditionalHeaders?["Authorization"] == nil {
-            return Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
+            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
         guard let data = image.pngData() else {
@@ -319,6 +325,8 @@ final class TemplateService {
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let httpBody = NSMutableData()
         httpBody.append(convertFileData(fieldName: "image",
