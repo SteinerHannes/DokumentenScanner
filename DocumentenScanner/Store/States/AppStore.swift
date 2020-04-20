@@ -120,9 +120,6 @@ func appReducer(
 
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
-//            for page in template.pages {
-//                UIImageWriteToSavedPhotosAlbum(page.image, nil, nil, nil)
-//            }
 
         case let .setCurrentTemplate(id: id):
             states.currentTemplate = states.teamplates.first(where: { template -> Bool in

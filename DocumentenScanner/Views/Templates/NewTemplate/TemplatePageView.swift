@@ -76,13 +76,20 @@ struct TemplatePageView: View {
                             Group {
                                 Image(systemName: "square.and.pencil")
                                     .font(.system(size: 20))
-                                Text("Neues Attribut hinzufügen")
+                                Text("Neue Region hinzufügen")
                             }.foregroundColor(.blue)
                         }.isDetailLink(false)
                     }
                     Section {
                         ForEach(template.pages[self.index].regions, id: \.id) { region in
-                            Text(region.name)
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(region.name)
+                                    .foregroundColor(.label)
+
+                                Text(region.datatype.getName())
+                                    .foregroundColor(.secondaryLabel)
+                                    .font(.system(.callout))
+                            }
                                 .contextMenu {
                                     Button(action: {
                                         self.deleteAttribute(for: region.id)
@@ -92,7 +99,7 @@ struct TemplatePageView: View {
                                         Image(systemName: "trash").font(.system(size: 15))
                                             .foregroundColor(.red)
                                     }
-                            }
+                                }
                         }
                     }
                 }
@@ -101,7 +108,7 @@ struct TemplatePageView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
         }
-        .navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
+        .navigationBarTitle("Region hinzufügen", displayMode: .inline)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .onAppear {
             // set the image to the current page of the template and

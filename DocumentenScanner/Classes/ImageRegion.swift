@@ -58,8 +58,10 @@ extension ImageRegion: Decodable {
                 datatype = .none
             case "Grade":
                 datatype = .mark
-            case "FirstName", "LastName":
-                datatype = .name
+            case "FirstName":
+                datatype = .firstname
+            case "LastName":
+                datatype = .lastname
             case "StudentId":
                 datatype = .studentNumber
             case "SeminarGroup":

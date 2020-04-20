@@ -80,13 +80,13 @@ struct LinkRow: View {
         if link.linktype == .compare {
             return VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .center, spacing: 5) {
-                    Text("1. Vergleicher:")
+                    Text("1. Region:")
                     Spacer()
                     Text(getRegionInfo(for: link.regionIDs[0]))
                         .foregroundColor(.secondaryLabel)
                 }
                 HStack(alignment: .center, spacing: 5) {
-                    Text("2. Vergleicher:")
+                    Text("2. Region:")
                     Spacer()
                     Text(getRegionInfo(for: link.regionIDs[1]))
                         .foregroundColor(.secondaryLabel)
