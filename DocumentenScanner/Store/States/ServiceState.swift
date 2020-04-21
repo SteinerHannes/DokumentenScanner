@@ -77,7 +77,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                         states.serviceState.attributeNumber = 0
                         return
                             Just(.service(action:
-                                .uploadImage(image: states.newTemplateState.newTemplate!.pages[0]._image)))
+                                .uploadImage(image: states.newTemplateState.newTemplate!.pages[0]._image!)))
                             .eraseToAnyPublisher()
                     case let .failure(error):
                         print("fehler", error)
@@ -112,7 +112,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                                 states.serviceState.pageNumber! += 1
                                 return Just<AppAction>(
                                     .service(action:
-                                        .uploadImage(image: template.pages[pageNum+1]._image))
+                                        .uploadImage(image: template.pages[pageNum+1]._image!))
                                 )
                                     .eraseToAnyPublisher()
                             }
@@ -151,7 +151,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             states.serviceState.pageNumber! += 1
                             return Just<AppAction>(
                                 .service(action:
-                                    .uploadImage(image: template.pages[pageNum+1]._image))
+                                    .uploadImage(image: template.pages[pageNum+1]._image!))
                             )
                                 .eraseToAnyPublisher()
                         }

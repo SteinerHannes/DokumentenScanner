@@ -20,21 +20,22 @@ struct TemplatePageView: View {
     @State var showRoot: Bool = false
 
     private var scale: CGFloat {
+        let imageHeight =
+            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image?.size.height ?? 0
+        let imageWidth =
+            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image?.size.width ?? 0
         // if the images height is greater then the image width * 16/9 screen size
-        if self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.height >
-            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.width * (16/9) {
+        if imageHeight > imageWidth * (16/9) {
             var tempHeight: CGFloat = 0.0
             tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
             // shrink the image to fit inside the safe area with some padding
             // 10 := beacuse of the bottom sheet indicator
             // 80 := bottom and top padding
             // (screen height - some padding) / image height
-            return (UIScreen.main.bounds.height - ((2 * tempHeight) + 10 + 80)) /
-                self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.height
+            return (UIScreen.main.bounds.height - ((2 * tempHeight) + 10 + 80)) / imageHeight
         }
         // screen width / image width
-        return UIScreen.main.bounds.width /
-            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.width
+        return UIScreen.main.bounds.width / imageWidth
     }
 
     init(index: Int) {
@@ -48,7 +49,7 @@ struct TemplatePageView: View {
         return ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Image(uiImage: template.pages[self.index]._image)
+                    Image(uiImage: template.pages[self.index]._image!)
                         .frame(alignment: .topLeading)
                         .shadow(color: .shadow, radius: 20, x: 0, y: 0)
                     ForEach(template.pages[self.index].regions) { region in

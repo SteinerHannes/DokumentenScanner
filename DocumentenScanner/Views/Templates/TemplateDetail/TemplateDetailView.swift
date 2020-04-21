@@ -8,6 +8,16 @@
 
 import SwiftUI
 import Vision
+import class Kingfisher.KingfisherManager
+
+private enum ViewAlert: Int, Identifiable {
+    case pages = 0
+    case pictures = 1
+    
+    var id: Int {
+        return self.rawValue
+    }
+}
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplateDetailView: View {
@@ -22,11 +32,13 @@ struct TemplateDetailView: View {
     /// It shows wether the ScannerView is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
-    @State private var showAlert: Bool = false
+    @State private var alert: ViewAlert?
     /// Is set when the taken pages != the pages of the template
     @State private var takenPages: Int?
 
     @State var links: [String: (Int, Int)] = [:]
+
+    @State private var time: Double = 0.5
 
     init(template: Template) {
         print("init TemplateDetailView")
@@ -53,12 +65,16 @@ struct TemplateDetailView: View {
             .resignKeyboardOnDragGesture()
             .navigationBarTitle("\(self.template.name)",
                 displayMode: .large)
-                .navigationBarItems(trailing: self.newPictureButton())
-                .alert(isPresented: self.$showAlert) {
+            .navigationBarItems(trailing: self.newPictureButton())
+            .alert(item: $alert) { alert -> Alert in
+                if alert == .pages {
                     //swiftlint:disable line_length
-                    Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.template.pages.count)) überein.")
+                    return Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.template.pages.count)) überein.")
                     )
                     //swiftlint:enable line_length
+                } else {
+                    return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
+                }
             }
             if self.showCamera {
                 ScannerView(isActive: self.$showCamera, completion: { pages in
@@ -66,11 +82,39 @@ struct TemplateDetailView: View {
                 }).edgesIgnoringSafeArea(.all)
                     .navigationBarHidden(true)
             }
+        }.onAppear {
+            DispatchQueue.main.async {
+                self.loadCachedImages()
+            }
+        }
+    }
+
+    fileprivate func loadCachedImages() {
+        var again: Bool = false
+        for (index, page) in self.template.pages.indexed() where page._image == nil {
+            print("loadCachedImages")
+            let key = baseAuthority + page.url
+            guard let image =
+                KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: key) else {
+                    again = true
+                    continue
+            }
+            self.store.send(.setImage(page: index, image: image))
+        }
+        if again == true {
+            DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                self.time += 1
+                self.loadCachedImages()
+            }
         }
     }
 
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
+            for page in self.store.states.currentTemplate!.pages where page._image == nil{
+                self.alert = .pictures
+                return
+            }
             self.showCamera = true
         }) {
             Image(systemName: "doc.text.viewfinder")
@@ -105,7 +149,7 @@ struct TemplateDetailView: View {
             }
         } else {
             self.takenPages = pages!.count
-            self.showAlert = true
+            self.alert = .pages
         }
     }
 
@@ -124,10 +168,10 @@ struct TemplateDetailView: View {
             let templateImage = self.store.states.currentTemplate!.pages[page.id]._image
             let image = page._image
 
-            let proportionalRect = newProportionalRect(templateImage: templateImage,
-                                                       newImage: image, templateRect: templateRect)
+            let proportionalRect = newProportionalRect(templateImage: templateImage!,
+                                                       newImage: image!, templateRect: templateRect)
 
-            guard let newImage: CGImage = image.cgImage?.cropping(to: proportionalRect)
+            guard let newImage: CGImage = image!.cgImage?.cropping(to: proportionalRect)
                 else {
                     continue
             }
