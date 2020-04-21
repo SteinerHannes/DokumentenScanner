@@ -13,10 +13,15 @@ import class Kingfisher.KingfisherManager
 private enum ViewAlert: Int, Identifiable {
     case pages = 0
     case pictures = 1
-    
+
     var id: Int {
         return self.rawValue
     }
+}
+
+private enum OCREngine {
+    case onDevice
+    case tesseract
 }
 
 //swiftlint:disable multiple_closures_with_trailing_closure
@@ -39,6 +44,8 @@ struct TemplateDetailView: View {
     @State var links: [String: (Int, Int)] = [:]
 
     @State private var time: Double = 0.5
+
+    @State private var engine: OCREngine?
 
     init(template: Template) {
         print("init TemplateDetailView")
@@ -69,20 +76,42 @@ struct TemplateDetailView: View {
             .alert(item: $alert) { alert -> Alert in
                 if alert == .pages {
                     //swiftlint:disable line_length
-                    return Alert(title: Text("Fehler!"), message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.template.pages.count)) überein.")
+                    return Alert(title: Text("Fehler!"),
+                                 message: Text("Die Anzahl der aufgenommen Seiten (\(self.takenPages!)) stimmt nicht mit der Anzahl der Template Seiten (\(self.template.pages.count)) überein.")
                     )
                     //swiftlint:enable line_length
                 } else {
                     return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
                 }
             }
-            if self.showCamera {
+            if self.engine != nil {
                 ScannerView(isActive: self.$showCamera, completion: { pages in
-                    self.onCompletion(pages: pages)
+                    switch self.engine {
+                        case .onDevice:
+                            self.onCompletion(pages: pages)
+                        case .tesseract:
+                            break
+                        case nil:
+                            break
+                    }
                 }).edgesIgnoringSafeArea(.all)
                     .navigationBarHidden(true)
             }
-        }.onAppear {
+        }
+        .actionSheet(isPresented: self.$showCamera, content: { () -> ActionSheet in
+            ActionSheet(title: Text("Texterkennung Engine"),
+                        message: Text("Wähle eine Texterkennung Engine aus."),
+                        buttons: [
+                .default(Text("Vision (Lokal)"), action: {
+                    self.engine = .onDevice
+                }),
+                .default(Text("Tessaract (Server)"), action: {
+                    self.engine = .tesseract
+                }),
+                .cancel()
+            ])
+        })
+        .onAppear {
             DispatchQueue.main.async {
                 self.loadCachedImages()
             }
@@ -111,7 +140,7 @@ struct TemplateDetailView: View {
 
     fileprivate func newPictureButton() -> some View {
         return Button(action: {
-            for page in self.store.states.currentTemplate!.pages where page._image == nil{
+            for page in self.store.states.currentTemplate!.pages where page._image == nil {
                 self.alert = .pictures
                 return
             }
