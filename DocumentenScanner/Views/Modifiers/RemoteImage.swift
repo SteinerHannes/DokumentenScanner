@@ -27,11 +27,11 @@ struct RemoteImageModifier: ViewModifier {
                 .resizable()
                 .scaledToFit()
                 .eraseToAnyView()
+        } else {
+            return content
+                .onAppear(perform: fetch)
+                .eraseToAnyView()
         }
-
-        return content
-            .onAppear(perform: fetch)
-            .eraseToAnyView()
     }
 
     private func fetch() {

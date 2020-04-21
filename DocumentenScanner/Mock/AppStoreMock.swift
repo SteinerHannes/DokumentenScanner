@@ -77,7 +77,7 @@ class AppStoreMock {
                                                        height: 305.03466666666645),
                                      width: 603.4773333333337,
                                      height: 112.41242187499938,
-                                     datatype: ResultDatatype.name)
+                                     datatype: ResultDatatype.firstname)
         let region_1_2 = ImageRegion(id: "97540B70-56DE-4B18-B301-10AE6A32A6C7",
                                      name: "Matrikelnummer",
                                      rectState: CGSize(width: 1000.5924969793698,

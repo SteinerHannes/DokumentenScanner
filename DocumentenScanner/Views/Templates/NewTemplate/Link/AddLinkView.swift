@@ -34,7 +34,6 @@ struct AddLinkView: View {
                     }
                     if self.linktype == LinkType.compare.rawValue {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("Vergleichen: ")
                             //swiftlint:disable line_length
                             Text("Wählen Sie zwei zu vergleichende Regionen aus. Diese werden beim Scannen auf Gleichheit überprüft. Sind beide Inhalte identisch kommt keine Fehlermeldung, ansonsten schon.").font(.footnote)
                             //swiftlint:enable line_length
@@ -48,7 +47,7 @@ struct AddLinkView: View {
                         NavigationLink(destination: RegionsListView(selectionNumber: 1)
                                                         .environmentObject(self.store)) {
                             HStack {
-                                Text("1. Vergleicher")
+                                Text("1. Region")
                                     .foregroundColor(.label)
                                 Spacer()
                                 Text(getImageRegionName(selectionNumber: 1))
@@ -60,7 +59,7 @@ struct AddLinkView: View {
                         NavigationLink(destination: RegionsListView(selectionNumber: 2)
                                                         .environmentObject(self.store)) {
                             HStack {
-                                Text("2. Vergleicher")
+                                Text("2. Region")
                                     .foregroundColor(.label)
                                 Spacer()
                                 Text(getImageRegionName(selectionNumber: 2))
@@ -83,12 +82,12 @@ struct AddLinkView: View {
             .alert(item: self.$showAlert) { alert in
                 switch alert.id {
                     case .noFirstSelections:
-                        return Alert(title: Text("1. Vergleicher leer."),
-                              message: Text("Füge einen 1. Verlgiecher hinzu!"),
+                        return Alert(title: Text("1. Region leer."),
+                              message: Text("Füge einen 1. Region hinzu!"),
                               dismissButton: .cancel())
                     case .noSecondSelections:
-                        return Alert(title: Text("2. Vergleicher leer."),
-                                     message: Text("Füge einen 2. Verlgiecher hinzu!"),
+                        return Alert(title: Text("2. Region leer."),
+                                     message: Text("Füge einen 2. Region hinzu!"),
                                      dismissButton: .cancel())
                 }
             }

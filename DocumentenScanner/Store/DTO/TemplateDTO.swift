@@ -16,9 +16,11 @@ public struct TemplateDTO: Codable {
     public let updated: String // Date
     public let owner: UserInfoDTO?
     public let pages: [PageDTO]
+    public let extra: LinksDTO
 }
 
 public struct TemplateEditDTO: Codable {
     public let name: String
     public let description: String
+    public let extra: String
 }

@@ -44,7 +44,7 @@ func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnvi
     -> AnyPublisher<AppAction, Never>? {
     switch action {
         case .logout:
-            // MARK: TODO reset session
+            enviorment.deleteJWT()
             state.isLoggedin = false
             state.authView = nil
         case .dismissAlert:

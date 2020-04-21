@@ -18,7 +18,6 @@ final class AppEnviorment {
     let decoder = JSONDecoder()
     /// Global encoder
     let encoder = JSONEncoder()
-//    let files = FileManager.default
 
     /// The api service for managing templates, pages and attributes
     lazy var template = TemplateService(session: session, encoder: encoder, decoder: decoder)
@@ -27,11 +26,13 @@ final class AppEnviorment {
 
     /// Set a auth token into the global session
     func setJWT(token: String) {
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(token)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-        self.session = URLSession(configuration: sessionConfig,
-                                  delegate: self as? URLSessionDelegate, delegateQueue: nil)
+        let defaults = UserDefaults.standard
+        defaults.set(token, forKey: "JWT")
+    }
+
+    func deleteJWT() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "JWT")
     }
 }
 
@@ -63,6 +64,8 @@ enum AppAction {
     case clearResult
     /// Change the result at page and region, with textfield
     case changeResult(page: Int, region: Int, text: String)
+    /// Sets the cached image, for the image in the page
+    case setImage(page: Int, image: UIImage?)
 }
 
 /// The new app state
@@ -119,9 +122,6 @@ func appReducer(
 
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
-//            for page in template.pages {
-//                UIImageWriteToSavedPhotosAlbum(page.image, nil, nil, nil)
-//            }
 
         case let .setCurrentTemplate(id: id):
             states.currentTemplate = states.teamplates.first(where: { template -> Bool in
@@ -145,6 +145,13 @@ func appReducer(
 
         case let .changeResult(page: page, region: region, text: text):
             states.result[page]![region].textResult = text
+
+        case let .setImage(page: page, image: image):
+            states.currentTemplate!.pages[page]._image = image
+            let index = states.teamplates.firstIndex { (template) -> Bool in
+                states.currentTemplate!.id == template.id
+            }!
+            states.teamplates[index].pages[page]._image = image
     }
     return Empty().eraseToAnyPublisher()
 }

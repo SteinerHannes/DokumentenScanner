@@ -20,21 +20,22 @@ struct TemplatePageView: View {
     @State var showRoot: Bool = false
 
     private var scale: CGFloat {
+        let imageHeight =
+            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image?.size.height ?? 0
+        let imageWidth =
+            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image?.size.width ?? 0
         // if the images height is greater then the image width * 16/9 screen size
-        if self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.height >
-            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.width * (16/9) {
+        if imageHeight > imageWidth * (16/9) {
             var tempHeight: CGFloat = 0.0
             tempHeight += UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
             // shrink the image to fit inside the safe area with some padding
             // 10 := beacuse of the bottom sheet indicator
             // 80 := bottom and top padding
             // (screen height - some padding) / image height
-            return (UIScreen.main.bounds.height - ((2 * tempHeight) + 10 + 80)) /
-                self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.height
+            return (UIScreen.main.bounds.height - ((2 * tempHeight) + 10 + 80)) / imageHeight
         }
         // screen width / image width
-        return UIScreen.main.bounds.width /
-            self.store.states.newTemplateState.newTemplate!.pages[self.index]._image.size.width
+        return UIScreen.main.bounds.width / imageWidth
     }
 
     init(index: Int) {
@@ -48,7 +49,7 @@ struct TemplatePageView: View {
         return ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Image(uiImage: template.pages[self.index]._image)
+                    Image(uiImage: template.pages[self.index]._image!)
                         .frame(alignment: .topLeading)
                         .shadow(color: .shadow, radius: 20, x: 0, y: 0)
                     ForEach(template.pages[self.index].regions) { region in
@@ -76,13 +77,20 @@ struct TemplatePageView: View {
                             Group {
                                 Image(systemName: "square.and.pencil")
                                     .font(.system(size: 20))
-                                Text("Neues Attribut hinzufügen")
+                                Text("Neue Region hinzufügen")
                             }.foregroundColor(.blue)
                         }.isDetailLink(false)
                     }
                     Section {
                         ForEach(template.pages[self.index].regions, id: \.id) { region in
-                            Text(region.name)
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(region.name)
+                                    .foregroundColor(.label)
+
+                                Text(region.datatype.getName())
+                                    .foregroundColor(.secondaryLabel)
+                                    .font(.system(.callout))
+                            }
                                 .contextMenu {
                                     Button(action: {
                                         self.deleteAttribute(for: region.id)
@@ -92,7 +100,7 @@ struct TemplatePageView: View {
                                         Image(systemName: "trash").font(.system(size: 15))
                                             .foregroundColor(.red)
                                     }
-                            }
+                                }
                         }
                     }
                 }
@@ -101,7 +109,7 @@ struct TemplatePageView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
         }
-        .navigationBarTitle("Attribute hinzufügen", displayMode: .inline)
+        .navigationBarTitle("Region hinzufügen", displayMode: .inline)
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .onAppear {
             // set the image to the current page of the template and

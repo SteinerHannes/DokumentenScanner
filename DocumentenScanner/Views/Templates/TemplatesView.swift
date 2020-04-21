@@ -22,6 +22,9 @@ struct TemplatesView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: true) {
+//                VStack(alignment: .leading, spacing: 10) {
+//                    APITestView()
+//                }.frame(height: 100)
                 VStack(alignment: .leading, spacing: 16) {
                     if self.store.states.teamplates.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
@@ -34,8 +37,8 @@ struct TemplatesView: View {
                         ForEach(self.store.states.teamplates, id: \.id) { template in
                             NavigationLink(
                                 destination:
-                                    TemplateDetailView(template: template)
-                                        .environmentObject(self.store),
+                                    LazyView(TemplateDetailView(template: template)
+                                        .environmentObject(self.store)),
                                 tag: template.id,
                                 selection: self.$selection) {
                                     Button(action: {
@@ -63,7 +66,7 @@ struct TemplatesView: View {
 
     private func trailingItem() -> some View {
         return
-            NavigationLink(destination: NewTemplateView()) {
+            NavigationLink(destination: LazyView(NewTemplateView())) {
                 Image(systemName: "plus.square.on.square")
                     .font(.body)
                 Text("Neue Vorlage")
@@ -90,7 +93,6 @@ private struct TemplateCard: View {
                     .font(.title)
                     .lineLimit(2)
                 HStack(alignment: .top, spacing: 10) {
-// Image(uiImage: template.pages.first?._image ?? UIImage(imageLiteralResourceName: "test"))
                     Image(systemName: "photo")
                         .fetchingRemoteImage(from: template.pages.isEmpty ? "" : template.pages[0].url)
                         .frame(width: 88, height: 120)

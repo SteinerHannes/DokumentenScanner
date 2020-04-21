@@ -8,6 +8,16 @@
 
 import Foundation
 
+public struct LinksDTO: Codable {
+    public let links: [LinkDTO]
+}
+
+public struct LinkDTO: Codable {
+    public let id: String
+    public let linktype: Int
+    public let regionIDs: [String]
+}
+
 struct Link: Identifiable {
     var id: String = UUID().uuidString
     var linktype: LinkType
@@ -26,4 +36,28 @@ struct Link: Identifiable {
 enum LinkType: Int {
     case compare = 0
     case sum = 1
+}
+
+extension Link: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case linktype
+        case regionIDs
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(String.self, forKey: CodingKeys.id)
+        let linktypeInt = try container.decode(Int.self, forKey: CodingKeys.linktype)
+        switch linktypeInt {
+            case 0:
+                linktype = .compare
+            case 1:
+                linktype = .sum
+            default:
+                linktype = .compare
+        }
+        regionIDs = try container.decode([String].self, forKey: CodingKeys.regionIDs)
+    }
 }

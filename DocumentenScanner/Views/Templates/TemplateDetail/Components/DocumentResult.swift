@@ -67,12 +67,10 @@ struct DocumentResult: View {
     
     fileprivate func getKeyboardType(page: Int, region: Int) -> UIKeyboardType {
         switch self.store.states.result[page]?[region].datatype {
-            case .mark:
+            case .mark, .point:
                 return .decimalPad
-            case .name:
+            case .firstname, .lastname:
                 return .alphabet
-            case .point:
-                return .decimalPad
             default:
                 return .default
         }

@@ -13,7 +13,7 @@ struct Page: Identifiable {
     /// The unique id of the page (page number)
     public let id: Int
     /// The image of the page
-    public var _image: UIImage = UIImage(imageLiteralResourceName: "page1")
+    public var _image: UIImage?
     /// The regions on the image where text recognition takes place
     public var regions: [ImageRegion] = []
 

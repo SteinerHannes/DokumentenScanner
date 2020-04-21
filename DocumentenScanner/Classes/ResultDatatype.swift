@@ -11,10 +11,11 @@ import Foundation
 public enum ResultDatatype: Int {
     case none = 0
     case mark = 1
-    case name = 2
-    case studentNumber = 3
-    case seminarGroup = 4
-    case point = 5
+    case firstname = 2
+    case lastname = 3
+    case studentNumber = 4
+    case seminarGroup = 5
+    case point = 6
 
     func getName() -> String {
         switch self {
@@ -22,8 +23,10 @@ public enum ResultDatatype: Int {
                 return "Unbekannt"
             case .mark:
                 return "Note"
-            case .name:
-                return "Name"
+            case .firstname:
+                return "Vorname"
+            case .lastname:
+                return "Nachname"
             case .studentNumber:
                 return "Matrikelnummer"
             case .seminarGroup:
@@ -39,8 +42,10 @@ public enum ResultDatatype: Int {
                 return "Unknown"
             case .mark:
                 return "Grade"
-            case .name:
+            case .firstname:
                 return "FirstName"
+            case .lastname:
+                return "LastName"
             case .studentNumber:
                 return "StudentId"
             case .seminarGroup:

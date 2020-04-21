@@ -26,7 +26,7 @@ struct PageSelectView: View {
                         //swiftlint:enable line_length
                             NavigationLink(destination: TemplatePageView(index: index)) {
                                 Image(uiImage:
-                                    self.store.states.newTemplateState.newTemplate!.pages[index]._image
+                                    self.store.states.newTemplateState.newTemplate!.pages[index]._image!
                                 )
                                     .renderingMode(.original)
                                     .resizable()

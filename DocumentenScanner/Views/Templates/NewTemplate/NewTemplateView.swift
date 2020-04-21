@@ -67,6 +67,9 @@ struct NewTemplateView: View {
                 ScannerView(isActive: self.$showCamera, completion: { pages in
                     self.store.send(.routing(action: .turnOffCamera))
                     guard pages != nil else { return }
+//                    for page in pages! {
+//                        UIImageWriteToSavedPhotosAlbum(page._image, nil, nil, nil)
+//                    }
                     self.store.send(.newTemplate(action: .addPagesToNewTemplate(pages: pages!)))
                     self.store.send(.routing(action: .showPageSelectView))
                     self.presentation.wrappedValue.dismiss()
