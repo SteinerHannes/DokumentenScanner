@@ -34,18 +34,21 @@ struct DocumentResult: View {
                                 Spacer()
                                 ConfidenceButton(showSymbole: self.$showSymbole, page: pageIdx, region: regionIdx)
                             }
-                            if self.store.states.result.isEmpty {
+                            if self.store.states.ocrState.result.isEmpty {
                                 Text("-")
                                     .foregroundColor(.secondaryLabel)
                             } else {
-                                if !self.store.states.result[pageIdx]!.isEmpty {
+                                if !self.store.states.ocrState.result[pageIdx]!.isEmpty {
                                     TextField("\(region.name)", text: Binding<String>(
                                         get: {
-                                            return self.store.states.result[pageIdx]![regionIdx].textResult
+                                            return self.store.states.ocrState.result[pageIdx]![regionIdx].textResult
                                     },
                                         set: { (string) in
                                             self.store.send(
-                                                .changeResult(page: pageIdx, region: regionIdx, text: string))
+                                                .ocr(action:
+                                                    .changeResult(page: pageIdx,
+                                                                  region: regionIdx,
+                                                                  text: string)))
                                     }
                                     )).keyboardType(self.getKeyboardType(page: pageIdx, region: regionIdx))
                                 } else {
@@ -66,7 +69,7 @@ struct DocumentResult: View {
     }
     
     fileprivate func getKeyboardType(page: Int, region: Int) -> UIKeyboardType {
-        switch self.store.states.result[page]?[region].datatype {
+        switch self.store.states.ocrState.result[page]?[region].datatype {
             case .mark, .point:
                 return .decimalPad
             case .firstname, .lastname:
@@ -118,16 +121,18 @@ struct ConfidenceButton: View {
     }
     
     fileprivate func getConfidence(page: Int, region: Int) -> String {
-        if self.store.states.result.isEmpty {
+        if self.store.states.ocrState.result.isEmpty {
             return "-"
         }
-        if self.store.states.result[page] == nil || self.store.states.result[page]!.isEmpty {
+        if self.store.states.ocrState.result[page] == nil ||
+            self.store.states.ocrState.result[page]!.isEmpty {
             return "-"
         } else {
-            if self.store.states.result[page]![region].confidence.isNaN {
+            if self.store.states.ocrState.result[page]![region].confidence.isNaN {
                 return "Kein Ergebnis"
             }
-            return String(format: "%.3G", self.store.states.result[page]![region].confidence as Float)
+            return String(format: "%.3G",
+                          self.store.states.ocrState.result[page]![region].confidence as Float)
         }
     }
     
@@ -136,17 +141,18 @@ struct ConfidenceButton: View {
             .foregroundColor(.red)
             .eraseToAnyView()
         
-        if self.store.states.result.isEmpty {
+        if self.store.states.ocrState.result.isEmpty {
             return EmptyView().eraseToAnyView()
         }
-        if self.store.states.result[page] == nil || self.store.states.result[page]!.isEmpty {
+        if self.store.states.ocrState.result[page] == nil ||
+            self.store.states.ocrState.result[page]!.isEmpty {
             return EmptyView().eraseToAnyView()
         } else {
-            if self.store.states.result[page]![region].confidence.isNaN {
+            if self.store.states.ocrState.result[page]![region].confidence.isNaN {
                 return error
             }
             let color: Color
-            switch self.store.states.result[page]![region].confidence {
+            switch self.store.states.ocrState.result[page]![region].confidence {
                 case 0.65...1.0:
                     color = .green
                 case 0.35..<0.65:

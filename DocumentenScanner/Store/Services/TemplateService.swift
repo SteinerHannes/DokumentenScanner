@@ -78,6 +78,7 @@ final class TemplateService {
                         self.decoder.keyDecodingStrategy = .useDefaultKeys
                         self.decoder.dataDecodingStrategy = .base64
                         let answer: [Template] = try self.decoder.decode([Template].self, from: data)
+                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
                         return .success(answer)
                     } catch let decodeError {
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
@@ -310,7 +311,7 @@ final class TemplateService {
         }
         // chek if jwt exists
         guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
-            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
+            return Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
         guard let data = image.pngData() else {
@@ -361,15 +362,15 @@ final class TemplateService {
                     }
                 }
                 return .failure(.response(text: String(data: data, encoding: .utf8) ?? "Fehler" ))
-        }
-        .map { result -> AppAction in
-            // if there is a result in the stream
-            return .service(action: .uploadImageResult(result: result))
-        }
-        .replaceError(with:
-            .service(action: .uploadImageResult(result: .failure(.serverError)))
-        )
-        .eraseToAnyPublisher()
+            }
+            .map { result -> AppAction in
+                // if there is a result in the stream
+                return .service(action: .uploadImageResult(result: result))
+            }
+            .replaceError(with:
+                .service(action: .uploadImageResult(result: .failure(.serverError)))
+            )
+            .eraseToAnyPublisher()
     }
 
     private func convertFileData(fieldName: String, fileName: String, mimeType: String,

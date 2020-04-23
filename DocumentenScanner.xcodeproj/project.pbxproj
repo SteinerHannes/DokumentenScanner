@@ -18,6 +18,8 @@
 		EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */; };
 		EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1945EE24082F1600D76CE7 /* BackButton.swift */; };
 		EF1C82D8241FD2880098F5CB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EF1C82D7241FD2880098F5CB /* .gitignore */; };
+		EF2FEC202450264900F7B28B /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FEC1F2450264900F7B28B /* OCRService.swift */; };
+		EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FEC2124502A5000F7B28B /* OCRState.swift */; };
 		EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4031182421303D00BF6306 /* AddLinkView.swift */; };
 		EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF40311A24213EB200BF6306 /* RegionsListView.swift */; };
 		EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BB2406750600FF510E /* SelectRegionView.swift */; };
@@ -105,6 +107,8 @@
 		EF1945EC2408159D00D76CE7 /* NewTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTemplateView.swift; sourceTree = "<group>"; };
 		EF1945EE24082F1600D76CE7 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		EF1C82D7241FD2880098F5CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		EF2FEC1F2450264900F7B28B /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		EF2FEC2124502A5000F7B28B /* OCRState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRState.swift; sourceTree = "<group>"; };
 		EF4031182421303D00BF6306 /* AddLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkView.swift; sourceTree = "<group>"; };
 		EF40311A24213EB200BF6306 /* RegionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsListView.swift; sourceTree = "<group>"; };
 		EF4223BB2406750600FF510E /* SelectRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegionView.swift; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 				EF629660241E805D00030997 /* TemplateService.swift */,
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
 				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
+				EF2FEC1F2450264900F7B28B /* OCRService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				EFFECC132433206A008EED63 /* Links.swift */,
 				EFB870712434D533007E604C /* Auth.swift */,
 				EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */,
+				EF2FEC2124502A5000F7B28B /* OCRState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -606,6 +612,7 @@
 				EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */,
 				EF7BB50F242A0A9600B69EB5 /* DocumentInfo.swift in Sources */,
 				EFFF9EEC2436369C00E3CD98 /* ServiceState.swift in Sources */,
+				EF2FEC202450264900F7B28B /* OCRService.swift in Sources */,
 				EF61DB75240D70BB0083E0B7 /* PageRegion.swift in Sources */,
 				EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */,
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
@@ -637,6 +644,7 @@
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
+				EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */,
 				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,
 				EFFF9EE62436147B00E3CD98 /* UserInfoDTO.swift in Sources */,

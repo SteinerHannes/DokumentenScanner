@@ -44,7 +44,7 @@ struct TemplatesView: View {
                                     Button(action: {
                                         self.store.send(.setCurrentTemplate(id: template.id))
                                         self.selection = template.id
-                                        self.store.send(.clearResult)
+                                        self.store.send(.ocr(action: .clearResult))
                                     }) {
                                         TemplateCard(template: template)
                                     }

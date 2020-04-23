@@ -55,7 +55,7 @@ struct LinkView: View {
             }
             Text(self.getLinkInfo(link: link))
                 .font(.subheadline)
-            if self.store.states.result.isEmpty {
+            if self.store.states.ocrState.result.isEmpty {
                 Text("-")
                     .foregroundColor(.secondaryLabel)
             } else {
@@ -86,22 +86,25 @@ struct LinkView: View {
                 } else {
                     let region1 = Binding<PageRegion>(
                         get: {
-                            return self.store.states.result[element1!.0]![element1!.1]
+                            return self.store.states.ocrState.result[element1!.0]![element1!.1]
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element1!.0, region: element1!.1,
-                                              text: region.textResult))
+                                .ocr(action:
+                                    .changeResult(page: element1!.0,
+                                                  region: element1!.1,
+                                                  text: region.textResult)))
                     }
                     )
                     let region2 = Binding<PageRegion>(
                         get: {
-                            return self.store.states.result[element2!.0]![element2!.1]
+                            return self.store.states.ocrState.result[element2!.0]![element2!.1]
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element2!.0, region: element2!.1,
-                                              text: region.textResult))
+                                .ocr(action:
+                                    .changeResult(page: element2!.0, region: element2!.1,
+                                                  text: region.textResult)))
                     }
                     )
                     return CompareResultView(region1: region1, region2: region2)

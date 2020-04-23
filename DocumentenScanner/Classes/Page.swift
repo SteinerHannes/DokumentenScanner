@@ -10,8 +10,10 @@ import Foundation
 import VisionKit
 
 struct Page: Identifiable {
-    /// The unique id of the page (page number)
-    public let id: Int
+    /// The unique identifier of the page
+    public var id: Int
+    /// The page number
+    public let number: Int
     /// The image of the page
     public var _image: UIImage?
     /// The regions on the image where text recognition takes place
@@ -28,7 +30,8 @@ struct Page: Identifiable {
 
 extension Page: Decodable {
     enum CodingKeys: String, CodingKey {
-        case id = "number"
+        case id
+        case number
         case regions = "attributes"
         case url = "imagePath"
         case imageHash
@@ -38,8 +41,8 @@ extension Page: Decodable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
         id = try container.decode(Int.self, forKey: CodingKeys.id)
+        number = try container.decode(Int.self, forKey: CodingKeys.number)
         regions = try container.decode([ImageRegion].self, forKey: CodingKeys.regions)
         url = try container.decode(String.self, forKey: CodingKeys.url)
         imageHash = try container.decode(String.self, forKey: CodingKeys.imageHash)

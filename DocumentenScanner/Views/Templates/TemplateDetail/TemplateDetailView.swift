@@ -19,9 +19,9 @@ private enum ViewAlert: Int, Identifiable {
     }
 }
 
-private enum OCREngine {
-    case onDevice
-    case tesseract
+public enum OCREngine: String {
+    case onDevice = "Vision"
+    case tesseract = "Tesseract"
 }
 
 //swiftlint:disable multiple_closures_with_trailing_closure
@@ -88,9 +88,9 @@ struct TemplateDetailView: View {
                 ScannerView(isActive: self.$showCamera, completion: { pages in
                     switch self.engine {
                         case .onDevice:
-                            self.onCompletion(pages: pages)
+                            self.onCompletionOnDevice(pages: pages)
                         case .tesseract:
-                            break
+                            self.onCompletionTessaract(pages: pages)
                         case nil:
                             break
                     }
@@ -153,31 +153,71 @@ struct TemplateDetailView: View {
     }
 
     /**
-     The function is triggers after the ScannerView did finish. Here the text recognition takes place.
+     The function is triggers after the ScannerView did finish and the on device engine is selected.
+     Here the text recognition takes place.
      The regocnized text will be saved in the correct order
      (ordered like the pages and the regions of the pages).
      */
-    fileprivate func onCompletion(pages: [Page]?) {
-        self.showCamera = false
+    fileprivate func onCompletionOnDevice(pages: [Page]?) {
+        self.engine = nil
         self.textRecognitionDidFinish = false
-        guard pages != nil else { return }
-        if pages!.count == self.store.states.currentTemplate!.pages.count {
-            let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
-            self.store.send(.initResult(array: array))
-            for page in pages! {
-                self.store.send(.appendResult(at: page.id))
+        guard let pages = pages else { return }
+        if pages.count == self.store.states.currentTemplate!.pages.count {
+            let array = [[PageRegion]?].init(repeating: nil, count: pages.count)
+            self.store.send(.ocr(action: .initResult(array: array)))
+            for page in pages {
+                self.store.send(.ocr(action: .appendResult(at: page.number)))
                 let imageResults: [PageRegion] = getPageRegions(page: page)
                 TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
-                    self.store.send(.sendResult(pageNumber: page.id, result: pageRegions))
+                    self.store.send(.ocr(action: .sendResult(pageNumber: page.number, result: pageRegions)))
                     var counter: Int = 0
                     for region in pageRegions {
-                        self.links[region.regionID] = (page.id, counter)
+                        self.links[region.regionID] = (page.number, counter)
                         counter += 1
                     }
                 }
             }
         } else {
-            self.takenPages = pages!.count
+            self.takenPages = pages.count
+            self.alert = .pages
+        }
+    }
+
+    /**
+     The function is triggers after the ScannerView did finish and the engine tessaract is selected
+     The regocnized text will be saved in the correct order
+     (ordered like the pages and the regions of the pages).
+     */
+    fileprivate func onCompletionTessaract(pages: [Page]?) {
+        guard let engine = self.engine else {
+            return
+        }
+        self.engine = nil
+        self.textRecognitionDidFinish = false
+        guard var pages = pages else { return }
+        if pages.count == self.store.states.currentTemplate!.pages.count {
+            for index in 0..<pages.count {
+                pages[index].id = self.template.pages[index].id
+                self.store.send(
+                    .ocr(action: .ocrTesseract(page: pages[index], engine: engine)))
+            }
+
+//            let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
+//            self.store.send(.ocr(action: .initResult(array: array)))
+//            for page in pages! {
+//                self.store.send(.ocr(action: .appendResult(at: page.id)))
+//                let imageResults: [PageRegion] = getPageRegions(page: page)
+//                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
+//                    self.store.send(.ocr(action: .sendResult(pageNumber: page.id, result: pageRegions)))
+//                    var counter: Int = 0
+//                    for region in pageRegions {
+//                        self.links[region.regionID] = (page.id, counter)
+//                        counter += 1
+//                    }
+//                }
+//            }
+        } else {
+            self.takenPages = pages.count
             self.alert = .pages
         }
     }
@@ -188,13 +228,13 @@ struct TemplateDetailView: View {
      */
     fileprivate func getPageRegions(page: Page) -> [PageRegion] {
         var results: [PageRegion] = []
-        for region in self.store.states.currentTemplate!.pages[page.id].regions {
+        for region in self.store.states.currentTemplate!.pages[page.number].regions {
             let templateSize = region.rectState
             let width = region.width
             let height = region.height
             let templateRect = CGRect(x: templateSize.width,
                                       y: templateSize.height, width: width, height: height)
-            let templateImage = self.store.states.currentTemplate!.pages[page.id]._image
+            let templateImage = self.store.states.currentTemplate!.pages[page.number]._image
             let image = page._image
 
             let proportionalRect = newProportionalRect(templateImage: templateImage!,
@@ -240,3 +280,31 @@ struct TemplateDetailView_Previews: PreviewProvider {
         }
     }
 }
+
+//struct PageRegion {
+//    /// The unique id of the attribute in that region
+//    public var regionID: String
+//    /// The image of the region
+//    public var regionImage: CGImage?
+//    /// The data type of the content of the region
+//    public var datatype: ResultDatatype
+//    ///
+//    public var textResult: String = ""
+//    ///
+//    public var confidence: VNConfidence = 0.0
+//
+//    public var regionName: String
+//
+//    init(regionID: String, regionName: String, regionImage: CGImage, datatype: ResultDatatype) {
+//        self.regionName = regionName
+//        self.regionID = regionID
+//        self.regionImage = regionImage
+//        self.datatype = datatype
+//    }
+//}
+//
+//extension PageRegion: Hashable {
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(regionID)
+//    }
+//}

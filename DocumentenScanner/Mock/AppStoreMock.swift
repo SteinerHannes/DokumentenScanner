@@ -62,10 +62,14 @@ class AppStoreMock {
 
     /// Creates mock Pages
     private static func pages() -> [Page] {
-        let page1 = Page(id: 0, _image: UIImage(imageLiteralResourceName: "test"), regions: regions1())
-        let page2 = Page(id: 1, _image: UIImage(imageLiteralResourceName: "post"), regions: regions2())
-        let page3 = Page(id: 2, _image: UIImage(imageLiteralResourceName: "klausur1"), regions: regions1())
-        let page4 = Page(id: 3, _image: UIImage(imageLiteralResourceName: "klausur2"), regions: regions2())
+        let page1 = Page(id: 0, number: 0, _image: UIImage(imageLiteralResourceName: "test"),
+                         regions: regions1())
+        let page2 = Page(id: 1, number: 1, _image: UIImage(imageLiteralResourceName: "post"),
+                         regions: regions2())
+        let page3 = Page(id: 2, number: 2, _image: UIImage(imageLiteralResourceName: "klausur1"),
+                         regions: regions1())
+        let page4 = Page(id: 3, number: 3, _image: UIImage(imageLiteralResourceName: "klausur2"),
+                         regions: regions2())
         return [page1, page2, page3, page4]
     }
 
@@ -142,7 +146,7 @@ class AppStoreMock {
                                      width: 266.2399999999998,
                                      height: 141.9946666666665,
                                      datatype: ResultDatatype.mark)
-        let page1 = Page(id: 0,
+        let page1 = Page(id: 0, number: 0,
                          _image: UIImage(imageLiteralResourceName: "page1"),
                          regions: [region_1_1, region_1_2, region_1_3, region_1_4, region_1_5,
                                    region_1_6, region_1_7, region_1_8, region_1_9, region_1_10])
@@ -168,7 +172,7 @@ class AppStoreMock {
                                      width: 84.66666666666674,
                                      height: 58.22221883138013,
                                      datatype: ResultDatatype.point)
-        let page2 = Page(id: 1,
+        let page2 = Page(id: 1, number: 0,
                          _image: UIImage(imageLiteralResourceName: "page2"),
                          regions: [region_2_1, region_2_2, region_2_3])
 
@@ -187,7 +191,7 @@ class AppStoreMock {
                                      height: 57.50555628521079,
                                      datatype: ResultDatatype.point)
 
-        let page3 = Page(id: 2,
+        let page3 = Page(id: 2, number: 2,
                          _image: UIImage(imageLiteralResourceName: "page3"),
                          regions: [region_3_1, region_3_2])
 
