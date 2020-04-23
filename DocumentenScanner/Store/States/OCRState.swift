@@ -11,7 +11,6 @@ import Combine
 
 struct OCRState {
     var result: [[PageRegion]?] = []
-    var text: String = "LOL"
 }
 
 enum OCRAction {
@@ -27,8 +26,6 @@ enum OCRAction {
     case changeResult(page: Int, region: Int, text: String)
 
     case ocrTesseract(page: Page, engine: OCREngine)
-
-    case test(_: String)
 
     case handelError(_: OCRServiceError)
 
@@ -58,9 +55,6 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
 
             case let .changeResult(page: page, region: region, text: text):
                 state.result[page]![region].textResult = text
-
-            case let .test(text):
-                print(text)
 
             case let .ocrTesseract(page: page, engine: engine):
                 return enviorment.ocr.uploadImage(image: page._image!)
