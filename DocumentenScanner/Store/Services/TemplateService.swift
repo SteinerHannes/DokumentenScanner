@@ -120,7 +120,7 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // prepare data for uplaod
-        let template = TemplateEditDTO(name: name, description: description, extra:  extra)
+        let template = TemplateEditDTO(name: name, description: description, extra: extra)
         print(template)
         // encode data
         guard let uploadData = try? self.encoder.encode(template) else {

@@ -63,7 +63,7 @@ final class OCRService {
 
     func OCRonPage(pageID: Int, imageUrl: String, engine: OCREngine)
         -> AnyPublisher<AppAction, Never> {
-            print("OCRonPage", pageID, imageUrl , engine.rawValue)
+            print("OCRonPage", pageID, imageUrl, engine.rawValue)
         if hasInternetConnection() == false {
             return Just(AppAction.ocr(action: .handelError(.serverError))).eraseToAnyPublisher()
         }
