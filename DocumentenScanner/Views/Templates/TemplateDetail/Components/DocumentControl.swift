@@ -82,7 +82,9 @@ struct ControlMechanismView: View {
             case .compare:
                 let element1 = controlMechanisms[control.regionIDs[0]]
                 let element2 = controlMechanisms[control.regionIDs[1]]
-                if element1 == nil || element2 == nil {
+                if element1 == nil || element2 == nil ||
+                    self.store.states.ocrState.result[element1!.0]!.isEmpty ||
+                    self.store.states.ocrState.result[element2!.0]!.isEmpty {
                     return Text("Kontrolle kann noch nicht durchgeführt werden.")
                         .eraseToAnyView()
                 } else {

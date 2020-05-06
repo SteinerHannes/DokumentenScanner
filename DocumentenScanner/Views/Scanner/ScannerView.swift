@@ -42,7 +42,6 @@ struct ScannerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: VNDocumentCameraViewController,
                                 context: UIViewControllerRepresentableContext<ScannerView>) {
-//        print("updateVC")
     }
 
     func makeCoordinator() -> Coordinator {

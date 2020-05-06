@@ -33,6 +33,7 @@ extension ImageRegion: Equatable {
 
 extension ImageRegion: Decodable {
     enum CodingKeys: String, CodingKey {
+        case id
         case name
         case x
         case y
@@ -44,6 +45,8 @@ extension ImageRegion: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        let idInt = try container.decode(Int.self, forKey: CodingKeys.id)
+        id = String(idInt)
         name = try container.decode(String.self, forKey: CodingKeys.name)
         let x = try container.decode(Int.self, forKey: CodingKeys.x)
         let y = try container.decode(Int.self, forKey: CodingKeys.y)

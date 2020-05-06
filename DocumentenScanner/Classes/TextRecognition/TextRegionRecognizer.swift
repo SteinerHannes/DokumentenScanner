@@ -73,8 +73,6 @@ final class TextRegionRecognizer {
                                 result.insert(",", at: result.index(after: result.startIndex))
                             }
                             let regex = "[1-6],[0-9]"
-                            print("erkannt:", textResult)
-                            print("gewandelt:", result)
                             let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
                             if !predicate.evaluate(with: result) {
                                 newConfidence = Float.nan

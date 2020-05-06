@@ -20,7 +20,11 @@ struct ControlMechanismsView: View {
                 Button(action: {
                     self.isActive = true
                 }) {
-                    Text("Neuen Kontroll-Mechanismus hinzufügen")
+                    HStack(alignment: .center, spacing: 15) {
+                        Image(systemName: "square.and.pencil")
+                            .font(.system(size: 20))
+                        Text("Neuen Kontrolle hinzufügen")
+                    }
                 }
             }
             if self.store.states.newTemplateState.newTemplate?.controlMechanisms.isEmpty ?? true {
@@ -49,6 +53,15 @@ struct ControlMechanismsView: View {
                     }
                 }
             }
+            Section {
+                HStack(alignment: .center, spacing: 15) {
+                    Image(systemName: "questionmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(.accentColor)
+                    Text("Lege Kontroll-Mechanismen fest, die dabei helfen Fehler zu finden.")
+                        .font(.footnote)
+                }
+            }
         }
         .sheet(isPresented: self.$isActive) {
             AddControllMachanismView().environmentObject(self.store)
@@ -63,7 +76,6 @@ struct ControlMechanismsView: View {
         Button(action: {
             self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
             self.store.send(.routing(action: .showContentView))
-//            self.store.send(.newTemplate(action: .clearState))
             self.store.send(.service(action: .createTemplate))
         }) {
             Text("Speichern")
@@ -100,7 +112,7 @@ struct ControllMechanismRow: View {
     private func getRegionInfo(for id: String) -> String {
         for page in self.store.states.newTemplateState.newTemplate?.pages ?? [] {
             for region in page.regions where region.id == id {
-                return "\(region.name) (\(page.number))"
+                return "\(region.name)" // [S: \(page.number + 1)]
             }
         }
         return ""
