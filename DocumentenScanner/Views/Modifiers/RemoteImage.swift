@@ -29,6 +29,16 @@ struct RemoteImageModifier: ViewModifier {
                 .eraseToAnyView()
         } else {
             return content
+                .frame(idealWidth: 110, maxWidth: UIScreen.main.bounds.width-32,
+                       idealHeight: 200,
+                       maxHeight: UIScreen.main.bounds.width)
+                .background(
+                    Rectangle()
+                        .foregroundColor(.gray)
+                        .opacity(0.1)
+                        .cornerRadius(4)
+                )
+                .shadow(radius: 3)
                 .onAppear(perform: fetch)
                 .eraseToAnyView()
         }

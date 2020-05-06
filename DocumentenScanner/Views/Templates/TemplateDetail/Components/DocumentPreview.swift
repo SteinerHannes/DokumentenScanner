@@ -18,7 +18,7 @@ struct DocumentPreview: View {
                     Image(systemName: "photo")
                         .fetchingRemoteImage(from: self.template.pages[index].url)
                         .shadow(color: .shadow, radius: 5, x: 0, y: 0)
-                        .frame(maxWidth: UIScreen.main.bounds.width-32,
+                        .frame(idealWidth: 110, maxWidth: UIScreen.main.bounds.width-32,
                                idealHeight: 200,
                                maxHeight: UIScreen.main.bounds.width)
                 }

@@ -78,6 +78,7 @@ final class TemplateService {
                         self.decoder.keyDecodingStrategy = .useDefaultKeys
                         self.decoder.dataDecodingStrategy = .base64
                         let answer: [Template] = try self.decoder.decode([Template].self, from: data)
+                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
                         return .success(answer)
                     } catch let decodeError {
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
@@ -97,7 +98,9 @@ final class TemplateService {
 
     }
 
-    func createTemplate(name: String, description: String, links: [Link]) -> AnyPublisher<AppAction, Never> {
+    func createTemplate(
+        name: String, description: String, machanisms: [ControlMechanism]
+    ) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
             return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
                 .eraseToAnyPublisher()
@@ -107,8 +110,10 @@ final class TemplateService {
             return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
-        let linkArray: [LinkDTO] = links.map { (link) -> LinkDTO in
-            return LinkDTO(id: link.id, linktype: link.linktype.rawValue, regionIDs: link.regionIDs)
+        let linkArray: [LinkDTO] = machanisms.map { (machanism) -> LinkDTO in
+            return LinkDTO(id: machanism.id,
+                           linktype: machanism.controltype.rawValue,
+                           regionIDs: machanism.regionIDs)
         }
         guard let linkJson = try? self.encoder.encode(LinksDTO(links: linkArray)) else {
             return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))
@@ -119,7 +124,7 @@ final class TemplateService {
                 .eraseToAnyPublisher()
         }
         // prepare data for uplaod
-        let template = TemplateEditDTO(name: name, description: description, extra:  extra)
+        let template = TemplateEditDTO(name: name, description: description, extra: extra)
         print(template)
         // encode data
         guard let uploadData = try? self.encoder.encode(template) else {
@@ -310,7 +315,7 @@ final class TemplateService {
         }
         // chek if jwt exists
         guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
-            return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
+            return Just(.service(action: .uploadImageResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
         guard let data = image.pngData() else {
@@ -361,15 +366,15 @@ final class TemplateService {
                     }
                 }
                 return .failure(.response(text: String(data: data, encoding: .utf8) ?? "Fehler" ))
-        }
-        .map { result -> AppAction in
-            // if there is a result in the stream
-            return .service(action: .uploadImageResult(result: result))
-        }
-        .replaceError(with:
-            .service(action: .uploadImageResult(result: .failure(.serverError)))
-        )
-        .eraseToAnyPublisher()
+            }
+            .map { result -> AppAction in
+                // if there is a result in the stream
+                return .service(action: .uploadImageResult(result: result))
+            }
+            .replaceError(with:
+                .service(action: .uploadImageResult(result: .failure(.serverError)))
+            )
+            .eraseToAnyPublisher()
     }
 
     private func convertFileData(fieldName: String, fileName: String, mimeType: String,

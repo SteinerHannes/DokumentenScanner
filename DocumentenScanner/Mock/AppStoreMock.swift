@@ -62,10 +62,14 @@ class AppStoreMock {
 
     /// Creates mock Pages
     private static func pages() -> [Page] {
-        let page1 = Page(id: 0, _image: UIImage(imageLiteralResourceName: "test"), regions: regions1())
-        let page2 = Page(id: 1, _image: UIImage(imageLiteralResourceName: "post"), regions: regions2())
-        let page3 = Page(id: 2, _image: UIImage(imageLiteralResourceName: "klausur1"), regions: regions1())
-        let page4 = Page(id: 3, _image: UIImage(imageLiteralResourceName: "klausur2"), regions: regions2())
+        let page1 = Page(id: 0, number: 0, _image: UIImage(imageLiteralResourceName: "test"),
+                         regions: regions1())
+        let page2 = Page(id: 1, number: 1, _image: UIImage(imageLiteralResourceName: "post"),
+                         regions: regions2())
+        let page3 = Page(id: 2, number: 2, _image: UIImage(imageLiteralResourceName: "klausur1"),
+                         regions: regions1())
+        let page4 = Page(id: 3, number: 3, _image: UIImage(imageLiteralResourceName: "klausur2"),
+                         regions: regions2())
         return [page1, page2, page3, page4]
     }
 
@@ -142,7 +146,7 @@ class AppStoreMock {
                                      width: 266.2399999999998,
                                      height: 141.9946666666665,
                                      datatype: ResultDatatype.mark)
-        let page1 = Page(id: 0,
+        let page1 = Page(id: 0, number: 0,
                          _image: UIImage(imageLiteralResourceName: "page1"),
                          regions: [region_1_1, region_1_2, region_1_3, region_1_4, region_1_5,
                                    region_1_6, region_1_7, region_1_8, region_1_9, region_1_10])
@@ -168,7 +172,7 @@ class AppStoreMock {
                                      width: 84.66666666666674,
                                      height: 58.22221883138013,
                                      datatype: ResultDatatype.point)
-        let page2 = Page(id: 1,
+        let page2 = Page(id: 1, number: 0,
                          _image: UIImage(imageLiteralResourceName: "page2"),
                          regions: [region_2_1, region_2_2, region_2_3])
 
@@ -187,30 +191,35 @@ class AppStoreMock {
                                      height: 57.50555628521079,
                                      datatype: ResultDatatype.point)
 
-        let page3 = Page(id: 2,
+        let page3 = Page(id: 2, number: 2,
                          _image: UIImage(imageLiteralResourceName: "page3"),
                          regions: [region_3_1, region_3_2])
 
-        let link1 = Link(id: "1", linktype: .compare, regionIDs: ["1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
-                                                                  "034C939D-900D-4BAF-8983-2D6174464AC6"])
+        let control1 = ControlMechanism(id: "1", controltype: .compare,
+                                        regionIDs: ["1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
+                                                    "034C939D-900D-4BAF-8983-2D6174464AC6"])
 
-        let link2 = Link(id: "2", linktype: .compare, regionIDs: ["4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
-                                                                  "6DA3ADC2-9958-4D4F-BAEA-DF7F638B8AB8"])
+        let control2 = ControlMechanism(id: "2", controltype: .compare,
+                                        regionIDs: ["4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
+                                                    "6DA3ADC2-9958-4D4F-BAEA-DF7F638B8AB8"])
 
-        let link3 = Link(id: "3", linktype: .compare, regionIDs: ["34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
-                                                                  "60273F95-3AE8-4226-97B9-7A62A56DC3C2"])
+        let control3 = ControlMechanism(id: "3", controltype: .compare,
+                                        regionIDs: ["34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
+                                                    "60273F95-3AE8-4226-97B9-7A62A56DC3C2"])
 
-        let link4 = Link(id: "4", linktype: .compare, regionIDs: ["45419F6E-4BFC-4C44-B920-B33FE6920B93",
-                                                                  "FF52C7A8-01A2-4B48-A6B6-9CAD5AFF2586"])
+        let control4 = ControlMechanism(id: "4", controltype: .compare,
+                                        regionIDs: ["45419F6E-4BFC-4C44-B920-B33FE6920B93",
+                                                    "FF52C7A8-01A2-4B48-A6B6-9CAD5AFF2586"])
 
-        let link5 = Link(id: "5", linktype: .compare, regionIDs: ["907EF51F-F3F3-4E40-9A66-7792B68537F6",
-                                                                  "FF44642E-E064-4598-9741-D6BEDB003F2E"])
+        let control5 = ControlMechanism(id: "5", controltype: .compare,
+                                        regionIDs: ["907EF51F-F3F3-4E40-9A66-7792B68537F6",
+                                                    "FF44642E-E064-4598-9741-D6BEDB003F2E"])
 
         let template = Template(id: "4C1FF6B7-99A1-42E6-A671-0F058C8EFB2B",
                                 name: "Klausur",
                                 info: "Grundlagen Infromationstechnologie",
                                 pages: [page1, page2, page3],
-                                links: [link1, link2, link3, link4, link5])
+                                controlMechanisms: [control1, control2, control3, control4, control5])
         return template
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DocumentLink.swift
+//  DocumentControl.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 06.04.20.
@@ -8,100 +8,107 @@
 
 import SwiftUI
 
-struct DocumentLink: View {
+struct DocumentControl: View {
     @EnvironmentObject var store: AppStore
 
     let template: Template
 
-    @Binding var links: [String: (Int, Int)]
+    @Binding var controlMechanisms: [String: (Int, Int)]
 
     let idList: [String: ImageRegion]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Links")
+            Text("Kontroll-Mechanismen")
                 .font(.headline)
-            Text("Anzahl aller Links: \(template.links.count)")
+            Text("Anzahl aller Kontrollen: \(template.controlMechanisms.count)")
                 .font(.caption)
-            ForEach(template.links) { link in
-                LinkView(links: self.$links, link: link, idList: self.idList)
+            ForEach(template.controlMechanisms) { machanism in
+                ControlMechanismView(controlMechanisms: self.$controlMechanisms,
+                                     controlMechanism: machanism,
+                                     idList: self.idList)
             }
         }
         .sectionBackground()
     }
 }
 
-struct DocumentLink_Previews: PreviewProvider {
+struct DocumentControl_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentLink(template: AppStoreMock.realTemplate(), links: .constant([:]), idList: [:])
+        DocumentControl(template: AppStoreMock.realTemplate(), controlMechanisms: .constant([:]), idList: [:])
             .environmentObject(AppStoreMock.getAppStore())
     }
 }
 
-struct LinkView: View {
+struct ControlMechanismView: View {
     @EnvironmentObject var store: AppStore
-    @Binding var links: [String: (Int, Int)]
+    @Binding var controlMechanisms: [String: (Int, Int)]
 
-    let link: Link
+    let controlMechanism: ControlMechanism
     let idList: [String: ImageRegion]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Divider()
             HStack(alignment: .center, spacing: 0) {
-                Text(link.linktypeName)
+                Text(controlMechanism.controlTypeName)
                     .font(.headline)
                 Spacer()
             }
-            Text(self.getLinkInfo(link: link))
+            Text(self.getControlInfo(control: controlMechanism))
                 .font(.subheadline)
-            if self.store.states.result.isEmpty {
+            if self.store.states.ocrState.result.isEmpty {
                 Text("-")
                     .foregroundColor(.secondaryLabel)
             } else {
-                getTypeView(link: link)
+                getTypeView(control: controlMechanism)
             }
         }
     }
 
-    private func getLinkInfo(link: Link) -> String {
-        switch link.linktype {
+    private func getControlInfo(control: ControlMechanism) -> String {
+        switch control.controltype {
             case .compare:
-                let region1 = self.idList[link.regionIDs[0]]
-                let region2 = self.idList[link.regionIDs[1]]
+                let region1 = self.idList[control.regionIDs[0]]
+                let region2 = self.idList[control.regionIDs[1]]
                 return "\(region1?.name ?? "Fehler") & \(region2?.name ?? "Fehler")"
             case .sum:
                 return ""
         }
     }
 
-    private func getTypeView(link: Link) -> some View {
-        switch link.linktype {
+    private func getTypeView(control: ControlMechanism) -> some View {
+        switch control.controltype {
             case .compare:
-                let element1 = links[link.regionIDs[0]]
-                let element2 = links[link.regionIDs[1]]
-                if element1 == nil || element2 == nil {
-                    return Text("Link kann noch nicht überprüft werden.")
+                let element1 = controlMechanisms[control.regionIDs[0]]
+                let element2 = controlMechanisms[control.regionIDs[1]]
+                if element1 == nil || element2 == nil ||
+                    self.store.states.ocrState.result[element1!.0]!.isEmpty ||
+                    self.store.states.ocrState.result[element2!.0]!.isEmpty {
+                    return Text("Kontrolle kann noch nicht durchgeführt werden.")
                         .eraseToAnyView()
                 } else {
                     let region1 = Binding<PageRegion>(
                         get: {
-                            return self.store.states.result[element1!.0]![element1!.1]
+                            return self.store.states.ocrState.result[element1!.0]![element1!.1]
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element1!.0, region: element1!.1,
-                                              text: region.textResult))
+                                .ocr(action:
+                                    .changeResult(page: element1!.0,
+                                                  region: element1!.1,
+                                                  text: region.textResult)))
                     }
                     )
                     let region2 = Binding<PageRegion>(
                         get: {
-                            return self.store.states.result[element2!.0]![element2!.1]
+                            return self.store.states.ocrState.result[element2!.0]![element2!.1]
                     },
                         set: { (region) in
                             self.store.send(
-                                .changeResult(page: element2!.0, region: element2!.1,
-                                              text: region.textResult))
+                                .ocr(action:
+                                    .changeResult(page: element2!.0, region: element2!.1,
+                                                  text: region.textResult)))
                     }
                     )
                     return CompareResultView(region1: region1, region2: region2)

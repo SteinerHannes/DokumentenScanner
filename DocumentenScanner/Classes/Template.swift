@@ -19,7 +19,7 @@ struct Template: Identifiable {
     /// The pages of the template/document
     public var pages: [Page] = []
 
-    public var links: [Link] = []
+    public var controlMechanisms: [ControlMechanism] = []
 
     public var created: String = "" // Date
 
@@ -47,19 +47,31 @@ extension Template: Decodable {
         id = String(tempIdInt)
         name = try container.decode(String.self, forKey: CodingKeys.name)
         info = try container.decode(String.self, forKey: CodingKeys.info)
-        pages = try container.decode([Page].self, forKey: CodingKeys.pages)
-        created = try container.decode(String.self, forKey: CodingKeys.created)
-        updated = try container.decode(String.self, forKey: CodingKeys.updated)
+        do {
+            pages = try container.decode([Page].self, forKey: CodingKeys.pages)
+        } catch {
+            pages = []
+        }
+        do {
+            created = try container.decode(String.self, forKey: CodingKeys.created)
+        } catch {
+            created = ""
+        }
+        do {
+            updated = try container.decode(String.self, forKey: CodingKeys.updated)
+        } catch {
+            updated = ""
+        }
         owner = try container.decode(UserInfoDTO.self, forKey: CodingKeys.owner)
         do {
             let linkObject = try container.decode(LinksDTO.self, forKey: CodingKeys.link)
-            links = linkObject.links.map({ (link) -> Link in
-                return Link(id: link.id,
-                            linktype: LinkType(rawValue: link.linktype)!,
+            controlMechanisms = linkObject.links.map({ (link) -> ControlMechanism in
+                return ControlMechanism(id: link.id,
+                            controltype: ControlType(rawValue: link.linktype)!,
                             regionIDs: link.regionIDs)
             })
         } catch {
-            links = []
+            controlMechanisms = []
         }
     }
 }

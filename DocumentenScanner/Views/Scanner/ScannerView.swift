@@ -42,7 +42,6 @@ struct ScannerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: VNDocumentCameraViewController,
                                 context: UIViewControllerRepresentableContext<ScannerView>) {
-//        print("updateVC")
     }
 
     func makeCoordinator() -> Coordinator {
@@ -69,7 +68,7 @@ struct ScannerView: UIViewControllerRepresentable {
                                           didFinishWith scan: VNDocumentCameraScan) {
             var pages: [Page] = []
             for index in 0..<scan.pageCount {
-                pages.append(Page(id: index, _image: scan.imageOfPage(at: index)))
+                pages.append(Page(id: index, number: index, _image: scan.imageOfPage(at: index)))
             }
             // Returns a list of pages with a page number and the image from the scan
             completionHandler(pages)

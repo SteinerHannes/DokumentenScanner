@@ -1,5 +1,5 @@
 //
-//  LinkedRegionsView.swift
+//  ControlMechanismsView.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 17.03.20.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
-struct LinkedRegionsView: View {
+struct ControlMechanismsView: View {
     @EnvironmentObject var store: AppStore
 
     @State var isActive: Bool = false
@@ -20,25 +20,29 @@ struct LinkedRegionsView: View {
                 Button(action: {
                     self.isActive = true
                 }) {
-                    Text("Neuen Link hinzufügen")
+                    HStack(alignment: .center, spacing: 15) {
+                        Image(systemName: "square.and.pencil")
+                            .font(.system(size: 20))
+                        Text("Neuen Kontrolle hinzufügen")
+                    }
                 }
             }
-            if self.store.states.newTemplateState.newTemplate?.links.isEmpty ?? true {
+            if self.store.states.newTemplateState.newTemplate?.controlMechanisms.isEmpty ?? true {
                 Section {
                     HStack(alignment: .center, spacing: 0) {
                         Spacer()
-                        Text("Keine Links vorhanden.")
+                        Text("Keine Kontroll-Mechanismus vorhanden.")
                         Spacer()
                     }
                 }
             } else {
                 Section {
-                    ForEach(self.store.states.newTemplateState.newTemplate!.links) { link in
-                        LinkRow(link: link)
+                    ForEach(self.store.states.newTemplateState.newTemplate!.controlMechanisms) { control in
+                        ControllMechanismRow(control: control)
                             .contextMenu {
                                 Button(action: {
                                     self.store.send(.newTemplate(action:
-                                        .deletLinkFromNewTemplate(linkID: link.id)))
+                                        .deletControlMechanismFromNewTemplate(mechanismID: control.id)))
                                 }) {
                                     // MARK: no size and color effect
                                     Text("Löschen").font(.system(size: 15))
@@ -49,13 +53,22 @@ struct LinkedRegionsView: View {
                     }
                 }
             }
+            Section {
+                HStack(alignment: .center, spacing: 15) {
+                    Image(systemName: "questionmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(.accentColor)
+                    Text("Lege Kontroll-Mechanismen fest, die dabei helfen Fehler zu finden.")
+                        .font(.footnote)
+                }
+            }
         }
         .sheet(isPresented: self.$isActive) {
-            AddLinkView().environmentObject(self.store)
+            AddControllMachanismView().environmentObject(self.store)
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
-        .navigationBarTitle("Linkliste", displayMode: .inline)
+        .navigationBarTitle("Kontroll-Liste", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
     }
 
@@ -63,7 +76,6 @@ struct LinkedRegionsView: View {
         Button(action: {
             self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
             self.store.send(.routing(action: .showContentView))
-//            self.store.send(.newTemplate(action: .clearState))
             self.store.send(.service(action: .createTemplate))
         }) {
             Text("Speichern")
@@ -71,24 +83,24 @@ struct LinkedRegionsView: View {
     }
 }
 
-struct LinkRow: View {
+struct ControllMechanismRow: View {
     @EnvironmentObject var store: AppStore
 
-    let link: Link
+    let control: ControlMechanism
 
     var body: some View {
-        if link.linktype == .compare {
+        if control.controltype == .compare {
             return VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .center, spacing: 5) {
                     Text("1. Region:")
                     Spacer()
-                    Text(getRegionInfo(for: link.regionIDs[0]))
+                    Text(getRegionInfo(for: control.regionIDs[0]))
                         .foregroundColor(.secondaryLabel)
                 }
                 HStack(alignment: .center, spacing: 5) {
                     Text("2. Region:")
                     Spacer()
-                    Text(getRegionInfo(for: link.regionIDs[1]))
+                    Text(getRegionInfo(for: control.regionIDs[1]))
                         .foregroundColor(.secondaryLabel)
                 }
             }.eraseToAnyView()
@@ -100,17 +112,17 @@ struct LinkRow: View {
     private func getRegionInfo(for id: String) -> String {
         for page in self.store.states.newTemplateState.newTemplate?.pages ?? [] {
             for region in page.regions where region.id == id {
-                return "\(region.name) (\(page.id))"
+                return "\(region.name)" // [S: \(page.number + 1)]
             }
         }
         return ""
     }
 }
 
-struct LinkedRegionsView_Previews: PreviewProvider {
+struct ControlMechanismsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            LinkedRegionsView()
+            ControlMechanismsView()
                 .environmentObject(AppStoreMock.getAppStore())
         }
     }

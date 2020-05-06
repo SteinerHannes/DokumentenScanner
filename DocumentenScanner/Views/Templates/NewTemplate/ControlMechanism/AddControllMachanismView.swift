@@ -1,5 +1,5 @@
 //
-//  AddLinkView.swift
+//  AddControllMachanismView.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 17.03.20.
@@ -18,21 +18,21 @@ struct AlertIdentifier: Identifiable {
 }
 
 //swiftlint:disable multiple_closures_with_trailing_closure
-struct AddLinkView: View {
+struct AddControllMachanismView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
-    @State var linktype: Int = 0
+    @State var controltype: Int = 0
     @State var showAlert: AlertIdentifier?
 
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    Picker(selection: self.$linktype, label: Text("Linktype")) {
-                        Text("Vergleichen").tag(LinkType.compare.rawValue)
-                        Text("Summieren").tag(LinkType.sum.rawValue)
+                    Picker(selection: self.$controltype, label: Text("Kontrolltyp")) {
+                        Text("Vergleichen").tag(ControlType.compare.rawValue)
+                        Text("Gesamtpunkzahl").tag(ControlType.sum.rawValue)
                     }
-                    if self.linktype == LinkType.compare.rawValue {
+                    if self.controltype == ControlType.compare.rawValue {
                         VStack(alignment: .leading, spacing: 5) {
                             //swiftlint:disable line_length
                             Text("Wählen Sie zwei zu vergleichende Regionen aus. Diese werden beim Scannen auf Gleichheit überprüft. Sind beide Inhalte identisch kommt keine Fehlermeldung, ansonsten schon.").font(.footnote)
@@ -42,7 +42,7 @@ struct AddLinkView: View {
                         Text("Hilfstext für Summieren:")
                     }
                 }
-                if self.linktype == LinkType.compare.rawValue {
+                if self.controltype == ControlType.compare.rawValue {
                     Section {
                         NavigationLink(destination: RegionsListView(selectionNumber: 1)
                                                         .environmentObject(self.store)) {
@@ -71,12 +71,12 @@ struct AddLinkView: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Neuen Link erstellen", displayMode: .inline)
+            .navigationBarTitle("Neue Kontrolle erstellen", displayMode: .inline)
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .onDisappear {
                 // set the type on disappear (no better option because of navigation)
-                self.store.send(.newTemplate(action: .links(action:
-                    .setLinkType(type: LinkType(rawValue: self.linktype)!)))
+                self.store.send(.newTemplate(action: .controls(action:
+                    .setControlType(type: ControlType(rawValue: self.controltype)!)))
                 )
             }
             .alert(item: self.$showAlert) { alert in
@@ -96,14 +96,14 @@ struct AddLinkView: View {
 
     private func trailingItem() -> some View {
         Button(action: {
-            if self.store.states.newTemplateState.linkState.firstSelections == nil {
+            if self.store.states.newTemplateState.controlState.firstSelections == nil {
                 self.showAlert = .init(id: .noFirstSelections)
-            } else if self.store.states.newTemplateState.linkState.secondSelections == nil {
+            } else if self.store.states.newTemplateState.controlState.secondSelections == nil {
                 self.showAlert = .init(id: .noSecondSelections)
             } else {
-                self.store.send(.newTemplate(action: .addLinkToNewTemplate))
+                self.store.send(.newTemplate(action: .addControlMechanismToNewTemplate))
                 self.presentation.wrappedValue.dismiss()
-                self.store.send(.newTemplate(action: .links(action: .clearLink)))
+                self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
             }
         }) {
             Text("Speichern")
@@ -113,7 +113,7 @@ struct AddLinkView: View {
     private func leadingItem() -> some View {
         Button(action: {
             self.presentation.wrappedValue.dismiss()
-            self.store.send(.newTemplate(action: .links(action: .clearLink)))
+            self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
         }) {
             Text("Abbrechen")
         }
@@ -122,7 +122,7 @@ struct AddLinkView: View {
     /// Return the Name of the ImageRegion in the selection
     private func getImageRegionName(selectionNumber: Int) -> String {
         if selectionNumber == 1 {
-            guard let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.firstSelections?.first
                 else { return "" }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -130,7 +130,7 @@ struct AddLinkView: View {
                 }
             }
         } else {
-            guard let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.secondSelections?.first
                 else { return "" }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -142,9 +142,9 @@ struct AddLinkView: View {
     }
 }
 
-struct AddLinkView_Previews: PreviewProvider {
+struct AddControllMachanismView_Previews: PreviewProvider {
     static var previews: some View {
-        AddLinkView()
+        AddControllMachanismView()
             .environmentObject(AppStoreMock.getAppStore())
     }
 }

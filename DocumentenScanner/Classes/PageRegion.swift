@@ -30,6 +30,14 @@ struct PageRegion {
         self.regionImage = regionImage
         self.datatype = datatype
     }
+
+    init(regionID: String, textResult: String, confidence: Float) {
+        self.regionName = regionID
+        self.regionID = regionID
+        self.textResult = textResult
+        self.confidence = confidence
+        self.datatype = .none
+    }
 }
 
 extension PageRegion: Hashable {

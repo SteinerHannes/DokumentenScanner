@@ -6,7 +6,7 @@
 //  Copyright © 2020 Hannes Steiner. All rights reserved.
 //
 
-//swiftlint:disable switch_case_alignment cyclomatic_complexity
+//swiftlint:disable switch_case_alignment
 import Foundation
 import Combine
 import VisionKit
@@ -23,6 +23,8 @@ final class AppEnviorment {
     lazy var template = TemplateService(session: session, encoder: encoder, decoder: decoder)
     /// The api service for managing login and logout
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
+
+    lazy var ocr = OCRService(session: session, encoder: encoder, decoder: decoder)
 
     /// Set a auth token into the global session
     func setJWT(token: String) {
@@ -48,28 +50,20 @@ enum AppAction {
     case auth(action: AuthAction)
     /// The reducer function for API-Services
     case service(action: ServiceAction)
+    /// The reducer function for OCR-Service
+    case ocr(action: OCRAction)
     /// Clears the variables of the cuurent selected template
     case clearCurrentTemplate
     /// Sets the current template in the state
     case setCurrentTemplate(id: String)
     /// Adds a new template to the temaplte list
     case addNewTemplate(template: Template)
-    /// Send the results of the textrecognition to the correct page number
-    case sendResult(pageNumber: Int, result: [PageRegion])
-    /// Adds an empty list to the result list at the page number
-    case appendResult(at: Int)
-    /// Initialize the result list
-    case initResult(array: [[PageRegion]?])
-    /// Clears the result list
-    case clearResult
-    /// Change the result at page and region, with textfield
-    case changeResult(page: Int, region: Int, text: String)
     /// Sets the cached image, for the image in the page
     case setImage(page: Int, image: UIImage?)
 }
 
 /// The new app state
-struct AppStates {
+struct AppStates: ReduxState {
     /// Variables for routing
     var routes: RoutingState
     /// Variables for the new template
@@ -78,18 +72,19 @@ struct AppStates {
     var authState: AuthState
 
     var serviceState: ServiceState
+
+    var ocrState: OCRState
     /// The loaded templates
     var teamplates: [Template] = []
     /// The currently inspected template
     var currentTemplate: Template?
-
-    var result: [[PageRegion]?] = []
 
     init() {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
         self.serviceState = ServiceState()
+        self.ocrState = OCRState()
     }
 
     init(template: Template) {
@@ -97,6 +92,7 @@ struct AppStates {
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
         self.serviceState = ServiceState()
+        self.ocrState = OCRState()
         self.teamplates.append(template)
     }
 }
@@ -105,7 +101,7 @@ struct AppStates {
 func appReducer(
     states: inout AppStates,
     action: AppAction,
-    enviorment: AppEnviorment
+    environment: AppEnviorment
 ) -> AnyPublisher<AppAction, Never>? {
     switch action {
         case let .routing(action: action):
@@ -115,10 +111,13 @@ func appReducer(
             newTemplateReducer(state: &states.newTemplateState, action: action)
 
         case let .auth(action: action):
-            return authReducer(state: &states.authState, action: action, enviorment: enviorment)
+            return authReducer(state: &states.authState, action: action, enviorment: environment)
 
         case let .service(action: action):
-            return serviceReducer(states: &states, action: action, enviorment: enviorment)
+            return serviceReducer(states: &states, action: action, enviorment: environment)
+
+        case let .ocr(action: action):
+            return ocrReducer(state: &states.ocrState, action: action, enviorment: environment)
 
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)
@@ -131,21 +130,6 @@ func appReducer(
         case .clearCurrentTemplate:
             states.currentTemplate = nil
 
-        case let .sendResult(pageNumber: number, result: pageRegions):
-            states.result[number] = pageRegions
-
-        case let .appendResult(at: pageNumber):
-            states.result[pageNumber] = []
-
-        case let .initResult(array: nilPages):
-            states.result = nilPages
-
-        case .clearResult:
-            states.result = []
-
-        case let .changeResult(page: page, region: region, text: text):
-            states.result[page]![region].textResult = text
-
         case let .setImage(page: page, image: image):
             states.currentTemplate!.pages[page]._image = image
             let index = states.teamplates.firstIndex { (template) -> Bool in
@@ -157,3 +141,18 @@ func appReducer(
 }
 
 typealias AppStore = Store<AppStates, AppAction, AppEnviorment>
+
+typealias OCRCallback = ([OcrResult]) -> Void
+
+typealias OCRApi = (String, OCRCallback) -> Void
+
+let ocrApi: OCRApi = { id, callback in
+    let ocrresult: [OcrResult] = []
+    callback(ocrresult)
+}
+
+protocol ReduxState {}
+
+typealias Dispatcher = (AppAction) -> Void
+
+typealias Middleware <S: ReduxState> = (S, AppAction, Dispatcher) -> Void

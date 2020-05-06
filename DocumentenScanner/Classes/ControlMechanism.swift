@@ -1,5 +1,5 @@
 //
-//  Link.swift
+//  ControlMechanism.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 18.03.20.
@@ -18,13 +18,13 @@ public struct LinkDTO: Codable {
     public let regionIDs: [String]
 }
 
-struct Link: Identifiable {
+struct ControlMechanism: Identifiable {
     var id: String = UUID().uuidString
-    var linktype: LinkType
+    var controltype: ControlType
     var regionIDs: [String] = []
 
-    var linktypeName: String {
-        switch self.linktype {
+    var controlTypeName: String {
+        switch self.controltype {
             case .compare:
                 return "Vergleich"
             case .sum:
@@ -33,15 +33,15 @@ struct Link: Identifiable {
     }
 }
 
-enum LinkType: Int {
+enum ControlType: Int {
     case compare = 0
     case sum = 1
 }
 
-extension Link: Decodable {
+extension ControlMechanism: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
-        case linktype
+        case controltype = "linktype"
         case regionIDs
     }
 
@@ -49,14 +49,14 @@ extension Link: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: CodingKeys.id)
-        let linktypeInt = try container.decode(Int.self, forKey: CodingKeys.linktype)
-        switch linktypeInt {
+        let controltypeInt = try container.decode(Int.self, forKey: CodingKeys.controltype)
+        switch controltypeInt {
             case 0:
-                linktype = .compare
+                controltype = .compare
             case 1:
-                linktype = .sum
+                controltype = .sum
             default:
-                linktype = .compare
+                controltype = .compare
         }
         regionIDs = try container.decode([String].self, forKey: CodingKeys.regionIDs)
     }
