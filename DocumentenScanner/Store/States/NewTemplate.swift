@@ -118,7 +118,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
         case .addLinkToNewTemplate:
             let regionIDs = state.linkState.firstSelections! + state.linkState.secondSelections!
 
-            let link = Link(linktype: state.linkState.currentType!, regionIDs: regionIDs)
+            let link = ControlMechanism(linktype: state.linkState.currentType!, regionIDs: regionIDs)
             state.newTemplate!.links.append(link)
 
         case let .deletLinkFromNewTemplate(linkID: id):

@@ -107,11 +107,11 @@ struct RowContainer: View {
 
     @Binding var selections: [ImageRegion]
 
-    let linktype: LinkType
+    let linktype: ControlType
 
     let region: ImageRegion
 
-    init(region: ImageRegion, selections: Binding<[ImageRegion]>, linktype: LinkType) {
+    init(region: ImageRegion, selections: Binding<[ImageRegion]>, linktype: ControlType) {
         self.region = region
         _selections = selections
         self.linktype = linktype

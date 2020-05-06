@@ -10,11 +10,11 @@ import Foundation
 
 final class LinkAnalyzer {
     private let results: [String: String] //self.links,
-    private let links: [Link] //self.store.states.currentTemplate!.links
+    private let links: [ControlMechanism] //self.store.states.currentTemplate!.links
 
     private var errors: [String] = []
 
-    init(results: [String: String], links: [Link]) {
+    init(results: [String: String], links: [ControlMechanism]) {
         self.links = links
         self.results = results
     }
@@ -43,7 +43,7 @@ final class LinkAnalyzer {
         }
     }
 
-    private func compare(link: Link) -> String? {
+    private func compare(link: ControlMechanism) -> String? {
         let id1 = link.regionIDs[0]
         let id2 = link.regionIDs[1]
         let result1: String = results[id1] ?? " (1)"

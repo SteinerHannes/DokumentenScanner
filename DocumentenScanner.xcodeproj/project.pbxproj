@@ -46,7 +46,7 @@
 		EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */; };
 		EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */; };
 		EF8263C224236E5200931CD4 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8263C124236E5200931CD4 /* View.swift */; };
-		EF8A2D792422CAEE007396AD /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A2D782422CAEE007396AD /* Link.swift */; };
+		EF8A2D792422CAEE007396AD /* ControlMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A2D782422CAEE007396AD /* ControlMechanism.swift */; };
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
 		EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */; };
@@ -137,7 +137,7 @@
 		EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreview.swift; sourceTree = "<group>"; };
 		EF8263C124236E5200931CD4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		EF88C7F924103597008C4497 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		EF8A2D782422CAEE007396AD /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		EF8A2D782422CAEE007396AD /* ControlMechanism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMechanism.swift; sourceTree = "<group>"; };
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSelectView.swift; sourceTree = "<group>"; };
 		EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRegionRecognizer.swift; sourceTree = "<group>"; };
@@ -422,7 +422,7 @@
 				EF4223C3240685CE00FF510E /* ImageRegion.swift */,
 				EF61DB74240D70BB0083E0B7 /* PageRegion.swift */,
 				EF786BEE2420F710001D71F9 /* ResultDatatype.swift */,
-				EF8A2D782422CAEE007396AD /* Link.swift */,
+				EF8A2D782422CAEE007396AD /* ControlMechanism.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -624,7 +624,7 @@
 				EFB870752434D996007E604C /* AuthServiceError.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
 				EF155885240E95680020B487 /* ActivityIndicator.swift in Sources */,
-				EF8A2D792422CAEE007396AD /* Link.swift in Sources */,
+				EF8A2D792422CAEE007396AD /* ControlMechanism.swift in Sources */,
 				EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */,
 				EFDF50362431F47900E37C4F /* AuthService.swift in Sources */,
 				EFFF9EE42436139B00E3CD98 /* TemplateDTO.swift in Sources */,

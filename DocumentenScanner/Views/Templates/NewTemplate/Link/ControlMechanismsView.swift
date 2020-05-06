@@ -74,7 +74,7 @@ struct ControlMechanismsView: View {
 struct ControllMechanismRow: View {
     @EnvironmentObject var store: AppStore
 
-    let link: Link
+    let link: ControlMechanism
 
     var body: some View {
         if link.linktype == .compare {

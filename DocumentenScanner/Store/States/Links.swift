@@ -12,7 +12,7 @@ import Foundation
 enum LinkAction {
     /// Set the link type for the new link
     /// - parameter type: The link type of the new link
-    case setLinkType(type: LinkType)
+    case setLinkType(type: ControlType)
     /// Set the first sekection of regions to later combine them to a new link
     /// - parameter selections: A list of region ids
     case setFirstSelections(selections: [String])
@@ -26,7 +26,7 @@ enum LinkAction {
 /// The state for a new link created in the AddControllMachanismView and RegionsListView
 struct LinkState {
     /// The type of the link
-    var currentType: LinkType? = .compare
+    var currentType: ControlType? = .compare
     /// The first selection of region ids
     var firstSelections: [String]?
     /// The second selection of region ids

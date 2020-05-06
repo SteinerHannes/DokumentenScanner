@@ -42,7 +42,7 @@ struct ControlMechanismView: View {
     @EnvironmentObject var store: AppStore
     @Binding var links: [String: (Int, Int)]
 
-    let link: Link
+    let link: ControlMechanism
     let idList: [String: ImageRegion]
 
     var body: some View {
@@ -64,7 +64,7 @@ struct ControlMechanismView: View {
         }
     }
 
-    private func getLinkInfo(link: Link) -> String {
+    private func getLinkInfo(link: ControlMechanism) -> String {
         switch link.linktype {
             case .compare:
                 let region1 = self.idList[link.regionIDs[0]]
@@ -75,7 +75,7 @@ struct ControlMechanismView: View {
         }
     }
 
-    private func getTypeView(link: Link) -> some View {
+    private func getTypeView(link: ControlMechanism) -> some View {
         switch link.linktype {
             case .compare:
                 let element1 = links[link.regionIDs[0]]

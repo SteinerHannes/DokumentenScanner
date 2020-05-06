@@ -1,5 +1,5 @@
 //
-//  Link.swift
+//  ControlMechanism.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 18.03.20.
@@ -18,9 +18,9 @@ public struct LinkDTO: Codable {
     public let regionIDs: [String]
 }
 
-struct Link: Identifiable {
+struct ControlMechanism: Identifiable {
     var id: String = UUID().uuidString
-    var linktype: LinkType
+    var controltype: ControlType
     var regionIDs: [String] = []
 
     var linktypeName: String {
@@ -33,12 +33,12 @@ struct Link: Identifiable {
     }
 }
 
-enum LinkType: Int {
+enum ControlType: Int {
     case compare = 0
     case sum = 1
 }
 
-extension Link: Decodable {
+extension ControlMechanism: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case linktype

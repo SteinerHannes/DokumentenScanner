@@ -21,18 +21,18 @@ struct AlertIdentifier: Identifiable {
 struct AddControllMachanismView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
-    @State var linktype: Int = 0
+    @State var controltype: Int = 0
     @State var showAlert: AlertIdentifier?
 
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    Picker(selection: self.$linktype, label: Text("Kontrolltyp")) {
-                        Text("Vergleichen").tag(LinkType.compare.rawValue)
-                        Text("Gesamtpunkzahl").tag(LinkType.sum.rawValue)
+                    Picker(selection: self.$controltype, label: Text("Kontrolltyp")) {
+                        Text("Vergleichen").tag(ControlType.compare.rawValue)
+                        Text("Gesamtpunkzahl").tag(ControlType.sum.rawValue)
                     }
-                    if self.linktype == LinkType.compare.rawValue {
+                    if self.controltype == ControlType.compare.rawValue {
                         VStack(alignment: .leading, spacing: 5) {
                             //swiftlint:disable line_length
                             Text("Wählen Sie zwei zu vergleichende Regionen aus. Diese werden beim Scannen auf Gleichheit überprüft. Sind beide Inhalte identisch kommt keine Fehlermeldung, ansonsten schon.").font(.footnote)
@@ -42,7 +42,7 @@ struct AddControllMachanismView: View {
                         Text("Hilfstext für Summieren:")
                     }
                 }
-                if self.linktype == LinkType.compare.rawValue {
+                if self.controltype == ControlType.compare.rawValue {
                     Section {
                         NavigationLink(destination: RegionsListView(selectionNumber: 1)
                                                         .environmentObject(self.store)) {
@@ -76,7 +76,7 @@ struct AddControllMachanismView: View {
             .onDisappear {
                 // set the type on disappear (no better option because of navigation)
                 self.store.send(.newTemplate(action: .links(action:
-                    .setLinkType(type: LinkType(rawValue: self.linktype)!)))
+                    .setLinkType(type: ControlType(rawValue: self.controltype)!)))
                 )
             }
             .alert(item: self.$showAlert) { alert in

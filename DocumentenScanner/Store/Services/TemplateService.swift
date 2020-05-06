@@ -98,7 +98,7 @@ final class TemplateService {
 
     }
 
-    func createTemplate(name: String, description: String, links: [Link]) -> AnyPublisher<AppAction, Never> {
+    func createTemplate(name: String, description: String, links: [ControlMechanism]) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
             return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
                 .eraseToAnyPublisher()
