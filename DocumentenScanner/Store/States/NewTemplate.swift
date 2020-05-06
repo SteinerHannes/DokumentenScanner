@@ -19,7 +19,7 @@ enum NewTemplateAction {
     /// Add pages to var newTemplate.pages
     /// - parameter pages: A List of pages of the template
     case addPagesToNewTemplate(pages: [Page])
-    /// Make all variables nil and initilaize the LinkState
+    /// Make all variables nil and initilaize the ControlState
     case clearState
     /// Set var currentPage to the page number you want
     /// and therefor it sets var image too the image from this page
@@ -39,15 +39,15 @@ enum NewTemplateAction {
     case setRegionAndAddAttributeToPage(height: CGFloat, width: CGFloat, rectState: CGSize)
     /// Sets the current attribute to nil
     case clearCurrentAttribute
-    /// The reducer function of the link state
-    /// for the functionality of the link actions
-    /// - parameter action: A LinkAction for mutating the link state
-    case links(action: LinkAction)
-    /// Adds combines the variables from link state to create a link
-    /// and to add it to the link list of the template
-    case addLinkToNewTemplate
-    /// Delets a link from the link list of the new template
-    case deletLinkFromNewTemplate(linkID: String)
+    /// The reducer function of the control state
+    /// for the functionality of the control actions
+    /// - parameter action: A ControlAction for mutating the control state
+    case controls(action: ControlAction)
+    /// Adds combines the variables from control state to create a control mechanism
+    /// and to add it to the control mechanisms list of the template
+    case addControlMechanismToNewTemplate
+    /// Delets a control mechanism from the control mechanisms list of the new template
+    case deletControlMechanismFromNewTemplate(mechanismID: String)
     case setTemplate(template: Template)
 }
 
@@ -61,11 +61,11 @@ struct NewTemplateState {
     var currentPage: Int?
     /// The current attribute you create in the NewAttributeView and others
     var currentAttribut: ImageRegion?
-    /// The state for handling the link variables
-    var linkState: LinkState
+    /// The state for handling the control machanism variables
+    var controlState: ControlState
 
     init() {
-        self.linkState = LinkState()
+        self.controlState = ControlState()
     }
 }
 
@@ -87,7 +87,7 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentPage = nil
             state.image = nil
             state.newTemplate = nil
-            state.linkState = LinkState()
+            state.controlState = ControlState()
 
         case let .setImageAndPageNumber(number: number):
             state.image = state.newTemplate!.pages[number]._image
@@ -112,20 +112,21 @@ func newTemplateReducer(state: inout NewTemplateState, action: NewTemplateAction
             state.currentAttribut!.rectState = rectState
             state.newTemplate!.pages[state.currentPage!].regions.append(state.currentAttribut!)
 
-        case let .links(action: action):
-            linkReducer(state: &state.linkState, action: action)
+        case let .controls(action: action):
+            controlReducer(state: &state.controlState, action: action)
 
-        case .addLinkToNewTemplate:
-            let regionIDs = state.linkState.firstSelections! + state.linkState.secondSelections!
+        case .addControlMechanismToNewTemplate:
+            let regionIDs = state.controlState.firstSelections! + state.controlState.secondSelections!
 
-            let link = ControlMechanism(linktype: state.linkState.currentType!, regionIDs: regionIDs)
-            state.newTemplate!.links.append(link)
+            let machanism = ControlMechanism(controltype: state.controlState.currentType!,
+                                             regionIDs: regionIDs)
+            state.newTemplate!.controlMechanisms.append(machanism)
 
-        case let .deletLinkFromNewTemplate(linkID: id):
-            if let index = state.newTemplate!.links.firstIndex(where: { (link) -> Bool in
-                link.id == id
+        case let .deletControlMechanismFromNewTemplate(mechanismID: id):
+            if let index = state.newTemplate!.controlMechanisms.firstIndex(where: { (control) -> Bool in
+                control.id == id
             }) {
-                state.newTemplate!.links.remove(at: index)
+                state.newTemplate!.controlMechanisms.remove(at: index)
         }
         case let .setTemplate(template: template):
             state.newTemplate = template

@@ -65,8 +65,10 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             case .createTemplate:
                 let name = states.newTemplateState.newTemplate!.name
                 let description = states.newTemplateState.newTemplate!.info
-                let links = states.newTemplateState.newTemplate!.links
-                return enviorment.template.createTemplate(name: name, description: description, links: links)
+                let controlMechanisms = states.newTemplateState.newTemplate!.controlMechanisms
+                return enviorment.template.createTemplate(name: name,
+                                                          description: description,
+                                                          machanisms: controlMechanisms)
 
             case let .createTeamplateResult(result: result):
                 switch result {

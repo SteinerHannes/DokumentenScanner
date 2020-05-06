@@ -23,8 +23,8 @@ struct ControlMechanism: Identifiable {
     var controltype: ControlType
     var regionIDs: [String] = []
 
-    var linktypeName: String {
-        switch self.linktype {
+    var controlTypeName: String {
+        switch self.controltype {
             case .compare:
                 return "Vergleich"
             case .sum:
@@ -41,7 +41,7 @@ enum ControlType: Int {
 extension ControlMechanism: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
-        case linktype
+        case controltype = "linktype"
         case regionIDs
     }
 
@@ -49,14 +49,14 @@ extension ControlMechanism: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: CodingKeys.id)
-        let linktypeInt = try container.decode(Int.self, forKey: CodingKeys.linktype)
-        switch linktypeInt {
+        let controltypeInt = try container.decode(Int.self, forKey: CodingKeys.controltype)
+        switch controltypeInt {
             case 0:
-                linktype = .compare
+                controltype = .compare
             case 1:
-                linktype = .sum
+                controltype = .sum
             default:
-                linktype = .compare
+                controltype = .compare
         }
         regionIDs = try container.decode([String].self, forKey: CodingKeys.regionIDs)
     }

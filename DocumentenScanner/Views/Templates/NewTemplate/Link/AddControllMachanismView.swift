@@ -75,8 +75,8 @@ struct AddControllMachanismView: View {
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .onDisappear {
                 // set the type on disappear (no better option because of navigation)
-                self.store.send(.newTemplate(action: .links(action:
-                    .setLinkType(type: ControlType(rawValue: self.controltype)!)))
+                self.store.send(.newTemplate(action: .controls(action:
+                    .setControlType(type: ControlType(rawValue: self.controltype)!)))
                 )
             }
             .alert(item: self.$showAlert) { alert in
@@ -96,14 +96,14 @@ struct AddControllMachanismView: View {
 
     private func trailingItem() -> some View {
         Button(action: {
-            if self.store.states.newTemplateState.linkState.firstSelections == nil {
+            if self.store.states.newTemplateState.controlState.firstSelections == nil {
                 self.showAlert = .init(id: .noFirstSelections)
-            } else if self.store.states.newTemplateState.linkState.secondSelections == nil {
+            } else if self.store.states.newTemplateState.controlState.secondSelections == nil {
                 self.showAlert = .init(id: .noSecondSelections)
             } else {
-                self.store.send(.newTemplate(action: .addLinkToNewTemplate))
+                self.store.send(.newTemplate(action: .addControlMechanismToNewTemplate))
                 self.presentation.wrappedValue.dismiss()
-                self.store.send(.newTemplate(action: .links(action: .clearLink)))
+                self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
             }
         }) {
             Text("Speichern")
@@ -113,7 +113,7 @@ struct AddControllMachanismView: View {
     private func leadingItem() -> some View {
         Button(action: {
             self.presentation.wrappedValue.dismiss()
-            self.store.send(.newTemplate(action: .links(action: .clearLink)))
+            self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
         }) {
             Text("Abbrechen")
         }
@@ -122,7 +122,7 @@ struct AddControllMachanismView: View {
     /// Return the Name of the ImageRegion in the selection
     private func getImageRegionName(selectionNumber: Int) -> String {
         if selectionNumber == 1 {
-            guard let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.firstSelections?.first
                 else { return "" }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -130,7 +130,7 @@ struct AddControllMachanismView: View {
                 }
             }
         } else {
-            guard let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.secondSelections?.first
                 else { return "" }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -142,7 +142,7 @@ struct AddControllMachanismView: View {
     }
 }
 
-struct AddLinkView_Previews: PreviewProvider {
+struct AddControllMachanismView_Previews: PreviewProvider {
     static var previews: some View {
         AddControllMachanismView()
             .environmentObject(AppStoreMock.getAppStore())

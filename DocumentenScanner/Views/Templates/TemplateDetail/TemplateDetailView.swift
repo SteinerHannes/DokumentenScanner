@@ -41,7 +41,7 @@ struct TemplateDetailView: View {
     /// Is set when the taken pages != the pages of the template
     @State private var takenPages: Int?
 
-    @State var links: [String: (Int, Int)] = [:]
+    @State var controlMechanims: [String: (Int, Int)] = [:]
 
     @State private var time: Double = 0.5
 
@@ -66,7 +66,9 @@ struct TemplateDetailView: View {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
                     DocumentResult(template: template)
-                    DocumentControl(template: template, links: self.$links, idList: self.idList)
+                    DocumentControl(template: template,
+                                    controlMechanisms: self.$controlMechanims,
+                                    idList: self.idList)
                 }
             }
             .resignKeyboardOnDragGesture()
@@ -172,7 +174,7 @@ struct TemplateDetailView: View {
                     self.store.send(.ocr(action: .sendResult(pageNumber: page.number, result: pageRegions)))
                     var counter: Int = 0
                     for region in pageRegions {
-                        self.links[region.regionID] = (page.number, counter)
+                        self.controlMechanims[region.regionID] = (page.number, counter)
                         counter += 1
                     }
                 }
@@ -211,7 +213,7 @@ struct TemplateDetailView: View {
 //                    self.store.send(.ocr(action: .sendResult(pageNumber: page.id, result: pageRegions)))
 //                    var counter: Int = 0
 //                    for region in pageRegions {
-//                        self.links[region.regionID] = (page.id, counter)
+//                        self.controlMechanisms[region.regionID] = (page.id, counter)
 //                        counter += 1
 //                    }
 //                }

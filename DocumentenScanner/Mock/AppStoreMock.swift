@@ -195,26 +195,31 @@ class AppStoreMock {
                          _image: UIImage(imageLiteralResourceName: "page3"),
                          regions: [region_3_1, region_3_2])
 
-        let link1 = ControlMechanism(id: "1", linktype: .compare, regionIDs: ["1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
-                                                                  "034C939D-900D-4BAF-8983-2D6174464AC6"])
+        let control1 = ControlMechanism(id: "1", controltype: .compare,
+                                        regionIDs: ["1B10D0CD-DE0D-4983-B60B-15B0D07D3149",
+                                                    "034C939D-900D-4BAF-8983-2D6174464AC6"])
 
-        let link2 = ControlMechanism(id: "2", linktype: .compare, regionIDs: ["4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
-                                                                  "6DA3ADC2-9958-4D4F-BAEA-DF7F638B8AB8"])
+        let control2 = ControlMechanism(id: "2", controltype: .compare,
+                                        regionIDs: ["4E514AF3-0AFC-4F86-94BC-6158027C6CD0",
+                                                    "6DA3ADC2-9958-4D4F-BAEA-DF7F638B8AB8"])
 
-        let link3 = ControlMechanism(id: "3", linktype: .compare, regionIDs: ["34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
-                                                                  "60273F95-3AE8-4226-97B9-7A62A56DC3C2"])
+        let control3 = ControlMechanism(id: "3", controltype: .compare,
+                                        regionIDs: ["34BAA4E4-63B1-48E1-B673-A8A9FCC10D21",
+                                                    "60273F95-3AE8-4226-97B9-7A62A56DC3C2"])
 
-        let link4 = ControlMechanism(id: "4", linktype: .compare, regionIDs: ["45419F6E-4BFC-4C44-B920-B33FE6920B93",
-                                                                  "FF52C7A8-01A2-4B48-A6B6-9CAD5AFF2586"])
+        let control4 = ControlMechanism(id: "4", controltype: .compare,
+                                        regionIDs: ["45419F6E-4BFC-4C44-B920-B33FE6920B93",
+                                                    "FF52C7A8-01A2-4B48-A6B6-9CAD5AFF2586"])
 
-        let link5 = ControlMechanism(id: "5", linktype: .compare, regionIDs: ["907EF51F-F3F3-4E40-9A66-7792B68537F6",
-                                                                  "FF44642E-E064-4598-9741-D6BEDB003F2E"])
+        let control5 = ControlMechanism(id: "5", controltype: .compare,
+                                        regionIDs: ["907EF51F-F3F3-4E40-9A66-7792B68537F6",
+                                                    "FF44642E-E064-4598-9741-D6BEDB003F2E"])
 
         let template = Template(id: "4C1FF6B7-99A1-42E6-A671-0F058C8EFB2B",
                                 name: "Klausur",
                                 info: "Grundlagen Infromationstechnologie",
                                 pages: [page1, page2, page3],
-                                links: [link1, link2, link3, link4, link5])
+                                controlMechanisms: [control1, control2, control3, control4, control5])
         return template
     }
 }

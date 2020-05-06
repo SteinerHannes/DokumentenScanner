@@ -21,11 +21,11 @@ struct RegionsListView: View {
                 Section(header: Text("Seite \(index+1)")) {
                     //swiftlint:disable line_length
                     ForEach(0 ..< self.store.states.newTemplateState.newTemplate!.pages[index].regions.count) { regionIndex in
-                    //swiftlint:enable line_length
                         RowContainer(region: self.getRegion(for: index, and: regionIndex),
                                      selections: self.$selections,
-                                     linktype: self.store.states.newTemplateState.linkState.currentType!)
+                                     controltype: self.store.states.newTemplateState.controlState.currentType!)
                     }
+                    //swiftlint:enable line_length
                     if self.store.states.newTemplateState.newTemplate!.pages[index].regions.isEmpty {
                         HStack(alignment: .center, spacing: 0) {
                             Spacer()
@@ -59,7 +59,7 @@ struct RegionsListView: View {
         if self.selectionNumber == 1 {
             self.store.send(
                 .newTemplate(action:
-                    .links(action:
+                    .controls(action:
                         .setFirstSelections(selections: self.selections.map({ (region) -> String in
                             region.id
                         }))
@@ -69,7 +69,7 @@ struct RegionsListView: View {
         } else {
             self.store.send(
                 .newTemplate(action:
-                    .links(action:
+                    .controls(action:
                         .setSecondSelections(selections: self.selections.map({ (region) -> String in
                             region.id
                         }))
@@ -82,7 +82,7 @@ struct RegionsListView: View {
     /// Sets the selection to the previous selected regions
     private func getSelection() {
         if self.selectionNumber == 1 {
-            guard let id = self.store.states.newTemplateState.linkState.firstSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.firstSelections?.first
                 else { return }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -90,7 +90,7 @@ struct RegionsListView: View {
                 }
             }
         } else {
-            guard let id = self.store.states.newTemplateState.linkState.secondSelections?.first
+            guard let id = self.store.states.newTemplateState.controlState.secondSelections?.first
                 else { return }
             for page in self.store.states.newTemplateState.newTemplate!.pages {
                 for region in page.regions where region.id == id {
@@ -107,19 +107,19 @@ struct RowContainer: View {
 
     @Binding var selections: [ImageRegion]
 
-    let linktype: ControlType
+    let controltype: ControlType
 
     let region: ImageRegion
 
-    init(region: ImageRegion, selections: Binding<[ImageRegion]>, linktype: ControlType) {
+    init(region: ImageRegion, selections: Binding<[ImageRegion]>, controltype: ControlType) {
         self.region = region
         _selections = selections
-        self.linktype = linktype
+        self.controltype = controltype
     }
 
     var body: some View {
         MultipleSelectionRow(region: self.region, isSelected: self.selections.contains(self.region)) {
-            switch self.linktype {
+            switch self.controltype {
                 case .compare:
                     // only one is selected
                     if self.selections.isEmpty {

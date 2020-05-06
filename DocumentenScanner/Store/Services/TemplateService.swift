@@ -98,7 +98,9 @@ final class TemplateService {
 
     }
 
-    func createTemplate(name: String, description: String, links: [ControlMechanism]) -> AnyPublisher<AppAction, Never> {
+    func createTemplate(
+        name: String, description: String, machanisms: [ControlMechanism]
+    ) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
             return Just(.service(action: .createTeamplateResult(result: .failure(.serverError))))
                 .eraseToAnyPublisher()
@@ -108,8 +110,10 @@ final class TemplateService {
             return Just(.service(action: .createTeamplateResult(result: .failure(.noJWT))))
                 .eraseToAnyPublisher()
         }
-        let linkArray: [LinkDTO] = links.map { (link) -> LinkDTO in
-            return LinkDTO(id: link.id, linktype: link.linktype.rawValue, regionIDs: link.regionIDs)
+        let linkArray: [LinkDTO] = machanisms.map { (machanism) -> LinkDTO in
+            return LinkDTO(id: machanism.id,
+                           linktype: machanism.controltype.rawValue,
+                           regionIDs: machanism.regionIDs)
         }
         guard let linkJson = try? self.encoder.encode(LinksDTO(links: linkArray)) else {
             return Just(.service(action: .createTeamplateResult(result: .failure(.badEncoding))))

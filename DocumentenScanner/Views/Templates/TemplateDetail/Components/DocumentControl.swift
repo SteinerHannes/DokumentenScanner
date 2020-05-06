@@ -13,7 +13,7 @@ struct DocumentControl: View {
 
     let template: Template
 
-    @Binding var links: [String: (Int, Int)]
+    @Binding var controlMechanisms: [String: (Int, Int)]
 
     let idList: [String: ImageRegion]
 
@@ -21,65 +21,67 @@ struct DocumentControl: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Kontroll-Mechanismen")
                 .font(.headline)
-            Text("Anzahl aller Kontrollen: \(template.links.count)")
+            Text("Anzahl aller Kontrollen: \(template.controlMechanisms.count)")
                 .font(.caption)
-            ForEach(template.links) { link in
-                ControlMechanismView(links: self.$links, link: link, idList: self.idList)
+            ForEach(template.controlMechanisms) { machanism in
+                ControlMechanismView(controlMechanisms: self.$controlMechanisms,
+                                     controlMechanism: machanism,
+                                     idList: self.idList)
             }
         }
         .sectionBackground()
     }
 }
 
-struct DocumentLink_Previews: PreviewProvider {
+struct DocumentControl_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentControl(template: AppStoreMock.realTemplate(), links: .constant([:]), idList: [:])
+        DocumentControl(template: AppStoreMock.realTemplate(), controlMechanisms: .constant([:]), idList: [:])
             .environmentObject(AppStoreMock.getAppStore())
     }
 }
 
 struct ControlMechanismView: View {
     @EnvironmentObject var store: AppStore
-    @Binding var links: [String: (Int, Int)]
+    @Binding var controlMechanisms: [String: (Int, Int)]
 
-    let link: ControlMechanism
+    let controlMechanism: ControlMechanism
     let idList: [String: ImageRegion]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Divider()
             HStack(alignment: .center, spacing: 0) {
-                Text(link.linktypeName)
+                Text(controlMechanism.controlTypeName)
                     .font(.headline)
                 Spacer()
             }
-            Text(self.getLinkInfo(link: link))
+            Text(self.getControlInfo(control: controlMechanism))
                 .font(.subheadline)
             if self.store.states.ocrState.result.isEmpty {
                 Text("-")
                     .foregroundColor(.secondaryLabel)
             } else {
-                getTypeView(link: link)
+                getTypeView(control: controlMechanism)
             }
         }
     }
 
-    private func getLinkInfo(link: ControlMechanism) -> String {
-        switch link.linktype {
+    private func getControlInfo(control: ControlMechanism) -> String {
+        switch control.controltype {
             case .compare:
-                let region1 = self.idList[link.regionIDs[0]]
-                let region2 = self.idList[link.regionIDs[1]]
+                let region1 = self.idList[control.regionIDs[0]]
+                let region2 = self.idList[control.regionIDs[1]]
                 return "\(region1?.name ?? "Fehler") & \(region2?.name ?? "Fehler")"
             case .sum:
                 return ""
         }
     }
 
-    private func getTypeView(link: ControlMechanism) -> some View {
-        switch link.linktype {
+    private func getTypeView(control: ControlMechanism) -> some View {
+        switch control.controltype {
             case .compare:
-                let element1 = links[link.regionIDs[0]]
-                let element2 = links[link.regionIDs[1]]
+                let element1 = controlMechanisms[control.regionIDs[0]]
+                let element2 = controlMechanisms[control.regionIDs[1]]
                 if element1 == nil || element2 == nil {
                     return Text("Kontrolle kann noch nicht durchgeführt werden.")
                         .eraseToAnyView()

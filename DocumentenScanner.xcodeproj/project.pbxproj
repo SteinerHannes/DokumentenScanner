@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */; };
 		EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */; };
 		EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EF0FCF0A243DE35900584F92 /* Introspect */; };
 		EF151AFD243F0BB600E92C7A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF151AFC243F0BB600E92C7A /* Kingfisher */; };
@@ -99,7 +98,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAnalyzer.swift; sourceTree = "<group>"; };
 		EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
@@ -190,14 +188,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EF019A2D2423B32D008964B7 /* Link */ = {
-			isa = PBXGroup;
-			children = (
-				EF019A2E2423B351008964B7 /* LinkAnalyzer.swift */,
-			);
-			path = Link;
-			sourceTree = "<group>";
-		};
 		EF4223BD2406790E00FF510E /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,7 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				EFFECC1524332307008EED63 /* Internet */,
-				EF019A2D2423B32D008964B7 /* Link */,
 				EF786BEB2420DDF2001D71F9 /* TextRecognition */,
 				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF1945EA240804A700D76CE7 /* Template.swift */,
@@ -645,7 +634,6 @@
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
 				EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */,
-				EF019A2F2423B351008964B7 /* LinkAnalyzer.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,
 				EFFF9EE62436147B00E3CD98 /* UserInfoDTO.swift in Sources */,
 				EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */,

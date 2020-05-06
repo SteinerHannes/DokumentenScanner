@@ -23,7 +23,7 @@ struct ControlMechanismsView: View {
                     Text("Neuen Kontroll-Mechanismus hinzufügen")
                 }
             }
-            if self.store.states.newTemplateState.newTemplate?.links.isEmpty ?? true {
+            if self.store.states.newTemplateState.newTemplate?.controlMechanisms.isEmpty ?? true {
                 Section {
                     HStack(alignment: .center, spacing: 0) {
                         Spacer()
@@ -33,12 +33,12 @@ struct ControlMechanismsView: View {
                 }
             } else {
                 Section {
-                    ForEach(self.store.states.newTemplateState.newTemplate!.links) { link in
-                        ControllMechanismRow(link: link)
+                    ForEach(self.store.states.newTemplateState.newTemplate!.controlMechanisms) { control in
+                        ControllMechanismRow(control: control)
                             .contextMenu {
                                 Button(action: {
                                     self.store.send(.newTemplate(action:
-                                        .deletLinkFromNewTemplate(linkID: link.id)))
+                                        .deletControlMechanismFromNewTemplate(mechanismID: control.id)))
                                 }) {
                                     // MARK: no size and color effect
                                     Text("Löschen").font(.system(size: 15))
@@ -74,21 +74,21 @@ struct ControlMechanismsView: View {
 struct ControllMechanismRow: View {
     @EnvironmentObject var store: AppStore
 
-    let link: ControlMechanism
+    let control: ControlMechanism
 
     var body: some View {
-        if link.linktype == .compare {
+        if control.controltype == .compare {
             return VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .center, spacing: 5) {
                     Text("1. Region:")
                     Spacer()
-                    Text(getRegionInfo(for: link.regionIDs[0]))
+                    Text(getRegionInfo(for: control.regionIDs[0]))
                         .foregroundColor(.secondaryLabel)
                 }
                 HStack(alignment: .center, spacing: 5) {
                     Text("2. Region:")
                     Spacer()
-                    Text(getRegionInfo(for: link.regionIDs[1]))
+                    Text(getRegionInfo(for: control.regionIDs[1]))
                         .foregroundColor(.secondaryLabel)
                 }
             }.eraseToAnyView()
@@ -107,7 +107,7 @@ struct ControllMechanismRow: View {
     }
 }
 
-struct LinkedRegionsView_Previews: PreviewProvider {
+struct ControlMechanismsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ControlMechanismsView()
