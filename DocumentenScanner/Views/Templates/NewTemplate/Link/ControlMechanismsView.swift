@@ -1,5 +1,5 @@
 //
-//  LinkedRegionsView.swift
+//  ControlMechanismsView.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 17.03.20.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 //swiftlint:disable multiple_closures_with_trailing_closure
-struct LinkedRegionsView: View {
+struct ControlMechanismsView: View {
     @EnvironmentObject var store: AppStore
 
     @State var isActive: Bool = false
@@ -20,21 +20,21 @@ struct LinkedRegionsView: View {
                 Button(action: {
                     self.isActive = true
                 }) {
-                    Text("Neuen Link hinzufügen")
+                    Text("Neuen Kontroll-Mechanismus hinzufügen")
                 }
             }
             if self.store.states.newTemplateState.newTemplate?.links.isEmpty ?? true {
                 Section {
                     HStack(alignment: .center, spacing: 0) {
                         Spacer()
-                        Text("Keine Links vorhanden.")
+                        Text("Keine Kontroll-Mechanismus vorhanden.")
                         Spacer()
                     }
                 }
             } else {
                 Section {
                     ForEach(self.store.states.newTemplateState.newTemplate!.links) { link in
-                        LinkRow(link: link)
+                        ControllMechanismRow(link: link)
                             .contextMenu {
                                 Button(action: {
                                     self.store.send(.newTemplate(action:
@@ -51,11 +51,11 @@ struct LinkedRegionsView: View {
             }
         }
         .sheet(isPresented: self.$isActive) {
-            AddLinkView().environmentObject(self.store)
+            AddControllMachanismView().environmentObject(self.store)
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)
-        .navigationBarTitle("Linkliste", displayMode: .inline)
+        .navigationBarTitle("Kontroll-Liste", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
     }
 
@@ -71,7 +71,7 @@ struct LinkedRegionsView: View {
     }
 }
 
-struct LinkRow: View {
+struct ControllMechanismRow: View {
     @EnvironmentObject var store: AppStore
 
     let link: Link
@@ -110,7 +110,7 @@ struct LinkRow: View {
 struct LinkedRegionsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            LinkedRegionsView()
+            ControlMechanismsView()
                 .environmentObject(AppStoreMock.getAppStore())
         }
     }

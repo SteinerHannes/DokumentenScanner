@@ -23,7 +23,7 @@ enum LinkAction {
     case clearLink
 }
 
-/// The state for a new link created in the AddLinkView and RegionsListView
+/// The state for a new link created in the AddControllMachanismView and RegionsListView
 struct LinkState {
     /// The type of the link
     var currentType: LinkType? = .compare

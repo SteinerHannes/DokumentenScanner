@@ -1,5 +1,5 @@
 //
-//  AddLinkView.swift
+//  AddControllMachanismView.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 17.03.20.
@@ -18,7 +18,7 @@ struct AlertIdentifier: Identifiable {
 }
 
 //swiftlint:disable multiple_closures_with_trailing_closure
-struct AddLinkView: View {
+struct AddControllMachanismView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     @State var linktype: Int = 0
@@ -28,9 +28,9 @@ struct AddLinkView: View {
         NavigationView {
             Form {
                 Section {
-                    Picker(selection: self.$linktype, label: Text("Linktype")) {
+                    Picker(selection: self.$linktype, label: Text("Kontrolltyp")) {
                         Text("Vergleichen").tag(LinkType.compare.rawValue)
-                        Text("Summieren").tag(LinkType.sum.rawValue)
+                        Text("Gesamtpunkzahl").tag(LinkType.sum.rawValue)
                     }
                     if self.linktype == LinkType.compare.rawValue {
                         VStack(alignment: .leading, spacing: 5) {
@@ -71,7 +71,7 @@ struct AddLinkView: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Neuen Link erstellen", displayMode: .inline)
+            .navigationBarTitle("Neue Kontrolle erstellen", displayMode: .inline)
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .onDisappear {
                 // set the type on disappear (no better option because of navigation)
@@ -144,7 +144,7 @@ struct AddLinkView: View {
 
 struct AddLinkView_Previews: PreviewProvider {
     static var previews: some View {
-        AddLinkView()
+        AddControllMachanismView()
             .environmentObject(AppStoreMock.getAppStore())
     }
 }

@@ -57,7 +57,7 @@ struct PageSelectView: View {
     }
 
     func trailingItem() -> some View {
-        NavigationLink(destination: LinkedRegionsView()) {
+        NavigationLink(destination: ControlMechanismsView()) {
             Text("Weiter")
         }.isDetailLink(false)
     }

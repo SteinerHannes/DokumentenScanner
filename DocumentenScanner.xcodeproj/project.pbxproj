@@ -20,7 +20,7 @@
 		EF1C82D8241FD2880098F5CB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EF1C82D7241FD2880098F5CB /* .gitignore */; };
 		EF2FEC202450264900F7B28B /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FEC1F2450264900F7B28B /* OCRService.swift */; };
 		EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2FEC2124502A5000F7B28B /* OCRState.swift */; };
-		EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4031182421303D00BF6306 /* AddLinkView.swift */; };
+		EF4031192421303D00BF6306 /* AddControllMachanismView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4031182421303D00BF6306 /* AddControllMachanismView.swift */; };
 		EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF40311A24213EB200BF6306 /* RegionsListView.swift */; };
 		EF4223BC2406750600FF510E /* SelectRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BB2406750600FF510E /* SelectRegionView.swift */; };
 		EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223BE2406792700FF510E /* BottomSheetView.swift */; };
@@ -28,7 +28,7 @@
 		EF4223C4240685CE00FF510E /* ImageRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C3240685CE00FF510E /* ImageRegion.swift */; };
 		EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4223C82406A7F500FF510E /* NewAttributView.swift */; };
 		EF44754724090C64005A0ADB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EF44754624090C64005A0ADB /* .swiftlint.yml */; };
-		EF4C21A2243B3B9600DA216C /* DocumentLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C21A1243B3B9600DA216C /* DocumentLink.swift */; };
+		EF4C21A2243B3B9600DA216C /* DocumentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C21A1243B3B9600DA216C /* DocumentControl.swift */; };
 		EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C5B762407E4210047D94B /* DismissKeyboard.swift */; };
 		EF61DB75240D70BB0083E0B7 /* PageRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF61DB74240D70BB0083E0B7 /* PageRegion.swift */; };
 		EF62965C241E753B00030997 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62965B241E753B00030997 /* AppStore.swift */; };
@@ -38,7 +38,7 @@
 		EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BEC2420DE38001D71F9 /* GlobalRecognitionTextList.swift */; };
 		EF786BEF2420F710001D71F9 /* ResultDatatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BEE2420F710001D71F9 /* ResultDatatype.swift */; };
 		EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF32421098D001D71F9 /* AppStoreMock.swift */; };
-		EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */; };
+		EF786BF62421131E001D71F9 /* ControlMechanismsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF52421131E001D71F9 /* ControlMechanismsView.swift */; };
 		EF786BF8242115C5001D71F9 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF786BF7242115C5001D71F9 /* TestView.swift */; };
 		EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */; };
 		EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7988DD24372AF6001241C0 /* AttributeDTO.swift */; };
@@ -109,7 +109,7 @@
 		EF1C82D7241FD2880098F5CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		EF2FEC1F2450264900F7B28B /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		EF2FEC2124502A5000F7B28B /* OCRState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRState.swift; sourceTree = "<group>"; };
-		EF4031182421303D00BF6306 /* AddLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkView.swift; sourceTree = "<group>"; };
+		EF4031182421303D00BF6306 /* AddControllMachanismView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddControllMachanismView.swift; sourceTree = "<group>"; };
 		EF40311A24213EB200BF6306 /* RegionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsListView.swift; sourceTree = "<group>"; };
 		EF4223BB2406750600FF510E /* SelectRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegionView.swift; sourceTree = "<group>"; };
 		EF4223BE2406792700FF510E /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 		EF4223C82406A7F500FF510E /* NewAttributView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAttributView.swift; sourceTree = "<group>"; };
 		EF44754524090C22005A0ADB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		EF44754624090C64005A0ADB /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		EF4C21A1243B3B9600DA216C /* DocumentLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentLink.swift; sourceTree = "<group>"; };
+		EF4C21A1243B3B9600DA216C /* DocumentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentControl.swift; sourceTree = "<group>"; };
 		EF4C5B762407E4210047D94B /* DismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		EF61DB74240D70BB0083E0B7 /* PageRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRegion.swift; sourceTree = "<group>"; };
 		EF62965B241E753B00030997 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		EF786BEC2420DE38001D71F9 /* GlobalRecognitionTextList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalRecognitionTextList.swift; sourceTree = "<group>"; };
 		EF786BEE2420F710001D71F9 /* ResultDatatype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDatatype.swift; sourceTree = "<group>"; };
 		EF786BF32421098D001D71F9 /* AppStoreMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreMock.swift; sourceTree = "<group>"; };
-		EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedRegionsView.swift; sourceTree = "<group>"; };
+		EF786BF52421131E001D71F9 /* ControlMechanismsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMechanismsView.swift; sourceTree = "<group>"; };
 		EF786BF7242115C5001D71F9 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailView.swift; sourceTree = "<group>"; };
 		EF7988DD24372AF6001241C0 /* AttributeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDTO.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				EF7BB50E242A0A9600B69EB5 /* DocumentInfo.swift */,
 				EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */,
 				EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */,
-				EF4C21A1243B3B9600DA216C /* DocumentLink.swift */,
+				EF4C21A1243B3B9600DA216C /* DocumentControl.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -307,8 +307,8 @@
 		EF83C29C24290976008B2200 /* Link */ = {
 			isa = PBXGroup;
 			children = (
-				EF786BF52421131E001D71F9 /* LinkedRegionsView.swift */,
-				EF4031182421303D00BF6306 /* AddLinkView.swift */,
+				EF786BF52421131E001D71F9 /* ControlMechanismsView.swift */,
+				EF4031182421303D00BF6306 /* AddControllMachanismView.swift */,
 				EF40311A24213EB200BF6306 /* RegionsListView.swift */,
 			);
 			path = Link;
@@ -619,7 +619,7 @@
 				EF786BEF2420F710001D71F9 /* ResultDatatype.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
-				EF786BF62421131E001D71F9 /* LinkedRegionsView.swift in Sources */,
+				EF786BF62421131E001D71F9 /* ControlMechanismsView.swift in Sources */,
 				EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */,
 				EFB870752434D996007E604C /* AuthServiceError.swift in Sources */,
 				EFE31F4E2403E3EE008015F3 /* SceneDelegate.swift in Sources */,
@@ -630,7 +630,7 @@
 				EFFF9EE42436139B00E3CD98 /* TemplateDTO.swift in Sources */,
 				EF1945EB240804A700D76CE7 /* Template.swift in Sources */,
 				EFFECC0D24331F29008EED63 /* Routing.swift in Sources */,
-				EF4C21A2243B3B9600DA216C /* DocumentLink.swift in Sources */,
+				EF4C21A2243B3B9600DA216C /* DocumentControl.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
@@ -649,7 +649,7 @@
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,
 				EFFF9EE62436147B00E3CD98 /* UserInfoDTO.swift in Sources */,
 				EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */,
-				EF4031192421303D00BF6306 /* AddLinkView.swift in Sources */,
+				EF4031192421303D00BF6306 /* AddControllMachanismView.swift in Sources */,
 				EF4223C92406A7F500FF510E /* NewAttributView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

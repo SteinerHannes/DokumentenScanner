@@ -66,7 +66,7 @@ struct TemplateDetailView: View {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
                     DocumentResult(template: template)
-                    DocumentLink(template: template, links: self.$links, idList: self.idList)
+                    DocumentControl(template: template, links: self.$links, idList: self.idList)
                 }
             }
             .resignKeyboardOnDragGesture()

@@ -1,5 +1,5 @@
 //
-//  DocumentLink.swift
+//  DocumentControl.swift
 //  DocumentenScanner
 //
 //  Created by Hannes Steiner on 06.04.20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DocumentLink: View {
+struct DocumentControl: View {
     @EnvironmentObject var store: AppStore
 
     let template: Template
@@ -19,12 +19,12 @@ struct DocumentLink: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Links")
+            Text("Kontroll-Mechanismen")
                 .font(.headline)
-            Text("Anzahl aller Links: \(template.links.count)")
+            Text("Anzahl aller Kontrollen: \(template.links.count)")
                 .font(.caption)
             ForEach(template.links) { link in
-                LinkView(links: self.$links, link: link, idList: self.idList)
+                ControlMechanismView(links: self.$links, link: link, idList: self.idList)
             }
         }
         .sectionBackground()
@@ -33,12 +33,12 @@ struct DocumentLink: View {
 
 struct DocumentLink_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentLink(template: AppStoreMock.realTemplate(), links: .constant([:]), idList: [:])
+        DocumentControl(template: AppStoreMock.realTemplate(), links: .constant([:]), idList: [:])
             .environmentObject(AppStoreMock.getAppStore())
     }
 }
 
-struct LinkView: View {
+struct ControlMechanismView: View {
     @EnvironmentObject var store: AppStore
     @Binding var links: [String: (Int, Int)]
 
@@ -81,7 +81,7 @@ struct LinkView: View {
                 let element1 = links[link.regionIDs[0]]
                 let element2 = links[link.regionIDs[1]]
                 if element1 == nil || element2 == nil {
-                    return Text("Link kann noch nicht überprüft werden.")
+                    return Text("Kontrolle kann noch nicht durchgeführt werden.")
                         .eraseToAnyView()
                 } else {
                     let region1 = Binding<PageRegion>(
