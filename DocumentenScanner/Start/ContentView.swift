@@ -21,7 +21,9 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 0) {
             if self.store.states.authState.isLoggedin {
                 if self.store.states.routes.isPageSelectViewPresented {
-                    PageSelectView()
+                    NavigationView {
+                        PageSelectView()
+                    }
                 } else {
                     TemplatesView().onAppear {
                         self.store.send(.service(action: .getTemplateList))

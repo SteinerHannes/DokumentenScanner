@@ -41,6 +41,10 @@ enum ServiceAction {
     case getTemplateList
 
     case getTemplateListResult(result: Result<[Template], TemplateServiceError>)
+
+    case deleteTemplate(id: String)
+
+    case deleteTemplateResult(result: Result<String, TemplateServiceError>)
 }
 
 func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: AppEnviorment)
@@ -179,6 +183,17 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             }
             case .resetState:
                 states.serviceState = ServiceState()
+
+            case let .deleteTemplate(id: id):
+                return enviorment.template.deleteTemplate(id: id)
+
+            case let .deleteTemplateResult(result: result):
+                switch result {
+                    case let .success(text):
+                        print(text)
+                    case let .failure(error):
+                        print(error)
+            }
         }
         return Empty().eraseToAnyPublisher()
 }

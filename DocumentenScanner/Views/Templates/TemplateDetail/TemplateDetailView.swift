@@ -28,6 +28,8 @@ public enum OCREngine: String {
 struct TemplateDetailView: View {
     @EnvironmentObject var store: AppStore
 
+    @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
+
     var template: Template
 
     var idList: [String: ImageRegion]
@@ -47,6 +49,17 @@ struct TemplateDetailView: View {
 
     @State private var engine: OCREngine?
 
+    @State private var edit: Bool = false
+
+    @State private var delete: Bool = false
+
+    private var bottomPadding: CGFloat {
+        if #available(iOS 11.0, *) {
+            return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
+        }
+        return 0.0
+    }
+
     init(template: Template) {
         print("init TemplateDetailView")
         self.template = template
@@ -60,7 +73,7 @@ struct TemplateDetailView: View {
     }
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading, spacing: 16) {
                     DocumentInfo(template: template)
@@ -70,11 +83,11 @@ struct TemplateDetailView: View {
                                     controlMechanisms: self.$controlMechanims,
                                     idList: self.idList)
                 }
+                .padding(.bottom, 40 + bottomPadding)
+                .padding(.top)
             }
             .resignKeyboardOnDragGesture()
-            .navigationBarTitle("\(self.template.name)",
-                displayMode: .large)
-            .navigationBarItems(trailing: self.newPictureButton())
+            .navigationBarTitle("\(self.template.name)", displayMode: .large)
             .alert(item: $alert) { alert -> Alert in
                 if alert == .pages {
                     //swiftlint:disable line_length
@@ -86,6 +99,58 @@ struct TemplateDetailView: View {
                     return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
                 }
             }
+            VStack(alignment: .leading, spacing: 0) {
+                Divider()
+                HStack(alignment: .center, spacing: 0) {
+                    Button(action: {
+                        self.delete = true
+                    }) {
+                        HStack(alignment: .center, spacing: 8) {
+                            Image(systemName: "trash")
+                            Text("Löschen")
+                        }
+                        .accentColor(.red)
+
+                    }.alert(isPresented: self.$delete) { () -> Alert in
+                        Alert(
+                            title: Text("Vorlage löschen"),
+                            message: Text("Bist du sicher, dass du die Vorlage löschen möchtest?"),
+                            primaryButton: .destructive(Text("Löschen"), action: {
+                                self.store.send(.service(action: .deleteTemplate(id: self.template.id)))
+                                self.presentation.wrappedValue.dismiss()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    self.store.send(.service(action: .getTemplateList))
+                                }
+                            }),
+                            secondaryButton: .cancel())
+                    }
+                    Spacer()
+                    Button(action: {
+                        for page in self.store.states.currentTemplate!.pages where page._image == nil {
+                            self.alert = .pictures
+                            return
+                        }
+                        self.showCamera = true
+                    }) {
+                        Image(systemName: "doc.text.viewfinder")
+                        Text("Scannen")
+                    }
+                    Spacer()
+                    NavigationLink(destination: PageSelectView()
+                        .onAppear {
+                            self.store.send(.newTemplate(action: .setTemplate(template: self.template)))
+                        }
+                    ) {
+                        HStack(alignment: .center, spacing: 8) {
+                            Image(systemName: "square.and.pencil")
+                            Text("Bearbeiten")
+                        }
+                    }
+                }.padding(.all)
+            }
+            .frame(height: 40+self.bottomPadding, alignment: .top)
+            .background(BlurView(style: .regular))
+            .offset(x: 0, y: self.bottomPadding)
             if self.engine != nil {
                 ScannerView(isActive: self.$showCamera, completion: { pages in
                     switch self.engine {
@@ -137,20 +202,6 @@ struct TemplateDetailView: View {
                 self.time += 1
                 self.loadCachedImages()
             }
-        }
-    }
-
-    fileprivate func newPictureButton() -> some View {
-        return Button(action: {
-            for page in self.store.states.currentTemplate!.pages where page._image == nil {
-                self.alert = .pictures
-                return
-            }
-            self.showCamera = true
-        }) {
-            Image(systemName: "doc.text.viewfinder")
-                .font(.body)
-            Text("Scannen")
         }
     }
 
@@ -271,6 +322,29 @@ struct TemplateDetailView: View {
 
         let newRect = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
         return newRect
+    }
+}
+
+struct BlurView: UIViewRepresentable {
+
+    let style: UIBlurEffect.Style
+
+    func makeUIView(context: UIViewRepresentableContext<BlurView>) -> UIView {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: style)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(blurView, at: 0)
+        NSLayoutConstraint.activate([
+            blurView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            blurView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<BlurView>) {
+
     }
 }
 

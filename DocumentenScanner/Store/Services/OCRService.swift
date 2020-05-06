@@ -23,11 +23,6 @@ public struct OcrRequest: Codable {
     public let pageId: Int
 }
 
-//public enum OcrEngine
-//{
-//    Tesseract
-//}
-
 enum OCRServiceError: Error {
     case badUrl
     case badEncoding

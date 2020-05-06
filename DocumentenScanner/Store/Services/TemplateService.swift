@@ -390,6 +390,52 @@ final class TemplateService {
 
         return data as Data
     }
+
+    func deleteTemplate(id: String) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return Just(.service(action: .deleteTemplateResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
+        }
+        // chek if jwt exists
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
+            return Just(.service(action: .deleteTemplateResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
+        }
+        // configure an uplaod request
+        guard let url = URL(string: baseUrl + "/template/" + id ) else {
+            return Just(.service(action: .deleteTemplateResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // create and start an uplaod task
+        return session.dataTaskPublisher(for: request)
+            .map { (data: Data, response: URLResponse) -> Result<String, TemplateServiceError> in
+                // cast is needed for statuscode
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return .failure(.serverError)
+                }
+                // check if answer is OK
+                if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
+                    return .failure(.responseCode(code: httpResponse.statusCode))
+                } else {
+                    return .success("Gelöscht")
+                }
+        }
+        .map { result -> AppAction in
+            // if there is a result in the stream
+            return .service(action: .deleteTemplateResult(result: result))
+        }
+        .replaceError(with:
+            .service(action: .deleteTemplateResult(result: .failure(.serverError)))
+        )
+        .eraseToAnyPublisher()
+    }
 }
 
 extension NSMutableData {
