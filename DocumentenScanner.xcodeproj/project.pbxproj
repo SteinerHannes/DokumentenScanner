@@ -280,7 +280,7 @@
 				EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */,
 				EFE31F6E24041049008015F3 /* TemplatePageView.swift */,
 				EF83C29B24290964008B2200 /* Attribute */,
-				EF83C29C24290976008B2200 /* Link */,
+				EF83C29C24290976008B2200 /* ControlMechanism */,
 			);
 			path = NewTemplate;
 			sourceTree = "<group>";
@@ -294,14 +294,14 @@
 			path = Attribute;
 			sourceTree = "<group>";
 		};
-		EF83C29C24290976008B2200 /* Link */ = {
+		EF83C29C24290976008B2200 /* ControlMechanism */ = {
 			isa = PBXGroup;
 			children = (
 				EF786BF52421131E001D71F9 /* ControlMechanismsView.swift */,
 				EF4031182421303D00BF6306 /* AddControllMachanismView.swift */,
 				EF40311A24213EB200BF6306 /* RegionsListView.swift */,
 			);
-			path = Link;
+			path = ControlMechanism;
 			sourceTree = "<group>";
 		};
 		EFB870732434D984007E604C /* Error */ = {
