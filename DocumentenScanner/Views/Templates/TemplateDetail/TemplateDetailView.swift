@@ -249,7 +249,10 @@ struct TemplateDetailView: View {
         self.textRecognitionDidFinish = false
         guard var pages = pages else { return }
         if pages.count == self.store.states.currentTemplate!.pages.count {
+            let array = [[PageRegion]?].init(repeating: nil, count: pages.count)
+            self.store.send(.ocr(action: .initResult(array: array)))
             for index in 0..<pages.count {
+                self.store.send(.ocr(action: .appendResult(at: pages[index].number)))
                 pages[index].id = self.template.pages[index].id
                 self.store.send(
                     .ocr(action: .ocrTesseract(page: pages[index], engine: engine)))

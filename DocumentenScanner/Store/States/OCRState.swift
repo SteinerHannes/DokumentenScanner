@@ -8,6 +8,7 @@
 // swiftlint:disable cyclomatic_complexity function_body_length
 import Foundation
 import Combine
+import SwiftUI
 
 struct OCRState {
     var result: [[PageRegion]?] = []
@@ -29,7 +30,7 @@ enum OCRAction {
 
     case handelError(_: OCRServiceError)
 
-    case handelOCRResult(result: Result<[OcrResult], OCRServiceError>)
+    case handelOCRResult(result: Result<(Int, [OcrResult]), OCRServiceError>)
 
     case handelImageUplaodResult(result: Result<String, OCRServiceError>)
 
@@ -38,7 +39,7 @@ enum OCRAction {
 
 /// The reducer of the ocr state
 /// for sending pages to the sever and recive the results
-func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorment)
+func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorment, template: Template?)
     -> AnyPublisher<AppAction, Never>? {
         switch action {
             case let .sendResult(pageNumber: number, result: pageRegions):
@@ -86,8 +87,34 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
 
             case let .handelOCRResult(result: result):
                 switch result {
-                    case let .success(ocrlist):
+                    case let .success((pageID, ocrlist)):
                         print(ocrlist.debugDescription)
+                        print(pageID)
+                        guard let template = template else {
+                            return Empty().eraseToAnyPublisher()
+                        }
+                        let page = template.pages.first { (page) -> Bool in
+                            page.id == pageID
+                        }
+                        if page == nil {
+                            return Empty().eraseToAnyPublisher()
+                        }
+                        var result: [PageRegion] = Array.init(repeating: .init(), count: page!.regions.count)
+                        for ocr in ocrlist {
+                            let index: Int = page!.regions.firstIndex { (region) -> Bool in
+                                region.id == String(ocr.attributeId)
+                            }!
+                            let region = page!.regions[index]
+
+                            result[index] = PageRegion(regionID: region.id,
+                                                       regionName: region.name,
+                                                       datatype: region.datatype,
+                                                       textResult: ocr.value, confidence: ocr.confidence)
+                        }
+                        return Just(AppAction.ocr(action: .sendResult(pageNumber: page!.number,
+                                                                      result: result)))
+                            .eraseToAnyPublisher()
+
                     case let .failure(error):
                         print("ocr beendet mit fehler")
                         return Just(AppAction.ocr(action: .handelError(error))).eraseToAnyPublisher()
@@ -98,3 +125,16 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
         }
         return Empty().eraseToAnyPublisher()
 }
+
+///// The unique id of the attribute in that region
+//public var regionID: String
+///// The image of the region
+//public var regionImage: CGImage?
+///// The data type of the content of the region
+//public var datatype: ResultDatatype
+/////
+//public var textResult: String = ""
+/////
+//public var confidence: VNConfidence = 0.0
+//
+//public var regionName: String

@@ -24,18 +24,27 @@ struct PageRegion {
 
     public var regionName: String
 
-    init(regionID: String, regionName: String, regionImage: CGImage, datatype: ResultDatatype) {
+    init(regionID: String, regionName: String, regionImage: CGImage?, datatype: ResultDatatype) {
         self.regionName = regionName
         self.regionID = regionID
         self.regionImage = regionImage
         self.datatype = datatype
     }
 
-    init(regionID: String, textResult: String, confidence: Float) {
+    init(regionID: String, regionName: String,
+         datatype: ResultDatatype, textResult: String, confidence: Float) {
         self.regionName = regionID
-        self.regionID = regionID
+        self.regionID = regionName
         self.textResult = textResult
         self.confidence = confidence
+        self.datatype = .none
+    }
+
+    init() {
+        self.regionName = ""
+        self.regionID = ""
+        self.textResult = ""
+        self.confidence = 0.0
         self.datatype = .none
     }
 }

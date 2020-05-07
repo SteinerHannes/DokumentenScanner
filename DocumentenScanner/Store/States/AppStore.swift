@@ -117,7 +117,8 @@ func appReducer(
             return serviceReducer(states: &states, action: action, enviorment: environment)
 
         case let .ocr(action: action):
-            return ocrReducer(state: &states.ocrState, action: action, enviorment: environment)
+            return ocrReducer(state: &states.ocrState, action: action,
+                              enviorment: environment, template: states.currentTemplate)
 
         case let .addNewTemplate(template: template):
             states.teamplates.append(template)

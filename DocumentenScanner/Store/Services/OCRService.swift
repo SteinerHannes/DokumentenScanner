@@ -12,8 +12,8 @@ import Combine
 import SwiftUI
 
 public struct OcrResult: Codable {
-    public let attributeId: String
-    public let confidence: String
+    public let attributeId: Int
+    public let confidence: Float
     public let value: String
 }
 
@@ -86,7 +86,7 @@ final class OCRService {
         request.httpBody = uploadData
 
         return session.dataTaskPublisher(for: request)
-            .map { (data: Data, response: URLResponse) -> Result<[OcrResult], OCRServiceError> in
+            .map { (data: Data, response: URLResponse) -> Result<(Int,[OcrResult]), OCRServiceError> in
                 // cast is needed for statuscode
                 guard let httpResponse = response as? HTTPURLResponse else {
                     return .failure(.serverError)
@@ -101,7 +101,7 @@ final class OCRService {
                     mimeType == "application/json" {
                     do {
                         let answer: [OcrResult] = try self.decoder.decode([OcrResult].self, from: data)
-                        return .success(answer)
+                        return .success((pageID, answer))
                     } catch let decodeError {
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
                         return .failure(.decoder(error: decodeError))
