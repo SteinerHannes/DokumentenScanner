@@ -115,6 +115,7 @@ final class OCRService {
             return .ocr(action: .handelOCRResult(result: result))
         }
         .replaceError(with:
+            //MARK: TODO besseres Fehlerhandling, es müssten dann leere Ergebnisse zurück geschickt werden.
             .ocr(action: .handelOCRResult(result: .failure(.serverError)))
         )
         .eraseToAnyPublisher()

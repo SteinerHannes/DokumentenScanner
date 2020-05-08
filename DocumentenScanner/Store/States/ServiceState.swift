@@ -119,10 +119,13 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                                 return Just<AppAction>(
                                     .service(action:
                                         .uploadImage(image: template.pages[pageNum+1]._image!))
-                                )
-                                    .eraseToAnyPublisher()
+                                ).eraseToAnyPublisher()
                             }
                         }
+                        print("Neu laden")
+                        return Just<AppAction>(
+                            .service(action: .getTemplateList)
+                        ).eraseToAnyPublisher()
                     case let .failure(error):
                         print("page fehler:", error)
                 }
@@ -141,6 +144,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                         if attNum < template.pages[pageNum].regions.count {
                             let nextAttribute = template.pages[pageNum].regions[attNum]
                             states.serviceState.attributeNumber! += 1
+                            print("attribute erstellt:", attribute.name)
                             return Just<AppAction>(
                                 .service(action:
                                     .createAttribute(name: nextAttribute.name,
@@ -158,10 +162,12 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             return Just<AppAction>(
                                 .service(action:
                                     .uploadImage(image: template.pages[pageNum+1]._image!))
-                            )
-                                .eraseToAnyPublisher()
+                            ).eraseToAnyPublisher()
                         }
-                        print("attribute erstellt:", attribute.name)
+                        print("Neu laden")
+                        return Just<AppAction>(
+                            .service(action: .getTemplateList)
+                        ).eraseToAnyPublisher()
                     case let .failure(error):
                         print("attribute fehler:", error)
                 }
@@ -191,6 +197,9 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                 switch result {
                     case let .success(text):
                         print(text)
+                        return Just<AppAction>(
+                            .service(action: .getTemplateList)
+                        ).eraseToAnyPublisher()
                     case let .failure(error):
                         print(error)
             }

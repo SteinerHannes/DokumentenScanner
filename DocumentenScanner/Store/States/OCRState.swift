@@ -106,10 +106,19 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
                             }!
                             let region = page!.regions[index]
 
-                            result[index] = PageRegion(regionID: region.id,
-                                                       regionName: region.name,
-                                                       datatype: region.datatype,
-                                                       textResult: ocr.value, confidence: ocr.confidence)
+                            if ocr.value.isEmpty && ocr.confidence == 0 {
+                                result[index] = PageRegion(regionID: region.id,
+                                                           regionName: region.name,
+                                                           datatype: region.datatype,
+                                                           textResult: ocr.value,
+                                                           confidence: Float.nan)
+                            } else {
+                                result[index] = PageRegion(regionID: region.id,
+                                                           regionName: region.name,
+                                                           datatype: region.datatype,
+                                                           textResult: ocr.value,
+                                                           confidence: ocr.confidence)
+                            }
                         }
                         return Just(AppAction.ocr(action: .sendResult(pageNumber: page!.number,
                                                                       result: result)))

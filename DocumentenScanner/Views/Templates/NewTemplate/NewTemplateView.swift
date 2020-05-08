@@ -29,7 +29,7 @@ struct NewTemplateView: View {
                     CustomTextField("Name", text: self.$name, isFirstResponder: true) {
                         $0.keyboardType = .alphabet
                     }
-                    TextField("Info", text: self.$info)
+                    TextField("Beschreibung", text: self.$info)
                 }
                 Section {
                     Button(action: {
