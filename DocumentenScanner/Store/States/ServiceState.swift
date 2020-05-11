@@ -60,6 +60,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
 //                        }
                         states.teamplates = list
                     case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
                         print("get TemplateList:", error)
             }
 
@@ -86,6 +88,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                                 .uploadImage(image: states.newTemplateState.newTemplate!.pages[0]._image!)))
                             .eraseToAnyPublisher()
                     case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
                         print("fehler", error)
                 }
 
@@ -127,6 +131,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             .service(action: .getTemplateList)
                         ).eraseToAnyPublisher()
                     case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
                         print("page fehler:", error)
                 }
 
@@ -169,6 +175,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             .service(action: .getTemplateList)
                         ).eraseToAnyPublisher()
                     case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
                         print("attribute fehler:", error)
                 }
 
@@ -185,6 +193,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                                             imagePath: url)))
                                 .eraseToAnyPublisher()
                     case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
                         print("upload fehler: ", error )
             }
             case .resetState:
@@ -201,7 +211,9 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             .service(action: .getTemplateList)
                         ).eraseToAnyPublisher()
                     case let .failure(error):
-                        print(error)
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
+                        print("delete",error)
             }
         }
         return Empty().eraseToAnyPublisher()

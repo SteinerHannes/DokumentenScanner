@@ -15,7 +15,7 @@ struct ImageResponse: Decodable {
     public let path: String
 }
 
-enum TemplateServiceError: Error {
+enum TemplateServiceError: Error, LocalizedError {
     case badUrl
     case badEncoding
     case decoder(error: Error)
@@ -23,6 +23,25 @@ enum TemplateServiceError: Error {
     case responseCode(code: Int)
     case response(text: String)
     case noJWT
+
+    var localizedDescription: String {
+        switch self {
+            case .badUrl:
+                return "URL konnte nicht zusammengesetzt werden"
+            case .badEncoding:
+                return "Codierungsfehler"
+            case .decoder(error: let error):
+                return "Decodierungsfehler" + error.localizedDescription
+            case .serverError:
+                return "Server-Fehler"
+            case .responseCode(code: let code):
+                return "Responsecode: \(code)"
+            case .response(text: let text):
+                return "Server-Antwort: " + text
+            case .noJWT:
+                return "Du bist nicht korrekt angemeldet."
+        }
+    }
 }
 
 final class TemplateService {
@@ -69,6 +88,9 @@ final class TemplateService {
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
                     print(String(data: data, encoding: .utf8) as Any)
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -153,6 +175,9 @@ final class TemplateService {
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
                     print(String(data: data, encoding: .utf8) as Any)
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -217,6 +242,9 @@ final class TemplateService {
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
                     print(String(data: data, encoding: .utf8) as Any)
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -283,6 +311,9 @@ final class TemplateService {
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
                     print(String(data: data, encoding: .utf8) as Any)
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it
@@ -352,6 +383,9 @@ final class TemplateService {
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
                     print(String(data: data, encoding: .utf8) as Any)
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it

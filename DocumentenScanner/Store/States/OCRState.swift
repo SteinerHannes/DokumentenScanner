@@ -131,6 +131,8 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
 
             case let .handelError(error):
                 print("Error:", error)
+                sendNotification(titel: "Fehler",
+                                 description: error.localizedDescription)
         }
         return Empty().eraseToAnyPublisher()
 }

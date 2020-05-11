@@ -93,6 +93,9 @@ final class OCRService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
+                    sendNotification(titel: "Fehler",
+                                     description: String(data: data, encoding: .utf8) ??
+                        "\(httpResponse.statusCode)")
                     print(String(data: data, encoding: .utf8) as Any)
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
