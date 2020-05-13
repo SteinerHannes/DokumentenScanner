@@ -146,7 +146,8 @@ struct TemplateDetailView: View {
                             Text("Bearbeiten")
                         }
                     }
-                }.padding(.all)
+                }.padding([.bottom,.horizontal,.top])
+                .frame(height: 40)
             }
             .frame(height: 40+self.bottomPadding, alignment: .top)
             .background(BlurView(style: .regular))
@@ -353,9 +354,17 @@ struct BlurView: UIViewRepresentable {
 
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            TemplateDetailView(template: AppStoreMock.realTemplate())
-                .environmentObject(AppStoreMock.getAppStore())
+        Group {
+            NavigationView {
+                TemplateDetailView(template: AppStoreMock.realTemplate())
+                    .environmentObject(AppStoreMock.getAppStore())
+            }
+            .previewDevice("iPad Air 2")
+            .navigationViewStyle(StackNavigationViewStyle())
+            NavigationView {
+                TemplateDetailView(template: AppStoreMock.realTemplate())
+                    .environmentObject(AppStoreMock.getAppStore())
+            }.previewDevice("iPhone X")
         }
     }
 }
