@@ -148,7 +148,7 @@
 		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
-		EFE31F482403E3EE008015F3 /* DocumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFE31F4D2403E3EE008015F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EFE31F4F2403E3EE008015F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -359,7 +359,7 @@
 		EFE31F492403E3EE008015F3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EFE31F482403E3EE008015F3 /* DocumentenScanner.app */,
+				EFE31F482403E3EE008015F3 /* DokumentenScanner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -471,9 +471,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EFE31F472403E3EE008015F3 /* DocumentenScanner */ = {
+		EFE31F472403E3EE008015F3 /* DokumentenScanner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE31F5C2403E3F4008015F3 /* Build configuration list for PBXNativeTarget "DocumentenScanner" */;
+			buildConfigurationList = EFE31F5C2403E3F4008015F3 /* Build configuration list for PBXNativeTarget "DokumentenScanner" */;
 			buildPhases = (
 				EFE31F442403E3EE008015F3 /* Sources */,
 				EFE31F452403E3EE008015F3 /* Frameworks */,
@@ -485,13 +485,13 @@
 			);
 			dependencies = (
 			);
-			name = DocumentenScanner;
+			name = DokumentenScanner;
 			packageProductDependencies = (
 				EF0FCF0A243DE35900584F92 /* Introspect */,
 				EF151AFC243F0BB600E92C7A /* Kingfisher */,
 			);
 			productName = DocumentenScanner;
-			productReference = EFE31F482403E3EE008015F3 /* DocumentenScanner.app */;
+			productReference = EFE31F482403E3EE008015F3 /* DokumentenScanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -509,7 +509,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EFE31F432403E3ED008015F3 /* Build configuration list for PBXProject "DocumentenScanner" */;
+			buildConfigurationList = EFE31F432403E3ED008015F3 /* Build configuration list for PBXProject "DokumentenScanner" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -527,7 +527,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE31F472403E3EE008015F3 /* DocumentenScanner */,
+				EFE31F472403E3EE008015F3 /* DokumentenScanner */,
 			);
 		};
 /* End PBXProject section */
@@ -788,8 +788,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hannessteiner.DocumentenScanner;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hannessteiner.DokumentenScanner;
+				PRODUCT_NAME = DokumentenScanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -811,8 +811,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hannessteiner.DocumentenScanner;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hannessteiner.DokumentenScanner;
+				PRODUCT_NAME = DokumentenScanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -822,7 +822,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE31F432403E3ED008015F3 /* Build configuration list for PBXProject "DocumentenScanner" */ = {
+		EFE31F432403E3ED008015F3 /* Build configuration list for PBXProject "DokumentenScanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EFE31F5A2403E3F4008015F3 /* Debug */,
@@ -831,7 +831,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EFE31F5C2403E3F4008015F3 /* Build configuration list for PBXNativeTarget "DocumentenScanner" */ = {
+		EFE31F5C2403E3F4008015F3 /* Build configuration list for PBXNativeTarget "DokumentenScanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EFE31F5D2403E3F4008015F3 /* Debug */,
