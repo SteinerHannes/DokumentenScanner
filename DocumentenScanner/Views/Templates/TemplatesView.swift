@@ -93,8 +93,10 @@ private struct TemplateCard: View {
                     .font(.title)
                     .lineLimit(2)
                 HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "photo")
-                        .fetchingRemoteImage(from: template.pages.isEmpty ? "" : template.pages[0].url)
+                    Image(uiImage: template.pages[0]._image!)
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 88, height: 120)
                     VStack(alignment: .leading, spacing: 5) {
                         Text("\(template.pages.count) \(template.pages.count == 1 ? "Seite" : "Seiten" )")

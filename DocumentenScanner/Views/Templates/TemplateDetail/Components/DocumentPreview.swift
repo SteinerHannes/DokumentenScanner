@@ -15,8 +15,10 @@ struct DocumentPreview: View {
         ScrollView(.horizontal, showsIndicators: true) {
             HStack(alignment: .center, spacing: 15) {
                 ForEach(0 ..< self.template.pages.count) { index in
-                    Image(systemName: "photo")
-                        .fetchingRemoteImage(from: self.template.pages[index].url)
+                    Image(uiImage: self.template.pages[index]._image!)
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFit()
                         .shadow(color: .shadow, radius: 5, x: 0, y: 0)
                         .frame(idealWidth: 110, maxWidth: UIScreen.main.bounds.width-32,
                                idealHeight: 200,

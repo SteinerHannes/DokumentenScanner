@@ -66,7 +66,8 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
             }
 
             case .getTemplateList:
-                return enviorment.template.getTemplateList()
+                    break
+            //return enviorment.template.getTemplateList()
 
             case .createTemplate:
                 let name = states.newTemplateState.newTemplate!.name
