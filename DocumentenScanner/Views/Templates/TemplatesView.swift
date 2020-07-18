@@ -59,7 +59,7 @@ struct TemplatesView: View {
                 self.isShowing = false
             })
             .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
+            .navigationBarItems(trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
     }
@@ -70,15 +70,6 @@ struct TemplatesView: View {
                 Image(systemName: "plus.square.on.square")
                     .font(.body)
                 Text("Neue Vorlage")
-            }
-    }
-
-    private func leadingItem() -> some View {
-        return
-            Button(action: {
-                self.store.send(.auth(action: .logout))
-            }) {
-                Text("Ausloggen")
             }
     }
 }
