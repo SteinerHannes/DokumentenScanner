@@ -20,64 +20,53 @@ struct TemplatesView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ScrollView(.vertical, showsIndicators: true) {
-//                VStack(alignment: .leading, spacing: 10) {
-//                    APITestView()
-//                }.frame(height: 100)
-                VStack(alignment: .leading, spacing: 16) {
-                    if self.store.states.teamplates.isEmpty {
-                        HStack(alignment: .center, spacing: 0) {
-                            Spacer()
-                            Text("Keine Vorlagen vorhanden.")
-                            Spacer()
+        ScrollView(.vertical, showsIndicators: true) {
+            //                VStack(alignment: .leading, spacing: 10) {
+            //                    APITestView()
+            //                }.frame(height: 100)
+            VStack(alignment: .leading, spacing: 16) {
+                if self.store.states.teamplates.isEmpty {
+                    HStack(alignment: .center, spacing: 0) {
+                        Spacer()
+                        Text("Keine Vorlagen vorhanden.")
+                        Spacer()
+                    }
+                    .sectionBackground()
+                } else {
+                    ForEach(self.store.states.teamplates, id: \.id) { template in
+                        NavigationLink(
+                            destination:
+                            LazyView(TemplateDetailView(template: template)
+                                .environmentObject(self.store)),
+                            tag: template.id,
+                            selection: self.$selection) {
+                                Button(action: {
+                                    self.store.send(.setCurrentTemplate(id: template.id))
+                                    self.selection = template.id
+                                    self.store.send(.ocr(action: .clearResult))
+                                }) {
+                                    TemplateCard(template: template)
+                                }
                         }
                         .sectionBackground()
-                    } else {
-                        ForEach(self.store.states.teamplates, id: \.id) { template in
-                            NavigationLink(
-                                destination:
-                                    LazyView(TemplateDetailView(template: template)
-                                        .environmentObject(self.store)),
-                                tag: template.id,
-                                selection: self.$selection) {
-                                    Button(action: {
-                                        self.store.send(.setCurrentTemplate(id: template.id))
-                                        self.selection = template.id
-                                        self.store.send(.ocr(action: .clearResult))
-                                    }) {
-                                        TemplateCard(template: template)
-                                    }
-                            }
-                            .sectionBackground()
-                        }
                     }
                 }
             }
-            .pullToRefresh(isShowing: self.$isShowing, onRefresh: {
-                self.store.send(.service(action: .getTemplateList))
-                self.isShowing = false
-            })
-            .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(trailing: self.trailingItem())
-            .navigationBarHidden(self.store.states.routes.isCameraPresented)
         }
-    }
-
-    private func trailingItem() -> some View {
-        return
-            NavigationLink(destination: LazyView(NewTemplateView())) {
-                Image(systemName: "plus.square.on.square")
-                    .font(.body)
-                Text("Neue Vorlage")
-            }
+        .pullToRefresh(isShowing: self.$isShowing, onRefresh: {
+            self.store.send(.service(action: .getTemplateList))
+            self.isShowing = false
+        })
+        .navigationBarTitle("Vorlagen", displayMode: .large)
+        .navigationBarHidden(self.store.states.routes.isCameraPresented)
     }
 }
 
-private struct TemplateCard: View {
+public struct TemplateCard: View {
     var template: Template
+    var showChevron: Bool? = true
 
-    var body: some View {
+    public var body: some View {
         HStack(alignment: .center, spacing: 5) {
             VStack(alignment: .leading, spacing: 5) {
                 Text(template.name)
@@ -101,11 +90,13 @@ private struct TemplateCard: View {
             .layoutPriority(1)
             Spacer()
                 .frame(minWidth: 0, maxWidth: .infinity)
-            Image(systemName: "chevron.right")
-                .frame(width: nil, height: 88, alignment: .trailing)
-                .font(.system(size: 13, weight: .semibold, design: .default))
-                .foregroundColor(.systemFill)
-                .layoutPriority(1)
+            if showChevron == true {
+                Image(systemName: "chevron.right")
+                    .frame(width: nil, height: 88, alignment: .trailing)
+                    .font(.system(size: 13, weight: .semibold, design: .default))
+                    .foregroundColor(.systemFill)
+                    .layoutPriority(1)
+            }
         }
     }
 }
@@ -113,6 +104,7 @@ private struct TemplateCard: View {
 struct TemplatesView_Previews: PreviewProvider {
     static var previews: some View {
         TemplatesView()
+            .embedInNavigation()
             .environmentObject(AppStoreMock.getAppStore())
     }
 }

@@ -48,9 +48,11 @@
 		EF8A2D792422CAEE007396AD /* ControlMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8A2D782422CAEE007396AD /* ControlMechanism.swift */; };
 		EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8C241100DB00ABDC19 /* Page.swift */; };
 		EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */; };
+		EFA1B8B024C310BC0067994B /* Scan.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA1B8AF24C310BC0067994B /* Scan.swift */; };
 		EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */; };
 		EFB4A9C1243DCA680056F75B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4A9C0243DCA680056F75B /* RemoteImage.swift */; };
 		EFB4A9C3243DD2690056F75B /* SectionBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4A9C2243DD2690056F75B /* SectionBackground.swift */; };
+		EFB72C3024C3156100B49469 /* ScanOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB72C2F24C3156100B49469 /* ScanOverviewView.swift */; };
 		EFB870722434D533007E604C /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870712434D533007E604C /* Auth.swift */; };
 		EFB870752434D996007E604C /* AuthServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870742434D996007E604C /* AuthServiceError.swift */; };
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
@@ -139,9 +141,11 @@
 		EF8A2D782422CAEE007396AD /* ControlMechanism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMechanism.swift; sourceTree = "<group>"; };
 		EF8E6D8C241100DB00ABDC19 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EF8E6D8E2411101C00ABDC19 /* PageSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSelectView.swift; sourceTree = "<group>"; };
+		EFA1B8AF24C310BC0067994B /* Scan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scan.swift; sourceTree = "<group>"; };
 		EFA42DF32413A9A500A57A1E /* TextRegionRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRegionRecognizer.swift; sourceTree = "<group>"; };
 		EFB4A9C0243DCA680056F75B /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		EFB4A9C2243DD2690056F75B /* SectionBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBackground.swift; sourceTree = "<group>"; };
+		EFB72C2F24C3156100B49469 /* ScanOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanOverviewView.swift; sourceTree = "<group>"; };
 		EFB870712434D533007E604C /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		EFB870742434D996007E604C /* AuthServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceError.swift; sourceTree = "<group>"; };
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -306,6 +310,14 @@
 			path = ControlMechanism;
 			sourceTree = "<group>";
 		};
+		EFB72C2E24C3154C00B49469 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				EFB72C2F24C3156100B49469 /* ScanOverviewView.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
 		EFB870732434D984007E604C /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				EFF1DEC024C2EBDA0065F217 /* Home */,
+				EFB72C2E24C3154C00B49469 /* Scan */,
 				EFF85A402432494C00A80FBD /* Modifiers */,
 				EFF85A3924320D4100A80FBD /* Authentification */,
 				EFE31F5F2403E430008015F3 /* Templates */,
@@ -461,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				EF62965B241E753B00030997 /* AppStore.swift */,
+				EFA1B8AF24C310BC0067994B /* Scan.swift */,
 				EFFECC0C24331F29008EED63 /* Routing.swift */,
 				EFFECC0E24331F62008EED63 /* NewTemplate.swift */,
 				EFFECC132433206A008EED63 /* Links.swift */,
@@ -602,6 +616,7 @@
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
 				EF62965C241E753B00030997 /* AppStore.swift in Sources */,
 				EF786BF8242115C5001D71F9 /* TestView.swift in Sources */,
+				EFA1B8B024C310BC0067994B /* Scan.swift in Sources */,
 				EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */,
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
@@ -620,6 +635,7 @@
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
 				EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
+				EFB72C3024C3156100B49469 /* ScanOverviewView.swift in Sources */,
 				EF786BF62421131E001D71F9 /* ControlMechanismsView.swift in Sources */,
 				EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */,
 				EFB870752434D996007E604C /* AuthServiceError.swift in Sources */,

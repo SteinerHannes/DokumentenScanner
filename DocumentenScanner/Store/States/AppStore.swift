@@ -63,7 +63,7 @@ enum AppAction {
 }
 
 /// The new app state
-struct AppStates: ReduxState {
+struct AppStates {
     /// Variables for routing
     var routes: RoutingState
     /// Variables for the new template
@@ -152,8 +152,4 @@ let ocrApi: OCRApi = { id, callback in
     callback(ocrresult)
 }
 
-protocol ReduxState {}
-
 typealias Dispatcher = (AppAction) -> Void
-
-typealias Middleware <S: ReduxState> = (S, AppAction, Dispatcher) -> Void

@@ -25,7 +25,7 @@ struct ContentView: View {
                         PageSelectView()
                     }
                 } else {
-                    TemplatesView().onAppear {
+                    HomeView().onAppear {
                         self.store.send(.service(action: .getTemplateList))
                     }
                 }
