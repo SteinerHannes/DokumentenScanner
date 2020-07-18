@@ -118,7 +118,8 @@ extension Character {
             "I": "1",
             "B": "8",
             "F": "4",
-            ".": ","
+            ".": ",",
+            "g": "9"
         ]
         let maxSubstitutions = 2
         var current = String(self)
