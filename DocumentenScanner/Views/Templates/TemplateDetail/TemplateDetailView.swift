@@ -60,6 +60,26 @@ struct TemplateDetailView: View {
         return 0.0
     }
 
+    private var disableSaveButton: Bool {
+        if self.store.states.ocrState.result.count == self.template.pages.count {
+            var results: Int = 0
+            var temp: Int = 0
+            for res in self.store.states.ocrState.result {
+                guard let count = res?.count else {
+                    return false
+                }
+                results += count
+            }
+            for page in self.template.pages {
+                temp += page.regions.count
+            }
+            if temp == results {
+                return true
+            }
+        }
+        return false
+    }
+
     init(template: Template) {
         print("init TemplateDetailView")
         self.template = template
@@ -82,6 +102,13 @@ struct TemplateDetailView: View {
                     DocumentControl(template: template,
                                     controlMechanisms: self.$controlMechanims,
                                     idList: self.idList)
+                    Button(action: {
+                        self.sendResults()
+                    }) {
+                        SecondaryButton(title: "Ergebnisse an den Server senden")
+                    }
+                    .disabled(!disableSaveButton)
+                    .padding([.horizontal, .vertical])
                 }
                 .padding(.bottom, 40 + bottomPadding)
                 .padding(.top)
@@ -186,6 +213,85 @@ struct TemplateDetailView: View {
         }
     }
 
+    struct Student: Equatable {
+        var vorname: String
+        var nachname: String
+        var matrikel: String
+    }
+
+    public static let studenten: [Student] = [
+        .init(vorname: "Hannes", nachname: "Steiner", matrikel: "01234"),
+        .init(vorname: "Tobias", nachname: "Kallauke", matrikel: "01233"),
+        .init(vorname: "Greta", nachname: "Helten", matrikel: "01235"),
+        .init(vorname: "Mandy", nachname: "Quanz", matrikel: "01236"),
+        .init(vorname: "Julian", nachname: "Arend", matrikel: "01237"),
+        .init(vorname: "Lara", nachname: "Bishof", matrikel: "01238"),
+        .init(vorname: "Janine", nachname: "Klz", matrikel: "01239"),
+        .init(vorname: "Tim", nachname: "Müller", matrikel: "01240")
+
+    ]
+
+    fileprivate func sendResults() {
+        let types: [ResultDatatype] = [.firstname, .lastname, .mark, .seminarGroup, .studentNumber]
+        var result: [PageRegion] = []
+        // vorname, nachname, matrikel, note
+        for page in self.store.states.ocrState.result {
+            if page == nil {
+                return
+            } else {
+                for res in page! {
+                    if types.contains(res.datatype) {
+                        result.append(res)
+                    }
+                }
+            }
+        }
+        let dic = Dictionary(grouping: result) { $0.datatype }
+        for student in TemplateDetailView.studenten {
+            var tempDis : Double = 0.0
+            for type in types {
+                guard let array = dic[type], let region = array.first else {
+                    fatalError()
+                }
+                switch region.datatype {
+                    case .none:
+                        continue
+                    case .mark:
+                        continue
+                    case .firstname:
+                        tempDis += student.vorname.distanceJaroWinkler(between: region.textResult)
+                    case .lastname:
+                        tempDis += student.nachname.distanceJaroWinkler(between: region.textResult)
+                    case .studentNumber:
+                        tempDis += student.matrikel.distanceJaroWinkler(between: region.textResult)
+                    case .seminarGroup:
+                        continue
+                        //tempDis += student.vorname.distanceJaroWinkler(between: region.textResult)
+                    case .point:
+                        continue
+                }
+            }
+            print(student, tempDis/3)
+        }
+    }
+
+    func fuzzyString(text: String, results: [String]) -> (String, Float) {
+        var distance: Double = 0.0
+        var result: String = text
+
+        for res in results {
+            let tempDis: Double = text.distanceJaroWinkler(between: res)
+            if distance < tempDis {
+                distance = tempDis
+                result = res
+            }
+            if distance == 1.0 {
+                break
+            }
+        }
+        return (result, Float(distance))
+    }
+
     fileprivate func loadCachedImages() {
         var again: Bool = false
         for (index, page) in self.template.pages.indexed() where page._image == nil {
@@ -258,21 +364,6 @@ struct TemplateDetailView: View {
                 self.store.send(
                     .ocr(action: .ocrTesseract(page: pages[index], engine: engine)))
             }
-
-//            let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
-//            self.store.send(.ocr(action: .initResult(array: array)))
-//            for page in pages! {
-//                self.store.send(.ocr(action: .appendResult(at: page.id)))
-//                let imageResults: [PageRegion] = getPageRegions(page: page)
-//                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
-//                    self.store.send(.ocr(action: .sendResult(pageNumber: page.id, result: pageRegions)))
-//                    var counter: Int = 0
-//                    for region in pageRegions {
-//                        self.controlMechanisms[region.regionID] = (page.id, counter)
-//                        counter += 1
-//                    }
-//                }
-//            }
         } else {
             self.takenPages = pages.count
             self.alert = .pages
@@ -368,31 +459,3 @@ struct TemplateDetailView_Previews: PreviewProvider {
         }
     }
 }
-
-//struct PageRegion {
-//    /// The unique id of the attribute in that region
-//    public var regionID: String
-//    /// The image of the region
-//    public var regionImage: CGImage?
-//    /// The data type of the content of the region
-//    public var datatype: ResultDatatype
-//    ///
-//    public var textResult: String = ""
-//    ///
-//    public var confidence: VNConfidence = 0.0
-//
-//    public var regionName: String
-//
-//    init(regionID: String, regionName: String, regionImage: CGImage, datatype: ResultDatatype) {
-//        self.regionName = regionName
-//        self.regionID = regionID
-//        self.regionImage = regionImage
-//        self.datatype = datatype
-//    }
-//}
-//
-//extension PageRegion: Hashable {
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(regionID)
-//    }
-//}

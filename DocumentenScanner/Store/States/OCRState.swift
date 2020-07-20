@@ -35,6 +35,8 @@ enum OCRAction {
     case handelImageUplaodResult(result: Result<String, OCRServiceError>)
 
     case handelOCR(pageID: Int, imageUrl: String, engine: OCREngine)
+
+    //case saveResults
 }
 
 /// The reducer of the ocr state
