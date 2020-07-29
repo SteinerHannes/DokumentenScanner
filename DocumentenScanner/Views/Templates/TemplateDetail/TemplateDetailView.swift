@@ -52,7 +52,7 @@ struct TemplateDetailView: View {
     @State private var edit: Bool = false
 
     @State private var delete: Bool = false
-    
+
     private var hideNavigationBar: Bool {
         return self.engine != nil && self.showCamera
     }
@@ -178,7 +178,7 @@ struct TemplateDetailView: View {
                         }
                     }
                 }
-                .padding([.bottom,.horizontal,.top])
+                .padding([.bottom, .horizontal, .top])
                 .frame(height: 40)
             }
             .frame(height: 40+self.bottomPadding, alignment: .top)

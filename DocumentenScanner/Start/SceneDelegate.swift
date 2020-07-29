@@ -12,7 +12,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+
     var appStore: AppStore?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
