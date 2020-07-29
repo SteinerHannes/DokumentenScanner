@@ -56,6 +56,7 @@
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
 		EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */; };
 		EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E252435DE86003726F1 /* GlobalSetting.swift */; };
+		EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7224D1A36D004EE3B6 /* Log.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -146,6 +147,7 @@
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidationFunctions.swift; sourceTree = "<group>"; };
 		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
+		EFC71F7224D1A36D004EE3B6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -456,6 +458,7 @@
 				EFB870712434D533007E604C /* Auth.swift */,
 				EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */,
 				EF2FEC2124502A5000F7B28B /* OCRState.swift */,
+				EFC71F7224D1A36D004EE3B6 /* Log.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */,
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
+				EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */,
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
 				EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,

@@ -60,10 +60,12 @@ enum AppAction {
     case addNewTemplate(template: Template)
     /// Sets the cached image, for the image in the page
     case setImage(page: Int, image: UIImage?)
+    /// The reducer for logging the system
+    case log(action: LogAction)
 }
 
 /// The new app state
-struct AppStates: ReduxState {
+struct AppStates {
     /// Variables for routing
     var routes: RoutingState
     /// Variables for the new template
@@ -79,12 +81,15 @@ struct AppStates: ReduxState {
     /// The currently inspected template
     var currentTemplate: Template?
 
+    var logState: LogState
+
     init() {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
         self.serviceState = ServiceState()
         self.ocrState = OCRState()
+        self.logState = LogState()
     }
 
     init(template: Template) {
@@ -93,6 +98,7 @@ struct AppStates: ReduxState {
         self.authState = AuthState()
         self.serviceState = ServiceState()
         self.ocrState = OCRState()
+        self.logState = LogState()
         self.teamplates.append(template)
     }
 }
@@ -137,23 +143,11 @@ func appReducer(
                 states.currentTemplate!.id == template.id
             }!
             states.teamplates[index].pages[page]._image = image
+
+        case let .log(action: action):
+            return logReducer(state: &states.logState, action: action, enviorment: environment)
     }
     return Empty().eraseToAnyPublisher()
 }
 
 typealias AppStore = Store<AppStates, AppAction, AppEnviorment>
-
-typealias OCRCallback = ([OcrResult]) -> Void
-
-typealias OCRApi = (String, OCRCallback) -> Void
-
-let ocrApi: OCRApi = { id, callback in
-    let ocrresult: [OcrResult] = []
-    callback(ocrresult)
-}
-
-protocol ReduxState {}
-
-typealias Dispatcher = (AppAction) -> Void
-
-typealias Middleware <S: ReduxState> = (S, AppAction, Dispatcher) -> Void

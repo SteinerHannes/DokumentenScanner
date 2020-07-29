@@ -70,6 +70,9 @@ struct ControlMechanismsView: View {
         .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle("Kontroll-Liste", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
+        .onAppear {
+            self.store.send(.log(action: .navigation("ControllMechanismScreen")))
+        }
     }
 
     func trailingItem() -> some View {

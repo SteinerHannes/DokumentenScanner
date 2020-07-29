@@ -16,7 +16,7 @@ struct TemplatesView: View {
     @State private var isShowing = false
 
     init() {
-        print("init TemplatesView")
+        //print("init TemplatesView")
     }
 
     var body: some View {
@@ -61,6 +61,9 @@ struct TemplatesView: View {
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
+            .onAppear {
+                self.store.send(.log(action: .navigation("TemplateView")))
+            }
         }
     }
 

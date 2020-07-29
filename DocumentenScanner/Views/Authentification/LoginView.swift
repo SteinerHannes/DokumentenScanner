@@ -60,16 +60,21 @@ struct LoginView: View {
                 Spacer()
             }.padding(.horizontal)
         }
-            .navigationBarTitle("Anmelden", displayMode: .large)
+        .navigationBarTitle("Anmelden", displayMode: .large)
         .alert(item:
             Binding<AuthServiceError?>(
                 get: {
                     return self.store.states.authState.showAlert
                 }, set: { _ in
                     self.store.send(.auth(action: .dismissAlert))
-                })) { (error) -> Alert in
-                    error.alert
-            }
+                }
+            )
+        ) { (error) -> Alert in
+            error.alert
+        }
+        .onAppear {
+            self.store.send(.log(action: .navigation("LoginScreen")))
+        }
     }
 }
 

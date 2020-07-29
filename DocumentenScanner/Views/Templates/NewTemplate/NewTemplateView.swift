@@ -19,7 +19,7 @@ struct NewTemplateView: View {
     @State var showAlert: Bool = false
 
     init() {
-        print("init NewTemplateView")
+        //print("init NewTemplateView")
     }
 
     var body: some View {
@@ -74,11 +74,20 @@ struct NewTemplateView: View {
                     self.store.send(.routing(action: .showPageSelectView))
                     self.presentation.wrappedValue.dismiss()
                 })
+                .onAppear {
+                    self.store.send(.log(action: .navigation("ScannerScreen")))
+                }
+                .onDisappear {
+                    self.store.send(.log(action: .navigation("TemplateDetailScreen")))
+                }
                 .edgesIgnoringSafeArea(.all)
             }
         }
         .navigationBarTitle("Vorlage anlegen", displayMode: .inline)
         .navigationBarHidden(self.showCamera)
+        .onAppear {
+            self.store.send(.log(action: .navigation("NewTemplateScreen")))
+        }
     }
 }
 

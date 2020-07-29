@@ -17,7 +17,7 @@ struct PageSelectView: View {
     @State var showInfo: Bool = true
 
     init() {
-        print("init PageSelectView")
+        //print("init PageSelectView")
     }
 
     var body: some View {
@@ -66,6 +66,9 @@ struct PageSelectView: View {
         .navigationBarTitle("\(self.store.states.newTemplateState.newTemplate?.name ?? "Dokument")",
             displayMode: .inline)
         .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
+        .onAppear {
+            self.store.send(.log(action: .navigation("PageSelectScreen")))
+        }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                 withAnimation {

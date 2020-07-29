@@ -107,6 +107,9 @@ struct RegisterView: View {
             })) { (error) -> Alert in
                 error.alert
         }
+        .onAppear {
+            self.store.send(.log(action: .navigation("RegisterScreen")))
+        }
     }
 }
 

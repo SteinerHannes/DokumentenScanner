@@ -62,6 +62,9 @@ struct WelcomeView: View {
                 .padding(.top, 40)
             }
             .navigationBarTitle("Wilkommen!")
+            .onAppear {
+                self.store.send(.log(action: .navigation("WelcomeScreen")))
+            }
         }
     }
 }

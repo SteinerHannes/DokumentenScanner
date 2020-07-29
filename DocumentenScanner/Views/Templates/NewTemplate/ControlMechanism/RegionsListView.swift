@@ -41,7 +41,11 @@ struct RegionsListView: View {
         .navigationBarTitle("Region auswählen", displayMode: .inline)
         .onDisappear {
             self.sendSelection()
-        }.onAppear {
+        }
+        .onAppear {
+            self.store.send(.log(action: .navigation("RegionListScreen")))
+        }
+        .onAppear {
             self.getSelection()
         }
     }

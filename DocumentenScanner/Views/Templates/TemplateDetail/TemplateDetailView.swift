@@ -36,7 +36,7 @@ struct TemplateDetailView: View {
 
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
-    /// It shows wether the ScannerView is active or not
+    /// It shows wether the ScannerViewAlert is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
     @State private var alert: ViewAlert?
@@ -52,6 +52,10 @@ struct TemplateDetailView: View {
     @State private var edit: Bool = false
 
     @State private var delete: Bool = false
+    
+    private var hideNavigationBar: Bool {
+        return self.engine != nil && self.showCamera
+    }
 
     private var bottomPadding: CGFloat {
         if #available(iOS 11.0, *) {
@@ -81,7 +85,7 @@ struct TemplateDetailView: View {
     }
 
     init(template: Template) {
-        print("init TemplateDetailView")
+        //print("init TemplateDetailView")
         self.template = template
         var tempIdList: [String: ImageRegion] = [:]
         for page in self.template.pages {
@@ -173,7 +177,8 @@ struct TemplateDetailView: View {
                             Text("Bearbeiten")
                         }
                     }
-                }.padding([.bottom,.horizontal,.top])
+                }
+                .padding([.bottom,.horizontal,.top])
                 .frame(height: 40)
             }
             .frame(height: 40+self.bottomPadding, alignment: .top)
@@ -189,8 +194,18 @@ struct TemplateDetailView: View {
                         case nil:
                             break
                     }
-                }).edgesIgnoringSafeArea(.all)
-                    .navigationBarHidden(true)
+                })
+                .onAppear {
+                    // Without async this action adds the Navigtionbar to the view -> BUG
+                    DispatchQueue.main.async {
+                        self.store.send(.log(action: .navigation("ScannerScreen")))
+                    }
+                }
+                .onDisappear {
+                    self.store.send(.log(action: .navigation("TemplateDetailScreen")))
+                }
+                .navigationBarHidden(true)
+                .edgesIgnoringSafeArea(.all)
             }
         }
         .actionSheet(isPresented: self.$showCamera, content: { () -> ActionSheet in
@@ -206,6 +221,9 @@ struct TemplateDetailView: View {
                 .cancel()
             ])
         })
+        .onAppear {
+            self.store.send(.log(action: .navigation("TemplateDetailScreen")))
+        }
         .onAppear {
             DispatchQueue.main.async {
                 self.loadCachedImages()
@@ -248,7 +266,7 @@ struct TemplateDetailView: View {
         }
         let dic = Dictionary(grouping: result) { $0.datatype }
         for student in TemplateDetailView.studenten {
-            var tempDis : Double = 0.0
+            var tempDis: Double = 0.0
             for type in types {
                 guard let array = dic[type], let region = array.first else {
                     fatalError()
@@ -271,7 +289,7 @@ struct TemplateDetailView: View {
                         continue
                 }
             }
-            print(student, tempDis/3)
+            //print(student, tempDis/3)
         }
     }
 
@@ -295,7 +313,7 @@ struct TemplateDetailView: View {
     fileprivate func loadCachedImages() {
         var again: Bool = false
         for (index, page) in self.template.pages.indexed() where page._image == nil {
-            print("loadCachedImages")
+            //print("loadCachedImages")
             let key = baseAuthority + page.url
             guard let image =
                 KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: key) else {

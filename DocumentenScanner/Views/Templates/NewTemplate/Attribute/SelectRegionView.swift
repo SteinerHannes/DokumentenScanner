@@ -109,7 +109,7 @@ struct SelectRegionView: View {
     @State var zoomPoint: UnitPoint = .center
 
     init(showRoot: Binding<Bool>) {
-        print("init SelectRegionView")
+        //print("init SelectRegionView")
         self._showRoot = showRoot
     }
 
@@ -181,7 +181,7 @@ struct SelectRegionView: View {
             }.onEnded { value in
                 // set the zoom level
                 self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1.5), 0.06)
-                print(self.viewMagnificationState)
+                //print(self.viewMagnificationState)
             }
 
         return VStack(alignment: .leading, spacing: 0) {
@@ -211,6 +211,9 @@ struct SelectRegionView: View {
         .gesture(magnificationGesture)
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
+        .onAppear {
+            self.store.send(.log(action: .navigation("SelectRegionScreen")))
+        }
         .onAppear {
             self.zoomPoint = .topLeading
             self.viewMagnificationState = (UIScreen.main.bounds.width /

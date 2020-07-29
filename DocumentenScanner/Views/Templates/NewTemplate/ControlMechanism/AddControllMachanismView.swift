@@ -91,6 +91,12 @@ struct AddControllMachanismView: View {
                                      dismissButton: .cancel())
                 }
             }
+            .onAppear {
+                self.store.send(.log(action: .navigation("AddControllMechanismScreen")))
+            }
+            .onDisappear {
+                self.store.send(.log(action: .navigation("ControllMechanismScreen")))
+            }
         }
     }
 

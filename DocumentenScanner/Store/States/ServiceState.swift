@@ -213,7 +213,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                     case let .failure(error):
                         sendNotification(titel: "Fehler",
                                          description: error.localizedDescription)
-                        print("delete",error)
+                        print("delete", error)
             }
         }
         return Empty().eraseToAnyPublisher()
