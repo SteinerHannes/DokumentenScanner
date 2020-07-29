@@ -89,9 +89,13 @@ struct PageSelectView: View {
     }
 
     func trailingItem() -> some View {
-        NavigationLink(destination: ControlMechanismsView()) {
-            Text("Weiter")
-        }.isDetailLink(false)
+        return HStack(alignment: .center, spacing: 20) {
+            NavigationLink(destination: ControlMechanismsView()) {
+                Text("Weiter")
+            }.isDetailLink(false)
+            StartStopButton()
+        }
+
     }
 }
 

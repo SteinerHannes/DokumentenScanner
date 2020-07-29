@@ -69,11 +69,14 @@ struct TemplatesView: View {
 
     private func trailingItem() -> some View {
         return
-            NavigationLink(destination: LazyView(NewTemplateView())) {
-                Image(systemName: "plus.square.on.square")
-                    .font(.body)
-                Text("Neue Vorlage")
-            }
+            HStack(alignment: .center, spacing: 20) {
+                NavigationLink(destination: LazyView(NewTemplateView())) {
+                    Image(systemName: "plus.square.on.square")
+                        .font(.body)
+                    Text("Neue Vorlage")
+                }
+                StartStopButton()
+        }
     }
 
     private func leadingItem() -> some View {

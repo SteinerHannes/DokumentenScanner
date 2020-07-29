@@ -20,10 +20,13 @@ struct NavigationLog {
 
 struct LogState {
     var navigationLog: [NavigationLog] = []
+    var isLoggin: Bool = true
 }
 
 enum LogAction {
     case navigation(String)
+    case start
+    case stop
 }
 
 func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorment) -> AnyPublisher<AppAction, Never>? {
@@ -31,6 +34,10 @@ func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorm
         case .navigation( let text):
             print("LOG:" + text)
             state.navigationLog.append(.init(text))
+        case .start:
+            state.isLoggin = true
+        case .stop:
+            state.isLoggin = false
     }
     return Empty().eraseToAnyPublisher()
 }

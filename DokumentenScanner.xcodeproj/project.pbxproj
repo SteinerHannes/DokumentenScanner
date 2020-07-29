@@ -57,6 +57,7 @@
 		EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */; };
 		EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E252435DE86003726F1 /* GlobalSetting.swift */; };
 		EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7224D1A36D004EE3B6 /* Log.swift */; };
+		EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -148,6 +149,7 @@
 		EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidationFunctions.swift; sourceTree = "<group>"; };
 		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
 		EFC71F7224D1A36D004EE3B6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopButton.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +200,7 @@
 				EF155884240E95680020B487 /* ActivityIndicator.swift */,
 				EF63DEC72428E94700689F5A /* CustomTextField.swift */,
 				EFF85A3E2432456200A80FBD /* ErrorTextField.swift */,
+				EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				EFFECC0D24331F29008EED63 /* Routing.swift in Sources */,
 				EF4C21A2243B3B9600DA216C /* DocumentControl.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
+				EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
 				EFFF9EE8243614D700E3CD98 /* PageDTO.swift in Sources */,

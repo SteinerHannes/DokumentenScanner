@@ -75,6 +75,7 @@ struct NewAttributView: View {
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Eigenschaften festlegen", displayMode: .inline)
+            .navigationBarItems(trailing: StartStopButton())
             .onAppear {
                 self.store.send(.log(action: .navigation("NewAttributeScreen")))
             }

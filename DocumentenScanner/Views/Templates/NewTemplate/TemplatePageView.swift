@@ -110,6 +110,7 @@ struct TemplatePageView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .navigationBarTitle("Region hinzufügen", displayMode: .inline)
+        .navigationBarItems(trailing: StartStopButton())
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         .onAppear {
             self.store.send(.log(action: .navigation("TemplatePageScreen")))

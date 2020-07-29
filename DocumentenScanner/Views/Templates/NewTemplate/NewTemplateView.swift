@@ -84,6 +84,7 @@ struct NewTemplateView: View {
             }
         }
         .navigationBarTitle("Vorlage anlegen", displayMode: .inline)
+        .navigationBarItems(trailing: StartStopButton())
         .navigationBarHidden(self.showCamera)
         .onAppear {
             self.store.send(.log(action: .navigation("NewTemplateScreen")))

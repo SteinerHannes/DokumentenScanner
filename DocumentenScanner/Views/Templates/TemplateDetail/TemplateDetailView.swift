@@ -130,6 +130,7 @@ struct TemplateDetailView: View {
                     return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
                 }
             }
+            .navigationBarItems(trailing: StartStopButton())
             VStack(alignment: .leading, spacing: 0) {
                 Divider()
                 HStack(alignment: .center, spacing: 0) {

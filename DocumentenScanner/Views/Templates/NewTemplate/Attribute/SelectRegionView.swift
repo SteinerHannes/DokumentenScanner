@@ -223,24 +223,27 @@ struct SelectRegionView: View {
     }
 
     private func trailingItem() -> some View {
-        Button(action: {
-            if self.rectState.equalTo(.zero) {
-                self.isNoRectSet = true
-            } else {
-                self.store.send(.newTemplate(action:
-                    .setRegionAndAddAttributeToPage(height: self.height,
-                                                    width: self.width,
-                                                    rectState: self.rectState)))
-                self.showRoot = false
-                self.presentation.wrappedValue.dismiss()
+        HStack(alignment: .center, spacing: 20) {
+            Button(action: {
+                if self.rectState.equalTo(.zero) {
+                    self.isNoRectSet = true
+                } else {
+                    self.store.send(.newTemplate(action:
+                        .setRegionAndAddAttributeToPage(height: self.height,
+                                                        width: self.width,
+                                                        rectState: self.rectState)))
+                    self.showRoot = false
+                    self.presentation.wrappedValue.dismiss()
+                }
+            }) {
+                Text("Speichern")
             }
-        }) {
-            Text("Speichern")
-        }
-        .alert(isPresented: self.$isNoRectSet) {
-            Alert(title: Text("Es wurde keine Region markiert"),
-                  message: Text("Wähle eine Region aus, um das Attribut zu speichern."),
-                  dismissButton: .cancel(Text("Ok")) )
+            .alert(isPresented: self.$isNoRectSet) {
+                Alert(title: Text("Es wurde keine Region markiert"),
+                      message: Text("Wähle eine Region aus, um das Attribut zu speichern."),
+                      dismissButton: .cancel(Text("Ok")) )
+            }
+            StartStopButton()
         }
     }
 }
