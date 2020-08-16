@@ -58,6 +58,7 @@
 		EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E252435DE86003726F1 /* GlobalSetting.swift */; };
 		EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7224D1A36D004EE3B6 /* Log.swift */; };
 		EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */; };
+		EFD4AB7924E99125004C4249 /* ExamDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD4AB7824E99125004C4249 /* ExamDTO.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -150,6 +151,7 @@
 		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
 		EFC71F7224D1A36D004EE3B6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopButton.swift; sourceTree = "<group>"; };
+		EFD4AB7824E99125004C4249 /* ExamDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamDTO.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -347,6 +349,7 @@
 				EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */,
 				EFFF9EE7243614D700E3CD98 /* PageDTO.swift */,
 				EF7988DD24372AF6001241C0 /* AttributeDTO.swift */,
+				EFD4AB7824E99125004C4249 /* ExamDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFD4AB7924E99125004C4249 /* ExamDTO.swift in Sources */,
 				EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */,
 				EF4223C4240685CE00FF510E /* ImageRegion.swift in Sources */,
 				EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */,
