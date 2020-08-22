@@ -15,7 +15,7 @@ public struct ExamDTO: Codable {
     public let date: String
 }
 
-public struct StudentDTO: Codable {
+public struct ExamStudentDTO: Codable {
     public let id: Int
     public let firstname: String
     public let lastname: String

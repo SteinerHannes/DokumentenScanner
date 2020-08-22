@@ -17,6 +17,7 @@ public struct TemplateDTO: Codable {
     public let owner: UserInfoDTO?
     public let pages: [PageDTO]
     public let extra: LinksDTO
+    public let examId: Int
     #warning("Fehlende Variablen")
     // MARK: TOOD Modulnummer
     // MARK: TODO Liste an Studenten
