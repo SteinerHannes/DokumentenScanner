@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0DD48124F138BF00F45AA7 /* DocumentExam.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */; };
+		EF0DD48324F13CF800F45AA7 /* StudentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48224F13CF800F45AA7 /* StudentListView.swift */; };
 		EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */; };
 		EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EF0FCF0A243DE35900584F92 /* Introspect */; };
 		EF151AFD243F0BB600E92C7A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF151AFC243F0BB600E92C7A /* Kingfisher */; };
@@ -101,6 +103,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExam.swift; sourceTree = "<group>"; };
+		EF0DD48224F13CF800F45AA7 /* StudentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentListView.swift; sourceTree = "<group>"; };
 		EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 			children = (
 				EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */,
 				EF7BB510242A0BA500B69EB5 /* Components */,
+				EF0DD48224F13CF800F45AA7 /* StudentListView.swift */,
 			);
 			path = TemplateDetail;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 			children = (
 				EF7BB50E242A0A9600B69EB5 /* DocumentInfo.swift */,
 				EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */,
+				EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */,
 				EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */,
 				EF4C21A1243B3B9600DA216C /* DocumentControl.swift */,
 			);
@@ -596,6 +602,7 @@
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
 				EFB4A9C1243DCA680056F75B /* RemoteImage.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
+				EF0DD48324F13CF800F45AA7 /* StudentListView.swift in Sources */,
 				EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */,
 				EFB870772434E5DF007E604C /* RegisterView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
@@ -603,6 +610,7 @@
 				EF786BF8242115C5001D71F9 /* TestView.swift in Sources */,
 				EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */,
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
+				EF0DD48124F138BF00F45AA7 /* DocumentExam.swift in Sources */,
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF63DEC82428E94700689F5A /* CustomTextField.swift in Sources */,
 				EFFECC142433206A008EED63 /* Links.swift in Sources */,

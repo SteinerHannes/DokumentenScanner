@@ -102,6 +102,7 @@ struct TemplateDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
+                    DocumentExam(template: template)
                     DocumentResult(template: template)
                     DocumentControl(template: template,
                                     controlMechanisms: self.$controlMechanims,
@@ -465,12 +466,12 @@ struct BlurView: UIViewRepresentable {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationView {
-                TemplateDetailView(template: AppStoreMock.realTemplate())
-                    .environmentObject(AppStoreMock.getAppStore())
-            }
-            .previewDevice("iPad Air 2")
-            .navigationViewStyle(StackNavigationViewStyle())
+//            NavigationView {
+//                TemplateDetailView(template: AppStoreMock.realTemplate())
+//                    .environmentObject(AppStoreMock.getAppStore())
+//            }
+//            .previewDevice("iPad Air 2")
+//            .navigationViewStyle(StackNavigationViewStyle())
             NavigationView {
                 TemplateDetailView(template: AppStoreMock.realTemplate())
                     .environmentObject(AppStoreMock.getAppStore())

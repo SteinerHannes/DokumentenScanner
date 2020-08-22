@@ -26,7 +26,7 @@ struct Template: Identifiable {
     public var updated: String = "" // Date
 
     public var owner: UserInfoDTO?
-    
+
     public var examId: Int = -1
 }
 
