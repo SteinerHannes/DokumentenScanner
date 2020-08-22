@@ -18,7 +18,11 @@ struct DocumentExam: View {
             return "?"
         }
         let temp = list.filter { (student) -> Bool in
-            return student.status == .Bestanden
+            if student.grade == nil {
+                return false
+            } else {
+                return true
+            }
         }
         return "\(temp.count)"
     }
@@ -32,9 +36,11 @@ struct DocumentExam: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text("\(controlledStudents) von \(allStudents) Klausuren kontrolliert")
+            Text("\(controlledStudents) von \(allStudents) Klausuren bewertet")
             Spacer()
-            NavigationLink(destination: StudentListView(template: self.template).environmentObject(self.store)) {
+            NavigationLink(
+                destination: StudentListView(template: self.template).environmentObject(self.store)
+            ) {
                 HStack(alignment: .center, spacing: 5) {
                     Text("Überprüfen")
                     Image(systemName: "chevron.right")

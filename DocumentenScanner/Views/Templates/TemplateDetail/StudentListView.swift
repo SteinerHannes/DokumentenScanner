@@ -16,6 +16,7 @@ struct StudentListView: View {
 
     @State var filter: Status?
     @State var showActionSheet: Bool = false
+    @State var showGrade: Bool = true
 
     private var buttonList: [ActionSheet.Button] {
         var list = Status.allCases.map { status -> ActionSheet.Button in
@@ -30,6 +31,41 @@ struct StudentListView: View {
         return list
     }
 
+    var controlledStudents: String {
+        guard let list = template.studentList else {
+            return "?"
+        }
+        let temp = list.filter { (student) -> Bool in
+            if student.grade == nil {
+                return false
+            } else {
+                return true
+            }
+        }
+        return "\(temp.count)"
+    }
+
+    var allStudents: String {
+        guard let students = template.studentList?.count else {
+            return "?"
+        }
+        return "\(students)"
+    }
+
+    var illStudents: Int {
+        guard let students = template.studentList else {
+            return 0
+        }
+        let temp = students.filter { (student) -> Bool in
+            return student.status == .Krank
+        }
+        return temp.count
+    }
+
+    var filterText: String {
+        return "Gefiltert nach: \(self.filter?.rawValue ?? "-")"
+    }
+
     var body: some View {
         Form {
             if template.studentList == nil {
@@ -37,13 +73,35 @@ struct StudentListView: View {
             } else if template.studentList!.isEmpty {
                 Text("Keine Studenten eingetragen")
             } else {
-                ForEach(template.studentList!.filter({ (student) -> Bool in
-                    guard let filter = self.filter else {
-                        return true
+                Section(header: Text("Info:")) {
+                    Text("\(controlledStudents) von \(allStudents) Klausuren bewertet")
+                    Text("Kranke Studenten: \(illStudents)")
+                }
+                Section(
+                    header:
+                        HStack(alignment: .center, spacing: 0, content: {
+                            Text(filterText)
+                            Spacer()
+                            Button(action: {
+                                self.showGrade.toggle()
+                            }) {
+                                if self.showGrade {
+                                    Text("Status anzeigen")
+                                } else {
+                                    Text(" Noten anzeigen")
+                                }
+                            }
+                        }
+                    )
+                ) {
+                    ForEach(template.studentList!.filter({ (student) -> Bool in
+                        guard let filter = self.filter else {
+                            return true
+                        }
+                        return student.status == filter
+                    }) ,id: \.id) { student in
+                        StudentRow(showGrade: self.$showGrade, student: student)
                     }
-                    return student.status == filter
-                }) ,id: \.id) { student in
-                    StudentRow(student: student)
                 }
             }
         }
@@ -57,6 +115,7 @@ struct StudentListView: View {
                 buttons: buttonList
             )
         }
+        .navigationBarTitle(Text("Eingetragene Studenten"), displayMode: .inline)
     }
 
     private func trailingItem() -> some View {
@@ -67,7 +126,6 @@ struct StudentListView: View {
                 }) {
                     Image(systemName: "line.horizontal.3.decrease.circle")
                         .font(.body)
-                    Text("Filter")
                 }
                 StartStopButton().environmentObject(self.store)
         }
@@ -75,12 +133,31 @@ struct StudentListView: View {
 }
 
 struct StudentRow: View {
+    @Binding var showGrade: Bool
+
     let student: ExamStudentDTO
 
     var body: some View {
         HStack(alignment: .center, spacing: 3) {
-            Text(self.student.lastname)
             Text(self.student.firstname)
+            Text(self.student.lastname)
+            Spacer()
+            if showGrade {
+                Text(self.student.grade == nil ?
+                    "Keine Note" :
+                    String.init(format: "%.01f", arguments: [self.student.grade!])
+                )
+                .foregroundColor( self.student.status == .Bestanden ? .green :
+                    (self.student.status == .Täuschung ? .red :
+                        (self.student.status == .NichtBestanden ? .red : .label))
+                )
+            } else {
+                Text(self.student.status.rawValue)
+                    .foregroundColor( self.student.status == .Bestanden ? .green :
+                        (self.student.status == .Täuschung ? .red :
+                            (self.student.status == .NichtBestanden ? .red : .label))
+                    )
+            }
         }
     }
 }
