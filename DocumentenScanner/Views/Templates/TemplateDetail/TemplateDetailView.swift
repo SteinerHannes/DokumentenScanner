@@ -102,7 +102,7 @@ struct TemplateDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
-                    DocumentExam(template: template)
+                    DocumentExam(template: template).environmentObject(self.store)
                     DocumentResult(template: template)
                     DocumentControl(template: template,
                                     controlMechanisms: self.$controlMechanims,
@@ -131,7 +131,7 @@ struct TemplateDetailView: View {
                     return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
                 }
             }
-            .navigationBarItems(trailing: StartStopButton())
+            .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
             VStack(alignment: .leading, spacing: 0) {
                 Divider()
                 HStack(alignment: .center, spacing: 0) {
@@ -151,7 +151,7 @@ struct TemplateDetailView: View {
                             primaryButton: .destructive(Text("Löschen"), action: {
                                 self.store.send(.service(action: .deleteTemplate(id: self.template.id)))
                                 self.presentation.wrappedValue.dismiss()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     self.store.send(.service(action: .getTemplateList))
                                 }
                             }),

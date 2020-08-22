@@ -110,7 +110,7 @@ struct RegisterView: View {
         .onAppear {
             self.store.send(.log(action: .navigation("RegisterScreen")))
         }
-        .navigationBarItems(trailing: StartStopButton())
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
     }
 }
 

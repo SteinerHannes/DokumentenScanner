@@ -28,6 +28,8 @@ struct Template: Identifiable {
     public var owner: UserInfoDTO?
 
     public var examId: Int = -1
+
+    public var studentList: [ExamStudentDTO]?
 }
 
 extension Template: Decodable {

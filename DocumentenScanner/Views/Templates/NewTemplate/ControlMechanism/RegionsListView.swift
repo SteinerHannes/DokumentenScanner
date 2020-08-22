@@ -48,7 +48,7 @@ struct RegionsListView: View {
         .onAppear {
             self.getSelection()
         }
-        .navigationBarItems(trailing: StartStopButton())
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
     }
 
     /// Returns an ImageRegion for the pagenumber and index of the region

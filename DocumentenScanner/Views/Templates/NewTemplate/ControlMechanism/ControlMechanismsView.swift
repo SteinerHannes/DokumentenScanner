@@ -84,7 +84,7 @@ struct ControlMechanismsView: View {
             }) {
                 Text("Speichern")
             }
-            StartStopButton()
+            StartStopButton().environmentObject(self.store)
         }
     }
 }

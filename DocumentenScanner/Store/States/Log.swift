@@ -29,7 +29,8 @@ enum LogAction {
     case stop
 }
 
-func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorment) -> AnyPublisher<AppAction, Never>? {
+func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorment)
+-> AnyPublisher<AppAction, Never>? {
     switch action {
         case .navigation( let text):
             print("LOG:" + text)

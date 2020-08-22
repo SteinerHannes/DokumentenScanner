@@ -13,19 +13,28 @@ struct DocumentExam: View {
 
     let template: Template
 
-    var controlledStudents: Int {
-        return 3
+    var controlledStudents: String {
+        guard let list = template.studentList else {
+            return "?"
+        }
+        let temp = list.filter { (student) -> Bool in
+            return student.status == .Bestanden
+        }
+        return "\(temp.count)"
     }
 
-    var allStudents: Int {
-        return 12
+    var allStudents: String {
+        guard let students = template.studentList?.count else {
+            return "?"
+        }
+        return "\(students)"
     }
 
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("\(controlledStudents) von \(allStudents) Klausuren kontrolliert")
             Spacer()
-            NavigationLink(destination: StudentListView()) {
+            NavigationLink(destination: StudentListView(template: self.template).environmentObject(self.store)) {
                 HStack(alignment: .center, spacing: 5) {
                     Text("Überprüfen")
                     Image(systemName: "chevron.right")
@@ -34,7 +43,9 @@ struct DocumentExam: View {
         }
         .padding(.horizontal)
         .onAppear {
-            #warning("hier dann StudentenListe downloaden")
+            if self.template.studentList == nil {
+                self.store.send(.service(action: .getStudentList(examId: self.template.examId)))
+            }
         }
     }
 }

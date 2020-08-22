@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EF0DD48124F138BF00F45AA7 /* DocumentExam.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */; };
 		EF0DD48324F13CF800F45AA7 /* StudentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48224F13CF800F45AA7 /* StudentListView.swift */; };
+		EF0DD48524F13F3E00F45AA7 /* ExamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48424F13F3E00F45AA7 /* ExamService.swift */; };
 		EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */; };
 		EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EF0FCF0A243DE35900584F92 /* Introspect */; };
 		EF151AFD243F0BB600E92C7A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF151AFC243F0BB600E92C7A /* Kingfisher */; };
@@ -105,6 +106,7 @@
 /* Begin PBXFileReference section */
 		EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExam.swift; sourceTree = "<group>"; };
 		EF0DD48224F13CF800F45AA7 /* StudentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentListView.swift; sourceTree = "<group>"; };
+		EF0DD48424F13F3E00F45AA7 /* ExamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamService.swift; sourceTree = "<group>"; };
 		EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
 				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 				EF2FEC1F2450264900F7B28B /* OCRService.swift */,
+				EF0DD48424F13F3E00F45AA7 /* ExamService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */,
+				EF0DD48524F13F3E00F45AA7 /* ExamService.swift in Sources */,
 				EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */,
 				EFB4A9C3243DD2690056F75B /* SectionBackground.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,

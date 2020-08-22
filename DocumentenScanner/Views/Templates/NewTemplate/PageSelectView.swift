@@ -93,7 +93,7 @@ struct PageSelectView: View {
             NavigationLink(destination: ControlMechanismsView()) {
                 Text("Weiter")
             }.isDetailLink(false)
-            StartStopButton()
+            StartStopButton().environmentObject(self.store)
         }
 
     }

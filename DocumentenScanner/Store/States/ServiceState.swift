@@ -45,6 +45,10 @@ enum ServiceAction {
     case deleteTemplate(id: String)
 
     case deleteTemplateResult(result: Result<String, TemplateServiceError>)
+
+    case getStudentList(examId: Int)
+
+    case getStudentListResult(result: Result<(list: [ExamStudentDTO]?,id: Int),ExamServiceError>)
 }
 
 func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: AppEnviorment)
@@ -214,7 +218,22 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                         sendNotification(titel: "Fehler",
                                          description: error.localizedDescription)
                         print("delete", error)
+                }
+            case let .getStudentList(examId: id):
+                return enviorment.exam.getStudentList(examId: id)
+
+            case let .getStudentListResult(result: result):
+                switch result {
+                    case let .success(listAndId):
+                        return Just<AppAction>(
+                            .setStudentList(result: listAndId)
+                        ).eraseToAnyPublisher()
+                    case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
+                        print("getStudentListResult", error)
             }
+
         }
         return Empty().eraseToAnyPublisher()
 }

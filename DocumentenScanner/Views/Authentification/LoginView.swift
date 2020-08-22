@@ -75,7 +75,7 @@ struct LoginView: View {
         .onAppear {
             self.store.send(.log(action: .navigation("LoginScreen")))
         }
-        .navigationBarItems(trailing: StartStopButton())
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
     }
 }
 

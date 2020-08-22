@@ -243,7 +243,7 @@ struct SelectRegionView: View {
                       message: Text("Wähle eine Region aus, um das Attribut zu speichern."),
                       dismissButton: .cancel(Text("Ok")) )
             }
-            StartStopButton()
+            StartStopButton().environmentObject(self.store)
         }
     }
 }

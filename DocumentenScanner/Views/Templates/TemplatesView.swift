@@ -75,7 +75,7 @@ struct TemplatesView: View {
                         .font(.body)
                     Text("Neue Vorlage")
                 }
-                StartStopButton()
+                StartStopButton().environmentObject(self.store)
         }
     }
 

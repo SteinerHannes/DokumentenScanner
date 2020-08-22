@@ -66,7 +66,7 @@ struct WelcomeView: View {
                 self.store.send(.log(action: .navigation("WelcomeScreen")))
             }
             .navigationBarItems(trailing:
-                StartStopButton()
+                StartStopButton().environmentObject(self.store)
             )
         }
     }

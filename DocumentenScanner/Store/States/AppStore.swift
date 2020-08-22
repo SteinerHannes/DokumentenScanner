@@ -26,6 +26,8 @@ final class AppEnviorment {
 
     lazy var ocr = OCRService(session: session, encoder: encoder, decoder: decoder)
 
+    lazy var exam = ExamService(session: session, encoder: encoder, decoder: decoder)
+
     /// Set a auth token into the global session
     func setJWT(token: String) {
         let defaults = UserDefaults.standard
@@ -62,6 +64,8 @@ enum AppAction {
     case setImage(page: Int, image: UIImage?)
     /// The reducer for logging the system
     case log(action: LogAction)
+
+    case setStudentList(result: (list: [ExamStudentDTO]?,id: Int))
 }
 
 /// The new app state
@@ -146,6 +150,10 @@ func appReducer(
 
         case let .log(action: action):
             return logReducer(state: &states.logState, action: action, enviorment: environment)
+        case let .setStudentList(result: result):
+            for index in 0...states.teamplates.count - 1 where states.teamplates[index].examId == result.id {
+                states.teamplates[index].studentList = result.list
+            }
     }
     return Empty().eraseToAnyPublisher()
 }
