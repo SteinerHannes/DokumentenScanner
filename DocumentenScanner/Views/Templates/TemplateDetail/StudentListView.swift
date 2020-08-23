@@ -99,7 +99,7 @@ struct StudentListView: View {
                             return true
                         }
                         return student.status == filter
-                    }) ,id: \.id) { student in
+                    }), id: \.id) { student in
                         StudentRow(showGrade: self.$showGrade, student: student)
                     }
                 }

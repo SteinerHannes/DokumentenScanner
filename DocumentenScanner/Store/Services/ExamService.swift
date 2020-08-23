@@ -75,7 +75,7 @@ final class ExamService {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         return session.dataTaskPublisher(for: request)
-            .map { (data: Data, response: URLResponse) -> Result<(list: [ExamStudentDTO]?,id: Int), ExamServiceError> in
+            .map { (data: Data, response: URLResponse) -> Result<(list: [ExamStudentDTO]?, id: Int), ExamServiceError> in
                 // cast is needed for statuscode
                 guard let httpResponse = response as? HTTPURLResponse else {
                     return .failure(.serverError)
@@ -96,7 +96,7 @@ final class ExamService {
                         self.decoder.dataDecodingStrategy = .base64
                         let answer: [ExamStudentDTO] = try self.decoder.decode([ExamStudentDTO].self, from: data)
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
-                        return .success((list: answer,id: examId))
+                        return .success((list: answer, id: examId))
                     } catch let decodeError {
                         print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
                         return .failure(.decoder(error: decodeError))
@@ -112,5 +112,73 @@ final class ExamService {
             .service(action: .getStudentListResult(result: .failure(.serverError)))
         )
         .eraseToAnyPublisher()
+    }
+    
+    //swiftlint:enable line_length
+    func editStudentResult(examId: Int, result: ExamResultDTO) -> AnyPublisher<AppAction, Never> {
+        if hasInternetConnection() == false {
+            return Just(.service(action: .editStudentExamResult(result: .failure(.serverError))))
+                .eraseToAnyPublisher()
+        }
+        // chek if jwt exists
+        guard let jwt = UserDefaults.standard.string(forKey: "JWT") else {
+            return Just(.service(action: .editStudentExamResult(result: .failure(.noJWT))))
+                .eraseToAnyPublisher()
+        }
+        // prepare data for uplaod
+        // encode data
+        guard let uploadData = try? self.encoder.encode(result) else {
+            return Just(.service(action: .editStudentExamResult(result: .failure(.badEncoding))))
+                .eraseToAnyPublisher()
+        }
+        // configure an uplaod request
+        guard let url = URL(string: baseUrl + "Exam/\(examId)/result" ) else {
+            return Just(.service(action: .editStudentExamResult(result: .failure(.badUrl))))
+                .eraseToAnyPublisher()
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let authValue: String = "Bearer \(jwt)"
+        request.allHTTPHeaderFields = ["Authorization": authValue]
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = uploadData
+
+        // create and start an uplaod task
+        return session.dataTaskPublisher(for: request)
+            .map { (data: Data, response: URLResponse) -> Result<String, ExamServiceError> in
+                // cast is needed for statuscode
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return .failure(.serverError)
+                }
+                // check if answer is OK
+                if httpResponse.statusCode != 200 {
+                    print(String(data: data, encoding: .utf8) as Any)
+                    switch httpResponse.statusCode {
+                        case 400:
+                            sendNotification(titel: "Fehler",
+                                             description: "Student nicht in der Klausur eingetragen")
+                        case 404:
+                            sendNotification(titel: "Fehler",
+                                             description: "Klausur oder Student nicht gefunden")
+                        case 409:
+                            sendNotification(titel: "Fehler",
+                                             description: "Ergebnis existiert schon")
+                        default:
+                            sendNotification(titel: "Fehler",
+                                             description: "\(String(data: data, encoding: .utf8) as Any)")
+                    }
+                    return .failure(.responseCode(code: httpResponse.statusCode))
+                } else {
+                    return .success("...")
+                }
+            }
+            .map { result -> AppAction in
+                // if there is a result in the stream
+                return .service(action: .editStudentExamResult(result: result))
+            }
+            .replaceError(with:
+                .service(action: .editStudentExamResult(result: .failure(.serverError)))
+            )
+            .eraseToAnyPublisher()
     }
 }

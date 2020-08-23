@@ -229,17 +229,17 @@ class AppStoreMock {
         return .init(arrayLiteral:
             .init(id: 1, firstname: "Hannes", lastname: "Steiner", birthday: "18.03.1998",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Bestanden),
-            .init(id: 1, firstname: "Peter", lastname: "Steiner", birthday: "18.03.1998",
+            .init(id: 2, firstname: "Peter", lastname: "Steiner", birthday: "18.03.1998",
                   seminarGroup: "IF17wS-B", grade: 5.0, points: 100, status: .Entschuldigt),
-            .init(id: 2, firstname: "Alena", lastname: "Kallauke", birthday: "25137",
+            .init(id: 3, firstname: "Alena", lastname: "Kallauke", birthday: "25137",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .NichtBestanden),
-            .init(id: 1, firstname: "Mandy", lastname: "Steiner", birthday: "18.03.1998",
+            .init(id: 4, firstname: "Mandy", lastname: "Steiner", birthday: "18.03.1998",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Täuschung),
-            .init(id: 2, firstname: "Frank", lastname: "Kallauke", birthday: "25137",
+            .init(id: 5, firstname: "Frank", lastname: "Kallauke", birthday: "25137",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Unentschuldigt),
-            .init(id: 2, firstname: "Tobias", lastname: "Kallauke", birthday: "25137",
+            .init(id: 6, firstname: "Tobias", lastname: "Kallauke", birthday: "25137",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Bestanden),
-            .init(id: 2, firstname: "Greta", lastname: "Kallauke", birthday: "25137",
+            .init(id: 7, firstname: "Greta", lastname: "Kallauke", birthday: "25137",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Unbekannt)
         )
 

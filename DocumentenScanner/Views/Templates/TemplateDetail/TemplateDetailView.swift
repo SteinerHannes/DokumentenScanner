@@ -232,42 +232,33 @@ struct TemplateDetailView: View {
             }
         }
     }
-
-    struct Student: Equatable {
-        var vorname: String
-        var nachname: String
-        var matrikel: String
-    }
-
-    public static let studenten: [Student] = [
-        .init(vorname: "Hannes", nachname: "Steiner", matrikel: "01234"),
-        .init(vorname: "Tobias", nachname: "Kallauke", matrikel: "01233"),
-        .init(vorname: "Greta", nachname: "Helten", matrikel: "01235"),
-        .init(vorname: "Mandy", nachname: "Quanz", matrikel: "01236"),
-        .init(vorname: "Julian", nachname: "Arend", matrikel: "01237"),
-        .init(vorname: "Lara", nachname: "Bishof", matrikel: "01238"),
-        .init(vorname: "Janine", nachname: "Klz", matrikel: "01239"),
-        .init(vorname: "Tim", nachname: "Müller", matrikel: "01240")
-
-    ]
-
+    
+    // swiftlint:disable cyclomatic_complexity
     fileprivate func sendResults() {
+        // result mit vorhanden stundenten abgleichen
+        guard let studenten = self.store.states.currentTemplate?.studentList else {
+            #warning("show alert")
+            return
+        }
         let types: [ResultDatatype] = [.firstname, .lastname, .mark, .seminarGroup, .studentNumber]
-        var result: [PageRegion] = []
-        // vorname, nachname, matrikel, note
+        var OCRresult: [PageRegion] = []
+        // alle ergebnisse die vom typ vorname, nachname, matrikel, note, ... sind
         for page in self.store.states.ocrState.result {
             if page == nil {
                 return
             } else {
                 for res in page! {
                     if types.contains(res.datatype) {
-                        result.append(res)
+                        OCRresult.append(res)
                     }
                 }
             }
         }
-        let dic = Dictionary(grouping: result) { $0.datatype }
-        for student in TemplateDetailView.studenten {
+        // dictionary: [ .vorname : "Max" , .namename : "Mustermann" ]
+        let dic = Dictionary(grouping: OCRresult) { $0.datatype }
+        var result: [(student: ExamStudentDTO, probability: Double)] = []
+        // für jeden studenten in der Prüfung
+        for student in studenten {
             var tempDis: Double = 0.0
             for type in types {
                 guard let array = dic[type], let region = array.first else {
@@ -279,20 +270,23 @@ struct TemplateDetailView: View {
                     case .mark:
                         continue
                     case .firstname:
-                        tempDis += student.vorname.distanceJaroWinkler(between: region.textResult)
+                        tempDis += student.firstname.distanceJaroWinkler(between: region.textResult)
                     case .lastname:
-                        tempDis += student.nachname.distanceJaroWinkler(between: region.textResult)
+                        tempDis += student.lastname.distanceJaroWinkler(between: region.textResult)
                     case .studentNumber:
-                        tempDis += student.matrikel.distanceJaroWinkler(between: region.textResult)
-                    case .seminarGroup:
                         continue
-                        //tempDis += student.vorname.distanceJaroWinkler(between: region.textResult)
+                    case .seminarGroup:
+                        tempDis += student.seminarGroup.distanceJaroWinkler(between: region.textResult)
                     case .point:
                         continue
                 }
             }
-            //print(student, tempDis/3)
+            result.append((student: student, probability: tempDis/2))
         }
+        result.sort { lhs, rhs -> Bool in
+            lhs.probability >= rhs.probability
+        }
+        
     }
 
     func fuzzyString(text: String, results: [String]) -> (String, Float) {

@@ -12,6 +12,10 @@ import Combine
 import VisionKit
 
 final class AppEnviorment {
+
+    init() {
+        self.session = URLSession.shared
+    }
     /// Global session
     var session = URLSession.shared
     /// Global decoder
@@ -65,7 +69,7 @@ enum AppAction {
     /// The reducer for logging the system
     case log(action: LogAction)
 
-    case setStudentList(result: (list: [ExamStudentDTO]?,id: Int))
+    case setStudentList(result: (list: [ExamStudentDTO]?, id: Int))
 }
 
 /// The new app state

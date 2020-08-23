@@ -97,8 +97,6 @@ final class TemplateService {
                 if let mimeType = response.mimeType,
                     mimeType == "application/json" {
                     do {
-                        self.decoder.keyDecodingStrategy = .useDefaultKeys
-                        self.decoder.dataDecodingStrategy = .base64
                         let answer: [Template] = try self.decoder.decode([Template].self, from: data)
                          print(String(data: data, encoding: .utf8) ?? "Daten sind nicht .uft8")
                         return .success(answer)

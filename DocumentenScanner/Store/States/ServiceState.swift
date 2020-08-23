@@ -48,7 +48,11 @@ enum ServiceAction {
 
     case getStudentList(examId: Int)
 
-    case getStudentListResult(result: Result<(list: [ExamStudentDTO]?,id: Int),ExamServiceError>)
+    case getStudentListResult(result: Result<(list: [ExamStudentDTO]?, id: Int), ExamServiceError>)
+
+    case editStudentExam(examId: Int, result: ExamResultDTO)
+
+    case editStudentExamResult(result: Result<String, ExamServiceError>)
 }
 
 func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: AppEnviorment)
@@ -232,6 +236,18 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                         sendNotification(titel: "Fehler",
                                          description: error.localizedDescription)
                         print("getStudentListResult", error)
+            }
+
+            case let .editStudentExam(examId: id, result: result):
+                return enviorment.exam.editStudentResult(examId: id, result: result)
+            case let .editStudentExamResult(result: result):
+                switch result {
+                    case .success(_):
+                        print("editStudentExamResult FINISHED")
+                    case let .failure(error):
+                        sendNotification(titel: "Fehler",
+                                         description: error.localizedDescription)
+                        print("editStudentExamResult", error)
             }
 
         }

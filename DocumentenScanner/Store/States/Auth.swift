@@ -12,7 +12,7 @@ import Combine
 
 struct AuthState {
     /// Triggers the WelcomeView if not logged in
-    var isLoggedin: Bool = true
+    var isLoggedin: Bool = false
     /// Shows an Alert, when set
     var showAlert: AuthServiceError?
     /// Variable to trigger LoginView oder RegiserView
