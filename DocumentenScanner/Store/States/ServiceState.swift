@@ -242,7 +242,7 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                 return enviorment.exam.editStudentResult(examId: id, result: result)
             case let .editStudentExamResult(result: result):
                 switch result {
-                    case .success(_):
+                    case .success:
                         print("editStudentExamResult FINISHED")
                     case let .failure(error):
                         sendNotification(titel: "Fehler",

@@ -52,3 +52,15 @@ public enum Status: String, Codable, CaseIterable {
                 .NichtZugelassen, .Täuschung, .Unbekannt, .Unentschuldigt]
     }
 }
+
+extension ExamStudentDTO: Equatable {
+    static public func == (lhs: ExamStudentDTO, rhs: ExamStudentDTO) -> Bool {
+        return lhs.id == rhs.id // &&
+//            lhs.birthday == rhs.birthday &&
+//            lhs.firstname == rhs.firstname &&
+//            lhs.lastname == rhs.lastname &&
+//            lhs.seminarGroup == rhs.seminarGroup &&
+//            lhs.status = rhs.status
+    }
+
+}

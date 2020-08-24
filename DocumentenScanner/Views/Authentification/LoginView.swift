@@ -12,8 +12,8 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var store: AppStore
 
-    @State var mail: String = ""
-    @State var password: String = ""
+    @State var mail: String = "hannes.steiner@web.de"
+    @State var password: String = "hsmw2020!"
 
     var isEmailValid: Bool {
         validateEmail(email: self.mail)

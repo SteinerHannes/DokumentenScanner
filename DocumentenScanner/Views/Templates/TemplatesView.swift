@@ -34,11 +34,19 @@ struct TemplatesView: View {
                         }
                         .sectionBackground()
                     } else {
-                        ForEach(self.store.states.teamplates, id: \.id) { template in
+                        ForEach(self.store.states.teamplates.indexed(), id: \.element.id ) { index, template in
                             NavigationLink(
                                 destination:
-                                    LazyView(TemplateDetailView(template: template)
-                                        .environmentObject(self.store)),
+                                LazyView(TemplateDetailView(
+                                    template: Binding<Template>(
+                                        get: {
+                                            return self.store.states.teamplates[index]
+                                        }, set: {
+                                            self.store.send(.updateTemaple(index: index, template: $0))
+                                        }
+                                    )
+                                )
+                                .environmentObject(self.store)),
                                 tag: template.id,
                                 selection: self.$selection) {
                                     Button(action: {

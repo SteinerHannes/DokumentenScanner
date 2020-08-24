@@ -30,7 +30,7 @@ struct TemplateDetailView: View {
 
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
-    var template: Template
+    @Binding var template: Template
 
     var idList: [String: ImageRegion]
 
@@ -52,6 +52,10 @@ struct TemplateDetailView: View {
     @State private var edit: Bool = false
 
     @State private var delete: Bool = false
+
+    @State private var isSheetPresented: Bool = false
+
+    @State private var validateList: [(student: ExamStudentDTO, probability: Double)]?
 
     private var hideNavigationBar: Bool {
         return self.engine != nil && self.showCamera
@@ -84,11 +88,11 @@ struct TemplateDetailView: View {
         return false
     }
 
-    init(template: Template) {
+    init(template: Binding<Template>) {
         //print("init TemplateDetailView")
-        self.template = template
+        self._template = template//State<Template>(initialValue: template)
         var tempIdList: [String: ImageRegion] = [:]
-        for page in self.template.pages {
+        for page in template.wrappedValue.pages {
             for region in page.regions {
                 tempIdList[region.id] = region
             }
@@ -110,7 +114,7 @@ struct TemplateDetailView: View {
                     Button(action: {
                         self.sendResults()
                     }) {
-                        SecondaryButton(title: "Ergebnisse an den Server senden")
+                        SecondaryButton(title: "Ergebnisse abgleichen")
                     }
                     .disabled(!disableSaveButton)
                     .padding([.horizontal, .vertical])
@@ -223,6 +227,10 @@ struct TemplateDetailView: View {
                 .cancel()
             ])
         })
+        .sheet(isPresented: self.$isSheetPresented) {
+            StudentValidateView(template: self.$template, validateList: self.$validateList)
+                .environmentObject(self.store)
+        }
         .onAppear {
             self.store.send(.log(action: .navigation("TemplateDetailScreen")))
         }
@@ -232,12 +240,11 @@ struct TemplateDetailView: View {
             }
         }
     }
-    
+
     // swiftlint:disable cyclomatic_complexity
     fileprivate func sendResults() {
         // result mit vorhanden stundenten abgleichen
-        guard let studenten = self.store.states.currentTemplate?.studentList else {
-            #warning("show alert")
+        guard let studenten = self.template.studentList else {
             return
         }
         let types: [ResultDatatype] = [.firstname, .lastname, .mark, .seminarGroup, .studentNumber]
@@ -258,7 +265,7 @@ struct TemplateDetailView: View {
         let dic = Dictionary(grouping: OCRresult) { $0.datatype }
         var result: [(student: ExamStudentDTO, probability: Double)] = []
         // für jeden studenten in der Prüfung
-        for student in studenten {
+        for student in studenten where student.grade == nil {
             var tempDis: Double = 0.0
             for type in types {
                 guard let array = dic[type], let region = array.first else {
@@ -274,19 +281,20 @@ struct TemplateDetailView: View {
                     case .lastname:
                         tempDis += student.lastname.distanceJaroWinkler(between: region.textResult)
                     case .studentNumber:
-                        continue
+                        tempDis += String(student.id).distanceJaroWinkler(between: region.textResult)
                     case .seminarGroup:
                         tempDis += student.seminarGroup.distanceJaroWinkler(between: region.textResult)
                     case .point:
                         continue
                 }
             }
-            result.append((student: student, probability: tempDis/2))
+            result.append((student: student, probability: tempDis/4))
         }
         result.sort { lhs, rhs -> Bool in
             lhs.probability >= rhs.probability
         }
-        
+        self.validateList = result
+        self.isSheetPresented = true
     }
 
     func fuzzyString(text: String, results: [String]) -> (String, Float) {
@@ -467,7 +475,7 @@ struct TemplateDetailView_Previews: PreviewProvider {
 //            .previewDevice("iPad Air 2")
 //            .navigationViewStyle(StackNavigationViewStyle())
             NavigationView {
-                TemplateDetailView(template: AppStoreMock.realTemplate())
+                TemplateDetailView(template: .constant(AppStoreMock.realTemplate()))
                     .environmentObject(AppStoreMock.getAppStore())
             }.previewDevice("iPhone X")
         }

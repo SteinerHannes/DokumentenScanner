@@ -70,6 +70,8 @@ enum AppAction {
     case log(action: LogAction)
 
     case setStudentList(result: (list: [ExamStudentDTO]?, id: Int))
+    
+    case updateTemaple(index: Int, template: Template)
 }
 
 /// The new app state
@@ -158,6 +160,8 @@ func appReducer(
             for index in 0...states.teamplates.count - 1 where states.teamplates[index].examId == result.id {
                 states.teamplates[index].studentList = result.list
             }
+        case let .updateTemaple(index: index, template: template):
+            states.teamplates[index] = template
     }
     return Empty().eraseToAnyPublisher()
 }

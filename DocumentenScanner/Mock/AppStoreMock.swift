@@ -242,6 +242,14 @@ class AppStoreMock {
             .init(id: 7, firstname: "Greta", lastname: "Kallauke", birthday: "25137",
                   seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Unbekannt)
         )
+    }
 
+    public static func probablilityList() -> [(student: ExamStudentDTO, probability: Double)] {
+        let list = studentList()
+        return list.map { student -> (student: ExamStudentDTO, probability: Double) in
+            return (student: student, probability: Double.random(in: 0...1))
+        }.sorted { (lhs, rhs) -> Bool in
+            return lhs.probability >= rhs.probability
+        }
     }
 }

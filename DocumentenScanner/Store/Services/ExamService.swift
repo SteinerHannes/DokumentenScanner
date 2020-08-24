@@ -113,7 +113,7 @@ final class ExamService {
         )
         .eraseToAnyPublisher()
     }
-    
+
     //swiftlint:enable line_length
     func editStudentResult(examId: Int, result: ExamResultDTO) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
@@ -132,7 +132,7 @@ final class ExamService {
                 .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "Exam/\(examId)/result" ) else {
+        guard let url = URL(string: baseUrl + "/Exam/\(examId)/result" ) else {
             return Just(.service(action: .editStudentExamResult(result: .failure(.badUrl))))
                 .eraseToAnyPublisher()
         }
