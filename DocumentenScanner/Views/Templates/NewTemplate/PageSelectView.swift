@@ -17,7 +17,7 @@ struct PageSelectView: View {
     @State var showInfo: Bool = true
 
     init() {
-        print("init PageSelectView")
+        //print("init PageSelectView")
     }
 
     var body: some View {
@@ -67,6 +67,9 @@ struct PageSelectView: View {
             displayMode: .inline)
         .navigationBarItems(leading: leadingItem(), trailing: trailingItem())
         .onAppear {
+            self.store.send(.log(action: .navigation("PageSelectScreen")))
+        }
+        .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                 withAnimation {
                     self.showInfo = false
@@ -86,9 +89,13 @@ struct PageSelectView: View {
     }
 
     func trailingItem() -> some View {
-        NavigationLink(destination: ControlMechanismsView()) {
-            Text("Weiter")
-        }.isDetailLink(false)
+        return HStack(alignment: .center, spacing: 20) {
+            NavigationLink(destination: ControlMechanismsView()) {
+                Text("Weiter")
+            }.isDetailLink(false)
+            StartStopButton().environmentObject(self.store)
+        }
+
     }
 }
 

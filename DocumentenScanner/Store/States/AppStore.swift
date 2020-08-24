@@ -12,6 +12,10 @@ import Combine
 import VisionKit
 
 final class AppEnviorment {
+
+    init() {
+        self.session = URLSession.shared
+    }
     /// Global session
     var session = URLSession.shared
     /// Global decoder
@@ -25,6 +29,8 @@ final class AppEnviorment {
     lazy var auth = AuthService(session: session, encoder: encoder, decoder: decoder)
 
     lazy var ocr = OCRService(session: session, encoder: encoder, decoder: decoder)
+
+    lazy var exam = ExamService(session: session, encoder: encoder, decoder: decoder)
 
     /// Set a auth token into the global session
     func setJWT(token: String) {
@@ -60,10 +66,16 @@ enum AppAction {
     case addNewTemplate(template: Template)
     /// Sets the cached image, for the image in the page
     case setImage(page: Int, image: UIImage?)
+    /// The reducer for logging the system
+    case log(action: LogAction)
+
+    case setStudentList(result: (list: [ExamStudentDTO]?, id: Int))
+    
+    case updateTemaple(index: Int, template: Template)
 }
 
 /// The new app state
-struct AppStates: ReduxState {
+struct AppStates {
     /// Variables for routing
     var routes: RoutingState
     /// Variables for the new template
@@ -79,12 +91,15 @@ struct AppStates: ReduxState {
     /// The currently inspected template
     var currentTemplate: Template?
 
+    var logState: LogState
+
     init() {
         self.routes = RoutingState()
         self.newTemplateState = NewTemplateState()
         self.authState = AuthState()
         self.serviceState = ServiceState()
         self.ocrState = OCRState()
+        self.logState = LogState()
     }
 
     init(template: Template) {
@@ -93,6 +108,7 @@ struct AppStates: ReduxState {
         self.authState = AuthState()
         self.serviceState = ServiceState()
         self.ocrState = OCRState()
+        self.logState = LogState()
         self.teamplates.append(template)
     }
 }
@@ -137,23 +153,17 @@ func appReducer(
                 states.currentTemplate!.id == template.id
             }!
             states.teamplates[index].pages[page]._image = image
+
+        case let .log(action: action):
+            return logReducer(state: &states.logState, action: action, enviorment: environment)
+        case let .setStudentList(result: result):
+            for index in 0...states.teamplates.count - 1 where states.teamplates[index].examId == result.id {
+                states.teamplates[index].studentList = result.list
+            }
+        case let .updateTemaple(index: index, template: template):
+            states.teamplates[index] = template
     }
     return Empty().eraseToAnyPublisher()
 }
 
 typealias AppStore = Store<AppStates, AppAction, AppEnviorment>
-
-typealias OCRCallback = ([OcrResult]) -> Void
-
-typealias OCRApi = (String, OCRCallback) -> Void
-
-let ocrApi: OCRApi = { id, callback in
-    let ocrresult: [OcrResult] = []
-    callback(ocrresult)
-}
-
-protocol ReduxState {}
-
-typealias Dispatcher = (AppAction) -> Void
-
-typealias Middleware <S: ReduxState> = (S, AppAction, Dispatcher) -> Void

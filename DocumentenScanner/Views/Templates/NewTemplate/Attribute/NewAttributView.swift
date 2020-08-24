@@ -19,7 +19,7 @@ struct NewAttributView: View {
     @Binding var showRoot: Bool
 
     init(showRoot: Binding<Bool>) {
-        print("init NewAttributView")
+        //print("init NewAttributView")
         self._showRoot = showRoot
     }
 
@@ -75,6 +75,10 @@ struct NewAttributView: View {
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Eigenschaften festlegen", displayMode: .inline)
+            .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
+            .onAppear {
+                self.store.send(.log(action: .navigation("NewAttributeScreen")))
+            }
             .resignKeyboardOnDragGesture()
         }
     }

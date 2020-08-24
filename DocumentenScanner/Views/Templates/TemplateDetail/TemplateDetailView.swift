@@ -30,13 +30,13 @@ struct TemplateDetailView: View {
 
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
-    var template: Template
+    @Binding var template: Template
 
     var idList: [String: ImageRegion]
 
     /// It shows wether the text recognition is finished or not
     @State var textRecognitionDidFinish: Bool = false
-    /// It shows wether the ScannerView is active or not
+    /// It shows wether the ScannerViewAlert is active or not
     @State private var showCamera: Bool = false
     /// It shows wether the alert is active or not
     @State private var alert: ViewAlert?
@@ -53,6 +53,14 @@ struct TemplateDetailView: View {
 
     @State private var delete: Bool = false
 
+    @State private var isSheetPresented: Bool = false
+
+    @State private var validateList: [(student: ExamStudentDTO, probability: Double)]?
+
+    private var hideNavigationBar: Bool {
+        return self.engine != nil && self.showCamera
+    }
+
     private var bottomPadding: CGFloat {
         if #available(iOS 11.0, *) {
             return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
@@ -60,11 +68,31 @@ struct TemplateDetailView: View {
         return 0.0
     }
 
-    init(template: Template) {
-        print("init TemplateDetailView")
-        self.template = template
+    private var disableSaveButton: Bool {
+        if self.store.states.ocrState.result.count == self.template.pages.count {
+            var results: Int = 0
+            var temp: Int = 0
+            for res in self.store.states.ocrState.result {
+                guard let count = res?.count else {
+                    return false
+                }
+                results += count
+            }
+            for page in self.template.pages {
+                temp += page.regions.count
+            }
+            if temp == results {
+                return true
+            }
+        }
+        return false
+    }
+
+    init(template: Binding<Template>) {
+        //print("init TemplateDetailView")
+        self._template = template//State<Template>(initialValue: template)
         var tempIdList: [String: ImageRegion] = [:]
-        for page in self.template.pages {
+        for page in template.wrappedValue.pages {
             for region in page.regions {
                 tempIdList[region.id] = region
             }
@@ -78,10 +106,18 @@ struct TemplateDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     DocumentInfo(template: template)
                     DocumentPreview(template: template)
+                    DocumentExam(template: template).environmentObject(self.store)
                     DocumentResult(template: template)
                     DocumentControl(template: template,
                                     controlMechanisms: self.$controlMechanims,
                                     idList: self.idList)
+                    Button(action: {
+                        self.sendResults()
+                    }) {
+                        SecondaryButton(title: "Ergebnisse abgleichen")
+                    }
+                    .disabled(!disableSaveButton)
+                    .padding([.horizontal, .vertical])
                 }
                 .padding(.bottom, 40 + bottomPadding)
                 .padding(.top)
@@ -99,6 +135,7 @@ struct TemplateDetailView: View {
                     return Alert(title: Text("Warte, bis alle Bilder des Templates geladen sind."))
                 }
             }
+            .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
             VStack(alignment: .leading, spacing: 0) {
                 Divider()
                 HStack(alignment: .center, spacing: 0) {
@@ -118,7 +155,7 @@ struct TemplateDetailView: View {
                             primaryButton: .destructive(Text("Löschen"), action: {
                                 self.store.send(.service(action: .deleteTemplate(id: self.template.id)))
                                 self.presentation.wrappedValue.dismiss()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     self.store.send(.service(action: .getTemplateList))
                                 }
                             }),
@@ -146,7 +183,8 @@ struct TemplateDetailView: View {
                             Text("Bearbeiten")
                         }
                     }
-                }.padding([.bottom,.horizontal,.top])
+                }
+                .padding([.bottom, .horizontal, .top])
                 .frame(height: 40)
             }
             .frame(height: 40+self.bottomPadding, alignment: .top)
@@ -162,8 +200,18 @@ struct TemplateDetailView: View {
                         case nil:
                             break
                     }
-                }).edgesIgnoringSafeArea(.all)
-                    .navigationBarHidden(true)
+                })
+                .onAppear {
+                    // Without async this action adds the Navigtionbar to the view -> BUG
+                    DispatchQueue.main.async {
+                        self.store.send(.log(action: .navigation("ScannerScreen")))
+                    }
+                }
+                .onDisappear {
+                    self.store.send(.log(action: .navigation("TemplateDetailScreen")))
+                }
+                .navigationBarHidden(true)
+                .edgesIgnoringSafeArea(.all)
             }
         }
         .actionSheet(isPresented: self.$showCamera, content: { () -> ActionSheet in
@@ -179,6 +227,13 @@ struct TemplateDetailView: View {
                 .cancel()
             ])
         })
+        .sheet(isPresented: self.$isSheetPresented) {
+            StudentValidateView(template: self.$template, validateList: self.$validateList)
+                .environmentObject(self.store)
+        }
+        .onAppear {
+            self.store.send(.log(action: .navigation("TemplateDetailScreen")))
+        }
         .onAppear {
             DispatchQueue.main.async {
                 self.loadCachedImages()
@@ -186,10 +241,83 @@ struct TemplateDetailView: View {
         }
     }
 
+    // swiftlint:disable cyclomatic_complexity
+    fileprivate func sendResults() {
+        // result mit vorhanden stundenten abgleichen
+        guard let studenten = self.template.studentList else {
+            return
+        }
+        let types: [ResultDatatype] = [.firstname, .lastname, .mark, .seminarGroup, .studentNumber]
+        var OCRresult: [PageRegion] = []
+        // alle ergebnisse die vom typ vorname, nachname, matrikel, note, ... sind
+        for page in self.store.states.ocrState.result {
+            if page == nil {
+                return
+            } else {
+                for res in page! {
+                    if types.contains(res.datatype) {
+                        OCRresult.append(res)
+                    }
+                }
+            }
+        }
+        // dictionary: [ .vorname : "Max" , .namename : "Mustermann" ]
+        let dic = Dictionary(grouping: OCRresult) { $0.datatype }
+        var result: [(student: ExamStudentDTO, probability: Double)] = []
+        // für jeden studenten in der Prüfung
+        for student in studenten where student.grade == nil {
+            var tempDis: Double = 0.0
+            for type in types {
+                guard let array = dic[type], let region = array.first else {
+                    fatalError()
+                }
+                switch region.datatype {
+                    case .none:
+                        continue
+                    case .mark:
+                        continue
+                    case .firstname:
+                        tempDis += student.firstname.distanceJaroWinkler(between: region.textResult)
+                    case .lastname:
+                        tempDis += student.lastname.distanceJaroWinkler(between: region.textResult)
+                    case .studentNumber:
+                        tempDis += String(student.id).distanceJaroWinkler(between: region.textResult)
+                    case .seminarGroup:
+                        tempDis += student.seminarGroup.distanceJaroWinkler(between: region.textResult)
+                    case .point:
+                        continue
+                }
+            }
+            result.append((student: student, probability: tempDis/4))
+        }
+        result.sort { lhs, rhs -> Bool in
+            lhs.probability >= rhs.probability
+        }
+        self.validateList = result
+        self.isSheetPresented = true
+    }
+
+    func fuzzyString(text: String, results: [String]) -> (String, Float) {
+        var distance: Double = 0.0
+        var result: String = text
+
+        for res in results {
+            let tempDis: Double = text.distanceJaroWinkler(between: res)
+            if distance < tempDis {
+                distance = tempDis
+                result = res
+            }
+            if distance == 1.0 {
+                break
+            }
+        }
+        return (result, Float(distance))
+    }
+
     fileprivate func loadCachedImages() {
         var again: Bool = false
         for (index, page) in self.template.pages.indexed() where page._image == nil {
-            print("loadCachedImages")
+            //print("loadCachedImages")
             let key = baseAuthority + page.url
             guard let image =
                 KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: key) else {
@@ -258,21 +386,6 @@ struct TemplateDetailView: View {
                 self.store.send(
                     .ocr(action: .ocrTesseract(page: pages[index], engine: engine)))
             }
-
-//            let array = [[PageRegion]?].init(repeating: nil, count: pages!.count)
-//            self.store.send(.ocr(action: .initResult(array: array)))
-//            for page in pages! {
-//                self.store.send(.ocr(action: .appendResult(at: page.id)))
-//                let imageResults: [PageRegion] = getPageRegions(page: page)
-//                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
-//                    self.store.send(.ocr(action: .sendResult(pageNumber: page.id, result: pageRegions)))
-//                    var counter: Int = 0
-//                    for region in pageRegions {
-//                        self.controlMechanisms[region.regionID] = (page.id, counter)
-//                        counter += 1
-//                    }
-//                }
-//            }
         } else {
             self.takenPages = pages.count
             self.alert = .pages
@@ -355,44 +468,16 @@ struct BlurView: UIViewRepresentable {
 struct TemplateDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
+//            NavigationView {
+//                TemplateDetailView(template: AppStoreMock.realTemplate())
+//                    .environmentObject(AppStoreMock.getAppStore())
+//            }
+//            .previewDevice("iPad Air 2")
+//            .navigationViewStyle(StackNavigationViewStyle())
             NavigationView {
-                TemplateDetailView(template: AppStoreMock.realTemplate())
-                    .environmentObject(AppStoreMock.getAppStore())
-            }
-            .previewDevice("iPad Air 2")
-            .navigationViewStyle(StackNavigationViewStyle())
-            NavigationView {
-                TemplateDetailView(template: AppStoreMock.realTemplate())
+                TemplateDetailView(template: .constant(AppStoreMock.realTemplate()))
                     .environmentObject(AppStoreMock.getAppStore())
             }.previewDevice("iPhone X")
         }
     }
 }
-
-//struct PageRegion {
-//    /// The unique id of the attribute in that region
-//    public var regionID: String
-//    /// The image of the region
-//    public var regionImage: CGImage?
-//    /// The data type of the content of the region
-//    public var datatype: ResultDatatype
-//    ///
-//    public var textResult: String = ""
-//    ///
-//    public var confidence: VNConfidence = 0.0
-//
-//    public var regionName: String
-//
-//    init(regionID: String, regionName: String, regionImage: CGImage, datatype: ResultDatatype) {
-//        self.regionName = regionName
-//        self.regionID = regionID
-//        self.regionImage = regionImage
-//        self.datatype = datatype
-//    }
-//}
-//
-//extension PageRegion: Hashable {
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(regionID)
-//    }
-//}

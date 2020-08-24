@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0DD48124F138BF00F45AA7 /* DocumentExam.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */; };
+		EF0DD48324F13CF800F45AA7 /* StudentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48224F13CF800F45AA7 /* StudentListView.swift */; };
+		EF0DD48524F13F3E00F45AA7 /* ExamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DD48424F13F3E00F45AA7 /* ExamService.swift */; };
 		EF0FCF08243DDF9500584F92 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */; };
 		EF0FCF0B243DE35900584F92 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EF0FCF0A243DE35900584F92 /* Introspect */; };
 		EF151AFD243F0BB600E92C7A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF151AFC243F0BB600E92C7A /* Kingfisher */; };
@@ -56,6 +59,10 @@
 		EFB870772434E5DF007E604C /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB870762434E5DF007E604C /* RegisterView.swift */; };
 		EFB96E242435D606003726F1 /* TextFieldValidationFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */; };
 		EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB96E252435DE86003726F1 /* GlobalSetting.swift */; };
+		EFC6B11E24F3B2AD00382F52 /* StudentValidateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6B11D24F3B2AD00382F52 /* StudentValidateView.swift */; };
+		EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7224D1A36D004EE3B6 /* Log.swift */; };
+		EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */; };
+		EFD4AB7924E99125004C4249 /* ExamDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD4AB7824E99125004C4249 /* ExamDTO.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -99,6 +106,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExam.swift; sourceTree = "<group>"; };
+		EF0DD48224F13CF800F45AA7 /* StudentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentListView.swift; sourceTree = "<group>"; };
+		EF0DD48424F13F3E00F45AA7 /* ExamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamService.swift; sourceTree = "<group>"; };
 		EF0FCF07243DDF9500584F92 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EF155884240E95680020B487 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		EF15588A240F01480020B487 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
@@ -147,6 +157,10 @@
 		EFB870762434E5DF007E604C /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		EFB96E232435D606003726F1 /* TextFieldValidationFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidationFunctions.swift; sourceTree = "<group>"; };
 		EFB96E252435DE86003726F1 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
+		EFC6B11D24F3B2AD00382F52 /* StudentValidateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentValidateView.swift; sourceTree = "<group>"; };
+		EFC71F7224D1A36D004EE3B6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopButton.swift; sourceTree = "<group>"; };
+		EFD4AB7824E99125004C4249 /* ExamDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamDTO.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +212,7 @@
 				EF155884240E95680020B487 /* ActivityIndicator.swift */,
 				EF63DEC72428E94700689F5A /* CustomTextField.swift */,
 				EFF85A3E2432456200A80FBD /* ErrorTextField.swift */,
+				EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -232,6 +247,7 @@
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
 				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 				EF2FEC1F2450264900F7B28B /* OCRService.swift */,
+				EF0DD48424F13F3E00F45AA7 /* ExamService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -259,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				EF78DA2C240932F000FBB1EA /* TemplateDetailView.swift */,
+				EF0DD48224F13CF800F45AA7 /* StudentListView.swift */,
 				EF7BB510242A0BA500B69EB5 /* Components */,
 			);
 			path = TemplateDetail;
@@ -269,8 +286,10 @@
 			children = (
 				EF7BB50E242A0A9600B69EB5 /* DocumentInfo.swift */,
 				EF7BB513242A0C4D00B69EB5 /* DocumentPreview.swift */,
+				EF0DD48024F138BF00F45AA7 /* DocumentExam.swift */,
 				EF7BB511242A0BC000B69EB5 /* DocumentResult.swift */,
 				EF4C21A1243B3B9600DA216C /* DocumentControl.swift */,
+				EFC6B11D24F3B2AD00382F52 /* StudentValidateView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -345,6 +364,7 @@
 				EFFF9EE52436147B00E3CD98 /* UserInfoDTO.swift */,
 				EFFF9EE7243614D700E3CD98 /* PageDTO.swift */,
 				EF7988DD24372AF6001241C0 /* AttributeDTO.swift */,
+				EFD4AB7824E99125004C4249 /* ExamDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -467,6 +487,7 @@
 				EFB870712434D533007E604C /* Auth.swift */,
 				EFFF9EEB2436369C00E3CD98 /* ServiceState.swift */,
 				EF2FEC2124502A5000F7B28B /* OCRState.swift */,
+				EFC71F7224D1A36D004EE3B6 /* Log.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -584,6 +605,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFD4AB7924E99125004C4249 /* ExamDTO.swift in Sources */,
 				EF1945EF24082F1600D76CE7 /* BackButton.swift in Sources */,
 				EF4223C4240685CE00FF510E /* ImageRegion.swift in Sources */,
 				EF8E6D8D241100DB00ABDC19 /* Page.swift in Sources */,
@@ -591,12 +613,14 @@
 				EF15588B240F01480020B487 /* LazyView.swift in Sources */,
 				EF8E6D8F2411101C00ABDC19 /* PageSelectView.swift in Sources */,
 				EFFF9EEA243620FF00E3CD98 /* APITestView.swift in Sources */,
+				EF0DD48524F13F3E00F45AA7 /* ExamService.swift in Sources */,
 				EF7BB514242A0C4D00B69EB5 /* DocumentPreview.swift in Sources */,
 				EFB4A9C3243DD2690056F75B /* SectionBackground.swift in Sources */,
 				EF786BF42421098D001D71F9 /* AppStoreMock.swift in Sources */,
 				EFFECC17243323BE008EED63 /* Reach.swift in Sources */,
 				EFB4A9C1243DCA680056F75B /* RemoteImage.swift in Sources */,
 				EF8263C224236E5200931CD4 /* View.swift in Sources */,
+				EF0DD48324F13CF800F45AA7 /* StudentListView.swift in Sources */,
 				EF7988DE24372AF6001241C0 /* AttributeDTO.swift in Sources */,
 				EFB870772434E5DF007E604C /* RegisterView.swift in Sources */,
 				EF1945ED2408159D00D76CE7 /* NewTemplateView.swift in Sources */,
@@ -604,6 +628,7 @@
 				EF786BF8242115C5001D71F9 /* TestView.swift in Sources */,
 				EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */,
 				EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */,
+				EF0DD48124F138BF00F45AA7 /* DocumentExam.swift in Sources */,
 				EF629661241E805D00030997 /* TemplateService.swift in Sources */,
 				EF63DEC82428E94700689F5A /* CustomTextField.swift in Sources */,
 				EFFECC142433206A008EED63 /* Links.swift in Sources */,
@@ -633,6 +658,7 @@
 				EFFECC0D24331F29008EED63 /* Routing.swift in Sources */,
 				EF4C21A2243B3B9600DA216C /* DocumentControl.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
+				EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */,
 				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
 				EFFF9EE8243614D700E3CD98 /* PageDTO.swift in Sources */,
@@ -641,9 +667,11 @@
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
 				EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */,
+				EFC6B11E24F3B2AD00382F52 /* StudentValidateView.swift in Sources */,
 				EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */,
 				EF629663241E812400030997 /* Store.swift in Sources */,
 				EF786BED2420DE38001D71F9 /* GlobalRecognitionTextList.swift in Sources */,
+				EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */,
 				EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */,
 				EF2FEC2224502A5000F7B28B /* OCRState.swift in Sources */,
 				EF7BB512242A0BC000B69EB5 /* DocumentResult.swift in Sources */,

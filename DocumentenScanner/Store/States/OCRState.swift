@@ -35,6 +35,8 @@ enum OCRAction {
     case handelImageUplaodResult(result: Result<String, OCRServiceError>)
 
     case handelOCR(pageID: Int, imageUrl: String, engine: OCREngine)
+
+    //case saveResults
 }
 
 /// The reducer of the ocr state
@@ -55,6 +57,8 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
                 state.result = []
 
             case let .changeResult(page: page, region: region, text: text):
+                #warning("LOGGEN, wenn man was geändert hat")
+                // MARK: TODO LOGGEN
                 state.result[page]![region].textResult = text
 
             case let .ocrTesseract(page: page, engine: engine):

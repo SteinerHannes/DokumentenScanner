@@ -26,6 +26,10 @@ struct Template: Identifiable {
     public var updated: String = "" // Date
 
     public var owner: UserInfoDTO?
+
+    public var examId: Int = -1
+
+    public var studentList: [ExamStudentDTO]?
 }
 
 extension Template: Decodable {
@@ -38,6 +42,7 @@ extension Template: Decodable {
         case updated
         case owner
         case link = "extra"
+        case examId
     }
 
     init(from decoder: Decoder) throws {
@@ -72,6 +77,11 @@ extension Template: Decodable {
             })
         } catch {
             controlMechanisms = []
+        }
+        do {
+            examId = try container.decode(Int.self, forKey: .examId)
+        } catch {
+            examId = -1
         }
     }
 }

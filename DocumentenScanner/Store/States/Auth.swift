@@ -60,7 +60,7 @@ func authReducer(state: inout AuthState, action: AuthAction, enviorment: AppEnvi
                 case let .success(answer):
                     state.isLoggedin = true
                     enviorment.setJWT(token: answer.jwt)
-                    print(answer.jwt)
+                    //print(answer.jwt)
                 case let .failure(error):
                     state.showAlert = error
         }

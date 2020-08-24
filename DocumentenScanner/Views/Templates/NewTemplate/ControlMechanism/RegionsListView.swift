@@ -41,9 +41,14 @@ struct RegionsListView: View {
         .navigationBarTitle("Region auswählen", displayMode: .inline)
         .onDisappear {
             self.sendSelection()
-        }.onAppear {
+        }
+        .onAppear {
+            self.store.send(.log(action: .navigation("RegionListScreen")))
+        }
+        .onAppear {
             self.getSelection()
         }
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
     }
 
     /// Returns an ImageRegion for the pagenumber and index of the region

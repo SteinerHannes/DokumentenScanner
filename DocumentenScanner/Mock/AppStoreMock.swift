@@ -31,10 +31,11 @@ class AppStoreMock {
     public static func getTemplate() -> Template {
         // create pages
         let pages: [Page] = self.pages()
-        // create templte with the pages
+        // create studentlist
+        let list: [ExamStudentDTO] = self.studentList()
 
         //swiftlint:disable line_length
-        return Template(name: "Klausur", info: "Am Ende der Woche konnte man in der App Vorlagen mit einer Seite erstellen. Das heißt man konnte ein Foto machen, aus welchem das Dokument rausgeschnitten und anschließend ausgerichtet wurde. Weiter war es möglich Regionen auf dem Dokument zu markieren und diese in der Vorlage abspeichern. Ansonsten konnten die Vorlage schon dazu benutzt werden, um die Regionen auf dem neuen Foto heraus zu schneiden.", pages: pages)
+        return Template(name: "Klausur", info: "Am Ende der Woche konnte man in der App Vorlagen mit einer Seite erstellen. Das heißt man konnte ein Foto machen, aus welchem das Dokument rausgeschnitten und anschließend ausgerichtet wurde. Weiter war es möglich Regionen auf dem Dokument zu markieren und diese in der Vorlage abspeichern. Ansonsten konnten die Vorlage schon dazu benutzt werden, um die Regionen auf dem neuen Foto heraus zu schneiden.", pages: pages, studentList: list)
         //swiftlint:ensable line_length
     }
 
@@ -219,7 +220,36 @@ class AppStoreMock {
                                 name: "Klausur",
                                 info: "Grundlagen Infromationstechnologie",
                                 pages: [page1, page2, page3],
-                                controlMechanisms: [control1, control2, control3, control4, control5])
+                                controlMechanisms: [control1, control2, control3, control4, control5],
+                                studentList: self.studentList())
         return template
+    }
+
+    public static func studentList() -> [ExamStudentDTO] {
+        return .init(arrayLiteral:
+            .init(id: 1, firstname: "Hannes", lastname: "Steiner", birthday: "18.03.1998",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Bestanden),
+            .init(id: 2, firstname: "Peter", lastname: "Steiner", birthday: "18.03.1998",
+                  seminarGroup: "IF17wS-B", grade: 5.0, points: 100, status: .Entschuldigt),
+            .init(id: 3, firstname: "Alena", lastname: "Kallauke", birthday: "25137",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .NichtBestanden),
+            .init(id: 4, firstname: "Mandy", lastname: "Steiner", birthday: "18.03.1998",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Täuschung),
+            .init(id: 5, firstname: "Frank", lastname: "Kallauke", birthday: "25137",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Unentschuldigt),
+            .init(id: 6, firstname: "Tobias", lastname: "Kallauke", birthday: "25137",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Bestanden),
+            .init(id: 7, firstname: "Greta", lastname: "Kallauke", birthday: "25137",
+                  seminarGroup: "IF17wS-B", grade: 1.0, points: 100, status: .Unbekannt)
+        )
+    }
+
+    public static func probablilityList() -> [(student: ExamStudentDTO, probability: Double)] {
+        let list = studentList()
+        return list.map { student -> (student: ExamStudentDTO, probability: Double) in
+            return (student: student, probability: Double.random(in: 0...1))
+        }.sorted { (lhs, rhs) -> Bool in
+            return lhs.probability >= rhs.probability
+        }
     }
 }

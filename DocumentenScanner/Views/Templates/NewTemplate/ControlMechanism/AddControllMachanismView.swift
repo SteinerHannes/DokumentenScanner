@@ -91,22 +91,31 @@ struct AddControllMachanismView: View {
                                      dismissButton: .cancel())
                 }
             }
+            .onAppear {
+                self.store.send(.log(action: .navigation("AddControllMechanismScreen")))
+            }
+            .onDisappear {
+                self.store.send(.log(action: .navigation("ControllMechanismScreen")))
+            }
         }
     }
 
     private func trailingItem() -> some View {
-        Button(action: {
-            if self.store.states.newTemplateState.controlState.firstSelections == nil {
-                self.showAlert = .init(id: .noFirstSelections)
-            } else if self.store.states.newTemplateState.controlState.secondSelections == nil {
-                self.showAlert = .init(id: .noSecondSelections)
-            } else {
-                self.store.send(.newTemplate(action: .addControlMechanismToNewTemplate))
-                self.presentation.wrappedValue.dismiss()
-                self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
+        HStack(alignment: .center, spacing: 20) {
+            Button(action: {
+                if self.store.states.newTemplateState.controlState.firstSelections == nil {
+                    self.showAlert = .init(id: .noFirstSelections)
+                } else if self.store.states.newTemplateState.controlState.secondSelections == nil {
+                    self.showAlert = .init(id: .noSecondSelections)
+                } else {
+                    self.store.send(.newTemplate(action: .addControlMechanismToNewTemplate))
+                    self.presentation.wrappedValue.dismiss()
+                    self.store.send(.newTemplate(action: .controls(action: .clearControlMechanism)))
+                }
+            }) {
+                Text("Speichern")
             }
-        }) {
-            Text("Speichern")
+            StartStopButton().environmentObject(self.store)
         }
     }
 

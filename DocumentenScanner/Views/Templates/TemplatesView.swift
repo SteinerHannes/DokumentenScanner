@@ -16,7 +16,7 @@ struct TemplatesView: View {
     @State private var isShowing = false
 
     init() {
-        print("init TemplatesView")
+        //print("init TemplatesView")
     }
 
     var body: some View {
@@ -34,11 +34,19 @@ struct TemplatesView: View {
                         }
                         .sectionBackground()
                     } else {
-                        ForEach(self.store.states.teamplates, id: \.id) { template in
+                        ForEach(self.store.states.teamplates.indexed(), id: \.element.id ) { index, template in
                             NavigationLink(
                                 destination:
-                                    LazyView(TemplateDetailView(template: template)
-                                        .environmentObject(self.store)),
+                                LazyView(TemplateDetailView(
+                                    template: Binding<Template>(
+                                        get: {
+                                            return self.store.states.teamplates[index]
+                                        }, set: {
+                                            self.store.send(.updateTemaple(index: index, template: $0))
+                                        }
+                                    )
+                                )
+                                .environmentObject(self.store)),
                                 tag: template.id,
                                 selection: self.$selection) {
                                     Button(action: {
@@ -61,16 +69,22 @@ struct TemplatesView: View {
             .navigationBarTitle("Vorlagen", displayMode: .large)
             .navigationBarItems(trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
+            .onAppear {
+                self.store.send(.log(action: .navigation("TemplateView")))
+            }
         }
     }
 
     private func trailingItem() -> some View {
         return
-            NavigationLink(destination: LazyView(NewTemplateView())) {
-                Image(systemName: "plus.square.on.square")
-                    .font(.body)
-                Text("Neue Vorlage")
-            }
+            HStack(alignment: .center, spacing: 20) {
+                NavigationLink(destination: LazyView(NewTemplateView())) {
+                    Image(systemName: "plus.square.on.square")
+                        .font(.body)
+                    Text("Neue Vorlage")
+                }
+                StartStopButton().environmentObject(self.store)
+        }
     }
 }
 

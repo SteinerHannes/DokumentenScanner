@@ -28,7 +28,7 @@ struct ScannerView: UIViewControllerRepresentable {
      - parameter completion: The function after the UIView is dismissed
      */
     init(isActive: Binding<Bool>, completion: @escaping ([Page]?) -> Void) {
-        print("init ScannerView")
+        //print("init ScannerView")
         self.completionHandler = completion
         self._isActive = isActive
     }

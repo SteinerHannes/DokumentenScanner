@@ -12,8 +12,8 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var store: AppStore
 
-    @State var mail: String = ""
-    @State var password: String = ""
+    @State var mail: String = "hannes.steiner@web.de"
+    @State var password: String = "hsmw2020!"
 
     var isEmailValid: Bool {
         validateEmail(email: self.mail)
@@ -60,16 +60,22 @@ struct LoginView: View {
                 Spacer()
             }.padding(.horizontal)
         }
-            .navigationBarTitle("Anmelden", displayMode: .large)
+        .navigationBarTitle("Anmelden", displayMode: .large)
         .alert(item:
             Binding<AuthServiceError?>(
                 get: {
                     return self.store.states.authState.showAlert
                 }, set: { _ in
                     self.store.send(.auth(action: .dismissAlert))
-                })) { (error) -> Alert in
-                    error.alert
-            }
+                }
+            )
+        ) { (error) -> Alert in
+            error.alert
+        }
+        .onAppear {
+            self.store.send(.log(action: .navigation("LoginScreen")))
+        }
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
     }
 }
 

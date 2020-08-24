@@ -70,15 +70,21 @@ struct ControlMechanismsView: View {
         .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle("Kontroll-Liste", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
+        .onAppear {
+            self.store.send(.log(action: .navigation("ControllMechanismScreen")))
+        }
     }
 
     func trailingItem() -> some View {
-        Button(action: {
-            self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
-            self.store.send(.routing(action: .showContentView))
-            self.store.send(.service(action: .createTemplate))
-        }) {
-            Text("Speichern")
+        HStack(alignment: .center, spacing: 20) {
+            Button(action: {
+                self.store.send(.addNewTemplate(template: self.store.states.newTemplateState.newTemplate!))
+                self.store.send(.routing(action: .showContentView))
+                self.store.send(.service(action: .createTemplate))
+            }) {
+                Text("Speichern")
+            }
+            StartStopButton().environmentObject(self.store)
         }
     }
 }

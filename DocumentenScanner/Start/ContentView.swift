@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var selectedView: Int = 0
 
     init() {
-        print("init ContentView")
+        //print("init ContentView")
     }
 
     var body: some View {

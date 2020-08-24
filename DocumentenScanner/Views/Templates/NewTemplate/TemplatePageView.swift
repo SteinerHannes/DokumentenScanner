@@ -39,7 +39,7 @@ struct TemplatePageView: View {
     }
 
     init(index: Int) {
-        print("init CreateTemplateView")
+        //print("init CreateTemplateView")
         self.index = index
     }
 
@@ -110,7 +110,11 @@ struct TemplatePageView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .navigationBarTitle("Region hinzufügen", displayMode: .inline)
+        .navigationBarItems(trailing: StartStopButton().environmentObject(self.store))
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .onAppear {
+            self.store.send(.log(action: .navigation("TemplatePageScreen")))
+        }
         .onAppear {
             // set the image to the current page of the template and
             // set the index in the appstate for the child views

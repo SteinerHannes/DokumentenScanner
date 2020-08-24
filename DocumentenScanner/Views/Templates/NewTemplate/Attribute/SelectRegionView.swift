@@ -109,7 +109,7 @@ struct SelectRegionView: View {
     @State var zoomPoint: UnitPoint = .center
 
     init(showRoot: Binding<Bool>) {
-        print("init SelectRegionView")
+        //print("init SelectRegionView")
         self._showRoot = showRoot
     }
 
@@ -181,7 +181,7 @@ struct SelectRegionView: View {
             }.onEnded { value in
                 // set the zoom level
                 self.viewMagnificationState = max(min(self.viewMagnificationState * value, 1.5), 0.06)
-                print(self.viewMagnificationState)
+                //print(self.viewMagnificationState)
             }
 
         return VStack(alignment: .leading, spacing: 0) {
@@ -212,6 +212,9 @@ struct SelectRegionView: View {
         .navigationBarTitle("Wähle eine Region", displayMode: .inline)
         .navigationBarItems(trailing: trailingItem())
         .onAppear {
+            self.store.send(.log(action: .navigation("SelectRegionScreen")))
+        }
+        .onAppear {
             self.zoomPoint = .topLeading
             self.viewMagnificationState = (UIScreen.main.bounds.width /
                 (self.store.states.newTemplateState.image?.size.width ?? 1 ))
@@ -220,24 +223,27 @@ struct SelectRegionView: View {
     }
 
     private func trailingItem() -> some View {
-        Button(action: {
-            if self.rectState.equalTo(.zero) {
-                self.isNoRectSet = true
-            } else {
-                self.store.send(.newTemplate(action:
-                    .setRegionAndAddAttributeToPage(height: self.height,
-                                                    width: self.width,
-                                                    rectState: self.rectState)))
-                self.showRoot = false
-                self.presentation.wrappedValue.dismiss()
+        HStack(alignment: .center, spacing: 20) {
+            Button(action: {
+                if self.rectState.equalTo(.zero) {
+                    self.isNoRectSet = true
+                } else {
+                    self.store.send(.newTemplate(action:
+                        .setRegionAndAddAttributeToPage(height: self.height,
+                                                        width: self.width,
+                                                        rectState: self.rectState)))
+                    self.showRoot = false
+                    self.presentation.wrappedValue.dismiss()
+                }
+            }) {
+                Text("Speichern")
             }
-        }) {
-            Text("Speichern")
-        }
-        .alert(isPresented: self.$isNoRectSet) {
-            Alert(title: Text("Es wurde keine Region markiert"),
-                  message: Text("Wähle eine Region aus, um das Attribut zu speichern."),
-                  dismissButton: .cancel(Text("Ok")) )
+            .alert(isPresented: self.$isNoRectSet) {
+                Alert(title: Text("Es wurde keine Region markiert"),
+                      message: Text("Wähle eine Region aus, um das Attribut zu speichern."),
+                      dismissButton: .cancel(Text("Ok")) )
+            }
+            StartStopButton().environmentObject(self.store)
         }
     }
 }

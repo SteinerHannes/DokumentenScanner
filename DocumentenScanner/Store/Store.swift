@@ -56,7 +56,7 @@ func sendNotification(titel: String, description: String) {
         content.title = titel
         content.body = description
         let date = Date().addingTimeInterval(1)
-        let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second],
+        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second],
                                                           from: date)
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)

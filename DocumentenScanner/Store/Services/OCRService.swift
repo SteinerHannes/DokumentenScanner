@@ -86,7 +86,7 @@ final class OCRService {
         request.httpBody = uploadData
 
         return session.dataTaskPublisher(for: request)
-            .map { (data: Data, response: URLResponse) -> Result<(Int,[OcrResult]), OCRServiceError> in
+            .map { (data: Data, response: URLResponse) -> Result<(Int, [OcrResult]), OCRServiceError> in
                 // cast is needed for statuscode
                 guard let httpResponse = response as? HTTPURLResponse else {
                     return .failure(.serverError)
