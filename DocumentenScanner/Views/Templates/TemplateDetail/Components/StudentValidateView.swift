@@ -11,7 +11,7 @@ import SwiftUI
 struct StudentValidateView: View {
 
     @EnvironmentObject var store: AppStore
-    
+
     @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
 
     @Binding var template: Template

@@ -19,7 +19,7 @@ struct HomeView: View {
                 }
                 Spacer()
                 Button(action: {
-                    
+
                 }) {
                     HStack(alignment: .center, spacing: 5) {
                         Image(systemName: "plus")

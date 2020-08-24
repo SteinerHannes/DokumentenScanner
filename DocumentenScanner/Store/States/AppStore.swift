@@ -70,7 +70,7 @@ enum AppAction {
     case log(action: LogAction)
 
     case setStudentList(result: (list: [ExamStudentDTO]?, id: Int))
-    
+
     case updateTemaple(index: Int, template: Template)
 }
 
