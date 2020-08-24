@@ -75,6 +75,7 @@
 		EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* ScannerView.swift */; };
 		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
 		EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* TemplatePageView.swift */; };
+		EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1DEC124C2EBEF0065F217 /* HomeView.swift */; };
 		EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3A24320D6B00A80FBD /* LoginView.swift */; };
 		EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */; };
 		EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3E2432456200A80FBD /* ErrorTextField.swift */; };
@@ -174,6 +175,7 @@
 		EFE31F642403E6A3008015F3 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		EFE31F6E24041049008015F3 /* TemplatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePageView.swift; sourceTree = "<group>"; };
+		EFF1DEC124C2EBEF0065F217 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EFF85A3A24320D6B00A80FBD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		EFF85A3E2432456200A80FBD /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 		EFC8928E241FD9BF006ABDA2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EFF1DEC024C2EBDA0065F217 /* Home */,
 				EFF85A402432494C00A80FBD /* Modifiers */,
 				EFF85A3924320D4100A80FBD /* Authentification */,
 				EFE31F5F2403E430008015F3 /* Templates */,
@@ -442,6 +445,14 @@
 				EFE31F642403E6A3008015F3 /* ScannerView.swift */,
 			);
 			path = Scanner;
+			sourceTree = "<group>";
+		};
+		EFF1DEC024C2EBDA0065F217 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EFF1DEC124C2EBEF0065F217 /* HomeView.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		EFF85A3924320D4100A80FBD /* Authentification */ = {
@@ -632,6 +643,7 @@
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
 				EF786BEF2420F710001D71F9 /* ResultDatatype.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
+				EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EF786BF62421131E001D71F9 /* ControlMechanismsView.swift in Sources */,
 				EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */,

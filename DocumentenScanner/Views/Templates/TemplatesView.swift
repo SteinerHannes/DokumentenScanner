@@ -67,7 +67,7 @@ struct TemplatesView: View {
                 self.isShowing = false
             })
             .navigationBarTitle("Vorlagen", displayMode: .large)
-            .navigationBarItems(leading: self.leadingItem(), trailing: self.trailingItem())
+            .navigationBarItems(trailing: self.trailingItem())
             .navigationBarHidden(self.store.states.routes.isCameraPresented)
             .onAppear {
                 self.store.send(.log(action: .navigation("TemplateView")))
@@ -85,15 +85,6 @@ struct TemplatesView: View {
                 }
                 StartStopButton().environmentObject(self.store)
         }
-    }
-
-    private func leadingItem() -> some View {
-        return
-            Button(action: {
-                self.store.send(.auth(action: .logout))
-            }) {
-                Text("Ausloggen")
-            }
     }
 }
 
