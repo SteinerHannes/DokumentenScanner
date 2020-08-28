@@ -113,6 +113,7 @@ struct AppStates {
     }
 }
 
+//swiftlint:disable cyclomatic_complexity
 /// The reducer the handle the functionality of the app state actions
 func appReducer(
     states: inout AppStates,

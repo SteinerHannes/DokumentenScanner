@@ -34,6 +34,7 @@ struct TemplatesView: View {
                         }
                         .sectionBackground()
                     } else {
+                        //swiftlint:disable line_length
                         ForEach(self.store.states.teamplates.indexed(), id: \.element.id ) { index, template in
                             NavigationLink(
                                 destination:

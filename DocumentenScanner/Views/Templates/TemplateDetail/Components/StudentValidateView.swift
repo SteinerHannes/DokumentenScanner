@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+//swiftlint:disable multiple_closures_with_trailing_closure
 struct StudentValidateView: View {
 
     @EnvironmentObject var store: AppStore
@@ -78,9 +79,13 @@ struct StudentValidateView: View {
             }
             .alert(isPresented: self.$showAlert) { () -> Alert in
                 Alert(
+                    //swiftlint:disable line_length
                     title: Text("Ergebnisse für \(self.student!.firstname) \(self.student!.lastname) abschicken?"),
+                    //swiftlint:enable line_length
                     message: Text("""
                                     Ergebnisse:
+                                    Name: \(self.student!.firstname) \(self.student!.lastname)
+                                    Matrikelnummer: \(self.student!.id)
                                     Punkte: \(self.points)
                                     Note: \(self.grade)
                                     """),

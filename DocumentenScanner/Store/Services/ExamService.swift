@@ -115,6 +115,7 @@ final class ExamService {
     }
 
     //swiftlint:enable line_length
+    //swiftlint:disable function_body_length
     func editStudentResult(examId: Int, result: ExamResultDTO) -> AnyPublisher<AppAction, Never> {
         if hasInternetConnection() == false {
             return Just(.service(action: .editStudentExamResult(result: .failure(.serverError))))
