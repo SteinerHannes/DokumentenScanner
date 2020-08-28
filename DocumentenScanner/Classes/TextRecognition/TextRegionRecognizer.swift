@@ -15,8 +15,39 @@ final class TextRegionRecognizer {
     /// The list of all regions on a page
     var pageRegions: [PageRegion]
 
-    init(imageResults: [PageRegion]) {
+    let students: [ExamStudentDTO]
+
+    lazy var seminargroups: [String] = {
+        return self.students.reduce(into: []) { (list, student) in
+            if list.contains(student.seminarGroup) {
+                return
+            } else {
+                list.append(student.seminarGroup)
+            }
+        }
+    }()
+
+    lazy var firstnames: [String] = {
+        return self.students.reduce(into: []) { (list, student) in
+            list.append(student.firstname)
+        }
+    }()
+
+    lazy var lastnames: [String] = {
+        return self.students.reduce(into: []) { (list, student) in
+            list.append(student.lastname)
+        }
+    }()
+
+    lazy var studentnumbers: [String] = {
+        return self.students.reduce(into: []) { (list, student) in
+            list.append(String(student.id))
+        }
+    }()
+
+    init(imageResults: [PageRegion], students: [ExamStudentDTO]) {
         self.pageRegions = imageResults
+        self.students = students
     }
 
     /// A dispatch queue (thread) for multithreading the text recognition
@@ -44,7 +75,16 @@ final class TextRegionRecognizer {
                         request.customWords = Marks
                     case .seminarGroup:
                         request.recognitionLevel = .accurate
-                        request.customWords = SeminarGroups
+                        request.customWords = self.seminargroups
+                    case .firstname:
+                        request.recognitionLevel = .accurate
+                        request.customWords = self.firstnames
+                    case .lastname:
+                        request.recognitionLevel = .accurate
+                        request.customWords = self.lastnames
+                    case .studentNumber:
+                        request.recognitionLevel = .accurate
+                        request.customWords = self.studentnumbers
                     default:
                         request.recognitionLevel = .accurate
                 }
@@ -85,7 +125,8 @@ final class TextRegionRecognizer {
                                 result.append(char.changeCharacterInMarkOrPoint())
                             }
                         case .seminarGroup:
-                            (result, newConfidence) = fuzzyString(text: textResult, results: SeminarGroups)
+                            (result, newConfidence) = fuzzyString(text: textResult,
+                                                                  results: self.seminargroups)
                         default:
                             result = textResult
                     }
