@@ -73,7 +73,6 @@
 		EFE31F582403E3F4008015F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */; };
 		EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F622403E4BD008015F3 /* TemplatesView.swift */; };
 		EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* ScannerView.swift */; };
-		EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F672403E9E5008015F3 /* TextRecognizer.swift */; };
 		EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* TemplatePageView.swift */; };
 		EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1DEC124C2EBEF0065F217 /* HomeView.swift */; };
 		EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3A24320D6B00A80FBD /* LoginView.swift */; };
@@ -173,7 +172,6 @@
 		EFE31F592403E3F4008015F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE31F622403E4BD008015F3 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
 		EFE31F642403E6A3008015F3 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
-		EFE31F672403E9E5008015F3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		EFE31F6E24041049008015F3 /* TemplatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePageView.swift; sourceTree = "<group>"; };
 		EFF1DEC124C2EBEF0065F217 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EFF85A3A24320D6B00A80FBD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -222,8 +220,6 @@
 			children = (
 				EF4223C12406797600FF510E /* Colors.swift */,
 				EF4C5B762407E4210047D94B /* DismissKeyboard.swift */,
-				EF15588A240F01480020B487 /* LazyView.swift */,
-				EF8263C124236E5200931CD4 /* View.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -245,9 +241,9 @@
 				EFB870732434D984007E604C /* Error */,
 				EF629660241E805D00030997 /* TemplateService.swift */,
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
-				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 				EF2FEC1F2450264900F7B28B /* OCRService.swift */,
 				EF0DD48424F13F3E00F45AA7 /* ExamService.swift */,
+				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -372,6 +368,7 @@
 		EFE31F3F2403E3ED008015F3 = {
 			isa = PBXGroup;
 			children = (
+				EF44754524090C22005A0ADB /* README.md */,
 				EF1C82D7241FD2880098F5CB /* .gitignore */,
 				EF44754624090C64005A0ADB /* .swiftlint.yml */,
 				EFE31F4A2403E3EE008015F3 /* DocumentenScanner */,
@@ -400,7 +397,6 @@
 				EFE31F562403E3F4008015F3 /* LaunchScreen.storyboard */,
 				EFE31F592403E3F4008015F3 /* Info.plist */,
 				EFE31F532403E3F4008015F3 /* Preview Content */,
-				EF44754524090C22005A0ADB /* README.md */,
 			);
 			path = DocumentenScanner;
 			sourceTree = "<group>";
@@ -426,9 +422,10 @@
 		EFE31F662403E9AB008015F3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EF8263C124236E5200931CD4 /* View.swift */,
+				EF15588A240F01480020B487 /* LazyView.swift */,
 				EFFECC1524332307008EED63 /* Internet */,
 				EF786BEB2420DDF2001D71F9 /* TextRecognition */,
-				EFE31F672403E9E5008015F3 /* TextRecognizer.swift */,
 				EF1945EA240804A700D76CE7 /* Template.swift */,
 				EF8E6D8C241100DB00ABDC19 /* Page.swift */,
 				EF4223C3240685CE00FF510E /* ImageRegion.swift */,
@@ -659,7 +656,6 @@
 				EF4C21A2243B3B9600DA216C /* DocumentControl.swift in Sources */,
 				EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */,
 				EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */,
-				EFE31F682403E9E5008015F3 /* TextRecognizer.swift in Sources */,
 				EFA42DF42413A9A500A57A1E /* TextRegionRecognizer.swift in Sources */,
 				EFFF9EE8243614D700E3CD98 /* PageDTO.swift in Sources */,
 				EFB870722434D533007E604C /* Auth.swift in Sources */,

@@ -15,8 +15,3 @@ public let Marks: [String] = [
     "4,0", "4,3", "4,7",
     "5,0", "5,3", "5,7", "6,0"
 ]
-
-public let SeminarGroups: [String] = [
-    "IF17wS-B",
-    "FMI20"
-]

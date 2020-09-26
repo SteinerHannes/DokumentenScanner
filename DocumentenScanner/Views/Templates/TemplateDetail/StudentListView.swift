@@ -94,7 +94,9 @@ struct StudentListView: View {
                         }
                     )
                 ) {
-                    ForEach(template.studentList!.filter({ (student) -> Bool in
+                    ForEach(template.studentList!.sorted(by: { (studentL, studentR) -> Bool in
+                        studentL.firstname < studentR.firstname
+                    }).filter({ (student) -> Bool in
                         guard let filter = self.filter else {
                             return true
                         }
@@ -116,6 +118,9 @@ struct StudentListView: View {
             )
         }
         .navigationBarTitle(Text("Eingetragene Studenten"), displayMode: .inline)
+        .onAppear {
+            self.store.send(.log(action: .navigation("StudentListView")))
+        }
     }
 
     private func trailingItem() -> some View {

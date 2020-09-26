@@ -173,7 +173,7 @@ struct TemplateDetailView: View {
                         Text("Scannen")
                     }
                     Spacer()
-                    NavigationLink(destination: PageSelectView()
+                    NavigationLink(destination: PageSelectView().environmentObject(self.store)
                         .onAppear {
                             self.store.send(.newTemplate(action: .setTemplate(template: self.template)))
                         }
@@ -350,7 +350,10 @@ struct TemplateDetailView: View {
             for page in pages {
                 self.store.send(.ocr(action: .appendResult(at: page.number)))
                 let imageResults: [PageRegion] = getPageRegions(page: page)
-                TextRegionRecognizer(imageResults: imageResults).recognizeText { (pageRegions) in
+                TextRegionRecognizer(
+                    imageResults: imageResults,
+                     students: self.template.studentList ?? []
+                ).recognizeText { (pageRegions) in
                     self.store.send(.ocr(action: .sendResult(pageNumber: page.number, result: pageRegions)))
                     var counter: Int = 0
                     for region in pageRegions {
