@@ -8,5 +8,5 @@
 
 import Foundation
 
-//public let baseAuthority: String = "https://api.barrels.dev" // tobias
-public let baseAuthority: String = "http://192.168.178.9:5000" // home
+public let baseAuthority: String = "https://api.barrels.dev" // tobias
+//public let baseAuthority: String = "http://192.168.178.9:5000" // home

@@ -31,27 +31,27 @@ enum ServiceAction {
     case createAttribute(name: String, x: Int, y: Int, width: Int, height: Int, dataType: String, pageId: Int)
     /// Handels the result from the create attribute function in template service
     case createAttributeResult(result: Result<AttributeDTO, TemplateServiceError>)
-
+    /// Upload an image
     case uploadImage(image: UIImage)
-
+    /// Handels the result from uploading an image and starting the createPage-Action
     case uploadImageResult(result: Result<String, TemplateServiceError>)
-
+    /// Reset the ServiceState
     case resetState
-
+    /// Download all Templates
     case getTemplateList
-
+    /// Handels the result from the download
     case getTemplateListResult(result: Result<[Template], TemplateServiceError>)
-
+    /// Delete Template with the given id
     case deleteTemplate(id: String)
-
+    /// Handles the delete-Result
     case deleteTemplateResult(result: Result<String, TemplateServiceError>)
-
+    /// Download all stundets and their status for the examId (examId is part of the template, has to be manually put in the data base )
     case getStudentList(examId: Int)
-
+    /// Handels the result from the getStudentList-Action
     case getStudentListResult(result: Result<(list: [ExamStudentDTO]?, id: Int), ExamServiceError>)
-
+    /// Adds and/or edits the exam result of one student
     case editStudentExam(examId: Int, result: ExamResultDTO)
-
+    /// Handels the result from editStudentExam-Action
     case editStudentExamResult(result: Result<String, ExamServiceError>)
 }
 
