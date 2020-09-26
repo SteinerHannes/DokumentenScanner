@@ -11,6 +11,8 @@ import Combine
 import SwiftUI
 
 struct OCRState {
+    /// One Page has 0 or many PageRegions
+    /// Look also onCompletionOnDevice and onCompletionTessaract
     var result: [[PageRegion]?] = []
 }
 
@@ -25,18 +27,16 @@ enum OCRAction {
     case clearResult
     /// Change the result at page and region, with textfield
     case changeResult(page: Int, region: Int, text: String)
-
+    /// Start OCR-Tesseract-Routine
     case ocrTesseract(page: Page, engine: OCREngine)
-
-    case handelError(_: OCRServiceError)
-
+    /// Save OCR-Result
     case handelOCRResult(result: Result<(Int, [OcrResult]), OCRServiceError>)
-
+    /// Handel Uplaod result and start handleOCR-Action
     case handelImageUplaodResult(result: Result<String, OCRServiceError>)
-
+    /// Send pageID, imageURL and the Engine-Name to Server (part of OCR-Tesseract-Routine)
     case handelOCR(pageID: Int, imageUrl: String, engine: OCREngine)
-
-    //case saveResults
+    /// Handel Error while OCR-Tesseract-Routine
+    case handelError(_: OCRServiceError)
 }
 
 /// The reducer of the ocr state
