@@ -32,6 +32,8 @@ final class AppEnviorment {
 
     lazy var exam = ExamService(session: session, encoder: encoder, decoder: decoder)
 
+    lazy var log = LogService(session: session, encoder: encoder, decoder: decoder)
+
     /// Set a auth token into the global session
     func setJWT(token: String) {
         let defaults = UserDefaults.standard

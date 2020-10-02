@@ -82,10 +82,6 @@ final class ExamService {
                 }
                 // check if answer is OK
                 if httpResponse.statusCode != 200 {
-                    print(String(data: data, encoding: .utf8) as Any)
-                    sendNotification(titel: "Fehler",
-                                     description: String(data: data, encoding: .utf8) ??
-                        "\(httpResponse.statusCode)")
                     return .failure(.responseCode(code: httpResponse.statusCode))
                 }
                 // decode data and return it

@@ -57,9 +57,15 @@ func ocrReducer(state: inout OCRState, action: OCRAction, enviorment: AppEnviorm
                 state.result = []
 
             case let .changeResult(page: page, region: region, text: text):
-                #warning("LOGGEN, wenn man was geändert hat")
-                // MARK: TODO LOGGEN
+                let from = state.result[page]![region].textResult
                 state.result[page]![region].textResult = text
+                return Just(AppAction.log(
+                    action: .changeField(
+                        name: state.result[page]![region].regionName,
+                        from: from,
+                        to: text
+                    )
+                )).eraseToAnyPublisher()
 
             case let .ocrTesseract(page: page, engine: engine):
                 return enviorment.ocr.uploadImage(image: page._image!)
