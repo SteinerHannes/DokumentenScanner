@@ -31,7 +31,6 @@ func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorm
             guard let date = state.date, let id = state.id else {
                 return Empty().eraseToAnyPublisher()
             }
-            print("SEND")
             let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
             let event = Event(name: "Changed_" + name, time: time, duration: 0, data: ["from":from,"to":to])
             return enviorment.log.sendEvent(event, id: id)
@@ -39,17 +38,14 @@ func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorm
             guard let date = state.date, let id = state.id else {
                 return Empty().eraseToAnyPublisher()
             }
-            print("SEND")
             let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
             let event = Event(name: text, time: time, duration: 0, data: .init())
             return enviorment.log.sendEvent(event, id: id)
         case .start:
-            print("START")
             state.date = Date()
             state.isLoggin = true
             return enviorment.log.startSession(date: state.date!)
         case .stop:
-            print("STOP")
             state.isLoggin = false
             state.date = nil
             guard let id = state.id else {

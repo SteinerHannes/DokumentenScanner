@@ -91,16 +91,16 @@ struct TemplatePageView: View {
                                     .foregroundColor(.secondaryLabel)
                                     .font(.system(.callout))
                             }
-                                .contextMenu {
-                                    Button(action: {
-                                        self.deleteAttribute(for: region.id)
-                                    }) {
-                                        // MARK: no size and color effect
-                                        Text("Löschen").font(.system(size: 15))
-                                        Image(systemName: "trash").font(.system(size: 15))
-                                            .foregroundColor(.red)
-                                    }
+                            .contextMenu {
+                                Button(action: {
+                                    self.deleteAttribute(for: region.id)
+                                }) {
+                                    // MARK: no size and color effect
+                                    Text("Löschen").font(.system(size: 15))
+                                    Image(systemName: "trash").font(.system(size: 15))
+                                        .foregroundColor(.red)
                                 }
+                            }
                         }
                     }
                 }
