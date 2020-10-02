@@ -16,6 +16,7 @@ struct LogState {
 }
 
 enum LogAction {
+    case changeField(name: String, from: String, to: String)
     case navigation(String)
     case start
     case stop
@@ -26,6 +27,14 @@ enum LogAction {
 func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorment)
 -> AnyPublisher<AppAction, Never>? {
     switch action {
+        case let .changeField(name: name, from: from, to: to):
+            guard let date = state.date, let id = state.id else {
+                return Empty().eraseToAnyPublisher()
+            }
+            print("SEND")
+            let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
+            let event = Event(name: "Changed_" + name, time: time, duration: 0, data: ["from":from,"to":to])
+            return enviorment.log.sendEvent(event, id: id)
         case .navigation(let text):
             guard let date = state.date, let id = state.id else {
                 return Empty().eraseToAnyPublisher()
