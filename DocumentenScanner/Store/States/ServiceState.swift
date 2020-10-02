@@ -45,7 +45,8 @@ enum ServiceAction {
     case deleteTemplate(id: String)
     /// Handles the delete-Result
     case deleteTemplateResult(result: Result<String, TemplateServiceError>)
-    /// Download all stundets and their status for the examId (examId is part of the template, has to be manually put in the data base )
+    /// Download all stundets and their status for the examId
+    /// (examId is part of the template, has to be manually put in the data base )
     case getStudentList(examId: Int)
     /// Handels the result from the getStudentList-Action
     case getStudentListResult(result: Result<(list: [ExamStudentDTO]?, id: Int), ExamServiceError>)
@@ -233,9 +234,21 @@ func serviceReducer(states: inout AppStates, action: ServiceAction, enviorment: 
                             .setStudentList(result: listAndId)
                         ).eraseToAnyPublisher()
                     case let .failure(error):
-                        sendNotification(titel: "Fehler",
-                                         description: error.localizedDescription)
-                        print("getStudentListResult", error)
+                        switch error {
+                            case let .responseCode(code: code):
+                                if code == 404 {
+                                    //swiftlint:disable line_length
+                                    sendNotification(titel: "Keine Studenten-Liste",
+                                                     description: "Auf dem Server existiert keine Studenten-Liste für diese Klausur.")
+                                } else {
+                                    sendNotification(titel: "Fehler",
+                                                     description: error.localizedDescription)
+                                }
+                            default:
+                                sendNotification(titel: "Fehler",
+                                                 description: error.localizedDescription)
+                                print("getStudentListResult", error)
+                        }
             }
 
             case let .editStudentExam(examId: id, result: result):

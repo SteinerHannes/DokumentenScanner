@@ -30,7 +30,9 @@ struct ContentView: View {
                     }
                 }
             } else {
-                WelcomeView()
+                WelcomeView().onDisappear {
+                    self.store.send(.log(action: .start))
+                }
             }
         }
         .environmentObject(self.store)

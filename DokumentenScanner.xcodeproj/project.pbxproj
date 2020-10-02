@@ -63,6 +63,7 @@
 		EFC71F7324D1A36D004EE3B6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7224D1A36D004EE3B6 /* Log.swift */; };
 		EFC71F7924D1CD85004EE3B6 /* StartStopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */; };
 		EFD4AB7924E99125004C4249 /* ExamDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD4AB7824E99125004C4249 /* ExamDTO.swift */; };
+		EFDD830E252602F900C59507 /* LogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD830D252602F900C59507 /* LogService.swift */; };
 		EFDF50362431F47900E37C4F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50352431F47900E37C4F /* AuthService.swift */; };
 		EFDF50392431F49500E37C4F /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDF50382431F49500E37C4F /* AuthDTO.swift */; };
 		EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F4B2403E3EE008015F3 /* AppDelegate.swift */; };
@@ -74,7 +75,6 @@
 		EFE31F632403E4BD008015F3 /* TemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F622403E4BD008015F3 /* TemplatesView.swift */; };
 		EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F642403E6A3008015F3 /* ScannerView.swift */; };
 		EFE31F6F24041049008015F3 /* TemplatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE31F6E24041049008015F3 /* TemplatePageView.swift */; };
-		EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF1DEC124C2EBEF0065F217 /* HomeView.swift */; };
 		EFF85A3B24320D6B00A80FBD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3A24320D6B00A80FBD /* LoginView.swift */; };
 		EFF85A3D24322CDF00A80FBD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */; };
 		EFF85A3F2432456200A80FBD /* ErrorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF85A3E2432456200A80FBD /* ErrorTextField.swift */; };
@@ -160,6 +160,7 @@
 		EFC71F7224D1A36D004EE3B6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		EFC71F7824D1CD85004EE3B6 /* StartStopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopButton.swift; sourceTree = "<group>"; };
 		EFD4AB7824E99125004C4249 /* ExamDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamDTO.swift; sourceTree = "<group>"; };
+		EFDD830D252602F900C59507 /* LogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogService.swift; sourceTree = "<group>"; };
 		EFDF50352431F47900E37C4F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		EFDF50382431F49500E37C4F /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
 		EFE31F482403E3EE008015F3 /* DokumentenScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DokumentenScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,7 +174,6 @@
 		EFE31F622403E4BD008015F3 /* TemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesView.swift; sourceTree = "<group>"; };
 		EFE31F642403E6A3008015F3 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		EFE31F6E24041049008015F3 /* TemplatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePageView.swift; sourceTree = "<group>"; };
-		EFF1DEC124C2EBEF0065F217 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EFF85A3A24320D6B00A80FBD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EFF85A3C24322CDF00A80FBD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		EFF85A3E2432456200A80FBD /* ErrorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextField.swift; sourceTree = "<group>"; };
@@ -243,6 +243,7 @@
 				EFDF50352431F47900E37C4F /* AuthService.swift */,
 				EF2FEC1F2450264900F7B28B /* OCRService.swift */,
 				EF0DD48424F13F3E00F45AA7 /* ExamService.swift */,
+				EFDD830D252602F900C59507 /* LogService.swift */,
 				EFB96E252435DE86003726F1 /* GlobalSetting.swift */,
 			);
 			path = Services;
@@ -342,7 +343,6 @@
 		EFC8928E241FD9BF006ABDA2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EFF1DEC024C2EBDA0065F217 /* Home */,
 				EFF85A402432494C00A80FBD /* Modifiers */,
 				EFF85A3924320D4100A80FBD /* Authentification */,
 				EFE31F5F2403E430008015F3 /* Templates */,
@@ -442,14 +442,6 @@
 				EFE31F642403E6A3008015F3 /* ScannerView.swift */,
 			);
 			path = Scanner;
-			sourceTree = "<group>";
-		};
-		EFF1DEC024C2EBDA0065F217 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				EFF1DEC124C2EBEF0065F217 /* HomeView.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		EFF85A3924320D4100A80FBD /* Authentification */ = {
@@ -640,7 +632,6 @@
 				EFE31F652403E6A3008015F3 /* ScannerView.swift in Sources */,
 				EF786BEF2420F710001D71F9 /* ResultDatatype.swift in Sources */,
 				EFE31F4C2403E3EE008015F3 /* AppDelegate.swift in Sources */,
-				EFF1DEC224C2EBEF0065F217 /* HomeView.swift in Sources */,
 				EF78DA2D240932F000FBB1EA /* TemplateDetailView.swift in Sources */,
 				EF786BF62421131E001D71F9 /* ControlMechanismsView.swift in Sources */,
 				EFB96E262435DE86003726F1 /* GlobalSetting.swift in Sources */,
@@ -662,6 +653,7 @@
 				EF4C5B772407E4210047D94B /* DismissKeyboard.swift in Sources */,
 				EF4223BF2406792700FF510E /* BottomSheetView.swift in Sources */,
 				EFE31F502403E3EE008015F3 /* ContentView.swift in Sources */,
+				EFDD830E252602F900C59507 /* LogService.swift in Sources */,
 				EF40311B24213EB200BF6306 /* RegionsListView.swift in Sources */,
 				EFC6B11E24F3B2AD00382F52 /* StudentValidateView.swift in Sources */,
 				EFFECC0F24331F62008EED63 /* NewTemplate.swift in Sources */,

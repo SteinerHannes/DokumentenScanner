@@ -9,36 +9,58 @@
 import Foundation
 import Combine
 
-struct NavigationLog {
-    var text: String
-    var date: Date = Date()
-
-    init(_ text: String) {
-        self.text = text
-    }
-}
-
 struct LogState {
-    var navigationLog: [NavigationLog] = []
     var isLoggin: Bool = true
+    var date: Date?
+    var id: Int?
 }
 
 enum LogAction {
     case navigation(String)
     case start
     case stop
+    case startResult(Result<Int?, LogServiceError>)
+    case error(LogServiceError)
 }
-
+//swiftlint:disable cyclomatic_complexity
 func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorment)
 -> AnyPublisher<AppAction, Never>? {
     switch action {
-        case .navigation( let text):
-            print("LOG:" + text)
-            state.navigationLog.append(.init(text))
+        case .navigation(let text):
+            guard let date = state.date, let id = state.id else {
+                return Empty().eraseToAnyPublisher()
+            }
+            print("SEND")
+            let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
+            let event = Event(name: text, time: time, duration: 0, data: .init())
+            return enviorment.log.sendEvent(event, id: id)
         case .start:
+            print("START")
+            state.date = Date()
             state.isLoggin = true
+            return enviorment.log.startSession(date: state.date!)
         case .stop:
+            print("STOP")
             state.isLoggin = false
+            state.date = nil
+            guard let id = state.id else {
+                return Empty().eraseToAnyPublisher()
+            }
+            return enviorment.log.stopSession(id: id)
+        case let .startResult(result):
+            switch result {
+                case let .success(id):
+                    if id != nil && state.id == nil {
+                        sendNotification(titel: "Log gestartet", description: "SessionID: \(id!)")
+                    } else if id == nil && state.id != nil {
+                        sendNotification(titel: "Log beendet", description: "SessionID: \(state.id!)")
+                    }
+                    state.id = id
+                case let .failure(error):
+                    print(error)
+            }
+        case let .error(error):
+            print(error.localizedDescription )
     }
     return Empty().eraseToAnyPublisher()
 }

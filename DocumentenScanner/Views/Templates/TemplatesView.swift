@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 //swiftlint:disable multiple_closures_with_trailing_closure
 struct TemplatesView: View {
