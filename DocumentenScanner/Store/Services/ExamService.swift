@@ -68,7 +68,7 @@ final class ExamService {
                 .eraseToAnyPublisher()
         }
         // configure an uplaod request
-        guard let url = URL(string: baseUrl + "/Exam/\(examId)/students" ) else {
+        guard let url = URL(string: baseUrl + "/exam/\(examId)/result" ) else {
             return Just(.service(action: .getStudentListResult(result: .failure(.badUrl))))
                 .eraseToAnyPublisher()
         }
