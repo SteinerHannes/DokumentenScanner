@@ -32,14 +32,14 @@ func logReducer(state: inout LogState, action: LogAction, enviorment: AppEnviorm
                 return Empty().eraseToAnyPublisher()
             }
             let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
-            let event = Event(name: "Changed_" + name, time: time, duration: 0, data: ["from":from,"to":to])
+            let event = Event(name: "INPUT", time: time, duration: 0, data: ["type":name,"from":from,"to":to])
             return enviorment.log.sendEvent(event, id: id)
         case .navigation(let text):
             guard let date = state.date, let id = state.id else {
                 return Empty().eraseToAnyPublisher()
             }
             let time = Int64((date.timeIntervalSinceNow * 1000.0).rounded()) * -1
-            let event = Event(name: text, time: time, duration: 0, data: .init())
+            let event = Event(name: "NAVIGATION", time: time, duration: 0, data: ["to":text])
             return enviorment.log.sendEvent(event, id: id)
         case .start:
             state.date = Date()
