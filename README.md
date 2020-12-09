@@ -1,5 +1,22 @@
 # DokumentenScanner
 
+## Bilder
+
+![Welcome](Images/welcome.png?)
+![Login](Images/login.png?)
+![Dashboard](Images/dashboard.png?)
+![Template Detail](Images/template_detail.png?)
+![Students](Images/students.png?)
+![Filter](Images/filter.png?)
+![Engines](Images/engines.png?)
+![Scan](Images/scan.png?)
+![OCR running](Images/ocr_running.png?)
+![OCR color](Images/ocr_color.png?)
+![OCR text](Images/ocr_text.png?)
+![OCR edit](Images/ocr_edit.png?)
+![OCR result](Images/ocr_result.png?)
+![OCR send](Images/ocr_send.png?)
+
 ## Wichtige Dokumentation
 * [SwiftUI](https://developer.apple.com/documentation/swiftui) (sehr wichtig)
   * Tutorials: 
