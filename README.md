@@ -1,21 +1,12 @@
 # DokumentenScanner
 
-## Bilder
-
-![Welcome](Images/welcome.png?)
-![Login](Images/login.png?)
-![Dashboard](Images/dashboard.png?)
-![Template Detail](Images/template_detail.png?)
-![Students](Images/students.png?)
-![Filter](Images/filter.png?)
-![Engines](Images/engines.png?)
-![Scan](Images/scan.png?)
-![OCR running](Images/ocr_running.png?)
-![OCR color](Images/ocr_color.png?)
-![OCR text](Images/ocr_text.png?)
-![OCR edit](Images/ocr_edit.png?)
-![OCR result](Images/ocr_result.png?)
-![OCR send](Images/ocr_send.png?)
+|  |  |  |
+| -- | -- | -- |
+| ![Welcome](Images/welcome.png?) Welcome | ![Login](Images/login.png?)  Login | ![Dashboard](Images/dashboard.png?) Dashboard |
+| ![Template Detail](Images/template_detail.png?) Template Detail] | ![Students](Images/students.png?) Students | ![Filter](Images/filter.png?) Filter |
+| ![Engines](Images/engines.png?) Engines | ![Scan](Images/scan.png?) Scan | ![OCR running](Images/ocr_running.png?) OCR running |
+| ![OCR color](Images/ocr_color.png?) OCR done with convidence color | ![OCR text](Images/ocr_text.png?) OCR done with convidence text | ![OCR edit](Images/ocr_edit.png?) OCR edit result|
+| ![OCR edit](Images/ocr_edit_done.png?) OCR finished editing result | ![OCR result](Images/ocr_result.png?) OCR result overview | ![OCR send](Images/ocr_send.png?) OCR send |
 
 ## Wichtige Dokumentation
 * [SwiftUI](https://developer.apple.com/documentation/swiftui) (sehr wichtig)
